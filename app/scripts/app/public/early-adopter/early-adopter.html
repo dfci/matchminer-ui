@@ -121,16 +121,16 @@
             <md-content class="eap-header-signup-body" layout-gt-sm="column">
                 <md-input-container>
                     <label>Email</label>
-                    <input id="contact-email" ng-model="user.email" maxlength="120" type="email">
+                    <input id="contact-email" ng-model="user.email" type="email">
                 </md-input-container>
             </md-content>
             <div class="eap-signup-tag">We'll contact you with additional information about the program.</div>
-            <div ng-if="eac.error" ng-hide="eac.emailPosted" class="eap-signup-tag">Please enter a valid email.</div>
             <div layout="row" layout-align="center center">
                 <button class="md-primary md-raised md-button eap-sign-up"
                         type="button"
                         ng-click="eac.handleSubmit()"
-                        ng-hide="eac.emailPosted">
+                        ng-hide="eac.emailPosted"
+                >
                     <md-progress-linear
                             ng-if="eac.isLoading"
                             md-mode="indeterminate">

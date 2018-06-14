@@ -20,13 +20,17 @@ angular.module('matchminerUiApp')
     .factory('EmailsREST',
         ['$http', '$resource', 'ENV',
             function ($http, $resource, ENV) {
-                return $resource(ENV.api.endpoint + '/eap_email', {
-                    'email_address': '@email_address'
+                return $resource(ENV.api.endpoint + '/email', {
+                    'email_from': '@email_from',
+                    'email_to': '@email_to',
+                    'subject': "@subject",
+                    'body': "@body",
+                    'sent': false,
                 }, {
                     'post': {
                         method: 'POST',
                         isArray: false
-                    }
+                    },
                 });
             }
         ]);

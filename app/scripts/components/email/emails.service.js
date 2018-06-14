@@ -24,7 +24,10 @@ angular.module('matchminerUiApp')
 
 				service.postEmail= function(email) {
 					return EmailsREST.post({
-                        email_address: email
+                        email_from: ENV.resources.email,
+                        email_to: ENV.resources.email,
+						subject: "[EAP] - New Inquiry from " + email,
+                        body: email + " has asked to be contacted about the Early Adopter Program.",
 					}).$promise;
 				};
 
