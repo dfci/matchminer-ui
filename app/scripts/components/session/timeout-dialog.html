@@ -1,0 +1,35 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<div class="session-timeout-container">
+    <md-dialog id="session-timeout" aria-label="Session timeout" ng-cloak style="min-width:600px;">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Session timeout</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <md-content class="md-padding" layout="column" layout-align="center center" idle-countdown="countdown">
+                <h2>MatchMiner</h2>
+                <h3 class="lead">Your session is about to timeout</h3>
+
+                <img class="timeout-image"
+                     alt="MatchMiner">
+
+                <p class="lead">You have been idle for too long and will be logged out in <strong>{{ countdown
+                    }}</strong>.</p>
+                <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+            </md-content>
+        </md-dialog-content>
+    </md-dialog>
+</div>

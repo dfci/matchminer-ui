@@ -1,0 +1,151 @@
+.patient-sidebar-wrapper {
+  border-right: 1px solid rgba(0, 0, 0, 0.098);
+  z-index: 1;
+  min-height: 100%;
+}
+
+.dashboard-content.space {
+  margin-left: 300px;
+  padding-left: 16px!important;
+}
+
+.patient-sidebar-wrapper.scrollspacer {
+  min-width: 0 !important;
+  margin-right: 0 !important;
+}
+
+.patient-sidebar.stuck {
+  position: fixed;
+  left: 0;
+  top: 0;
+  border-right: 1px solid rgba(0, 0, 0, 0.098);
+}
+
+.patient-sidebar {
+  min-width: 300px;
+  height: 100%;
+  min-height: 1080px;
+  overflow-y: auto;
+  border-right: 1px solid rgba(0,0,0,0.12)!important;
+}
+
+.patient-sidebar.inverse-sidebar {
+  background-color: rgba(0, 0, 0, .08);
+}
+
+.patient-sidebar div > ul.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.patient-sidebar div > ul.menu li {
+  width: 100%;
+  padding: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.098);
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.patient-sidebar div > ul.menu li md-icon {
+  margin-bottom: 2px;
+  margin-right: 5px;
+}
+
+.patient-sidebar div > ul.menu li:hover {
+  background-color: rgba(250, 250, 250, 0.98);
+  cursor: pointer;
+}
+
+.patient-sidebar div > ul.menu li.active {
+  font-weight: 700;
+  background-color: rgba(250, 250, 250, 0.98);
+}
+
+.patient-sidebar .patient-details {
+  margin-bottom: 30px;
+}
+
+.patient-sidebar h3:not(.filter-name-header) {
+  font-size: 20px!important;
+  font-weight: 500;
+  color: rgba(250, 250, 250, 0.9);
+  margin: 0;
+  line-height: 40px;
+  padding: 5px 24px 3px 24px;
+  border-bottom: 1px solid rgba(0,0,0,0.098)!important;
+  background-image: linear-gradient(45deg, #f4c34e, #db991b);
+}
+
+.patient-sidebar #clinical-trials-filters {
+  padding: 0;
+}
+
+.patient-sidebar #clinical-trials-filters > div {
+  padding-left: 20px;
+}
+
+.patient-sidebar #clinical-trials-filters ul {
+  padding-left: 20px;
+}
+
+table.patient-details-table {
+  width: 100%;
+  padding: 0 14px;
+}
+
+.patient-sidebar .patient-details td {
+  font-weight: 500;
+  font-size: 15px;
+  padding: 5px;
+  vertical-align: top;
+  word-wrap: break-word;
+}
+
+.patient-sidebar .patient-detail-label {
+  max-width: 110px;
+  font-size: 14px!important;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.patient-sidebar .patient-detail {
+  font-size: 16px;
+  max-width: 140px;
+  font-weight: 500!important;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.patient-sidebar .patient-detail-name {
+  font-size: 20px!important;
+  font-weight: 600!important;
+}
+
+.patient-sidebar .sidebar-oncopanel-options {
+  height: calc(100% - 10px);
+}
+
+.patient-sidebar.small-screen-zoom-table {
+  zoom: .8;
+}
+
+@media screen and (max-width: 959px) {
+  .patient-sidebar.small-screen-zoom-sidebar {
+    zoom: 1;
+  }
+}
+
+.bottom-left-corner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+.bug-report-bottom {
+  margin: 50px 8px;
+  padding: 30px;
+  background-color: rgb(250,250,250);
+  h1 {
+    margin: 10px 0;
+  }
+}

@@ -1,0 +1,278 @@
+#clinical-trials-results {
+  display: flex;
+  overflow: auto;
+  transition: margin 200ms;
+  transition-timing-function: cubic-bezier(.5, -0.25, .5, 1.25);
+  height: 100%;
+  width: 100%;
+  padding: 35px 15px;
+}
+
+#clinical-trials-results h3.trial-results-header {
+  font-size: 16px;
+  margin-top: 0;
+  border-bottom: 2px solid #777;
+}
+
+#clinical-trials-results .trial-matches-info {
+  max-width: 960px;
+  margin: auto 0;
+}
+
+#clinical-trials-results .trial-matches-info.has-no-matches {
+  margin: 0;
+}
+
+#clinical-trials-results .trial-matches-info p {
+  font-size: 15px;
+  margin-top: 0;
+}
+
+#clinical-trials-results .trial-matches-info p:last-child {
+  margin-bottom: 0;
+}
+
+#clinical-trials-results .trial-matches-info p .highlight {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 32px;
+}
+
+#clinical-trials-results .trial-match-container {
+  min-height: 90px;
+}
+
+#clinical-trials-results .trial-matches-count-container {
+  border-radius: 5px;
+  height: 142px;
+  min-width: 200px;
+  max-width: 250px;
+  padding: 5px;
+  text-transform: uppercase;
+  margin: auto 35px auto 0;
+}
+
+#clinical-trials-results .trial-matches-count-container.has-matches {
+  color: rgb(91, 147,46);
+  border: 2px solid rgb(91, 147,46);
+}
+
+#clinical-trials-results .trial-matches-count-container.has-no-matches {
+  color: rgb(166, 21, 0);
+  border: 2px solid rgb(166, 21, 0);
+  height: 75px;
+}
+
+#clinical-trials-results .trial-matches-count-container > div {
+  margin: auto;
+  height: 60px;
+}
+
+#clinical-trials-results .trial-matches-count-container .trial-matches-count {
+  font-size: 48px;
+  float: left;
+  font-weight: 400;
+  margin-right: 5px;
+}
+
+#clinical-trials-results .trial-matches-count-container .trial-matches-text {
+  margin: 3px 5px;
+  font-size: 20px;
+  font-weight: 600;
+  float: left;
+}
+
+#clinical-trials-results > md-table-container {
+  overflow-y:visible;
+}
+
+#clinical-trials-results md-table-container.small-screen-zoom-table {
+  zoom: .8;
+}
+
+@media screen and (max-width: 959px) {
+  #clinical-trials-results md-table-container.small-screen-zoom-table {
+    zoom: 1;
+  }
+}
+
+#clinical-trials-results .md-row th  {
+  font-size: 16px;
+}
+
+#clinical-trials-results .md-row td > * {
+  font-size: 15px;
+}
+
+#clinical-trials-results .trial:hover {
+  background-color: #E8E8E8;
+  cursor: pointer;
+}
+
+#clinical-trials-results .trials-loading {
+  padding: 25px;
+}
+
+#clinical-trials-results .trial-genomic-match {
+  font-weight: 500;
+  line-height: 18px;
+  &:first-child {
+    margin-top:0;
+  }
+}
+
+#clinical-trials-results .trial-genomic-match md-icon {
+  font-size: 20px;
+}
+
+#clinical-trials-results .genomic-match-level {
+  font-weight: 400;
+  font-size: 14px;
+}
+
+#clinical-trials-results .genomic-match-tier {
+  font-style: italic;
+}
+
+
+#clinical-trials-results .trial-field-label {
+  font-weight: 600;
+  font-style: italic;
+}
+
+#clinical-trials-results table.md-table tbody tr td.trial-protocol-description {
+  padding: 25px 30px 25px 0;
+}
+
+#clinical-trials-results table.md-table tbody tr td.trial-protocol-description:first-child {
+  padding: 25px 30px 25px 24px;
+}
+
+#clinical-trials-results .trial-short-title {
+  font-weight: 600;
+  font-size: 17px;
+}
+
+#clinical-trials-results .trial-contact {
+  display: block;
+  margin-top: 10px;
+}
+
+#clinical-trials-results em {
+  font-weight: 700;
+}
+
+#clinical-trials-results .trial-summary {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-style: italic;
+  font-size: 16px;
+}
+
+#clinical-trials-results .trial-description-field:not(:first-child) {
+  margin: 10px 0 0 0;
+}
+
+#clinical-trials-results .trial-description-field:first-child {
+  margin:0;
+}
+
+#clinical-trials-results tr.trial-genomic-matches-row {
+  height: 0;
+}
+
+#clinical-trials-results th.trial-results-trial-rank-cell{
+  [md-svg-icon="arrow-up.svg"] {margin-left: -2px}
+  md-icon {white-space: nowrap}
+  md-icon.clinical-trial-results-header-info {
+    min-height: 17px;
+    min-width: 17px;
+    color: rgba(0, 0, 0, 0.54);
+    margin: 0;
+  }
+}
+
+#clinical-trials-results td.trial-results-trial-rank-cell {
+  padding-left: 0px;
+  text-align: center;
+  span {
+    font-weight: 300;
+    font-size: 28px;}
+}
+
+#clinical-trials-results .trial-investigator {
+  font-style: italic;
+  font-size: 14px;
+}
+
+#clinical-trials-results td.trial-genomic-matches p:first-child {
+  margin-top: 0;
+}
+
+// Top align clinical trial results table contents.
+#clinical-trials-results table.md-table td.md-cell {
+  vertical-align: top;
+  padding-top: 25px;
+  padding-bottom: 20px;
+  clinical-trial-badge {
+    display: flex;
+    justify-content: center;
+    span {
+      width:90%;
+      margin-left:0;
+    }
+  }
+}
+
+#clinical-trials-results table.md-table:not(.md-row-select) {
+  td.md-cell.trial-genomic-matches-cell, th.md-column.trial-genomic-matches-header {
+    &:nth-child(n+2):nth-last-child(n+2) {
+      padding-right:20px;
+    }
+  }
+}
+
+#clinical-trials-results table.md-table td.md-cell.trial-protocol-description {
+  padding-bottom: 15px;
+}
+
+#clinical-trials-results td.trial-badge-field {
+  padding: 0px 20px 25px;
+  vertical-align: top;
+}
+
+#clinical-trials-results .trial-status-badge {
+  text-align: center;
+  span.ct-badge {
+    display: flex;
+    height: 46px;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+#clinical-trials-results .trial-status-badge clinical-trial-badge > .ct-badge:first-child {
+  margin-top: 0;
+}
+
+#clinical-trials-results .toggle-tags-link {
+  color: #0277bd;
+  text-transform: none;
+  text-decoration: underline;
+}
+
+#clinical-trials-results .toggle-matches-link {
+  color: #0277bd;
+  line-height: 23px;
+  text-transform: none;
+  text-decoration: underline;
+}
+
+.match-level-tooltip .md-content {
+  padding: 10px!important;
+}
+
+.match-level-tooltip-header {
+  font-weight: 600;
+  font-size: 18px !important;
+}

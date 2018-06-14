@@ -1,0 +1,71 @@
+/*
+ * Accented info cards
+ */
+.stats-container {
+  margin-top: 30px;
+  min-width: 1000px;
+  max-width: 1100px;
+  padding: 2rem;
+}
+
+.stat-panel {
+  position: relative;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  min-height: 75px;
+}
+
+.stat-panel:hover {
+  cursor: pointer;
+}
+
+.stat-panel > .clearfix {
+  position: relative;
+  z-index: 1;
+}
+
+.stat-panel .chart {
+  padding: 10px;
+  float: left;
+}
+
+.stat-panel .chart.chart-compact {
+  padding-right:0px!important;
+}
+
+.stat-panel .chart > md-icon {
+  font-size: 50px;
+  color: #fff;
+  float: left;
+  margin-top: 8px;
+}
+
+.stat-panel .count {
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 5px 18px;
+  float: left;
+  margin: 8px 0 0 20px;
+}
+
+.stat-panel .count > h2,
+.stat-panel .count > small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stat-panel .count > h2 {
+  margin: 0;
+  line-height: 100%;
+  font-size: 22px;
+  font-weight: 300;
+  color: #fff;
+  height: 30px;
+}
+
+.stat-panel .count > small {
+  margin-bottom: 2px;
+  font-size: 16px;
+  font-weight: 400;
+}

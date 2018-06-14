@@ -1,0 +1,310 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<section layout="row" layout-align="space-around center">
+
+    <div class="clinical-trials-search-container" ng-click="cts.scrollToTumorType()">
+        <md-toolbar layout="row">
+            <div class="md-toolbar-tools">
+                <h2>Clinical Trials</h2>
+                <span flex></span>
+                <div ng-hide="cts.isEmbedded">
+                    <md-button class="md-default clinical-trials-button-offset"
+                               ng-disabled="cts.isDisabled"
+                               ng-click="cts.showAllClinicalTrials()">
+                        View all clinical trials
+                    </md-button>
+                </div>
+                <div ng-hide="!cts.isEmbedded">
+                    <md-button class="md-default"
+                               ng-disabled="cts.isDisabled"
+                               ng-click="cts.clearAllTerms()">
+                        Clear all fields
+                    </md-button>
+                </div>
+            </div>
+        </md-toolbar>
+        <form name="searchForm" ng-submit="cts.run()" >
+            <div layout="row" layout-align="center stretch" layout-padding>
+                <div layout="column"
+                     flex="80"
+                     layout-align="center stretch"
+                     id="short-clinical-trials-search-container"
+                     class="clinical-trials-search-column"
+                     ng-show="cts.pageType === 'short' || !cts.isLargeMediaQuery">
+                    <!--Please use one or more of the search boxes.-->
+                    <div layout="row" layout-align="space-between start">
+                        <!--Gene Symbol-->
+                        <div flex="40" layout="row" class="clinical-trials-search-input-container">
+                            <md-autocomplete flex
+                                             md-input-name="clinicaltrialGeneSuggest"
+                                             md-input-minlength="1"
+                                             md-input-maxlength="50"
+                                             md-search-text-change="cts.resizeAutocompleteMenu('gene', 'short')"
+                                             md-selected-item="cts.selectedGeneItem"
+                                             md-search-text="cts.geneSearchTerm"
+                                             md-items="suggestion in cts.suggest(cts.geneSearchTerm, ['hugo_symbol_suggest'])"
+                                             md-item-text="suggestion.text"
+                                             md-clear-button="true"
+                                             md-no-asterisk
+                                             md-input-id="small-gene-input-id"
+                                             md-menu-class="small-gene-menu-class"
+                                             md-dropdown-position="bottom"
+                                             md-dropdown-items="5"
+                                             ng-disabled="cts.isDisabled"
+                                             md-floating-label="Genomic Alteration">
+                                <md-item-template>
+                                        <span md-highlight-text="cts.geneSearchTerm" class="search_suggestion hugo_symbol_suggest">
+                                            {{ suggestion.text | transformNegation }}
+                                        </span>
+                                </md-item-template>
+                            </md-autocomplete>
+                        </div>
+                        <!--//Gene Symbol-->
+                        <!--Disease Center-->
+                        <div flex="55" layout="row" class="clinical-trials-search-input-container">
+                            <md-autocomplete flex
+                                             md-input-name="clinicaltrialDiseaseCenterSuggest"
+                                             md-input-minlength="1"
+                                             md-input-maxlength="50"
+                                             md-search-text-change="cts.resizeAutocompleteMenu('disease', 'short')"
+                                             md-selected-item="cts.selectedDiseaseCenterItem"
+                                             md-search-text="cts.diseaseCenterSearchTerm"
+                                             md-items="suggestion in cts.suggest(cts.diseaseCenterSearchTerm, ['disease_center_suggest'])"
+                                             md-item-text="suggestion.text"
+                                             md-clear-button="true"
+                                             md-no-asterisk
+                                             md-input-id="small-disease-input-id"
+                                             md-menu-class="small-disease-menu-class"
+                                             md-dropdown-position="bottom"
+                                             md-dropdown-items="5"
+                                             ng-disabled="cts.isDisabled"
+                                             md-floating-label="Disease Center">
+                                <md-item-template>
+                                        <span md-highlight-text="cts.diseaseCenterSearchTerm" class="search_suggestion disease_center_suggest">
+                                            {{ suggestion.text | transformNegation }}
+                                        </span>
+                                </md-item-template>
+                            </md-autocomplete>
+                        </div>
+                        <!--//Disease Center-->
+                    </div>
+                    <!--Tumor Type-->
+                    <div layout="row" class="clinical-trials-search-input-container clinical-trials-search-row">
+                        <md-autocomplete flex
+                                         md-input-name="clinicaltrialTumorTypeSuggest"
+                                         md-input-minlength="1"
+                                         md-input-maxlength="50"
+                                         md-search-text-change="cts.resizeAutocompleteMenu('tumor', 'short')"
+                                         md-selected-item="cts.selectedTumorTypeItem"
+                                         md-search-text="cts.tumorTypeSearchTerm"
+                                         md-items="suggestion in cts.suggest(cts.tumorTypeSearchTerm, ['cancer_type_suggest'])"
+                                         md-item-text="suggestion.text"
+                                         md-clear-button="true"
+                                         md-no-asterisk
+                                         md-input-id="small-tumor-input-id"
+                                         md-menu-class="small-tumor-menu-class"
+                                         md-dropdown-position="bottom"
+                                         md-dropdown-items="5"
+                                         ng-disabled="cts.isDisabled"
+                                         md-floating-label="Tumor Type">
+                            <md-item-template>
+                                    <span md-highlight-text="cts.tumorTypeSearchTerm" class="search_suggestion tumor_type_suggest">
+                                        {{ suggestion.text | transformNegation }}
+                                    </span>
+                            </md-item-template>
+                        </md-autocomplete>
+                    </div>
+                    <!--//Tumor Type-->
+                    <!--Advanced-->
+                    <div layout="row" ng-show="cts.openAdvancedSearch" ng-class="{'collapsed': !cts.openAdvancedSearch }"
+                         class="clinical-trials-search-advanced-search clinical-trials-search-input-container clinical-trials-search-row">
+                        <md-autocomplete flex
+                                         md-input-name="clinicaltrialSuggest"
+                                         md-input-minlength="1"
+                                         md-input-maxlength="50"
+                                         md-search-text-change="cts.resizeAutocompleteMenu('advanced', 'short')"
+                                         md-selected-item="cts.selectedItem"
+                                         md-search-text="cts.searchTerm"
+                                         md-items="suggestion in cts.suggest(cts.searchTerm)"
+                                         md-item-text="suggestion.text"
+                                         md-clear-button="true"
+                                         md-no-asterisk
+                                         md-input-id="small-advanced-input-id"
+                                         md-menu-class="small-advanced-menu-class"
+                                         md-dropdown-position="bottom"
+                                         md-dropdown-items="5"
+                                         ng-disabled="cts.isDisabled"
+                                         md-floating-label="Advanced search, e.g. Protocol #, PI Name">
+                            <md-item-template>
+                                    <span md-highlight-text="cts.searchTerm" class="search_suggestion"
+                                          ng-class="{
+                                            'hugo_symbol_suggest': suggestion.type == 'hugo_symbol_suggest',
+                                            'cancer_type_suggest': suggestion.type == 'cancer_type_suggest',
+                                            'variant_suggest': suggestion.type == 'variant_suggest'
+                                        }">
+                                        {{ suggestion.text | transformNegation }}
+                                        {{ suggestion.type == 'hugo_symbol_suggest' ? ' (Gene Symbol)' : ''}}
+                                        {{ suggestion.type == 'cancer_type_suggest' ? ' (Cancer Type)' : ''}}
+                                    </span>
+                            </md-item-template>
+                        </md-autocomplete>
+                    </div>
+                    <!--//Advanced-->
+                </div>
+
+                <div layout="column" flex="80" layout-align="center stretch"
+                     class="clinical-trials-search-column" id="long-clinical-trials-search-container"
+                     ng-show="cts.pageType === 'long' && cts.isLargeMediaQuery"
+                      >
+                    <div layout="row" layout-align="space-between center">
+                        <!--Gene Symbol-->
+                        <div flex="30" layout="row" class="clinical-trials-search-input-container">
+                            <md-autocomplete flex
+                                             md-input-name="clinicaltrialGeneSuggest"
+                                             md-input-minlength="1"
+                                             md-input-maxlength="50"
+                                             md-search-text-change="cts.resizeAutocompleteMenu('gene', 'long')"
+                                             md-selected-item="cts.selectedGeneItem"
+                                             md-search-text="cts.geneSearchTerm"
+                                             md-items="suggestion in cts.suggest(cts.geneSearchTerm, ['hugo_symbol_suggest'])"
+                                             md-item-text="suggestion.text"
+                                             md-clear-button="true"
+                                             md-no-asterisk
+                                             md-input-id="big-gene-input-id"
+                                             md-menu-class="big-gene-menu-class"
+                                             md-dropdown-position="bottom"
+                                             md-dropdown-items="5"
+                                             ng-disabled="cts.isDisabled"
+                                             md-floating-label="Genomic Alteration">
+                                <md-item-template>
+                                        <span md-highlight-text="cts.geneSearchTerm" class="search_suggestion hugo_symbol_suggest">
+                                            {{ suggestion.text | transformNegation }}
+                                        </span>
+                                </md-item-template>
+                            </md-autocomplete>
+                        </div>
+                        <!--//Gene Symbol-->
+                        <!--Tumor Type-->
+                        <div flex="30" layout="row" class="clinical-trials-search-input-container">
+                            <md-autocomplete flex
+                                             md-input-name="clinicaltrialTumorTypeSuggest"
+                                             md-input-minlength="1"
+                                             md-input-maxlength="50"
+                                             md-search-text-change="cts.resizeAutocompleteMenu('tumor', 'long')"
+                                             md-selected-item="cts.selectedTumorTypeItem"
+                                             md-search-text="cts.tumorTypeSearchTerm"
+                                             md-items="suggestion in cts.suggest(cts.tumorTypeSearchTerm, ['cancer_type_suggest'])"
+                                             md-item-text="suggestion.text"
+                                             md-clear-button="true"
+                                             md-no-asterisk
+                                             md-input-id="big-tumor-input-id"
+                                             md-menu-class="big-tumor-menu-class"
+                                             md-dropdown-position="bottom"
+                                             md-dropdown-items="5"
+                                             ng-disabled="cts.isDisabled"
+                                             md-floating-label="Tumor Type">
+                                <md-item-template>
+                                        <span md-highlight-text="cts.tumorTypeSearchTerm" class="search_suggestion tumor_type_suggest">
+                                            {{ suggestion.text | transformNegation }}
+                                        </span>
+                                </md-item-template>
+                            </md-autocomplete>
+                        </div>
+                        <!--//Tumor Type-->
+                        <!--Disease Center-->
+                        <div flex="30" layout="row" class="clinical-trials-search-input-container">
+                            <md-autocomplete flex
+                                             md-input-name="clinicaltrialDiseaseCenterSuggest"
+                                             md-input-minlength="1"
+                                             md-input-maxlength="50"
+                                             md-search-text-change="cts.resizeAutocompleteMenu('disease', 'long')"
+                                             md-selected-item="cts.selectedDiseaseCenterItem"
+                                             md-search-text="cts.diseaseCenterSearchTerm"
+                                             md-items="suggestion in cts.suggest(cts.diseaseCenterSearchTerm, ['disease_center_suggest'])"
+                                             md-item-text="suggestion.text"
+                                             md-clear-button="true"
+                                             md-no-asterisk
+                                             md-input-id="big-disease-input-id"
+                                             md-menu-class="big-disease-menu-class"
+                                             md-dropdown-position="bottom"
+                                             md-dropdown-items="5"
+                                             ng-disabled="cts.isDisabled"
+                                             md-floating-label="Disease Center">
+
+                                <md-item-template>
+                                        <span md-highlight-text="cts.diseaseCenterSearchTerm" class="search_suggestion disease_center_suggest">
+                                            {{ suggestion.text | transformNegation }}
+                                        </span>
+                                </md-item-template>
+                            </md-autocomplete>
+                        </div>
+                        <!--//Disease Center-->
+                    </div>
+                    <!--Advanced Type-->
+                    <div layout="row" ng-show="cts.openAdvancedSearch" ng-class="{'collapsed': !cts.openAdvancedSearch }"
+                         class="clinical-trials-search-advanced-search clinical-trials-search-input-container clinical-trials-search-row">
+                        <md-autocomplete flex
+                                         md-input-name="clinicaltrialSuggest"
+                                         md-input-minlength="1"
+                                         md-input-maxlength="50"
+                                         md-search-text-change="cts.resizeAutocompleteMenu('advanced', 'long')"
+                                         md-selected-item="cts.selectedItem"
+                                         md-search-text="cts.searchTerm"
+                                         md-items="suggestion in cts.suggest(cts.searchTerm)"
+                                         md-item-text="suggestion.text"
+                                         md-clear-button="true"
+                                         md-no-asterisk
+                                         md-input-id="big-advanced-input-id"
+                                         md-menu-class="big-advanced-menu-class"
+                                         md-dropdown-position="bottom"
+                                         md-dropdown-items="5"
+                                         ng-disabled="cts.isDisabled"
+                                         md-floating-label="Advanced search, e.g. Protocol #, PI Name">
+                            <md-item-template>
+                                    <span md-highlight-text="cts.searchTerm" class="search_suggestion"
+                                          ng-class="{
+                                            'hugo_symbol_suggest': suggestion.type == 'hugo_symbol_suggest',
+                                            'cancer_type_suggest': suggestion.type == 'cancer_type_suggest',
+                                            'variant_suggest': suggestion.type == 'variant_suggest'
+                                        }">
+                                        {{ suggestion.text | transformNegation }}
+                                        {{ suggestion.type == 'hugo_symbol_suggest' ? ' (Gene Symbol)' : ''}}
+                                        {{ suggestion.type == 'cancer_type_suggest' ? ' (Cancer Type)' : ''}}
+                                    </span>
+                            </md-item-template>
+                        </md-autocomplete>
+                    </div>
+                    <!--//Advanced Type-->
+                </div>
+                <!--</div>-->
+
+
+
+                <div id="clinical-trials-search-buttons" ng-class="{'flex-15': cts.pageType === 'long' && cts.isLargeMediaQuery}"
+                     layout="column" layout-align="center start">
+                    <md-button class="md-primary md-raised dashboard-search-button" ng-click="cts.search()"
+                               ng-disabled="cts.isDisabled" type="submit">
+                        Search
+                    </md-button>
+                    <div class="text-button" ng-click="cts.openAdvancedSearch = !cts.openAdvancedSearch">
+                        {{cts.openAdvancedSearch ? 'Hide ' : 'Show '}}Advanced Search
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</section>
+
+

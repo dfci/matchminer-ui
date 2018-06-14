@@ -1,0 +1,97 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<section class="dashboard-load-indicator" layout="row" layout-fill layout-align="center start" ng-if="!db.error && db.isLoading">
+	<div layout="column" flex layout-align="center center">
+		<div layout="column" flex layout-align="center center">
+			<div ng-include="'scripts/components/partials/loader.html'"></div>
+
+			<h3>Loading dashboard...</h3>
+		</div>
+	</div>
+</section>
+
+<div class="dashboard-content user-dashboard" ng-if="!db.error && !db.isLoading" layout-align="space-around center" layout="column" ng-controller="TimeoutController">
+	<section layout="row" class="stats-container" flex layout-align="space-around center" ng-if="db.isCti">
+		<div flex="30"
+		     class="stat-panel bgmd-blue"
+		     ui-sref="matches"
+		     md-whiteframe="{{db.matchHeight}}"
+		     analytics-on="click" analytics-event="Navigate to patient matches" analytics-category="Dashboard"
+		     ng-init="db.matchHeight= 3" ng-mouseenter="db.matchHeight = 7" ng-mouseleave="db.matchHeight = 3">
+				<div class="chart">
+					<md-icon aria-label="New patient matches"
+							 md-font-library="material-icons">
+						play_for_work
+					</md-icon>
+					<div class="count">
+						<small>New patient matches</small>
+						<h2 ng-if="db.newMatchCount==0">0 matches</h2>
+						<h2 ng-if="db.newMatchCount!=0">{{ (db.newMatchCount | number: 0) || 'N/A' }}</h2>
+					</div>
+				</div>
+		</div>
+		<div flex="30"
+		     class="stat-panel bgmd-orange"
+		     ui-sref="filters-overview"
+		     md-whiteframe="{{db.filterHeight}}"
+		     analytics-on="click" analytics-event="Navigate to genomic filters overview" analytics-category="Dashboard"
+		     ng-init="db.filterHeight= 3" ng-mouseenter="db.filterHeight = 7" ng-mouseleave="db.filterHeight = 3">
+			<div class="clearfix">
+				<div class="chart">
+					<md-icon aria-label="Registered filters"
+							 md-font-library="material-icons">
+						filter_list
+					</md-icon>
+					<div class="count">
+						<small>Registered filters</small>
+						<h2>{{ (db.registeredFilters | number: 0) || 'N/A' }}</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div flex="30"
+		     analytics-on="click" analytics-event="Tried to click on CAMD data update" analytics-category="Dashboard"
+		     class="stat-panel md-whiteframe-3dp bgmd-green">
+			<div class="clearfix">
+				<div class="chart">
+					<md-icon aria-label="CAMD data update"
+							 md-font-library="material-icons">
+						schedule
+					</md-icon>
+					<div class="count">
+						<small>CAMD data update</small>
+						<h2>{{ (db.lastUpdated | parsedate | date: "EEE, d MMM y") || 'N/A' }}</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<div class="dashboard-search-container" layout="row" layout-align="center start" style="padding-bottom: 8rem; margin-bottom: 2rem;"
+		 layout-md="row" layout-sm="column" layout-xs="column" layout-align-sm="center start">
+		<!-- Clinical Trial Search -->
+		<div ui-view="clinical-trials-search" class="dashboard-trials-search"></div>
+		<span class="dashboard-search-spacer" flex="noshrink"> </span>
+		<!-- Patient Search -->
+		<div ui-view="patient-search-input" class="dashboard-patient-search"></div>
+	</div>
+
+	<section class="patient-search-results-pane">
+
+		<!-- Search results -->
+		<div ui-view="patient-search-results" flex layout-fill></div>
+
+	</section>
+
+</div>

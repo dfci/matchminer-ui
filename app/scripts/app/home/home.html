@@ -1,0 +1,118 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<section id="main">
+    <div ui-view="nav" scroll-position="nbc.scroll"></div>
+
+    <section class="main-primary section-hero" ng-class="{'not-authenticated': !hc.isAuthenticated}" layout="column" id="matchminer">
+    </section>
+
+    <section ncy-breadcrumb>
+    </section>
+
+    <div layout="row" class="mm-welcome-container" flex>
+        <div class="mm-logo-container" flex="0" flex-gt-sm="35" layout="row">
+            <span class="section-mm-logo"></span>
+        </div>
+        <div class="mm-header-container">
+            <section class="section section-primary section-hero" layout="row">
+                <section flex="5" flex-gt-sm="5" flex-order="1">
+                    <!-- Stats here -->
+                </section>
+                <section flex="70"
+                         flex-gt-sm="90"
+                         layout="column"
+                         flex-order="2">
+                    <h3 class="section-title">
+                        MatchMiner
+                    </h3>
+                    <p class="section-body">
+                        A computational platform for matching patient-specific
+                        genomic profiles to precision cancer medicine clinical trials.
+                    </p>
+
+                    <md-button
+                            ui-sref="dashboard"
+                            ng-if="hc.isAuthenticated"
+                            class="md-primary md-raised hero-btn">
+                        <md-icon aria-label="Dashboard" md-font-library="material-icons">
+                            dashboard
+                        </md-icon>
+                        dashboard
+                    </md-button>
+
+                </section>
+            </section>
+        </div>
+    </div>
+
+    <section>
+        <md-toolbar class="nav-alert attention-alert" flex layout="column" layout-align="center center">
+            <span class="attention-details">
+                Interested to receive tailored clinical trial match notifications for your patients?
+            </span>
+            <span class="attention-details">
+                Learn more about our <a analytics-on="click" analytics-event="Navigate to Early Adopter" ui-sref="early-adopter">Early Adopter Program</a>.
+            </span>
+        </md-toolbar>
+    </section>
+
+    <section>
+        <md-toolbar class="nav-alert md-warn" ng-if="hc.error" flex layout="column" layout-align="center center">
+            <div layout="row" flex layout-align="center center">
+                <md-icon aria-label="Error"
+                         md-font-library="material-icons">
+                    warning
+                </md-icon>
+                {{ hc.errorMessage }}
+            </div>
+
+            <span class="error-details" ng-if="hc.errorDetails" ng-bind-html="hc.errorDetails"></span>
+        </md-toolbar>
+    </section>
+
+    <section class="section section-trial-search"
+             id="clinical-trials"
+             layout="column"
+             layout-align="space-around center">
+
+        <p class="section-body">If you have questions please send an email to <i><a href="mailto:{{ ENV.resources.email }}">{{  ENV.resources.email }}</a></i>.</p>
+
+        <div class="content-container" layout="row">
+            <!-- Search -->
+            <div ui-view="clinical-trials-search" class="clinical-trials-search-wrapper"></div>
+
+            <div layout="column" layout-align="center center">
+                <div class="home-stat md-whiteframe-1dp" layout="row" layout-align="start center">
+                    {{ (hc.public_stats.num_patients|number) || 'N/A' }} <span class="small">patients<br />sequenced</span>
+                </div>
+
+                <div class="home-stat md-whiteframe-1dp" layout="row" layout-align="start center">
+                    {{ hc.public_stats.num_clinical_trials || 'N/A'}} <span class="small">precision medicine <br /> clinical trials</span>
+                </div>
+            </div>
+        </div>
+
+        <span class="section-mm-partners"> </span>
+    </section>
+
+    <section class="section section-dark" layout="row" layout-align="start start">
+        <div layout="column">
+            <h3>MatchMiner</h3>
+            <p>Dana-Farber Cancer Institute - 2016-2018</p>
+        </div>
+    </section>
+
+</section>
+
+

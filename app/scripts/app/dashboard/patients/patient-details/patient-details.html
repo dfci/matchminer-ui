@@ -1,0 +1,102 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<div class="cr cr-top cr-left cr-sticky cr-red">BETA</div>
+
+<section layout="row">
+	<div class="patient-sidebar-wrapper"
+	     ng-if="!pdc.error && !pdc.isLoading"
+	     ng-class="{
+			'scrollspacer': !pdc.isGtSm,
+		 }"
+	     ng-include="'scripts/app/dashboard/patients/patient-details/sidebar/patient-sidebar.html'"></div>
+
+	<section class="patient-record dashboard-content"
+	         layout="column"
+	         ng-class="{
+				'space' : pdc.sidebarScroll > 193 && (!pdc.isSafari || pdc.isSafari && pdc.shouldShowSpacingWidth && pdc.resize) && pdc.isGtSm && pdc.selectedTab == 1,
+			 }"
+	         flex layout-align="center center">
+		<!-- The main record content -->
+		<section ng-if="pdc.error">
+			<div class="card">
+				<div class="card-header bgmd-orange">
+					<h2>
+						<md-icon aria-label="Select patient"
+						         md-font-library="material-icons">
+							person
+						</md-icon>
+						Patient Record
+						<small></small>
+					</h2>
+				</div>
+				<div class="card-body">
+					<div class="ps-block">
+						<div class="ps-header">
+							<div ng-if="pdc.error">
+								<p>
+									<md-icon md-font-library="material-icons">
+										info_outline
+									</md-icon>
+									<strong>
+										{{ pdc.error }}
+									</strong>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section layout="row" layout-fill layout-align="center start" ng-if="!pdc.error && pdc.isLoading" ng-class="{'safari-loader': pdc.isSafari}">
+			<div layout="column" flex layout-align="center center" class="patient-loader-indicator">
+				<div layout="column" flex layout-align="center center">
+					<div ng-include="'scripts/components/partials/loader.html'"></div>
+
+					<h3>Loading patient details...</h3>
+				</div>
+			</div>
+		</section>
+
+		<div ng-cloak ng-if="pdc.patient && !pdc.error && !pdc.isLoading" class="patient-main-wrapper">
+			<md-content>
+				<md-tabs md-dynamic-height md-border-bottom md-no-ink md-selected="pdc.selectedTab"
+				         class="inverse-menubar"
+				         ng-class="{
+							stuck: pdc.sidebarScroll > 193,
+							'left-spacing': pdc.isGtSm
+                         }">
+					<md-tab label="trial matches"
+					        analytics-on="click" analytics-event="Navigate trial matches" analytics-category="Patients">
+						<md-content class="md-padding">
+							<!-- Vital status banner -->
+							<patient-vital-status ctrl="pdc" clinical="::pdc.patient.clinical"></patient-vital-status>
+							<patient-multi-sample-select ctrl="pdc" clinical="::pdc.patient.clinical"></patient-multi-sample-select>
+							<div ui-view="clinical-trials-results"></div>
+						</md-content>
+					</md-tab>
+					<md-tab label="Oncopanel"
+					        analytics-on="click" analytics-event="Navigate oncopanel" analytics-category="Patients">
+						<md-content class="md-padding">
+							<ng-include src="'scripts/app/dashboard/patients/patient-details/oncopanel/oncopanel.html'"></ng-include>
+						</md-content>
+					</md-tab>
+				</md-tabs>
+			</md-content>
+		</div>
+
+	</section>
+</section>
+
+

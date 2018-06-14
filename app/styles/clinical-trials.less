@@ -1,0 +1,99 @@
+/**
+ * Clinical trial
+ */
+.clinical-trials-wrapper {
+  background-color: #F2F2F2;
+}
+
+#clinical-trials .section {
+  position: relative;
+  min-width: 100%;
+  max-width: 70rem !important;
+}
+
+#clinical-trials .section-primary.section-hero {
+  background-image: linear-gradient(45deg, #f4c34e, #cd8200);
+  transition: height .75s ease;
+  height: 38px !important;
+  min-height: 38px;
+  padding-top: 153px;
+}
+
+#clinical-trials .section-primary.section-hero.not-authenticated {
+  padding-top: 132px!important;
+}
+
+#clinical-trials .section-primary.section-hero.collapsed {
+  height: 230px !important;
+  transition: height .75s ease;
+}
+
+#clinical-trials .section:nth-of-type(1) {
+  padding-top: 9.2rem;
+  padding-bottom: 2.5rem;
+}
+
+.clinical-trials-results-pane {
+  background-color: #F2F2F2;
+  color: #000;
+}
+
+.search {
+  position: relative;
+  top: 32px;
+  right: 15px;
+}
+
+.search button:hover {
+  cursor: default;
+}
+
+.search-result-text {
+  position: relative;
+  left: 35px;
+  top: 80%;
+  font-weight: 400;
+}
+
+.clinical-trial-results-info {
+  font-size: 18px;
+  font-style: italic;
+  margin: 25px 0 0 35px;
+}
+
+#clinical-trials .search-info-container {
+  padding-top: 15px;
+}
+
+#clinical-trials .search-info-container .search-info-num-results > * {
+  padding-top: 12px;
+}
+
+#clinical-trials .applied-filter-chips-container {
+  padding: 0 15px;
+}
+
+#clinical-trials .applied-filter-chips-container .md-chips {
+  box-shadow: none;
+  cursor: default;
+  .md-chip-remove-container {cursor: pointer}
+}
+
+.clinical-trials-results-pane md-chips md-chips-wrap md-chip-input-container div input.md-input {
+  pointer-events: none;
+}
+
+#clinical-trials .applied-filter-chips-container .md-chips .invalid {
+  text-decoration: line-through;
+  color: rgb(210, 100, 120);
+}
+
+#clinical-trials .reset-button-container > button {
+  margin-right: 15px;
+}
+
+.custom-tooltip {
+  height: auto;
+  padding: 10px;
+  line-height: 1.3;
+}

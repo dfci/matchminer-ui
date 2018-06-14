@@ -1,0 +1,115 @@
+{
+  "dev": {
+    "ENV": {
+      "name": "development",
+      "elasticsearch": {
+        "host": "http://localhost:9200",
+        "proxy": "http://localhost:8001/elasticsearch",
+        "index": "matchminer"
+      },
+      "api": {
+        "host": "http://localhost:5555",
+        "endpoint": "/api"
+      },
+      "samlAuthentication": false,
+      "devUser": {
+        "token" : "fb4d6830-d3aa-481b-bcd6-270d69790e11",
+        "user_id" : "577cf6ef2b9920002cef0337"
+      },
+      "certificate" : {
+        "key": "../certificates/matchminer.key",
+        "cert": "../certificates/matchminer.crt"
+      },
+      "sessionTimeout": {
+        "idleAllowed": 2700,
+        "idleCountdown": 30
+      },
+      "tracking": {
+        "piwik_site_id": 3
+      },
+      "slsUrl": "",
+      "resources": {
+        "oncpro_base": "",
+        "ctgov_base": "https://clinicaltrials.gov/ct2/show/",
+        "logo": "dfci.jpg",
+        "institution": "DEFAULT",
+        "institutionFull": "Replace with your institute name",
+        "email": "info@yourInstitute.com",
+        "emailSecondary": "info2@yourInstitute.com"
+      },
+      "EPIC": false
+    }
+  },
+  "staging" : {
+    "ENV": {
+      "name": "staging",
+      "elasticsearch": {
+        "host": "http://localhost:9300",
+        "index": "matchminer"
+      },
+      "api": {
+        "host": "http://localhost:8443",
+        "endpoint": "http://localhost:8443/api"
+      },
+      "samlAuthentication": true,
+      "certificate" : {
+        "key": "../certificates/matchminer.key",
+        "cert": "../certificates/matchminer.crt"
+      },
+      "sessionTimeout": {
+        "idleAllowed": 2700,
+        "idleCountdown": 30
+      },
+      "tracking": {
+        "piwik_site_id": 2
+      },
+      "slsUrl": "",
+      "resources": {
+        "oncpro_base": "",
+        "ctgov_base": "https://clinicaltrials.gov/ct2/show/",
+        "logo": "dfci.jpg",
+        "institution": "DEFAULT",
+        "institutionFull": "Replace with your institute name",
+        "email": "info@yourInstitute.com",
+        "emailSecondary": "info2@yourInstitute.com"
+      },
+      "EPIC": false
+    }
+  },
+  "production" : {
+    "ENV": {
+      "name": "production",
+      "elasticsearch": {
+        "host": "http://localhost:9400",
+        "index": "matchminer"
+      },
+      "api": {
+        "host": "http://localhost",
+        "endpoint": "http://localhost/api"
+      },
+      "samlAuthentication": true,
+      "certificate" : {
+        "key": "../certificates/matchminer.key",
+        "cert": "../certificates/matchminer.crt"
+      },
+      "sessionTimeout": {
+        "idleAllowed": 2700,
+        "idleCountdown": 30
+      },
+      "tracking": {
+        "piwik_site_id": 1
+      },
+      "slsUrl": "",
+      "resources": {
+        "oncpro_base": "",
+        "ctgov_base": "https://clinicaltrials.gov/ct2/show/",
+        "logo": "dfci.jpg",
+        "institution": "DEFAULT",
+        "institutionFull": "Replace with your institute name",
+        "email": "info@yourInstitute.com",
+        "emailSecondary": "info2@yourInstitute.com"
+      },
+      "EPIC": false
+    }
+  }
+}

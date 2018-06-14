@@ -1,0 +1,86 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<section layout="row" ng-if="!psrc.isLoading && psrc.searchTerm">
+            <span class="patient-search-results-info" ng-show="psrc.patientsDisplay.length > 0"
+                  class="search-result-text">Searched patient database for <strong>'{{ psrc.searchTerm }}'</strong> and found <strong>{{ psrc.patientsDisplay.length }} result{{ psrc.patientsDisplay.length > 1 ? 's' : ''}}</strong>.</span>
+</section>
+
+<div id="patient-search-results" layout="column" layout-fill flex ng-if="psrc.searchTerm || psrc.patientsDisplay.length">
+	<h3>Results</h3>
+	<md-table-container>
+		<table md-table md-progress="deferred">
+			<thead md-head md-order="psrc.sortOrder" md-on-reorder="psrc.onOrderChange">
+				<tr md-row>
+					<th md-column md-order-by="FIRST_LAST">Name</th>
+					<th md-column md-order-by="MRN">MRN</th>
+					<th md-column># Samples</th>
+					<th md-column>Actions</th>
+				</tr>
+			</thead>
+			<tbody md-body>
+				<tr md-row class="trial"
+				    ng-show="!psrc.isLoading"
+				    ng-repeat="patient in psrc.patientsDisplay | limitTo: psrc.metadata.page_size: (psrc.metadata.current_page  - 1) * psrc.metadata.page_size"
+				    analytics-on="click" analytics-event="Navigate to details" analytics-category="Patients"
+				    ng-click="psrc.navigateToDetails($event, patient[0])">
+
+						<!--<td md-cell>{{ patient[0].FIRST_LAST }}</td>-->
+						<td md-cell>Redacted for Privacy</td>
+						<td md-cell>{{ patient[0].MRN }}</td>
+						<td md-cell>{{ patient.length }}</td>
+						<td md-cell>
+							<md-icon md-font-library="material-icons"
+							         ng-click="psrc.navigateToDetails($event, patient[0])">
+								library_books
+							</md-icon>
+							<md-tooltip md-autohide md-direction="top">
+								Go to patient record
+							</md-tooltip>
+						</td>
+				</tr>
+				<tr md-row
+				    ng-cloak ng-if="psrc.isLoading && !apiError">
+					<td md-cell colspan="4">
+						<div layout="column" flex layout-align="center center">
+							<div ng-include="'scripts/components/partials/loader.html'"> </div>
+
+							<h3>Loading...</h3>
+						</div>
+					</td>
+				</tr>
+				<tr md-row ng-cloak ng-if="!psrc.patientsDisplay.length && !psrc.isLoading">
+					<td md-cell colspan="4">
+						<md-toolbar class="md-default table-alert" layout="row" flex
+						            layout-align="center center">
+							<md-icon aria-label="No patients found"
+							         md-font-library="material-icons">
+								info_outline
+							</md-icon>
+							<strong> No results found for '{{ psrc.searchTerm }}'</strong>
+						</md-toolbar>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</md-table-container>
+	<md-table-pagination
+			ng-show="!psrc.loading"
+			md-limit="psrc.metadata.page_size"
+			md-page="psrc.metadata.current_page"
+			md-total="{{psrc.numPatients}}"
+			md-limit-options="[10, 15, 25, 50, 100]"
+			md-page-select></md-table-pagination>
+</div>
+
+

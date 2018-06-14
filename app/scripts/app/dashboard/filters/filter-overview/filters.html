@@ -1,0 +1,175 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<div class="dashboard-content filters-wrapper">
+    <div class="block-header">
+        <h2 id="genomicFilterOverview">
+            <md-icon aria-label="Genomic Filters"
+                     md-font-library="material-icons">
+                filter_list
+            </md-icon>
+            Genomic Filters
+        </h2>
+        <ul class="actions">
+            <li>
+                <!--<md-button class="md-raised md-primary" ng-click="dbf.showWatchDialog($event)"
+                           analytics-on="click" analytics-event="Create new watcher" analytics-category="watchers" analytics-label="Create new watcher">
+                    <md-icon aria-label="Genomic Filters"
+                             md-font-library="material-icons">
+                        library_add
+                    </md-icon>
+                    New Watch
+                </md-button> -->
+            </li>
+
+            <li>
+                <md-button class="md-raised md-primary md-hue-2" ng-click="dbf.createNewFilter()"
+                           analytics-on="click" analytics-event="Create new genomic filter" analytics-category="Genomic filters" analytics-label="Main filter creation">
+                    <md-icon aria-label="Genomic Filters"
+                             md-font-library="material-icons">
+                        library_add
+                    </md-icon>
+                    New filter
+                </md-button>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <div class="card-body card-padding">
+            <md-table-container>
+                <table class="table table-inner table-vmiddle filter-table" md-table>
+                    <thead md-head md-order="dbf.tableOpts.sort" md-on-reorder="dbf.onOrderChange">
+                    <tr md-row>
+                        <th md-column md-order-by="label">Filter</th>
+                        <th md-column>Badge</th>
+                        <th md-column>Description</th>
+                        <th md-column md-order-by="_created">Dates</th>
+                        <th md-column>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody md-body>
+                    <tr md-row
+                        ng-if="!dbf.isLoading"
+                        ng-repeat="filter in dbf.filters">
+                        <td md-cell
+                            class="filter-table-cell">
+                            <div layout="column">
+                                <span class="td-lead">{{ filter.label }}</span>
+                                <span class="td-small" ng-if="filter.label !== filter.protocol_id">{{ filter.protocol_id }}</span>
+                            </div>
+                        </td>
+
+                        <td md-cell
+                            class="filter-table-cell">
+                            <genomic-filter-badge filter="filter"
+                                                  filter-link="#/filters/{{filter._id}}"></genomic-filter-badge>
+                        </td>
+                        <td md-cell
+                            class="filter-table-cell filter-description">
+                          <span class="td-lead">
+                            {{ filter.description.replace('[u\'\'] ','') }}
+                          </span>
+                        </td>
+                        <td md-cell
+                            class="filter-table-cell">
+                            <div layout="column">
+                            <span class="td-lead">
+                              {{ ( filter._created | parsedate | date: "EEE, d MMM y") || 'Not available'  }}
+                            </span>
+                            <span class="td-small">
+                              {{ ( filter._updated | parsedate | date: "EEE, d MMM y") || 'Not available'  }}
+                            </span>
+                            </div>
+                        </td>
+                        <td md-cell
+                            class="filter-table-cell">
+                            <div layout="row" layout-align="start center">
+                            <span>
+                              <md-tooltip md-autohide md-direction="top">
+                                  Edit genomic filter
+                              </md-tooltip>
+                              <md-icon aria-label="Edit filter" ng-click="dbf.loadEditGenomicFilter(filter)"
+                                       analytics-on="click" analytics-event="Edit genomic filter" analytics-category="Genomic filters" analytics-label="{{ filter.label }}"
+                                       md-font-library="material-icons" class="action-icon">mode_edit
+                              </md-icon>
+                            </span>
+                            <span style="margin-left: 15px;">
+                              <md-tooltip md-autohide md-direction="top">
+                                  Delete genomic filter
+                              </md-tooltip>
+                              <md-icon aria-label="Remove filter"
+                                       class="action-icon"
+                                       analytics-on="click" analytics-event="Delete genomic filter" analytics-category="Genomic filters" analytics-label="{{ filter.label }}"
+                                       ng-click="dbf.showConfirmDeleteFilter($event, filter)"
+                                       md-font-library="material-icons">
+                                  remove_circle_outline
+                              </md-icon>
+                            </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr md-row class="ng-cloak" ng-if="!dbf.filters.length && !dbf.isLoading && !apiError">
+                        <td md-cell colspan="5">
+	                        <md-toolbar class="md-default table-alert" layout="row" flex
+		                                layout-align="center center">
+			                    <md-icon aria-label="No clinical trials available"
+			                             md-font-library="material-icons">
+				                    info_outline
+			                    </md-icon>
+		                        <strong>
+			                        No genomic filters registered. Click
+			                        <a class="no-results" ng-click="dbf.createNewFilter()"
+                                       analytics-on="click" analytics-event="Create new genomic filter" analytics-category="Genomic filters" analytics-label="No existing genomic filters">
+				                        here
+			                        </a>
+			                        to create a new filter.
+		                        </strong>
+		                    </md-toolbar>
+                        </td>
+                    </tr>
+                    <tr md-row
+                        ng-cloak ng-if="apiError">
+                        <td md-cell colspan="6">
+                            <div class="nav-alert md-warn" style="margin-top:15px;">
+                                <p>
+                                    <md-icon aria-label="API Error"
+                                             md-font-library="material-icons">
+                                        info_outline
+                                    </md-icon>
+                                    <strong>
+                                        Cannot connect to the API. Please check the connection.
+                                    </strong>
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr md-row
+                        ng-cloak ng-if="dbf.isLoading && !apiError">
+                        <td md-cell colspan="6">
+		                    <div layout="column" flex layout-align="center center">
+			                    <div ng-include="'scripts/components/partials/loader.html'"> </div>
+
+			                    <h3>Loading...</h3>
+		                    </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+            <md-table-pagination md-limit-options="[10, 25, 50, 100]" md-limit="dbf.tableOpts.max_results"
+                                 md-page="dbf.tableOpts.page" md-total="{{dbf.totalElements}}"
+                                 md-on-paginate="dbf.onPaginationChange"></md-table-pagination>
+        </div>
+    </div>
+</div>

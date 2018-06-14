@@ -1,0 +1,76 @@
+#side-nav {
+  min-height: 100vh;
+  width: 70px;
+  top: 0;
+  left: 0;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.14);
+  flex-direction: column;
+  display: flex;
+  overflow: visible;
+  overflow-y: auto;
+  background: #555;
+}
+
+#side-nav .nav-wrapper {
+  width: 70px;
+}
+
+#side-nav .nav-wrapper .menu-item {
+  width: inherit;
+  justify-content: center;
+  opacity: 0.8;
+  background: transparent;
+  white-space: nowrap;
+  transition: 100ms ease-in-out;
+  min-height: 70px;
+  height: 70px;
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+}
+
+#side-nav .nav-wrapper .menu-item > md-icon {
+  margin: 0;
+  color: inherit;
+  font-size: 24px;
+  transition: 100ms ease-in-out;
+}
+
+#side-nav .nav-wrapper .menu-item > md-icon.resize {
+  font-size: 2rem;
+  margin-left: -10px;
+  margin-bottom: 5px;
+}
+
+#side-nav .nav-wrapper .menu-item .nav-label {
+  font-size: 10px;
+  margin-top: 6px;
+  text-align: center;
+  white-space: normal;
+  text-transform: uppercase;
+}
+
+#side-nav .nav-wrapper .menu-item.logo {
+  background: #333;
+  min-height: 70px;
+  width: 70px;
+  justify-content: center;
+  height: 2rem;
+}
+
+#side-nav .nav-wrapper > a {
+  outline: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#side-nav .nav-wrapper a:not(:hover) {
+  color: #d2d2d2;
+}
+
+#side-nav .nav-wrapper > a:hover,
+#side-nav .nav-wrapper > a:focus,
+#side-nav .nav-wrapper > a.active {
+  color: #fff;
+  transition: 10ms ease-in-out;
+}

@@ -1,0 +1,318 @@
+.dashboard .dashboard-load-indicator {
+  margin-top: 150px;
+}
+
+.dashboard-content {
+  background-color: #F2F2F2;
+  color: #000;
+  padding: 2rem 1rem 3rem;
+  font-size: 16px;
+  height: 100%;
+  min-height: 100%;
+}
+
+.dashboard-header:before {
+  right: 60%;
+  margin-left: 0.5em;
+}
+
+.dashboard-header:after {
+  left: 60%;
+  margin-right: 0.5em;
+}
+
+.dashboard-header:before,
+  .dashboard-header:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.1);
+    height: 1px;
+}
+
+.dashboard-content.user-dashboard > .block-header {
+  max-width: 1100px;
+  width: 100%;
+}
+
+.dashboard-content.user-dashboard > .block-header > h2 {
+  text-align: center;
+}
+
+.dashboard-content.user-dashboard > .clinical-trials-search-wrapper {
+  margin-top: 35px;
+}
+
+.dashboard-content.filter-editor,
+   .dashboard-content.statistics-dashboard {
+      min-width: 960px;
+      margin: 0 auto;
+}
+
+.dashboard-content.statistics-dashboard {
+  background-color: white;
+  padding: 35px;
+  margin: 0!important;
+}
+
+.dashboard {
+  max-width: 1200px;
+  min-width: 100%;
+  overflow-x: auto;
+  display: block;
+  background-color: #F2F2F2;
+}
+
+.dashboard-content {
+  .card ~ .block-header {
+    margin-bottom: 0!important;
+  }
+}
+
+.dashboard-content .block-header {
+  position: relative;
+
+  ~.card, ~div .card {
+    margin-top: 0!important;
+  }
+
+  +.layout-row, +.layout-column {
+    margin-top: 15px;
+  }
+}
+
+.dashboard-content .block-header h2 {
+  font-size: 20px;
+  background-color: #1A89C4!important;
+  color: #fafafa!important;
+  padding: 12px 16px;
+  margin-bottom: 0;
+  font-weight: 500;
+  text-transform: uppercase;
+  display: block;
+}
+
+.dashboard-content .block-header h2 md-icon {
+  font-size: 150%;
+  color: #fafafa;
+  margin-top: -8px;
+  margin-right: 10px;
+}
+
+.dashboard-content .block-header h2 md-icon:hover {
+  cursor: initial;
+}
+
+.dashboard-content .block-header .actions {
+  position: absolute;
+  right: 10px;
+  top: 0;
+  z-index: 5;
+}
+
+.dashboard-content.user-dashboard .patient-search-input-wrapper {
+    margin-top: 50px;
+    min-width: 100%;
+}
+
+.dashboard-content.user-dashboard .patient-search-results-pane {
+  margin-top: 50px;
+}
+
+.dashboard-content .actions {
+  list-style: none;
+  padding: 0;
+  z-index: 2;
+  margin: 0;
+}
+
+.actions > li {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+.header-actions-template() {
+    a, md-icon, md-button, span > md-icon, ng-include md-icon {
+      width: 30px;
+      height: 30px;
+      line-height: 46px;
+      display: inline-block;
+      position: relative;
+      color: #fafafa !important;
+    }
+}
+
+.dashboard-content.filters-wrapper,
+  .dashboard-content.filter-editor {
+    .block-header {
+      h2 {
+        background-color: transparent!important;
+        color: #777!important;
+
+        md-icon {
+          color: #777;
+        }
+      }
+
+      .actions {
+        li {
+          button > md-icon {
+            line-height: 25px!important;
+          }
+        }
+      }
+    }
+}
+
+.dashboard-content .patient-detail-container .actions > li {
+  .header-actions-template();
+}
+
+.dashboard-content .actions > li > span {
+  display: block;
+  text-align: center;
+  z-index: 1;
+  position: relative;
+}
+
+.dashboard-content .actions > li > span > .match-label {
+  position: relative;
+  z-index: 1;
+  left: -18px;
+  top: 6px;
+  font-weight: 400;
+  font-size: 0.9rem;
+}
+
+.dashboard-content .actions > li > span > .match-counts {
+  position: relative;
+  font-style: normal;
+  background: #f44336;
+  color: white !important;
+  padding: 1px 5px;
+  border-radius: 4px;
+  right: 13px;
+  top: -11px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 15px;
+}
+
+.dashboard-content .actions .active-match-status > *,
+.dashboard-content .actions .match-status:hover > *:not(.match-counts),
+.dashboard-content .match-patient-record:hover,
+.dashboard-content .match-patient-record:hover > *,
+.matches-wrapper .match-action:hover > * {
+  color: rgb(33, 150, 243)!important;
+  cursor: pointer!important;
+  transition: color 300ms ease;
+}
+
+.dashboard-content .stat-panel {
+  border-radius: 8px;
+}
+
+.dashboard-content .stat-panel:not(:last-child) {
+  margin-right: 15px;
+}
+
+.dashboard-content .card {
+  position: relative;
+  background: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  margin-bottom: 30px;
+  margin-top: 10px;
+}
+
+.dashboard-content .card-header {
+  position: relative;
+}
+
+.dashboard-content .card-header h2 {
+  margin: 0;
+  line-height: 100%;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.dashboard-content .card-header h2 md-icon {
+  font-size: 130%;
+  margin-top: -2px;
+  margin-right: 5px;
+}
+
+.dashboard-content .card-header h2 small {
+  display: block;
+  color: #000;
+  line-height: 160%;
+}
+
+.dashboard-content .card-header .actions {
+  position: absolute;
+  right: 10px;
+  z-index: 2;
+  top: 25px;
+}
+
+.dashboard-content .card-body {
+  padding-bottom: 1px;
+  overflow: hidden;
+}
+
+.dashboard-content .card-body.card-padding-top {
+  padding-top: 3rem;
+}
+
+.dashboard-content .patient-detail-container md-tooltip.md-content {
+  padding: 2px!important;
+}
+
+.dashboard-content .patient-detail-container .md-button.md-primary {
+  background-color: #1A89C4!important;
+}
+
+.dashboard-content .patient-detail-container md-icon:hover {
+    cursor: initial;
+}
+
+.dashboard-content .dashboard-search-button {
+  margin-top: 15px;
+}
+
+.dashboard-content .patient-search-container {
+  max-width: 100%!important;
+}
+
+.dashboard-search-container .dashboard-trials-search,
+  .dashboard-search-container .dashboard-patient-search {
+    max-width: 500px;
+    margin-top: 40px;
+}
+
+@media (max-width: 960px) {
+  .dashboard-patient-search {width: 500px;}}
+
+.dashboard-search-container .dashboard-search-spacer {
+  min-width: 30px;
+  max-width: 30px;
+}
+
+.dashboard-content md-icon:hover {
+  cursor: pointer;
+}
+
+.dashboard-content.patient-record {
+  .button, a {
+    md-icon {
+      cursor: pointer;
+    }
+  }
+}
+
+.dashboard-content.patient-record {
+  h2 > md-icon, .mini-charts-item md-icon, .card > div > md-icon {
+    cursor: default;
+  }
+}

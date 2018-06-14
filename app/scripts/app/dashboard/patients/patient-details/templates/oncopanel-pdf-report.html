@@ -1,0 +1,30 @@
+<div class="card">
+	<div layout="row"
+	     layout-align="start center"
+	     class="card-header md-red patient-oncopanel-wrapper">
+		<div class="patient-oncopanel-notification">
+			<md-icon aria-label="Patient Legend"
+			         md-font-library="material-icons">
+				remove_red_eye
+			</md-icon>
+			<span ng-if="::clinical.TEST_TYPE != 'CLINICAL'">
+				Profile Research Cohort Report (IRB Protocol # 11-104) - For viewing only. Do not <i>save</i> or <i>print</i>.
+			</span>
+			<span ng-if="::clinical.TEST_TYPE == 'CLINICAL'">
+				Profile Clinical Report
+			</span>
+		</div>
+		<span flex> </span>
+		<div>
+			<md-button class="md-raised md-primary"
+			           ng-href=" https://pcmp.partners.org/oncomap/report/reportlist?DFCI={{::clinical.MRN}}"
+			           analytics-on="click" analytics-event="View OncoPanel PDF Report" analytics-category="Patients">
+				<md-icon aria-label="Patient Legend"
+				         md-font-library="material-icons">
+					assignment
+				</md-icon>
+				<span hide-sm>OncoPanel PDF Report</span>
+			</md-button>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,72 @@
+<div id="cnv">
+	<div class="block-header" ng-if="!isEmbedded">
+		<h2>
+			<md-icon
+					aria-label="Copy number variants"
+					md-font-library="material-icons">
+				line_style
+			</md-icon>
+			Copy Number Variants
+		</h2>
+
+		<ul class="actions">
+			<li>
+				<ng-include src="tooltip({id: 'cnv-header'})"></ng-include>
+			</li>
+		</ul>
+	</div>
+
+	<div class="card cnv-card">
+		<div class="card-header" ng-if="::isEmbedded">
+			<h2>
+				<span>Copy Number Variants</span>
+				<span>
+					<ng-include src="tooltip({id: 'cnv'})"></ng-include>
+				</span>
+			</h2>
+		</div>
+
+		<div ng-if="!cnvMut.length" class="info-missing-container" layout="row">
+			<md-icon aria-label="Notice"
+			         md-font-library="material-icons">
+				warning_outline
+			</md-icon>
+
+			<div>
+				<h3>No Copy Number Variants found.</h3>
+			</div>
+		</div>
+
+		<div class="card-body md-padding" ng-if="cnvMut.length">
+			<table datatable="ng" dt-options="dtOpts" class="table table-inner table-vmiddle" width="100%">
+				<thead>
+					<tr>
+						<th ng-if="!isOncologist">Filter</th>
+						<th>Band</th>
+						<th>Gene</th>
+						<th>Alteration</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="cnv in ::cnvMut | orderBy:'CNV_CALL' track by $index"
+					    ng-class="{
+							'cna-gain-high' : cnv.CNV_CALL == 'High level amplification',
+							'cna-gain-low' : cnv.CNV_CALL == 'Gain',
+							'cna-loss-two' : cnv.CNV_CALL == 'Homozygous deletion',
+							'cna-loss-single' : cnv.CNV_CALL == 'Heterozygous deletion'
+						}">
+						<td class="mutation-filter-cell" ng-if="!isOncologist" ng-class="{'flex-cell': cnv.FILTER}">
+							<span ng-if="!cnv.FILTER">
+								<strong>- </strong>
+							</span>
+							<genomic-filter-badge filter="filter" ng-repeat="filter in ::cnv.FILTER"></genomic-filter-badge>
+						</td>
+						<td>{{ ::cnv.CNV_BAND }}</td>
+						<td>{{ ::cnv.TRUE_HUGO_SYMBOL }}</td>
+						<td>{{ ::cnv.CNV_CALL }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

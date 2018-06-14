@@ -1,0 +1,35 @@
+.filters-wrapper {
+  min-width: 1100px;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+  //overflow-x: scroll;
+}
+
+.filters-wrapper .filter-description {
+  max-width: 400px;
+}
+
+.filter-charts-column {
+  padding-top: 85px;
+}
+
+.filter-chart-container {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.dashboard-content.filter-editor md-autocomplete md-autocomplete-wrap.md-whiteframe-z1 {
+  box-shadow: none;
+}
+
+.dashboard-content.filter-editor md-autocomplete[disabled]:not([md-floating-label]) {
+  background: none;
+  cursor: not-allowed;
+  md-autocomplete-wrap {
+    cursor: not-allowed;
+    input {
+      cursor: not-allowed;
+    }
+  }
+}

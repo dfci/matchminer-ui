@@ -1,0 +1,13 @@
+.tmp
+.idea
+.DS_Store
+app/.DS_Store
+bower_components/
+node_modules/
+dist/
+coverage/
+documentation/
+properties/config.json
+app/scripts/config.js
+app/scripts/templates.js
+package-lock.json

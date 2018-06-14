@@ -1,0 +1,221 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<aside class="patient-sidebar inverse-sidebar"
+       hide
+       show-gt-sm
+       scroll-position="pdc.sidebarScroll"
+       ng-class="{
+			stuck: (pdc.sidebarScroll > 193 && pdc.selectedTab == 1),
+
+			'small-screen-zoom-sidebar': screen.width < 960
+       }"
+       flex="noshrink">
+
+	<div class="patient-details">
+		<h3>Patient</h3>
+
+		<table class="patient-details-table">
+			<tbody>
+				<tr class="patient-detail-container">
+					<td class="patient-detail-name">
+						<!--{{ ::pdc.patient.clinical.LAST_NAME}}, {{ ::pdc.patient.clinical.FIRST_NAME }}-->
+					</td>
+				</tr>
+
+				<tr class="patient-detail-container">
+					<td class="patient-detail-label">MRN</td>
+					<td class="patient-detail">
+						{{ ::pdc.patient.clinical.MRN || 'Not available' }}
+					</td>
+				</tr>
+
+				<tr  class="patient-detail-container">
+					<td class="patient-detail-label">Date of Birth</td>
+					<td class="patient-detail">
+						{{ ::(pdc.patient.clinical.BIRTH_DATE | parsedate | date: "d MMM y") || 'Not available' }}
+					</td>
+				</tr>
+
+				<tr class="patient-detail-container">
+					<td class="patient-detail-label">Primary Cancer Type</td>
+					<td class="patient-detail">
+						{{ ::pdc.patient.clinical.ONCOTREE_PRIMARY_DIAGNOSIS_NAME || 'Not available' }}
+					</td>
+				</tr>
+
+				<tr class="patient-detail-container">
+					<td class="patient-detail-label">Biopsy Site</td>
+					<td class="patient-detail">
+						{{ ::pdc.patient.clinical.ONCOTREE_BIOPSY_SITE_NAME || 'Not available' }}
+					</td>
+				</tr>
+
+				<tr class="patient-detail-container">
+					<td class="patient-detail-label">Biopsy Site Type</td>
+					<td class="patient-detail">
+						{{ ::pdc.patient.clinical.ONCOTREE_BIOPSY_SITE_TYPE || 'Not available' }}
+					</td>
+				</tr>
+
+				<tr class="patient-detail-container">
+					<td class="patient-detail-label">Sample ID</td>
+					<td class="patient-detail">
+						{{ ::pdc.patient.clinical.SAMPLE_ID || 'Not available' }}
+					</td>
+				</tr>
+
+				<tr class="patient-detail-container">
+					<td class="patient-detail-label">Report Date</td>
+					<td class="patient-detail">
+						{{ ::(pdc.patient.clinical.REPORT_DATE | parsedate | date: "d MMM y") || 'Not available' }}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div ng-if="pdc.selectedTab == 0 && pdc.numTrials">
+		<div ui-view="clinical-trials-filters" flex="noshrink"></div>
+
+        <div class="md-whiteframe-2dp bottom-left-corner bug-report-bottom"
+             id="bug-report-card"
+             style="display:none">
+            <md-icon style="float:right; cursor: pointer;"
+                     ng-click="pdc.toggleBugCard()"
+                     aria-label="Report bug"
+                     md-font-library="material-icons">
+                clear
+            </md-icon>
+            <h1>Report a Bug</h1>
+            <span>
+                To report a bug, please email <br>
+                <b>{{ ENV.resources.email }}</b>
+            </span>
+        </div>
+
+        <div ng-if="ENV.EPIC" class="bottom-left-corner">
+            <md-button class="md-default md-raised"
+                       ng-click="pdc.toggleBugCard()"
+                       analytics-on="click"
+                       analytics-event="Report bug from sidebar"
+                       analytics-category="Sidebar"
+                       analytics-label="Authenticated">
+                <md-icon aria-label="Report bug" md-font-library="material-icons">
+                    bug_report
+                </md-icon>
+                Report bug
+            </md-button>
+        </div>
+	</div>
+
+	<div ng-if="pdc.selectedTab == 1" class="sidebar-oncopanel-options">
+		<h3>Sections</h3>
+		<ul class="menu">
+			<li du-scrollspy="qualityControl"
+			    offset="150"
+			    analytics-on="click" analytics-event="Navigate oncopanel" analytics-category="Patients" analytics-label="Quality Control"
+			    ng-click="pdc.scrollToSection('qualityControl')">
+				<md-icon aria-label="Quality Control"
+				         md-font-library="material-icons">
+					assessment
+				</md-icon>
+				Quality Control
+			</li>
+			<li du-scrollspy="patientRecord"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('patientRecord')"
+			    analytics-on="click" analytics-event="Navigate oncopanel" analytics-category="Patients" analytics-label="Patient Details">
+				<md-icon md-font-library="material-icons">
+					assignment
+				</md-icon>
+				Patient Record
+			</li>
+			<li du-scrollspy="pathologistComments"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('pathologistComments')"
+			    analytics-on="click" analytics-event="Navigate oncopanel" analytics-category="Patients" analytics-label="Pathologist Comments">
+				<md-icon md-font-library="material-icons">
+					mode_comment
+				</md-icon>
+				Pathologist Comments
+			</li>
+			<li du-scrollspy="mutationalBurden"
+			    ng-if="pdc.includeForOncopanelVersion(2)"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('mutationalBurden')"
+			    analytics-on="click" analytics-event="Navigate oncopanel" analytics-category="Patients" analytics-label="Mutational Burden">
+				<md-icon md-font-library="material-icons">
+					games
+				</md-icon>
+				Mutational Burden
+			</li>
+			<li du-scrollspy="actionableFindings"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('actionableFindings')"
+			    analytics-on="click" analytics-event="Navigate oncopanel" analytics-category="Patients" analytics-label="Actionable Findings">
+				<md-icon md-font-library="material-icons">
+					linear_scale
+				</md-icon>
+				Actionable Findings
+			</li>
+			<li du-scrollspy="additionalFindings"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('additionalFindings')"
+			    analytics-on="click" analytics-event="Navigate oncopanel" analytics-category="Patients" analytics-label="Additional Findings">
+				<md-icon md-font-library="material-icons">
+					youtube_searched_for
+				</md-icon>
+				Additional Findings
+			</li>
+			<li du-scrollspy="cnv"
+			    ng-if="pdc.includeForOncopanelVersion(1)"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('cnv')"
+			    analytics-on="click" analytics-event="Navigate oncopanel" analytics-category="Patients" analytics-label="CNV">
+				<md-icon md-font-library="material-icons">
+					line_style
+				</md-icon>
+				Copy Number Variants
+			</li>
+			<li du-scrollspy="structuralVariants"
+			    ng-if="pdc.includeForOncopanelVersion(1)"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('structuralVariants')"
+			    analytics-on="click" analytics-event="Navigate oncopanel" analytics-category="Patients" analytics-label="Structural Variants">
+				<md-icon md-font-library="material-icons">
+					gesture
+				</md-icon>
+				Structural Variants
+			</li>
+			<li du-scrollspy="methodology"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('methodology')"
+			    analytics-on="click" analytics-event="Navigate oncopanel" analytics-category="Patients" analytics-label="Methodology">
+				<md-icon md-font-library="material-icons">
+					pageview
+				</md-icon>
+				Methodology
+			</li>
+			<li du-scrollspy="references"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('references')"
+			    analytics-on="click" analytics-event="Navigate references" analytics-category="Patients" analytics-label="Contact and References">
+				<md-icon md-font-library="material-icons">
+					list
+				</md-icon>
+				Contact and References
+			</li>
+		</ul>
+	</div>
+</aside>

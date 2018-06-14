@@ -1,0 +1,277 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<div id="clinical-trials-results" layout="column" flex>
+    <h3 ng-if="ctr.hasTrialMatches" class="trial-results-header">Clinical trial matches</h3>
+    <div layout="row" ng-if="ctr.hasTrialMatches" class="trial-match-container" layout-align="start start">
+	    <div flex="20"
+	         class="trial-matches-count-container no-select"
+	         ng-class="{
+	            'has-matches': ctr.trials.length,
+	            'has-no-matches': !ctr.trials.length
+	         }"
+	         layout="row">
+		    <div>
+				 <span class="trial-matches-count">
+					{{ ctr.numberOfTrialMatches || '0' }}
+				</span>
+				<span class="trial-matches-text">
+					trial
+					<br />
+					matches
+				</span>
+		    </div>
+	    </div>
+
+	    <div class="trial-matches-info" ng-if="ctr.hasTrialMatches && ctr.trials.length" flex="80">
+		    <p>
+			    MatchMiner has identified <span class="highlight">{{ ctr.numberOfTrialMatches }}</span> potential precision medicine clinical trial matches based on genomic profiling results obtained from OncoPanel.
+		    </p>
+		    <p>
+			    All trials within MatchMiner have been expertly curated to capture genomic and basic clinical eligibility details, and matches have been computed based on the patient's genomic profile, tumor type, age, and sex.
+		    </p>
+		    <p>
+			    As these criteria represent only a subset of all trial eligibility criteria, additional investigation and screening should be conducted to determine final eligibility.
+		    </p>
+        </div>
+
+        <div class="trial-matches-info has-no-matches" ng-if="ctr.hasTrialMatches && !ctr.trials.length" flex="80">
+            <p>
+                MatchMiner has <span class="highlight">not</span> identified any potential precision medicine clinical trials for this patient.
+            </p>
+        </div>
+    </div>
+
+    <h3 class="trial-results-header">Results</h3>
+
+    <md-table-container ng-class="{'small-screen-zoom-table': screen.width < 960}">
+        <table md-table md-progress="deferred">
+            <thead md-head md-order="ctr.sortOrder" md-on-reorder="ctr.onOrderChange">
+                <tr md-row>
+                    <th md-column md-desc md-order-by="trial_rank" class="trial-results-trial-rank-cell" ng-if="ctr.hasTrialMatches">
+                        <!--<span class="match-level-tooltip-header"></span>-->
+
+                        Rank
+                        <md-icon aria-label="Match type info" md-font-library="material-icons" class="clinical-trial-results-header-info">
+                            info
+                        </md-icon>
+                        <md-tooltip md-autohide class="md-content match-level-tooltip" md-direction="top">
+                            <span>MatchMiner ranking of potential patient-trial matches</span>
+                            <br/>
+                            <span>
+                                The MatchMiner ranking algorithm takes into account the following variables, in this
+                                order: <br/>1) variant actionability (MS/MMR status > Tier 1 > Tier 2 > CNV > Tier 3 >
+                                Tier 4 > wild-type GENE) <br/>2) match type (Variant-level match > Gene-level match) <br/>3) cancer
+                                type match (exact cancer type match > all solid/liquid trial matches) <br/>4) coordinating
+                                center ({{ ENV.resources.institution }} > Other) <br/>5) reverse protocol number (high > low).
+                            </span>
+
+                        </md-tooltip>
+                    </th>
+                    <th md-column md-order-by="genomic_match" ng-class="{'trial-genomic-matches-header': ctr.hasTrialMatches}" ng-if="ctr.hasTrialMatches">Genomic match</th>
+                    <th md-column md-order-by="protocol_no">Protocol #</th>
+                    <th md-column md-order-by="_summary.disease_center">Disease<br/>Center</th>
+                    <th md-column md-order-by="_summary.site">Coordinating<br/>Center</th>
+                    <th md-column md-order-by="_summary.status.value">{{ ENV.resources.institution }} Trial Status</th>
+                </tr>
+            </thead>
+            <tbody md-body ng-show="!ctr.isLoading" ng-repeat="trial in ctr.trials" class="trial"
+                ng-click="ctr.navigateToDetails($event, trial)"
+                analytics-on="click" analytics-event="Open Clinical Trial Details" analytics-category="Clinical Trials" analytics-label="{{trial._source.protocol_no}}">
+                <tr md-row class="trial-genomic-matches-row">
+                    <td md-cell rowspan="2" ng-if="ctr.trialMatches" class="trial-results-trial-rank-cell">
+                        <span>{{ctr.getTrialRankOrder(trial) + 1 || ''}}</span>
+                    </td>
+                    <td md-cell ng-class="{'trial-genomic-matches-cell': ctr.hasTrialMatches}"rowspan="2" ng-if="ctr.hasTrialMatches">
+                        <p class="trial-genomic-match" ng-repeat="ga in ctr.getFilteredMatches(trial) | limitTo: (trial.numMatches || ctr.maxVisibleMatches)">
+                            <md-icon aria-label="Match type info" md-font-library="material-icons">
+                                info
+                            </md-icon>
+                            <md-tooltip md-autohide class="md-content match-level-tooltip" md-direction="top">
+                                <span class="match-level-tooltip-header">Match level information</span>
+                                <br />
+                                <span ng-if="ga.variant_category === 'SIGNATURE'">
+                                    Mutational signature matches are found when the trial requires a specific mutational signature as part of eligibility for part or all of that trial.
+                                    <br />
+                                    <strong>These are strong matches.</strong>
+                                </span>
+                                <span ng-if="ga.match_type == 'gene' && ga.variant_category !== 'SIGNATURE'">
+                                    Gene-level matches are found when the trial specifies all variants in a given gene, or it was not possible to entirely capture the protocol's criteria directly in MatchMiner.
+                                    <br />
+                                    Gene level matches are <strong>less specific </strong>than a variant level match and will likely need to be reviewed by trial staff.
+                                </span>
+                                <span ng-if="ga.match_type == 'variant'">
+                                    Variant-level matches are found when the trial protocol or sponsor provides explicit variants for the trial.
+                                    <br />
+                                    <strong>These are strong matches.</strong>
+                                </span>
+                            </md-tooltip>
+                            {{ ::ga.genomic_alteration | transformNegation }}
+                            <br />
+                            <span class="genomic-match-level" ng-if="ga.variant_category !== 'SIGNATURE'">
+                                <span ng-if="ga.match_type">
+                                    {{ ga.match_type | capitalize }}-Level Match
+                                </span>
+                                <span ng-if="!ga.match_type">
+                                    Non-Genomic Match
+                                </span>
+                            </span>
+                            <br />
+                            <span class="genomic-match-level genomic-match-tier" ng-if="ga.tier">Tier {{ ga.tier }}</span>
+                            <span class="genomic-match-level genomic-match-tier"
+                                  ng-if="!ga.tier && ga.variant_category == 'SIGNATURE'" style="margin-top: -19px; display: block">
+                                N/A Tier
+                            </span>
+                        </p>
+
+
+                        <md-button class="toggle-matches-link" ng-if="ctr.hasMoreMatches(trial)" ng-click="ctr.toggleAllMatches($event, trial)" aria-label="Toggle matches">
+                            <span ng-if="ctr.shouldShowAllMatches(trial)">Show All Matches
+                                <br>
+                                ({{ctr.numberRemainingMatches(trial)}} remaining)</span>
+                            <span ng-if="trial.numMatches == 150">Show Fewer Matches</span>
+                        </md-button>
+
+                    </td>
+                    <td md-cell class="trial-protocol-description">
+                        <p class="trial-description-field">
+                            <span class="trial-short-title">{{ trial._source.short_title }}</span>
+                        </p>
+                        <p class="trial-description-field">
+                            <span class="trial-field-label">Protocol No:</span> {{ trial._source.protocol_no }}
+                        </p>
+                        <p class="trial-investigator trial-description-field">
+                            <span class="trial-field-label" ng-if="trial._source._summary.dfci_investigator.is_overall_pi">DFCI & </span>
+                            <span class="trial-field-label">Overall Principal Investigator:</span>
+                            <span>{{ trial._source.principal_investigator | principalInvestigatorFilter }} </span>
+                        </p>
+                        <p class="trial-investigator trial-description-field" ng-if="trial._source._summary.dfci_investigator.first_name  && !trial._source._summary.dfci_investigator.is_overall_pi">
+                            <span class="trial-field-label">{{ ENV.resources.institution }} Principal Investigator:</span>
+                            <span>{{ trial._source._summary.dfci_investigator.last_name }}, {{ trial._source._summary.dfci_investigator.first_name }}</span>
+                        </p>
+                        <p class="trial-investigator trial-description-field">
+                            <span class="trial-field-label" ng-if="trial.searchContext">Context: </span>
+                        </p>
+                        <p ng-if="trial.highlight" ng-bind-html="ctr.getHighlightContext(trial) " class="trial-summary"></p>
+                    </td>
+                    <td md-cell>
+                        <span>{{ trial._source._summary.disease_center }}</span>
+                    </td>
+                    <td md-cell>
+                        <span ng-repeat="site in trial._source.site_list.site | filter: { coordinating_center : 'Y'}">
+                            {{ site.site_name || '-' }}
+                        </span>
+
+                    </td>
+                    <td md-cell class="trial-status-badge">
+                        <clinical-trial-badge category="status" value="status.value" view="status.value"
+                                              ng-repeat="status in trial._source._summary.status | unique: 'value'">
+                        </clinical-trial-badge>
+                        <br />
+                        <span class="trial-link trial-contact"
+                              ng-click="ctr.emailTrialCoordinator($event, trial._source, trial._source._summary.dfci_investigator.email_address)"
+                              ng-if="ctr.hasTrialMatches && !ENV.EPIC">
+                            <md-icon aria-label="Trial coordinator"
+                                     md-font-library="material-icons">
+                                email
+                            </md-icon>
+                            <md-tooltip md-autohide md-direction="top">
+                                Email {{ ctr.trialCoordinatorContacts[trial._source.protocol_no].staff_role }}
+                            </md-tooltip>
+                        </span>
+                        <span ng-if="ENV.EPIC">
+                            <b>Contact email: </b>
+                            {{ trial._source._summary.dfci_investigator.email_address }}
+                        </span>
+                    </td>
+                    <tr>
+                        <td colspan="3" class="trial-badge-field" ng-style="{'padding-left': ctr.hasTrialMatches ? 0 : '24px'}">
+                            <div class="ct-badge-container">
+
+                                <clinical-trial-badge category="hugo_symbol" value="hgs" view="hgs"
+                                                      ng-repeat="hgs in trial._source._summary.nonsynonymous_genes | filter: '!None' | limitTo: (trial.numTags || 3)"></clinical-trial-badge>
+
+                                <clinical-trial-badge category="hugo_symbol" value="hgs" view="hgs"
+                                                      ng-repeat="hgs in trial._source._summary.nonsynonymous_wt_genes | limitTo: (trial.numTags || 3)"></clinical-trial-badge>
+
+                                <clinical-trial-badge category="mmr_status" value="mmr" view="mmr"
+                                                      ng-repeat="mmr in trial._source._summary.mmr_status | limitTo: (trial.numTags || 3)"></clinical-trial-badge>
+
+                                <clinical-trial-badge category="ms_status" value="ms" view="ms"
+                                                      ng-repeat="ms in trial._source._summary.ms_status | limitTo: (trial.numTags || 3)"></clinical-trial-badge>
+
+                                <clinical-trial-badge category="tumor_type" value="diagnosis" view="diagnosis"
+                                                      ng-repeat="diagnosis in trial._source._summary.tumor_types | trialBadgeFilter | limitTo: (trial.numTags || 3)"></clinical-trial-badge>
+
+                                <clinical-trial-badge category="age" value="trial._source.age" view="trial._source.age"></clinical-trial-badge>
+
+                                <clinical-trial-badge category="disease_status" value="ds" view="ds"
+                                                      ng-repeat="ds in trial._source._summary.disease_status | limitTo: (trial.numTags || 3)"></clinical-trial-badge>
+
+                                <clinical-trial-badge category="drug" value="drug.drug_name" view="drug.drug_name"
+                                                      ng-repeat="drug in trial._source.drug_list.drug | limitTo: (trial.numTags || 3)"></clinical-trial-badge>
+
+                                <clinical-trial-badge category="phase" value="trial._source.phase" view="trial._source.phase"
+                                                      prefix="Phase"></clinical-trial-badge>
+
+                                <span flex></span>
+                                <md-button class="toggle-tags-link" ng-if="ctr.hasMoreTags(trial)" ng-click="ctr.toggleAllTags($event, trial)" aria-label="Toggle tags">
+                                    <md-tooltip md-autohide>
+                                        <span ng-if="trial.numTags == 3 || !trial.numTags">Show all tags</span>
+                                        <span ng-if="trial.numTags == 100">Show fewer tags</span>
+                                    </md-tooltip>
+                                    <span ng-if="trial.numTags == 3 || !trial.numTags">Show All Tags</span>
+                                    <span ng-if="trial.numTags == 100">Show Fewer Tags</span>
+                                </md-button>
+                            </div>
+                        </td>
+                        <td></td>
+                    </tr>
+                </tr>
+            </tbody>
+            <tbody>
+	            <tr md-row ng-cloak ng-show="ctr.isLoading">
+		            <td md-cell class="trials-loading" colspan="6">
+			            <div layout="column" flex layout-align="center center">
+				            <div ng-include="'scripts/components/partials/loader.html'"></div>
+				            <h3>Loading...</h3>
+			            </div>
+		            </td>
+	            </tr>
+                <tr md-row ng-cloak ng-if="!ctr.trials.length && !ctr.isLoading">
+                    <td md-cell colspan="6">
+                        <md-toolbar class="md-default table-alert" layout="row" flex layout-align="center center">
+                            <md-icon aria-label="No clinical trials available" md-font-library="material-icons">
+                                info_outline
+                            </md-icon>
+                            <span ng-if="!ctr.searchTerm && !ctr.hasTrialMatches">Currently there are no registered clinical trials available.</span>
+                            <span ng-if="!ctr.trials.length && ctr.hasTrialMatches">No Trial Matches.</span>
+                            <span ng-if="ctr.searchTerm">No clinical trials found for '{{ctr.searchTerm}}'.</span>
+                        </md-toolbar>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <md-table-pagination
+        ng-show="!ctr.loading"
+        md-limit="ctr.metadata.page_size"
+        md-page="ctr.metadata.current_page"
+        md-total="{{ctr.metadata.total_elements}}"
+        md-on-paginate="ctr.onPaginationChange"
+        md-limit-options="[10, 15, 25, 50, 100]"
+        md-page-select>
+    </md-table-pagination>
+</div>
+
+

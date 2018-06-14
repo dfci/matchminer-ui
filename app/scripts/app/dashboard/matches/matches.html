@@ -1,0 +1,405 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<div class="dashboard-content matches-wrapper">
+	<div class="block-header">
+		<h2>
+			<md-icon aria-label="Genomic Filter Matches"
+			         md-font-library="material-icons">
+				play_for_work
+			</md-icon>
+			Patient Matches
+		</h2>
+	</div>
+
+	<div class="card">
+		<div class="card-header">
+			<ul class="actions">
+				<li>
+                    <span class="match-status no-select"
+                          ng-click="dbm._loadMatches(0, false)"
+                          ng-class="{
+                            'active-match-status' : dbm.matchStatus == 0
+                            }">
+                        <md-icon aria-label="New matches"
+                                 md-font-library="material-icons">
+	                        new_releases
+                        </md-icon>
+                        <i class="match-counts">{{ dbm.matchCounts['new'] || 0 }}</i>
+                        <span class="match-label">New</span>
+                        <md-tooltip md-autohide md-autohide md-direction="top">
+	                        Patient matches sequenced after the filter was created
+                        </md-tooltip>
+                    </span>
+				</li>
+				<li>
+					<span class="match-status no-select"
+						  ng-click="dbm._loadMatches(1, false)"
+						  ng-class="{
+							'active-match-status' : dbm.matchStatus == 1
+							}">
+						<md-icon aria-label="Pending matches"
+								 md-font-library="material-icons">
+							folder_special
+						</md-icon>
+						<i class="match-counts">{{ dbm.matchCounts['pending'] || 0 }}</i>
+						<span class="match-label">Pending</span>
+						<md-tooltip md-autohide md-direction="top">
+							Patient matches sequenced before the filter was created
+						</md-tooltip>
+					</span>
+				</li>
+				<li>
+					<span class="match-status no-select"
+						  ng-click="dbm._loadMatches(2, false)"
+						  ng-class="{
+							'active-match-status' : dbm.matchStatus == 2
+							}">
+						<md-icon aria-label="Flagged matches"
+								 md-font-library="material-icons">
+							flag
+						</md-icon>
+						<i class="match-counts">{{ dbm.matchCounts['flagged'] || 0 }}</i>
+						<span class="match-label">Flagged</span>
+						<md-tooltip md-autohide md-direction="top">
+							Potential matches, but further follow-up and review is needed
+						</md-tooltip>
+					</span>
+				</li>
+				<li>
+					<span class="match-status no-select"
+					      ng-click="dbm._loadMatches(5, false)"
+					      ng-class="{
+							'active-match-status' : dbm.matchStatus == 5
+							}">
+						<md-icon aria-label="Contacted matches"
+						         md-font-library="material-icons">
+							phone
+						</md-icon>
+						<i class="match-counts">{{ dbm.matchCounts['contacted'] || 0 }}</i>
+						<span class="match-label">Contacted</span>
+						<md-tooltip md-autohide md-direction="top">
+							Patient matches that have been contacted
+						</md-tooltip>
+					</span>
+				</li>
+				<li>
+					<span class="match-status no-select"
+					      ng-click="dbm._loadMatches(6, false)"
+					      ng-class="{
+							'active-match-status' : dbm.matchStatus == 6
+							}">
+						<md-icon aria-label="Eligible matches"
+						         md-font-library="material-icons">
+							done
+						</md-icon>
+						<i class="match-counts">{{ dbm.matchCounts['eligible'] || 0 }}</i>
+						<span class="match-label">Eligible</span>
+						<md-tooltip md-autohide md-direction="top">
+							Patient matches that might be eligible
+						</md-tooltip>
+					</span>
+				</li>
+				<li>
+					<span class="match-status no-select"
+					      ng-click="dbm._loadMatches(7, false)"
+					      ng-class="{
+							'active-match-status' : dbm.matchStatus == 7
+							}">
+						<md-icon aria-label="Deferred matches"
+						         md-font-library="material-icons">
+							call_missed_outgoing
+						</md-icon>
+						<i class="match-counts">{{ dbm.matchCounts['deferred'] || 0 }}</i>
+						<span class="match-label">Deferred</span>
+						<md-tooltip md-autohide md-direction="top">
+							Patient matches that have been deferred
+						</md-tooltip>
+					</span>
+				</li>
+				<li>
+					<span class="match-status no-select"
+						  ng-click="dbm._loadMatches(3, false)"
+						  ng-class="{
+							'active-match-status' : dbm.matchStatus == 3
+							}">
+						<md-icon aria-label="Not eligible"
+								 md-font-library="material-icons">
+							thumb_down
+						</md-icon>
+						<i class="match-counts">{{ dbm.matchCounts['not_eligible'] || 0 }}</i>
+						<span class="match-label">Not eligible</span>
+						<md-tooltip md-autohide md-direction="top">
+							Patients you have reviewed, but are not eligible for any number of reasons
+						</md-tooltip>
+					</span>
+				</li>
+				<li>
+					<span class="match-status no-select"
+						  ng-click="dbm._loadMatches(4, false)"
+						  ng-class="{
+							'active-match-status' : dbm.matchStatus == 4
+							}">
+						<md-icon aria-label="Enrolled matches"
+								 md-font-library="material-icons">
+							done_all
+						</md-icon>
+						<i class="match-counts">{{ dbm.matchCounts['enrolled'] || 0 }}</i>
+						<span class="match-label">Enrolled</span>
+						<md-tooltip md-autohide md-direction="top">
+							Patients you have enrolled in a trial
+						</md-tooltip>
+					</span>
+				</li>
+			</ul>
+			<div layout="row" flex="45" layout-fill class="search-container">
+				<md-content flex="100" layout="row">
+					<md-icon class="match-search-icon" md-font-library="material-icons">search</md-icon>
+					<md-chips
+							ng-model="dbm.matchSearchTerms"
+							placeholder="Search"
+							secondary-placeholder="Add another term"
+							md-on-add="dbm.onSearchAdd($chip)"
+							md-on-remove="dbm.onSearchRemove($chip)">
+					</md-chips>
+				</md-content>
+			</div>
+		</div>
+		<div class="card-body">
+			<md-table-toolbar flex layout="row" layout-align="start end"
+			                  class="status-update-toolbar">
+				<md-icon class="match-status-icon"
+						md-font-library="material-icons">
+					update
+				</md-icon>
+				<md-select
+						id="matchStatusUpdate"
+						class="match-status-select"
+						ng-model="dbm.matchStatusUpdate"
+						placeholder="{{ dbm.selectedMatches.length > 0 ? 'Select new status' : 'Select matches' }}"
+						ng-disabled="!dbm.selectedMatches.length"
+						ng-change="dbm.updateStatus(dbm.selectedMatches, dbm.matchStatusUpdate)"
+						aria-label="selection option">
+					<md-option ng-value="{{sid}}"
+					           ng-if="changeState"
+					           ng-repeat="(sid, changeState) in dbm.matchStatusChange[dbm.matchStatus].action">
+						{{changeState}}
+					</md-option>
+				</md-select>
+
+				<span flex></span>
+
+				<span ng-if="dbm.matchSearchTerms.length > 0">
+					<i>Found {{ dbm.totalElements }} {{ dbm.matchStatusesState[match.MATCH_STATUS] }} matches</i>
+				</span>
+
+				<span flex></span>
+
+				<span class="match-number-selected">
+				  <i>{{ dbm.selectedMatches.length || 0 }} out of {{ dbm.totalElements || 0 }} selected</i>
+				</span>
+			</md-table-toolbar>
+
+			<md-table-container>
+				<table md-table md-row-select multiple="true" ng-model="dbm.selectedMatches">
+					<thead md-head md-order="dbm.tableOpts.sort" md-on-reorder="dbm.onOrderChange">
+					<tr md-row>
+						<th md-column md-order-by="PATIENT_MRN">MRN</th>
+						<th md-column md-order-by="FILTER_NAME">Filter</th>
+						<th md-column md-order-by="ONCOTREE_PRIMARY_DIAGNOSIS_NAME" class="match-oncotree-diagnosis">Cancer diagnosis</th>
+						<th md-column md-order-by="TRUE_HUGO_SYMBOL">Genomic alteration(s)</th>
+                        <th md-column md-order-by="TIER" style="max-width: 50px !important;">Tier</th>
+						<th md-column md-order-by="REPORT_DATE">Report date</th>
+						<th md-column md-order-by="DATE_CONTACTED" ng-if="dbm.matchStatus == 5">Date contacted</th>
+						<th md-column>Action</th>
+					</tr>
+					</thead>
+					<tbody md-body>
+					<tr class="filter-options">
+						<td md-cell></td>
+						<td md-cell></td>
+						<td md-cell>
+							<md-select placeholder="All filters"
+							           md-selected-html="dbm.getSelectedFilterText()"
+							           ng-disabled="!dbm.filters.length"
+							           ng-model="dbm.tableFilter.filter"
+							           ng-model-options="{debounce: 500}"
+							           ng-change="dbm.closeFilterSelect()"
+							           multiple>
+								<md-optgroup label="Filters">
+									<md-option ng-value="f._id"
+									           ng-repeat="f in dbm.filters | orderBy: 'label'">
+										{{ f.label }}
+									</md-option>
+								</md-optgroup>
+							</md-select>
+						</td>
+						<td md-cell></td>
+						<td md-cell></td>
+                        <td md-cell></td>
+						<td md-cell>
+							<md-select placeholder="Date reported"
+							           md-selected-html="dbm.getSelectedDateText()"
+							           ng-disabled="!dbm.filters.length"
+							           ng-model="dbm.tableFilter.date"
+							           ng-change="dbm.closeDateSelect()">
+								<md-option ng-value="'all'">All time</md-option>
+								<md-option ng-value="'1'">Within past 1 month</md-option>
+								<md-option ng-value="'3'">Within past 3 months</md-option>
+								<md-option ng-value="'6'">Within past 6 months</md-option>
+								<md-option ng-value="'12'">Within past 12 months</md-option>
+							</md-select>
+						</td>
+						<td md-cell ng-if="dbm.matchStatus == 5"></td>
+						<td md-cell></td>
+					</tr>
+					<tr md-row
+					    ng-repeat="match in dbm.matches track by $index"
+					    md-select="match"
+					    md-auto-select
+					    ng-if="!dbm.isLoading"
+					    class="match-row"
+					    matchstatus="{{match.status}}">
+						<td md-cell>
+							<a ng-click="dbm.gotoPatientDetails($event, match.CLINICAL_ID._id)"
+					           analytics-on="click"
+                               analytics-event="Navigate to patient details"
+                               analytics-category="Patient Match"
+                               analytics-label="{{match.CLINICAL_ID._id}}">
+							<span class="match-patient-record">
+								<md-icon aria-label="Show patient record"
+										 md-font-library="material-icons">
+									assignment_ind
+								</md-icon>
+							   {{ match.PATIENT_MRN }}
+							</span>
+							</a>
+						</td>
+						<td md-cell>
+							<genomic-filter-badge filter="match.FILTER_ID"
+							                      filter-link="#/filters/{{match.FILTER_ID._id}}"></genomic-filter-badge>
+						</td>
+						<td md-cell><span class="td-small">{{ match.CLINICAL_ID.ONCOTREE_PRIMARY_DIAGNOSIS_NAME || '-' }}</span>
+						</td>
+						<td md-cell
+                            class="genomic-alteration-column"
+                            ng-click="dbm.gotoPatientDetails($event, match.CLINICAL_ID._id)">
+							<div layout="column" ng-if="match.GENOMIC_ALTERATION">
+								<span class="td-lead">
+									<b ng-if="match.VARIANTS[0].VARIANT_CATEGORY !== 'SIGNATURE'">Gene: </b>
+                                    <b ng-if="match.VARIANTS[0].VARIANT_CATEGORY == 'SIGNATURE'">Mutational Signature: </b>
+                                    <span ng-if="match.MULTIPLE_GENOMIC_ALTERATIONS">Multiple Genomic Matches<br/></span>
+                                    <span ng-if="!match.MULTIPLE_GENOMIC_ALTERATIONS">{{ match.GENOMIC_ALTERATION }}<br/></span>
+									<span ng-if="match.VARIANT_CATEGORY !== '' && !match.MULTIPLE_GENOMIC_ALTERATIONS"><b>Category: </b>{{ match.VARIANT_CATEGORY }}</span>
+								</span>
+                                <span class="td-lead custom-link-color" ng-if="match.MULTIPLE_GENOMIC_ALTERATIONS">
+                                    <b><u>View details</u></b>
+                                </span>
+							</div>
+							<div layout="column" ng-if="!match.GENOMIC_ALTERATION">
+								<span class="td-lead" ng-if="match.VARIANTS[0].VARIANT_CATEGORY == 'MUTATION'">
+									<b>Gene: </b> {{ match.TRUE_HUGO_SYMBOL || '-' }} - {{ match.VARIANTS[0].TRUE_PROTEIN_CHANGE || '-' }}
+								  <span class="small"><i>({{ (match.VARIANTS[0].TRUE_VARIANT_CLASSIFICATION |
+									  formatUnderscoreString) || '-' }})</i></span>
+								</span>
+								<span class="td-lead" ng-if="match.VARIANTS[0].VARIANT_CATEGORY == 'CNV'">
+									<b>Gene: </b> {{ match.TRUE_HUGO_SYMBOL || '-' }} - <span class="small"><i>{{
+									match.VARIANTS[0].CNV_CALL ||
+									'-' }}</i></span>
+								</span>
+								<span class="td-lead" ng-if="match.VARIANTS[0].VARIANT_CATEGORY == 'SV'">
+									<b>Gene: </b> {{ match.TRUE_HUGO_SYMBOL || '-' }}
+								</span>
+								<span class="td-lead" ng-if="match.ONCOTREE_BIOPSY_SITE_TYPE">
+									<b>Biopsy site: </b> {{ match.ONCOTREE_BIOPSY_SITE_TYPE }}
+								</span>
+								<span class="td-small" layout="row" layout-align="space-between center">
+								  <b>Category:&nbsp;</b> {{ match.VARIANTS[0].VARIANT_CATEGORY }}
+								  <span flex> </span>
+								  <span class="small md-red" ng-if="match.VARIANTS[0].VARIANT_CATEGORY == 'SV'">
+									<i>Manual Review Required</i>
+								  </span>
+								</span>
+                                <span class="td-lead" ng-if="match.VARIANTS[0].VARIANT_CATEGORY == 'SIGNATURE'">
+									<b>Mutational Signature: </b> {{ match.MUTATIONAL_SIGNATURE || '-' }}
+								</span>
+							</div>
+						</td>
+                        <td md-cell>
+                            {{ dbm.filterMatchTier(match) }}
+                        </td>
+						<td md-cell>
+							{{ ( match.REPORT_DATE | parsedate | date: "EEE, d MMM y") || 'Not available' }}
+						</td>
+						<td md-cell ng-if="dbm.matchStatus == 5">
+							{{ ( match.DATE_CONTACTED | parsedate | date: "EEE, d MMM y") || 'Not available' }}
+						</td>
+
+						<td md-cell>
+							<span class="match-action">
+								<md-icon md-font-library="material-icons" ng-click="dbm.emailProvider($event, match)"
+								         analytics-on="click" analytics-event="Emailed provider" analytics-category="Patient Match">
+									mail
+								</md-icon>
+								<md-tooltip md-autohide md-direction="top">
+									{{ dbm.TEMPLATES.email_provider_tooltip }}
+								</md-tooltip>
+							</span>
+							<span class="match-action" ng-if="dbm.isContactable(match)">
+								<md-icon md-font-library="material-icons"
+								         ng-click="dbm.updateStatus([match], 5)"
+								         analytics-on="click" analytics-event="Marked as contacted" analytics-category="Patient Match">
+									forward
+								</md-icon>
+								<md-tooltip md-autohide md-direction="top">
+									Move patient to 'Contacted'
+								</md-tooltip>
+							</span>
+						</td>
+					</tr>
+					<tr md-row
+					    ng-cloak ng-if="!dbm.matches.length && !dbm.isLoading">
+						<td md-cell colspan="7">
+							<md-toolbar class="md-default md-hue-1 table-alert" layout="row" flex
+							            layout-align="center center">
+								<md-icon aria-label="No matches available"
+								         md-font-library="material-icons">
+									info_outline
+								</md-icon>
+								No patient matches available based on current active genomic filters and
+								selected match status.
+							</md-toolbar>
+						</td>
+					</tr>
+					<tr md-row
+					    ng-cloak ng-if="dbm.isLoading">
+						<td md-cell colspan="6">
+							<div layout="column" flex layout-align="center center">
+								<div ng-include="'scripts/components/partials/loader.html'"> </div>
+
+								<h3>Loading matches...</h3>
+							</div>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</md-table-container>
+			<md-table-pagination md-limit-options="[10, 15, 25, 50, 100]" md-limit="dbm.tableOpts.max_results"
+			                     md-page="dbm.tableOpts.page" md-total="{{dbm.totalElements}}"
+			                     md-on-paginate="dbm.onPaginationChange"></md-table-pagination>
+		</div>
+	</div>
+
+</div>
+
+

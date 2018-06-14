@@ -1,0 +1,90 @@
+<div id="mutationalBurden">
+	<div class="block-header" ng-if="::!isEmbedded">
+		<h2>
+			<md-icon
+				aria-label="Mutational Burden"
+				md-font-library="material-icons">
+				games
+			</md-icon>
+			Mutational Burden
+		</h2>
+
+		<ul class="actions">
+			<li>
+				<ng-include src="tooltip({id: 'mutational-burden'})"></ng-include>
+			</li>
+		</ul>
+	</div>
+
+	<div layout="row" layout-align="space-between start" class="mutational-burden-cards-row">
+
+
+		<div flex="30" flex-sm="30" flex-xs="50" class="mutational-burden-card">
+			<div class="mini-charts-item bgmd-orange mb-container">
+				<div class="clearfix">
+					<div  class="mb-emphasis">
+						<span ng-if="clinical.TUMOR_MUTATIONAL_BURDEN_PER_MEGABASE === 0" class="mb-percentage">
+							N/A
+						</span>
+						<span ng-if="clinical.TUMOR_MUTATIONAL_BURDEN_PER_MEGABASE !== 0" class="mutational-burden-card-spacer"></span>
+						<span ng-if="clinical.TUMOR_MUTATIONAL_BURDEN_PER_MEGABASE !== 0" class="mb-percentage">
+							{{ ::(clinical.TUMOR_MUTATIONAL_BURDEN_PER_MEGABASE | number:3) || 'N/A'}}
+						</span>
+						<span>Tumor Mutational Burden/Megabase</span>
+						<span ng-if="clinical.TUMOR_MUTATIONAL_BURDEN_PER_MEGABASE !== 0" class="mutational-burden-card-spacer"></span>
+						<span ng-if="clinical.TUMOR_MUTATIONAL_BURDEN_PER_MEGABASE === 0" style="margin-top: 10px">
+							(Inadequate for Calculation)
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div flex="33" flex-sm="33" flex-xs="50" class="mutational-burden-card">
+			<div class="mini-charts-item bgmd-green mb-container">
+				<patient-mutational-burden-cancer-type-percentile-box class="clearfix">
+					<div ng-if="clinical.CANCER_TYPE_PERCENTILE === 0" class="mb-emphasis">
+						<span>
+							The number of sequenced tumors of this particular type,
+							"{{ ::clinical.ONCOTREE_PRIMARY_DIAGNOSIS_META || 'N/A' }}",
+							is too small for informative comparison
+							<span ng-if="clinical.METAMAIN_COUNT"> (n={{clinical.METAMAIN_COUNT}})</span>.
+						</span>
+					</div>
+					<div ng-if="clinical.CANCER_TYPE_PERCENTILE !== 0 && clinical.CANCER_TYPE_PERCENTILE !== null" class="mb-emphasis">
+						<span>This is higher than</span>
+						<span class="mb-percentage">{{ ::(clinical.CANCER_TYPE_PERCENTILE * 100 | number:0) + '%' || 'N/A'}}</span>
+						<span>
+							of all {{ ::clinical.ONCOTREE_PRIMARY_DIAGNOSIS_META || 'N/A' }}
+							cases sequenced by this version of OncoPanel
+							<span ng-if="clinical.METAMAIN_COUNT"> (n={{clinical.METAMAIN_COUNT}})</span>.
+						</span>
+					</div>
+					<span ng-if="clinical.CANCER_TYPE_PERCENTILE === null" class="mb-percentage mb-emphasis">
+						N/A
+					</span>
+				</patient-mutational-burden-cancer-type-percentile-box>
+			</div>
+		</div>
+
+		<div flex="30" flex-sm="30" flex-xs="100" class="mutational-burden-card">
+			<div class="mini-charts-item bgmd-pink mb-container">
+				<div class="clearfix">
+                    <div ng-if="clinical.ALL_PROFILE_PERCENTILE === null" class="mb-percentage mb-emphasis">
+                        N/A
+                    </div>
+                    <div ng-if="clinical.ALL_PROFILE_PERCENTILE !== null" class="mb-emphasis">
+                        <span>This is higher than</span>
+                        <span class="mb-percentage">
+                            {{ ::(clinical.ALL_PROFILE_PERCENTILE * 100 | number:0) + '%' || 'N/A' }}
+                        </span>
+                        <span>
+	                        of all Profile cases sequenced by this version of OncoPanel
+	                        <span ng-if="clinical.CASE_COUNT"> (n={{clinical.CASE_COUNT}})</span>.
+                        </span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

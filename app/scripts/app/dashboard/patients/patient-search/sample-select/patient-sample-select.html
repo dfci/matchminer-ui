@@ -1,0 +1,62 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<md-dialog class="patient-sample-select-container" aria-label="Patient sample select" ng-cloak>
+	<form>
+		<md-toolbar flex-order="0">
+			<div class="md-toolbar-tools">
+				<h2>Samples for patient</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="ctrl.parent.cancel()">
+					<md-icon md-font-library="material-icons" aria-label="Close dialog"></md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content flex-order="1">
+			<div class="md-dialog-content">
+				<div layout="column" layout-align="start start">
+					<div layout="column">
+						<h4>Patient details</h4>
+						<dl class="dl-horizontal">
+							<dt>Patient Name</dt>
+							<!--<dd>{{ ctrl.patient.FIRST_NAME}} {{ ctrl.patient.LAST_NAME }}</dd>-->
+							<dd>Redacted for Privacy</dd>
+							<dt>Date of Birth</dt>
+							<dd>{{ (ctrl.patient.BIRTH_DATE | parsedate | date: "d MMM y") || 'Not available' }}
+							</dd>
+							<dt>Gender</dt>
+							<dd>{{ (ctrl.patient.GENDER | capitalize) || 'Not available' }}</dd>
+							<dt>MRN</dt>
+							<dd>{{ ctrl.patient.MRN || 'Not available' }}</dd>
+						</dl>
+					</div>
+					<h4>Available samples</h4>
+					<div layout="column" layout-align="start start" class="patient-samples">
+						<div layout="row" ng-repeat="opt in ctrl.parent.sampleOptions | orderBy: 'SAMPLE_ID' track by $index" flex="100" class="sample-option-container">
+							<md-button class="md-raised md-default sample-option-button"
+							           ng-click="ctrl.parent.goToRecord(opt._id)">
+								<md-icon aria-label="Sample {{ $index + 1 }}"
+								         md-font-library="material-icons">
+									{{ ctrl.parent.sampleIcons[$index+1] }}
+								</md-icon>
+								{{ opt.SAMPLE_ID }}
+								<span class="sample-date" flex>({{ (opt.REPORT_DATE | parsedate | date: "d MMM y") || 'Not available'  }})</span>
+							</md-button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</md-dialog-content>
+
+	</form>
+</md-dialog>

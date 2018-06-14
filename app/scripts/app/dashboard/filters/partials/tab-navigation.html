@@ -1,0 +1,83 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<!-- Tab navigation and options -->
+<section layout="row"
+		 layout-align="center center"
+		 layout-wrap
+         class="tab-validation">
+	<div>
+		<p  ng-if="(!fe.filter.genomic_filter.TRUE_HUGO_SYMBOL || fe.filter.genomic_filter.TRUE_HUGO_SYMBOL.length == 0 && !fe.isMutationalSignatureSelected)"
+			class="message error">
+			You must at least select a gene or mutational signature.
+		</p>
+		<p  ng-if="fe.selectedCancerTypeCategory == '_SPECIFIC_' && (!fe.selectedCancerType || fe.selectedCancerType == '')"
+			class="message error
+			">
+			Please select a specific cancer type in the 'Clinical' tab.
+		</p>
+		<p ng-if="!fe.filter.label
+			   || fe.filter.label.length == 0
+			   || !fe.filter.protocol_id
+			   || fe.filter.protocol_id.length == 0"
+		   class="message error">
+			Filter label and / or {{ ENV.resources.institution }} protocol ID(s) are missing.
+		</p>
+		<p ng-if="(fe.data.ageRange.prefix == '^lte' || fe.data.ageRange.prefix == '^gte')
+					&& (!fe.data.ageRange.date || fe.data.ageRange.date == '')"
+		   class="message info">
+			Please select a cut off age in the 'Clinical' tab.
+		</p>
+		<p  ng-if="(!fe.filter.genomic_filter.VARIANT_CATEGORY || fe.filter.genomic_filter.VARIANT_CATEGORY.length == 0)"
+			class="message info">
+			You must select at least one Genomic Alteration Type.
+		</p>
+		<p  ng-if="fe.filter.genomic_filter.TRUE_HUGO_SYMBOL.length > 1"
+			class="message info">
+			Multiple genes selected. Protein change and transcript exon criteria disabled.
+		</p>
+	</div>
+</section>
+<section layout="row" layout-sm="column" layout-wrap layout-align="center end" layout-wrap>
+	<div>
+		<md-button
+				class="md-raised"
+				ng-click="fe.previousTab()"
+				ng-disabled="fe.selectedTab == 0">
+			<md-icon md-font-library="material-icons">navigate_before</md-icon>
+			Previous
+		</md-button>
+	</div>
+	<div ng-cloak
+		 ng-show="!fe.filter._id">
+		<md-button
+			class="md-raised md-primary"
+			ng-click="fe.saveFilter(fe.filter)"
+			ng-disabled="!fe.isValidFilter(fe.filter) || fe.isProcessingBusy">Save</md-button>
+	</div>
+	<div ng-cloak
+		 ng-show="fe.filter._id">
+		<md-button
+			class="md-raised md-primary"
+			ng-click="fe.updateGenomicFilter(fe.filter)"
+			ng-disabled="fe.filterForm.$invalid || !fe.isValidFilter(fe.filter) || fe.isProcessingBusy">Update</md-button>
+	</div>
+	<div>
+		<md-button class="md-raised"
+			   ng-click="fe.nextTab()"
+			   ng-disabled="fe.selectedTab == 2">
+			Next
+			<md-icon md-font-library="material-icons">navigate_next</md-icon>
+		</md-button>
+	</div>
+</section>

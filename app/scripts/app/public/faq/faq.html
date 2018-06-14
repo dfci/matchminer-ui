@@ -1,0 +1,47 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<div ui-view="nav" scroll-position="nbc.scroll"></div>
+
+<section class="section-primary section-banner" layout="column">
+</section>
+
+<section ncy-breadcrumb>
+</section>
+
+<section id="faq">
+	<section class="section section-faq section-muted"
+	         layout-align="space-around center"
+	         layout="column">
+		<div layout="column" class="content-container">
+			<section layout="column" class="feature-row">
+				<h1>Frequently Asked Questions</h1>
+				<section layout="column" layout-gt-sm="row" flex-offset="10" class="feature-column"
+				         ng-repeat="faq in fc.faqList">
+					<div flex>
+						<div class="feature">
+							<md-icon class="feature-icon md-accent" md-font-library="material-icons">
+								{{ faq.icon }}
+							</md-icon>
+						</div>
+						<h3>
+							{{ faq.question }}
+						</h3>
+						<p ng-bind-html="answer" ng-repeat="answer in faq.answer"></p>
+					</div>
+				</section>
+			</section>
+		</div>
+	</section>
+</section>
+

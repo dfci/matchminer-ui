@@ -1,0 +1,93 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<div ui-view="nav" scroll-position="nbc.scroll"></div>
+
+<section class="clinician-response-container" layout="column" layout-align="center center" layout-fill>
+
+	<section layout="row" layout-fill layout-align="center start" ng-if="!cr.error && cr.isLoading">
+		<div layout="column" flex layout-align="center center">
+			<div layout="column" flex layout-align="center center">
+				<div ng-include="'scripts/components/partials/loader.html'"></div>
+
+				<h3>Retrieving response...</h3>
+			</div>
+		</div>
+	</section>
+
+	<div class="card md-whiteframe-6dp" layout-align="center center" layout="column" ng-if="!cr.error && !cr.isLoading && cr.response" >
+
+		<span class="section-mm-logo"></span>
+
+		<div class="response-text-container" ng-if="!cr.response || cr.error">
+			<h1>We're sorry!</h1>
+			<p>
+				We did not receive the correct response.<br/>
+				Please contact the development team at {{ ENV.resources.email }}
+			</p>
+		</div>
+
+		<h1 ng-if="cr.response">Thank you!</h1>
+
+		<div class="response-text-container" ng-if="cr.response.status == 'yes'">
+			<p>
+				Your response has been recorded and submitted to MatchMiner and the clinical trial study team.
+			</p>
+			<p>
+				A member of the study team will follow-up with additional screening questions.
+			</p>
+
+			<p><b>{{ ENV.resources.institution }} MRN:</b>  XXXXXX (Redacted for Security Purposes)</p>
+			<p><b>Clinical Trial:</b> {{ response.clinical_trial_id }}</p>
+			<p><b>Response Recorded:</b> {{ response.response_recorded}} </p>
+		</div>
+
+		<div class="response-text-container" ng-if="cr.response.status == 'no'">
+			<p>
+				Your response has been recorded and submitted to MatchMiner and the clinical trial study team.
+			</p>
+
+			<p><b>{{ ENV.resources.institution }} MRN:</b>  XXXXXX (Redacted for Security Purposes)</p>
+			<p><b>Clinical Trial:</b> {{ response.clinical_trial_id }}</p>
+			<p><b>Response Recorded:</b> {{ response.response_recorded}}</p>
+		</div>
+
+		<div class="response-text-container" ng-if="cr.response.status == 'deferred'">
+			<p>
+				Your response has been recorded and submitted to MatchMiner and the clinical trial study team.
+			</p>
+			<p>
+				If your patient’s status changes in the future, please contact <a href="mailto:{{ cr.response.deferred_contact.email }}">{{ cr.response.deferred_contact.name }}</a> for future trial enrollment.
+			</p>
+
+			<p><b>{{ ENV.resources.institution }} MRN:</b>  XXXXXX (Redacted for Security Purposes)</p>
+			<p><b>Clinical Trial:</b> {{cr.response.clinical_trial_id }}</p>
+			<p><b>Response Recorded:</b> {{cr.response.response_recorded}}</p>
+		</div>
+
+		<div class="response-text-container" ng-if="cr.response.status == 'deceased'">
+			<p>
+				Your response has been recorded and submitted to MatchMiner and the clinical trial study team.
+			</p>
+
+			<p><b>{{ ENV.resources.institution }} MRN:</b>  XXXXXX (Redacted for Security Purposes)</p>
+			<p><b>Clinical Trial:</b> {{ cr.response.clinical_trial_id }}</p>
+			<p><b>Response Recorded:</b>  Patient is deceased.</p>
+
+			<p class="response-text-note md-red"><b>Note:</b>
+				You have indicated that this patient is deceased. <br />To update this information within EPIC, you must send an email to: <a href="mailto:{{ ENV.resources.emailSecondary }}">{{ ENV.resources.emailSecondary }}</a>.
+				Please include the patient name, MRN, date of birth, and date of death in your email.
+			</p>
+		</div>
+	</div>
+</section>

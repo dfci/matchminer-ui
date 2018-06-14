@@ -1,0 +1,64 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<div id="clinical-trials-filters" layout-fill>
+    <h3>Filters</h3>
+
+    <!-- filter tree -->
+    <div ng-repeat="filter in ctf.filters" ng-init="filter.numberOfFacets = 5;">
+        <h3 class="filter-name-header" ng-click="ctf.toggleOpenFilterList(filter)">
+            <md-icon aria-label="Expand less"
+                     ng-if="ctf.isFilterListOpen(filter)"
+                     class="expando"
+                     md-font-library="material-icons">
+                expand_more
+            </md-icon>
+            <md-icon aria-label="Expand more"
+                     ng-if="!ctf.isFilterListOpen(filter)"
+                     class="expando"
+                     md-font-library="material-icons">
+                keyboard_arrow_right
+            </md-icon>
+            {{ filter.name }}
+        </h3>
+        <ul class="filter-options" ng-show="ctf.isFilterListOpen(filter)" ng-class="{'collapsed': !ctf.isFilterListOpen(filter) }">
+            <li ng-repeat="option in filter.options
+                            | orderBy: 'name'
+                            | filter: {name: '!None'}
+                            | limitTo: ctf.facetOptions[filter.name] || 5"
+                            ng-if="option.name">
+                <md-checkbox ng-checked="ctf.isActive(option.filterAggregator || filter.aggregator, option.key)"
+                             ng-disabled="ctf.isLoading" analytics-on="click" analytics-event="Filter Clinical Trial"
+                             analytics-category="Clinical Trials" analytics-label="{{filter.name}} - {{option.name}}"
+                             ng-click="ctf.toggleFilter(option.filterName || filter.name, option.filterAggregator || filter.aggregator, option.key, option.name)">
+                    {{ option.name }}
+                    <span></span>
+                    <span class="count">
+                        ({{ option.count }})
+                    </span>
+                </md-checkbox>
+            </li>
+            <!-- Show all facets for filter -->
+            <li>
+                <a ng-show="filter.options.length > 5" ng-click="ctf.showAllFacetsForFilter(filter.name)">
+                    {{ ctf.facetOptions[filter.name === 'Mutational Signature' ? 'Ms Status': filter.name] > 5 ? '[-] Show Less' : '[+] Show All ' + '(' + (filter.options.length) + ')' }}
+                </a>
+            </li>
+            <li ng-if="!filter.options.length || ctf.allValuesNone(filter.options)" class="no-options">
+                No available filters
+            </li>
+        </ul>
+    </div>
+</div>
+
+

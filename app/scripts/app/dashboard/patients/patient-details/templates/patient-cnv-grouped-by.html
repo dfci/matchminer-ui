@@ -1,0 +1,72 @@
+<div layout="column">
+	<div class="card cnv-card stacked-card">
+		<div class="card-header">
+			<h2>
+				<span>Copy Number Variants</span>
+				<span>
+					<ng-include ng-if="category == 'actionableCnvMuts'"
+					            src="tooltip({id: 'actionable-cnv-grouped-by-header'})">
+					</ng-include>
+					<ng-include ng-if="category == 'additionalCnvMuts'"
+					            src="tooltip({id: 'additional-cnv-grouped-by-header'})">
+					</ng-include>
+				</span>
+			</h2>
+		</div>
+
+		<div ng-if="!(cnvMut | numKeys)" class="info-missing-container" layout="row">
+			<md-icon aria-label="Notice"
+			         md-font-library="material-icons">
+				warning_outline
+			</md-icon>
+
+			<div>
+				<h3 ng-if="category == 'additionalCnvMuts'">No additional Copy Number Variants found.</h3>
+				<h3 ng-if="category == 'actionableCnvMuts'">No actionable Copy Number Variants found.</h3>
+			</div>
+		</div>
+
+		<div class="card-body" ng-if="cnvMut | numKeys">
+			<table datatable="ng" dt-options="dtOpts" class="table table-inner table-vmiddle" width="100%">
+				<thead>
+					<tr>
+						<th ng-if="!isOncologist">Filter</th>
+						<th>Cytoband/Size</th>
+						<th>Type of Alteration (degree of change)</th>
+						<th>Gene(s)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="cnvs in cnvMut | orderObjectBy: showFiltersFnc">
+						<td class="mutation-filter-cell"  ng-if="!isOncologist" ng-class="{'flex-cell': showFiltersFnc({collection: cnvs})}">
+                            <span ng-if="!showFiltersFnc({collection: cnvs})">
+                                <strong>- </strong>
+                            </span>
+							<span ng-repeat="cnv in cnvs">
+								<genomic-filter-badge filter="filter" ng-repeat="filter in ::cnv.FILTER">
+								</genomic-filter-badge>
+							</span>
+						</td>
+						<td>{{ cnvs[0].CYTOBAND }}</td>
+						<td ng-switch on="::cnvs[0].CNV_CALL">
+							<span ng-switch-when="Gain">Gain</span>
+							<span ng-switch-when="Heterozygous deletion">Loss</span>
+							<span ng-switch-when="Homozygous deletion">Two copy deletion</span>
+							<span ng-switch-when="High level amplification">Amplification</span>
+							<span ng-switch-default></span>
+						</td>
+						<td>
+							<span ng-repeat="cnv in cnvs | orderBy:'TRUE_HUGO_SYMBOL' track by $index">
+								<span ng-if="cnv.CNV_CALL != 'High level amplification'">{{::cnv.TRUE_HUGO_SYMBOL}}<span ng-if="!$last">, </span></span>
+								<span ng-if="cnv.CNV_CALL == 'High level amplification'">
+									{{::cnv.TRUE_HUGO_SYMBOL}}
+									<span>(estimated {{cnv.COPY_COUNT}} copies)<span ng-if="!$last">, </span></span>
+								</span>
+							</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

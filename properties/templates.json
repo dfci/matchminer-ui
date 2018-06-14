@@ -1,0 +1,16 @@
+{
+  "TEMPLATES": {
+    "patient_view" : {
+      "deceased_warning": "According to EPIC, this patient is deceased.  You can view genomic details for the patient, but all clinical trial matches have been de-activated.",
+      "deceased_multi_sample_warning": "According to EPIC, this patient is deceased. Additionally, this patient has OncoPanel results available from multiple samples. You can view genomic details for the patient, but all clinical trial matches have been de-activated.",
+      "multiple_samples_info": "This patient has OncoPanel results available from multiple samples. Any computed clinical trial matches are applicable only to the selected sample."
+    },
+    "matches_view" : {
+      "email_provider_tooltip" : "Email provider"
+    },
+    "clinical_trial" : {
+      "contact_coordinator_subject": "Inquiry regarding clinical trial",
+      "contact_coordinator_body": ""
+    }
+  }
+}

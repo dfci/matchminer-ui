@@ -1,0 +1,76 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<section layout="column" id="clinical-trials" class="clinical-trials-wrapper">
+    <!-- Navbar -->
+    <div ui-view="navbar"></div>
+
+	<div class="cr cr-top cr-left cr-sticky cr-red">BETA</div>
+
+    <section class="section-primary section-hero" ng-class="{'not-authenticated': !ct.isAuthenticated}" layout="column">
+    </section>
+
+	<div ncy-breadcrumb></div>
+
+	<div ui-view="clinical-trials-search"
+         class="section clinical-trials-search-wrapper"></div>
+
+    <section class="clinical-trials-results-pane"
+            layout="column">
+
+	    <section layout="row" class="search-info-container">
+		    <!-- Search results info -->
+		    <section layout="row" flex="noshrink" class="search-info-num-results">
+				<div>
+                    <span class="clinical-trial-results-info" ng-show="!ct.searchTerm && ct.metadata.total_elements > 0"
+						  class="search-result-text">Found a total of {{ ct.metadata.total_elements }} clinical trials.</span>
+					<span class="clinical-trial-results-info" ng-show="(ct.searchTerm != '' && ct.searchTerm) && ct.metadata.total_elements > 0"
+						  class="search-result-text">Searched clinical trials for <strong>'{{ ct.searchTerm }}'</strong> and found <strong>{{ ct.metadata.total_elements }} result{{ ct.metadata.total_elements > 1 ? 's' : ''}}</strong> taking {{ ct.metadata.time_taken }} ms.</span>
+					<span class="clinical-trial-results-info" ng-show="(ct.searchTerm != '' && ct.searchTerm) && ct.metadata.total_elements == 0"
+						  class="search-result-text">No clinical trials found for '{{ ct.searchTerm }}'.</span>
+				</div>
+			</section>
+
+			<!-- Filter chips-->
+		    <section flex="70" class="applied-filter-chips-container">
+			    <md-chips ng-model="ct.readableFilters" name="readableFilters" ng-attr-readonly="true" class="applied-filter-chips"
+			              md-on-remove="ct.removeFilter($chip)" md-removable="true">
+				    <md-chip-template ng-class="{'invalid': !$chip.valid && !ct.isLoading }">
+					    <strong>{{$chip.optionName}}</strong>
+					    <em>({{ ct.getChipName($chip.filterName) }})</em>
+					    <md-tooltip md-autohide class="md-content" md-direction="top" ng-if="!$chip.valid">
+						    Invalid option for {{ ct.getChipName($chip.filterName)}}
+					    </md-tooltip>
+				    </md-chip-template>
+			    </md-chips>
+		    </section>
+
+		    <!-- Reset button -->
+		    <section flex="10" ng-if="ct.readableFilters.length > 0 || ct.searchTerm.length"
+		             layout="row" layout-align="end center" class="reset-button-container">
+			    <md-button class="md-primary md-raised" ng-click="ct.resetSearchFilters()">
+				    Reset
+			    </md-button>
+		    </section>
+	    </section>
+
+	    <section layout="row">
+		    <!-- Filter options -->
+		    <div ui-view="clinical-trials-filters" flex="noshrink"></div>
+
+		    <!-- Search results -->
+		    <div ui-view="clinical-trials-results" flex="80" layout-fill></div>
+	    </section>
+
+    </section>
+</section>

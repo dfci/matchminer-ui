@@ -1,0 +1,81 @@
+<div id="qualityControl">
+	<div class="block-header" ng-if="::!isEmbedded">
+		<h2>
+			<md-icon aria-label="Quality control"
+			         md-font-library="material-icons">
+				assessment
+			</md-icon>
+			Quality Control
+		</h2>
+
+		<ul class="actions">
+			<li>
+				<ng-include src="tooltip({id: 'quality-control-header'})"></ng-include>
+			</li>
+		</ul>
+	</div>
+
+	<div layout="row" layout-align="space-between center">
+		<div flex="30" flex-sm="30" flex-xs="50">
+			<div class="mini-charts-item bgmd-cyan">
+				<div class="clearfix">
+					<div class="chart">
+						<md-icon aria-label="Sequencing Reads"
+						         md-font-library="material-icons">
+							clear_all
+						</md-icon>
+					</div>
+					<div class="count">
+						<small>Aligned Reads</small>
+						<h2>{{ ::(clinical.TOTAL_ALIGNED_READS | number) || 'Not available' }}</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div flex="33" flex-sm="33" flex-xs="50">
+			<div class="mini-charts-item bgmd-amber">
+				<div class="clearfix">
+					<div class="chart">
+						<md-icon aria-label="Tumor percentage"
+						         md-font-library="material-icons">
+							line_weight
+						</md-icon>
+					</div>
+					<div class="count">
+						<small>Seq. Coverage</small>
+						<h2>{{ ::clinical.MEAN_SAMPLE_COVERAGE + 'X' || 'Not available' }}</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div flex="30" flex-sm="30" flex-xs="100">
+			<div class="mini-charts-item bgmd-red">
+				<div class="clearfix">
+					<div class="chart">
+						<md-icon aria-label="Tumor percentage"
+						         md-font-library="material-icons">
+							blur_on
+						</md-icon>
+					</div>
+					<div class="count">
+						<small>Tumor Purity</small>
+						<h2>{{ ::(clinical.TUMOR_PURITY_PERCENT*100 | number:0) + '%' || 'Not available'}}</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-header">
+			<strong>Quality Control Summary</strong>: There are <strong>{{ ::clinical.TOTAL_ALIGNED_READS
+			| number }}</strong> unique, aligned, high-quality reads for this specimen with a mean of <strong>{{
+			clinical.MEAN_SAMPLE_COVERAGE}}</strong> reads across all targeted exons and <strong>{{
+			clinical.PCT_TARGET_BASE*100 | number:0 }}%</strong> of all exons having more than 30 reads.
+		</div>
+	</div>
+
+</div>
+

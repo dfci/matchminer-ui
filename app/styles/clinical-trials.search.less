@@ -1,0 +1,108 @@
+/**
+ * Clinical trial
+ */
+.clinical-trials-search-wrapper {
+  width: 100%;
+}
+
+@media screen and (min-width: 40em) {
+  .clinical-trials-search-container {
+    min-width: 450px !important;
+    width: 70% !important;
+    max-width: 70% !important;
+  }
+}
+
+@media screen and (min-width: 20em) {
+  .clinical-trials-search-container {
+    min-width: 90%;
+    width: 90%;
+    max-width: 90%;
+  }
+}
+
+.clinical-trials-search-wrapper {
+  padding-top: 2em;
+  padding-bottom: 2em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.098);
+  box-shadow: rgba(255, 255, 255, 0.70) 0 1px 0 0;
+}
+
+.clinical-trials-search-container {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  background-color: #fff;
+  md-progress-linear .md-container.md-mode-indeterminate .md-bar1 {
+    display:  none;
+  }
+  md-progress-linear .md-container.md-mode-indeterminate .md-bar1 {
+    display:  none;
+  }
+}
+
+.clinical-trials-search-container md-toolbar {
+  z-index: 1;
+}
+
+.clinical-trials-search-container md-toolbar h2 {
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.clinical-trials-search-wrapper .clinical-trials-button-offset {
+  margin-left: 38px;
+  margin-top: 0px;
+  margin-bottom: 8px;
+}
+
+.search_suggestion {
+  font-weight: 600!important;
+  color: rgba(0, 0, 0, .98);
+}
+
+.hugo_symbol_suggest {
+  color: #C2571A!important;
+}
+
+.cancer_type_suggest, .tumor_type_suggest {
+  color: #107896!important;
+}
+
+.variant_suggest, .disease_center_suggest {
+  color: #57ae49 !important;
+}
+
+.text-button {
+  padding: 10px 0;
+  font-size: 13px;
+  text-align: center;
+  color: #333;
+  margin: 6px auto;
+  max-width: 100%;
+  cursor: pointer;
+}
+
+#short-clinical-trials-search-container {
+  .clinical-trials-search-row {
+    margin-top: -16px;
+  }
+}
+
+#long-clinical-trials-search-container {
+  .clinical-trials-search-row {
+    margin-top: -10px;
+  }
+}
+
+.clinical-trials-search-advanced-search.collapsed {
+  height: 0;
+}
+
+#clinical-trials-search-buttons {
+  .md-button {margin: 6px auto;}
+}
+
+/* Trial Search Autocomplete */
+.md-virtual-repeat-container.md-autocomplete-suggestions-container {
+  height: 240px;
+  max-height: 240px !important;
+}

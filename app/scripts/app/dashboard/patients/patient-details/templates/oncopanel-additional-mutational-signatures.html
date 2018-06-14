@@ -1,0 +1,16 @@
+<div class="card stacked-card">
+	<div class="card-header">
+		<h2>
+			<span>Mutational Signatures </span>
+			<span>
+				<ng-include src="tooltip({id: 'additional-mutational-signatures'})"></ng-include>
+			</span>
+		</h2>
+
+		<div class="ms-label" ng-repeat="mut in filter(variants)">
+			<strong>
+				{{::mut}}
+			</strong>
+		</div>
+	</div>
+</div>
