@@ -125,11 +125,12 @@
                 </md-input-container>
             </md-content>
             <div class="eap-signup-tag">We'll contact you with additional information about the program.</div>
+            <div ng-if="eac.error" ng-hide="eac.emailPosted" class="eap-signup-tag">Please enter a valid email.</div>
             <div layout="row" layout-align="center center">
                 <button class="md-primary md-raised md-button eap-sign-up"
                         type="button"
                         ng-click="eac.handleSubmit()"
-                        ng-hide="eac.emailPosted || eac.error">
+                        ng-hide="eac.emailPosted">
                     <md-progress-linear
                             ng-if="eac.isLoading"
                             md-mode="indeterminate">
@@ -137,7 +138,6 @@
                     <span class="ng-scope"><a class="white-text">Sign Up</a></span>
                 </button>
                 <div ng-hide="!eac.emailPosted" class="eap-signup-tag">Thanks. We'll be in touch soon</div>
-                <div ng-if="eac.error" class="eap-signup-tag">An error occurred. Please try again.</div>
             </div>
         </md-card>
     </div>
