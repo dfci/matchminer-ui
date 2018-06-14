@@ -26,6 +26,31 @@ angular.module('matchminerUiApp')
 			function ($log, ENV, $document, EmailsService) {
 				var eac = this;
 
+				eac.isLoading = false;
+				eac.emailPosted = false;
+				eac.error = false;
+
+				eac.handleSubmit = function() {
+					eac.isLoading = true;
+					setTimeout(function() {
+                        var email = document.getElementById('contact-email').value;
+                        EmailsService.postEmail(email)
+                            .then(function() {
+                                eac.isLoading = false;
+                                eac.emailPosted = true;
+                            })
+							.catch(function() {
+                                eac.isLoading = false;
+								eac.error = true;
+                            })
+					}, 1500);
+				};
+
+                eac.scrollToSection = function (section) {
+                    var scrollSection = angular.element(document.getElementById(section));
+                    return $document.scrollToElementAnimated(scrollSection, 20, 500);
+                };
+
 				eac.list = [
 					{
 						icon: 'label',
