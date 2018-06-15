@@ -87,36 +87,6 @@
 
 	<div ng-if="pdc.selectedTab == 0 && pdc.numTrials">
 		<div ui-view="clinical-trials-filters" flex="noshrink"></div>
-
-        <div class="md-whiteframe-2dp bottom-left-corner bug-report-bottom"
-             id="bug-report-card"
-             style="display:none">
-            <md-icon style="float:right; cursor: pointer;"
-                     ng-click="pdc.toggleBugCard()"
-                     aria-label="Report bug"
-                     md-font-library="material-icons">
-                clear
-            </md-icon>
-            <h1>Report a Bug</h1>
-            <span>
-                To report a bug, please email <br>
-                <b>{{ ENV.resources.email }}</b>
-            </span>
-        </div>
-
-        <div ng-if="ENV.EPIC || ENV.cBio" class="bottom-left-corner">
-            <md-button class="md-default md-raised"
-                       ng-click="pdc.toggleBugCard()"
-                       analytics-on="click"
-                       analytics-event="Report bug from sidebar"
-                       analytics-category="Sidebar"
-                       analytics-label="Authenticated">
-                <md-icon aria-label="Report bug" md-font-library="material-icons">
-                    bug_report
-                </md-icon>
-                Report bug
-            </md-button>
-        </div>
 	</div>
 
 	<div ng-if="pdc.selectedTab == 1" class="sidebar-oncopanel-options">
