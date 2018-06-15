@@ -50,7 +50,7 @@
 						<br />
 					</div>
 
-                    <div ng-if="ENV.EPIC">
+                    <div ng-if="ENV.EPIC && !ctd.fromPatientDetails">
                         <md-button class="md-raised md-primary" ng-click="ctd.gotoClinicalTrials()">
                             <md-icon aria-label="Add to watch list"
                                      md-font-library="material-icons">
