@@ -11,8 +11,6 @@
   ~
   -->
 
-<div class="cr cr-top cr-left cr-sticky cr-red">BETA</div>
-
 <section layout="row">
 	<div class="patient-sidebar-wrapper"
 	     ng-if="!pdc.error && !pdc.isLoading"
@@ -70,8 +68,11 @@
 		</section>
 
 		<div ng-cloak ng-if="pdc.patient && !pdc.error && !pdc.isLoading" class="patient-main-wrapper">
-			<md-content>
-				<md-tabs md-dynamic-height md-border-bottom md-no-ink md-selected="pdc.selectedTab"
+			<md-content ng-hide="ENV.cBio">
+				<md-tabs md-dynamic-height
+                         md-border-bottom
+                         md-no-ink
+                         md-selected="pdc.selectedTab"
 				         class="inverse-menubar"
 				         ng-class="{
 							stuck: pdc.sidebarScroll > 193,
@@ -87,13 +88,17 @@
 						</md-content>
 					</md-tab>
 					<md-tab label="Oncopanel"
-					        analytics-on="click" analytics-event="Navigate oncopanel" analytics-category="Patients">
+					        analytics-on="click"
+                            analytics-event="Navigate oncopanel"
+                            analytics-category="Patients">
 						<md-content class="md-padding">
 							<ng-include src="'scripts/app/dashboard/patients/patient-details/oncopanel/oncopanel.html'"></ng-include>
 						</md-content>
 					</md-tab>
 				</md-tabs>
 			</md-content>
+
+            <div ng-hide="!ENV.cBio" ui-view="clinical-trials-results" style="padding-top: 20px"></div>
 		</div>
 
 	</section>

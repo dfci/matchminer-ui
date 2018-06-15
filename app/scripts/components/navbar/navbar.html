@@ -30,8 +30,8 @@
 			       analytics-on="click" analytics-event="Navigate to home" analytics-category="Navbar" analytics-label="Unauthorized">
 				    MatchMiner
 			    </a>
-		    </li>
-		    <li>
+			</li>
+		    <li ng-if="ENV.resources.institution === 'DFCI'">
 			    <a ui-sref-active="active"
 			       analytics-on="click" analytics-event="Navigate to Early Adopter" analytics-category="Navbar" analytics-label="Unauthenticated"
 			       ui-sref="early-adopter">Early Adopter</a>
@@ -81,7 +81,7 @@
 		           analytics-on="click" analytics-event="Navigate to home" analytics-category="Navbar" analytics-label="Authenticated"
 			       ui-sref="home">Home</a>
 	        </li>
-	        <li>
+	        <li ng-if="ENV.resources.institution === 'DFCI'">
 		        <a ui-sref-active="active"
 		           analytics-on="click" analytics-event="Navigate to Early Adopter" analytics-category="Navbar" analytics-label="Authenticated"
 		           ui-sref="early-adopter">Early Adopter</a>

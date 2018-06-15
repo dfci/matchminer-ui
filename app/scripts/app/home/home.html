@@ -21,14 +21,11 @@
     </section>
 
     <div layout="row" class="mm-welcome-container" flex>
-        <div class="mm-logo-container" flex="0" flex-gt-sm="35" layout="row">
+        <div class="mm-logo-container" flex="1" flex-gt-sm="35" layout="row">
             <span class="section-mm-logo"></span>
         </div>
         <div class="mm-header-container">
             <section class="section section-primary section-hero" layout="row">
-                <section flex="5" flex-gt-sm="5" flex-order="1">
-                    <!-- Stats here -->
-                </section>
                 <section flex="70"
                          flex-gt-sm="90"
                          layout="column"
@@ -56,7 +53,7 @@
         </div>
     </div>
 
-    <section>
+    <section ng-if="ENV.resources.institution === 'DFCI'">
         <md-toolbar class="nav-alert attention-alert" flex layout="column" layout-align="center center">
             <span class="attention-details">
                 Interested to receive tailored clinical trial match notifications for your patients?

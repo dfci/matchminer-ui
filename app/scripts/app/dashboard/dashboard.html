@@ -13,7 +13,7 @@
 
 <section layout="column" class="dashboard-wrapper">
     <!-- Navbar -->
-    <div ng-hide="ENV.EPIC">
+    <div ng-hide="ENV.EPIC || ENV.cBio">
         <div  ui-view="navbar"></div>
         <section class="section-primary section-banner" layout="column">
         </section>

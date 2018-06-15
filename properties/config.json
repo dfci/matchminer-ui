@@ -37,7 +37,8 @@
         "email": "info@yourInstitute.com",
         "emailSecondary": "info2@yourInstitute.com"
       },
-      "EPIC": false
+      "EPIC": false,
+      "cBio": false
     }
   },
   "staging" : {
@@ -73,7 +74,8 @@
         "email": "info@yourInstitute.com",
         "emailSecondary": "info2@yourInstitute.com"
       },
-      "EPIC": false
+      "EPIC": false,
+      "cBio": false
     }
   },
   "production" : {
@@ -109,7 +111,8 @@
         "email": "info@yourInstitute.com",
         "emailSecondary": "info2@yourInstitute.com"
       },
-      "EPIC": false
+      "EPIC": false,
+      "cBio": false
     }
   }
 }

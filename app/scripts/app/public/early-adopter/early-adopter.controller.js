@@ -22,9 +22,34 @@
  */
 angular.module('matchminerUiApp')
 	.controller('EarlyAdopterCtrl',
-		['$log', 'ENV',
-			function ($log, ENV) {
+		['$log', 'ENV', '$document', 'EmailsService',
+			function ($log, ENV, $document, EmailsService) {
 				var eac = this;
+
+				eac.isLoading = false;
+				eac.emailPosted = false;
+				eac.error = false;
+
+				eac.handleSubmit = function() {
+					eac.isLoading = true;
+					setTimeout(function() {
+                        var email = document.getElementById('contact-email').value;
+                        EmailsService.postEmail(email)
+                            .then(function() {
+                                eac.isLoading = false;
+                                eac.emailPosted = true;
+                            })
+							.catch(function() {
+                                eac.isLoading = false;
+								eac.error = true;
+                            })
+					}, 1500);
+				};
+
+                eac.scrollToSection = function (section) {
+                    var scrollSection = angular.element(document.getElementById(section));
+                    return $document.scrollToElementAnimated(scrollSection, 20, 500);
+                };
 
 				eac.list = [
 					{
@@ -45,6 +70,11 @@ angular.module('matchminerUiApp')
 							"Throughout this process we plan to iterate and adapt our process in order to maximize the impact of the early adopter program. Overall impact will be measured by successful utilization and integration of the system by the early adopters and the number of patient-trial enrollments."
 						]
 					},
+                    {
+                        icon: 'report',
+                        question: 'Sample Notification Report',
+                        answer: []
+                    },
 					{
 						icon: 'alarm',
 						question: 'What is the expected time commitment?',
@@ -59,7 +89,8 @@ angular.module('matchminerUiApp')
 							"Anyone who is motivated to identify and enroll patients to precision medicine clinical trials at " + ENV.resources.institution + " is welcome to join."
 						]
 					}
-					
+
+
 				];
 
 				return eac;

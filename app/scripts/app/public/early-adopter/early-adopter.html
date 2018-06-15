@@ -11,41 +11,141 @@
   ~
   -->
 
-<div ui-view="nav" scroll-position="nbc.scroll"></div>
+<div ui-view="nav"></div>
 
-<section class="section-primary section-banner" layout="column">
-</section>
+<section id="eap" class="eap-header-container">
+    <section layout="row" layout-align="space-around center" layout-sm="column" layout-xs="column">
+        <div layout="column" class="eap-header">
+            <h1>Early Adopter Program</h1>
+            <p>
+                Receive concise, tailored, clinical trial match reports for your patients in your inbox.
+            </p>
+        </div>
+    </section>
 
-<section ncy-breadcrumb>
-</section>
+    <section layout="row" layout-sm="column" layout-xs="column" layout-align="center" class="eap-section-body">
+        <div class="eap-card">
+            <div class="card-header bgmd-bluegray">
+                <h2>
+                    <md-icon aria-label="Cancer type"
+                             md-font-library="material-icons">
+                        person
+                    </md-icon>
+                    Weekly Reports<br/>
+                    <small>Individualized, Detailed and Up-To-Date</small>
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="ps-block">
+                    <div class="ps-body">
+                        Clincians will receive individualized reports for their profiled patients with new results and
+                        upcoming appointments.
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<section id="faq">
-	<section class="section section-faq section-muted"
-	         layout-align="space-around center"
-	         layout="column">
-		<div layout="column" class="content-container">
-			<section layout="column" class="feature-row">
-				<h1>Early Adopter Program</h1>
-				<img class="early-adopter-img" src="http://cbioportal.dfci.harvard.edu/brown_grant-01.png"/>
-				<section layout="column" layout-gt-sm="row" flex-offset="10" class="feature-column"
-				         ng-repeat="q in eac.list">
-					<div flex>
-						<div class="feature">
-							<md-icon class="feature-icon md-accent" md-font-library="material-icons">
-								{{ q.icon }}
-							</md-icon>
-						</div>
-						<h3>
-							{{ q.question }}
-						</h3>
-						<p ng-bind-html="answer" ng-repeat="answer in q.answer"></p>
-					</div>
-				</section>
-				<div class="early-adopter-sign-up">
-					<a href="mailto:{{ ENV.resources.email }}?subject=MatchMiner Early Adopter Program - Sign Me Up&amp;body=Dear MatchMiner Team,%0D%0A%0D%0AI'm interested to participate in the Early Adopter Program, please contact me to discuss further.%0D%0A%0D%0AThanks,">Sign me up!</a>
-				</div>
+        <div class="eap-card">
+            <div class="card-header bgmd-teal" id="trial-matching">
+                <h2>
+                    <md-icon aria-label="Cancer type"
+                             md-font-library="material-icons">
+                        blur_on
+                    </md-icon>
+                    Enhanced Matching<br/>
+                    <small>Only the most relevant trials</small>
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="ps-block">
+                    <div class="ps-body">
+                        MatchMiner algorithmic matching will be combined with expert review and slot availability to
+                        present only the most relevant clinical trial options.
+                    </div>
+                </div>
+            </div>
+        </div>
 
-			</section>
-		</div>
-	</section>
+        <div class="eap-card">
+            <div class="card-header bgmd-amber">
+                <h2>
+                    <md-icon aria-label="Cancer type"
+                             md-font-library="material-icons">
+                        donut_large
+                    </md-icon>
+                    Active Development <br/>
+                    <small>Feedback and quick iteration</small>
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="ps-block">
+                    <div class="ps-body">
+                        Participants in the Early Adopter Program will be asked to provide feedback on a regular basis
+                        to drive further development of the MatchMiner platform.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <section class="section section-faq section-muted"
+                 layout-align="space-around center"
+                 layout="column">
+            <div layout="column" class="content-container">
+                <section layout="column" class="feature-row">
+
+                    <section layout="column" layout-gt-sm="row" flex-offset="10" class="feature-column"
+                             ng-repeat="q in eac.list">
+                        <div flex>
+                            <div class="feature">
+                                <md-icon class="feature-icon md-accent" md-font-library="material-icons">
+                                    {{ q.icon }}
+                                </md-icon>
+                            </div>
+                            <h3>
+                                {{ q.question }}
+                            </h3>
+                            <p ng-bind-html="answer" ng-repeat="answer in q.answer"></p>
+                            <img ng-if="!q.answer.length" class="early-adopter-img"
+                                 src="../../../../images/sample_report.png"/>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </section>
+    </section>
+
+    <div class="eap-header-signup-container eap-bottom-signup" layout="row" layout-align="center center">
+        <md-card class="eap-header-signup">
+            <md-content class="eap-header-signup-body" layout-gt-sm="column">
+                <md-input-container>
+                    <label>Email</label>
+                    <input id="contact-email" ng-model="user.email" maxlength="120" type="email">
+                </md-input-container>
+            </md-content>
+            <div class="eap-signup-tag">We'll contact you with additional information about the program.</div>
+            <div ng-if="eac.error" ng-hide="eac.emailPosted" class="eap-signup-tag">Please enter a valid email.</div>
+            <div layout="row" layout-align="center center">
+                <button class="md-primary md-raised md-button eap-sign-up"
+                        type="button"
+                        ng-click="eac.handleSubmit()"
+                        ng-hide="eac.emailPosted">
+                    <md-progress-linear
+                            ng-if="eac.isLoading"
+                            md-mode="indeterminate">
+                    </md-progress-linear>
+                    <span class="ng-scope"><a class="white-text">Sign Up</a></span>
+                </button>
+                <div ng-hide="!eac.emailPosted" class="eap-signup-tag">Thanks. We'll be in touch soon</div>
+            </div>
+        </md-card>
+    </div>
+
+    <section class="eap-footer" layout="row" layout-align="start start">
+        <div layout="column">
+            <h3>MatchMiner</h3>
+            <p>Dana-Farber Cancer Institute - 2016-2018</p>
+        </div>
+    </section>
 </section>

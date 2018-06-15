@@ -209,9 +209,13 @@ angular.module('matchminerUiApp')
 				$state.go('patient', {'patient_id': $stateParams.patient_id, 'keep_search_filters': true});
 			};
 
+            /**
+			 * When in EPIC restricted view, show button and allow user to navigate back to trial view
+             */
+			ctd.gotoClinicalTrials = function () {
+                $state.go('clinicaltrials.overview')
+			};
+
 			// Initialize on load
 			ctd.loadClinicalTrial(protocol_no);
-			
 		}]);
-
-

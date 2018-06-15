@@ -13,14 +13,12 @@
 
 <section layout="column" id="clinical-trials" class="clinical-trials-wrapper">
     <!-- Navbar -->
-    <div ui-view="navbar"></div>
+    <div ng-hide="ENV.EPIC" ui-view="navbar"></div>
 
-	<div class="cr cr-top cr-left cr-sticky cr-red">BETA</div>
-
-    <section class="section-primary section-hero" ng-class="{'not-authenticated': !ct.isAuthenticated}" layout="column">
+    <section ng-hide="ENV.EPIC" class="section-primary section-hero" ng-class="{'not-authenticated': !ct.isAuthenticated}" layout="column">
     </section>
 
-	<div ncy-breadcrumb></div>
+	<div ng-hide="ENV.EPIC" ncy-breadcrumb></div>
 
 	<div ui-view="clinical-trials-search"
          class="section clinical-trials-search-wrapper"></div>

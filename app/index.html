@@ -67,6 +67,7 @@
 <!-- endinject -->
 <!-- endbuild -->
 
-    <div ng-include="'scripts/components/partials/piwik.tracker.html'" ng-if="ENV.name == 'production' || ENV.name == 'staging'"></div>
+
+    <div ng-include="'scripts/components/partials/piwik.tracker.html'" ng-if="ENV.resources.institution === 'DFCI' && (ENV.name == 'production' || ENV.name == 'staging')"></div>
 </body>
 </html>
