@@ -11,9 +11,9 @@
   ~
   -->
 
-<section layout="column" class="dashboard-wrapper">
+<section layout="column" class="dashboard-wrapper" ng-hide="ENV.EPIC">
     <!-- Navbar -->
-    <div ng-hide="ENV.EPIC || ENV.cBio">
+    <div ng-hide="ENV.cBio">
         <div  ui-view="navbar"></div>
         <section class="section-primary section-banner" layout="column">
         </section>
@@ -22,5 +22,11 @@
     </div>
 	<!-- User dashboard -->
 	<div ui-view="content" class="dashboard" layout="column"></div>
-
 </section>
+
+<!-- Epic error message -->
+<div ng-if="ENV.EPIC" layout="row" layout-align="center center" style="margin-top: 20%">
+    <div>
+        <h2>No patient with that MRN can be found in the MatchMiner database. <br />For more help please email info@matchminer.dfci.harvard.edu</h2>
+    </div>
+</div>

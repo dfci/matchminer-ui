@@ -45,13 +45,13 @@ angular.module('matchminerUiApp')
 							config.headers['Authorization'] = 'Basic ' + btoa(CookieService.getRequestToken() + ':');
 						}
 
-                        //If url contains EPIC parameter, use restricted view
-                        if($location.$$search.epic) {
+                        // If url contains EPIC parameter, use restricted view
+                        if ($location.$$search.epic) {
                             ENV.EPIC = true;
                         }
 
-                        //If url contains cBioPortal parameter, use restricted view
-                        if($location.$$search.cBio) {
+                        // If url contains cBioPortal parameter, use restricted view
+                        if ($location.$$search.cBio) {
                             ENV.cBio = true;
                         }
 					}
