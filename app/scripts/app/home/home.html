@@ -12,7 +12,7 @@
   -->
 
 <section id="main">
-    <div ui-view="nav" scroll-position="nbc.scroll"></div>
+    <div ui-view="nav" scroll-position="nbc.scroll" ng-hide="ENV.EPIC"></div>
 
     <section class="main-primary section-hero" ng-class="{'not-authenticated': !hc.isAuthenticated}" layout="column" id="matchminer" ng-hide="ENV.EPIC">
     </section>
