@@ -14,10 +14,10 @@
 <section id="main">
     <div ui-view="nav" scroll-position="nbc.scroll"></div>
 
-    <section class="main-primary section-hero" ng-class="{'not-authenticated': !hc.isAuthenticated}" layout="column" id="matchminer">
+    <section class="main-primary section-hero" ng-class="{'not-authenticated': !hc.isAuthenticated}" layout="column" id="matchminer" ng-hide="ENV.EPIC">
     </section>
 
-    <section ncy-breadcrumb>
+    <section ncy-breadcrumb ng-hide="ENV.EPIC">
     </section>
 
     <div layout="row" class="mm-welcome-container" flex>

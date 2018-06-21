@@ -21,8 +21,8 @@
  * Controller of the dashboard
  */
 angular.module('matchminerUiApp')
-	.controller('DashboardCtrl', ['$state', 'StatusService', 'FiltersREST', 'UtilitiesService', '$q', '$log', 'Principal', 'UserAccount', '$location',
-		function ($state, StatusService, FiltersREST, UtilitiesService, $q, $log, Principal, UserAccount, $location) {
+	.controller('DashboardCtrl', ['$state', 'StatusService', 'FiltersREST', 'UtilitiesService', '$q', '$log', 'Principal', 'UserAccount', 'CookieService',
+		function ($state, StatusService, FiltersREST, UtilitiesService, $q, $log, Principal, UserAccount, CookieService) {
 			var db = this;
 
 			db.account = UserAccount;
@@ -39,10 +39,10 @@ angular.module('matchminerUiApp')
 					"$in": [0, 1]
 				}
 			};
-			db.epicUnauthorized = false;
+			db.epicAuthorized = true;
 
-			if ($location.$$search.epicUnauthorized) {
-				db.epicUnauthorized = true
+			if (CookieService.getIsEpicAuthorized()) {
+				db.epicAuthorized = false
 			}
 
 			/**
