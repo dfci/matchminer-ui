@@ -46,7 +46,7 @@ angular.module('matchminerUiApp')
 						}
 
                         // If url contains EPIC parameter, use restricted view
-                        if ($location.$$search.epic || $location.$$search.epicUnathorized) {
+                        if ($location.$$search.epic) {
                             ENV.EPIC = true;
                         }
 

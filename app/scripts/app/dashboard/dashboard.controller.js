@@ -39,11 +39,6 @@ angular.module('matchminerUiApp')
 					"$in": [0, 1]
 				}
 			};
-			db.epicUnauthorized = false;
-
-			if ($location.$$search.epicUnauthorized) {
-                db.epicUnauthorized = true
-			}
 
 			/**
 			 * TODO:: Load in resolve

@@ -11,10 +11,10 @@
   ~
   -->
 
-<section layout="column" class="dashboard-wrapper" ng-hide="ENV.EPIC">
+<section layout="column" class="dashboard-wrapper">
     <!-- Navbar -->
-    <div ng-hide="ENV.cBio">
-        <div  ui-view="navbar"></div>
+    <div ng-hide="ENV.cBio || ENV.EPIC">
+        <div ui-view="navbar"></div>
         <section class="section-primary section-banner" layout="column">
         </section>
 
@@ -23,11 +23,3 @@
 	<!-- User dashboard -->
 	<div ui-view="content" class="dashboard" layout="column"></div>
 </section>
-
-<!-- Epic error message -->
-<div ng-if="ENV.EPIC" layout="row" layout-align="center center" style="margin-top: 20%">
-    <div>
-        <h2 ng-hide="db.epicUnauthorized">No patient with that MRN can be found in the MatchMiner database. <br />For more help please email info@matchminer.dfci.harvard.edu</h2>
-        <h2 ng-hide="!db.epicUnauthorized">You are not authorized to view this patient. <br />For more help please email info@matchminer.dfci.harvard.edu</h2>
-    </div>
-</div>
