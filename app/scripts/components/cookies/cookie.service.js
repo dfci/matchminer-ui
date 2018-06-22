@@ -18,14 +18,6 @@ angular.module('matchminerUiApp')
 		['$cookies', '$log', function ($cookies, $log) {
 			var _userDetails = null;
 
-            this.getIsEpic = function () {
-                return $cookies.get('epic');
-            };
-
-            this.getIsEpicAuthorized = function () {
-                return $cookies.get('epic_authorized');
-            };
-
 			this.hasRequestToken = function () {
 				return $cookies.get('token') != null;
 			};

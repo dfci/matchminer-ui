@@ -45,8 +45,8 @@ angular.module('matchminerUiApp')
 							config.headers['Authorization'] = 'Basic ' + btoa(CookieService.getRequestToken() + ':');
 						}
 
-                        // If EPIC parameter in cookie, use restricted view
-                        if (CookieService.getIsEpic()) {
+                        // If url contains EPIC parameter, use restricted view
+                        if ($location.$$search.epic || $location.$$search.epicUnathorized) {
                             ENV.EPIC = true;
                         }
 
