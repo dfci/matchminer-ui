@@ -77,6 +77,7 @@ angular
                 // When a user is redirected back to MM after being prompted to login, bring them to the original page they were trying to access
                 if (localStorage.getItem('afterAuthRedirectURL') !== null) {
                     var redirectURL = localStorage.getItem('afterAuthRedirectURL');
+                    $log.info("Setting redirect local storage");
                     setTimeout(function () {
                         localStorage.removeItem('afterAuthRedirectURL')
                     }, 2000);
@@ -177,7 +178,10 @@ angular
 			httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*api.*/], true);
 
 			// Default route
-			$urlRouterProvider.otherwise('/');
+			$urlRouterProvider.otherwise(function ($injector, $location) {
+				var $state = $injector.get("$state");
+				$state.go('home')
+			});
 			$urlMatcherFactoryProvider.strictMode(false);
 
 			// Disable angulars HTML 5 mode (No hash)

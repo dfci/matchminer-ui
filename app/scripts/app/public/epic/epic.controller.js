@@ -15,9 +15,9 @@
 
 /**
  * @ngdoc function
- * @name matchminerUiApp.controller:ClinicianResponseCtrl
+ * @name matchminerUiApp.controller:EpicCtrl
  * @description
- * # ClinicianResponseCtrl
+ * # EpicCtrl
  * Controller of the matchminerUiApp
  */
 angular.module('matchminerUiApp')
