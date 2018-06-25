@@ -59,6 +59,16 @@ angular.module('matchminerUiApp')
 					return config;
 				};
 
+                // When a user is redirected back to MM after being prompted to login, bring them to the original page they were trying to access
+                if (localStorage.getItem('afterAuthRedirectURL') !== null) {
+                    var redirectURL = localStorage.getItem('afterAuthRedirectURL');
+                    $log.info("Setting redirect local storage");
+                    setTimeout(function () {
+                        localStorage.removeItem('afterAuthRedirectURL')
+                    }, 2000);
+                    window.location.href = redirectURL;
+                }
+
 				interceptor.requestError = function (config) {
 					$log.error('[Request Error] ', config);
 					return config;
