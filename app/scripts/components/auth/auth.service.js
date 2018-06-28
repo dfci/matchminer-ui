@@ -14,39 +14,27 @@
 'use strict';
 
 angular.module('matchminerUiApp')
-	.factory('Auth', ['$rootScope', '$state', '$q', '$log', 'Principal', 'AuthServerProvider', '$location', 'ENV',
-		function ($rootScope, $state, $q, $log, Principal, AuthServerProvider, $location, ENV) {
+	.factory('Auth', ['$rootScope', '$state', '$q', '$log', 'Principal', 'AuthServerProvider',
+		function ($rootScope, $state, $q, $log, Principal, AuthServerProvider) {
 			var auth_service = {};
 
 			auth_service.login = function(callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 
-				/**
-				 * When logging in with EPIC, bypass SAML authentication and only verify user in MM's db. OKTA redirect causes IE10 issues
-                 */
-                if ($location.$$search.epic) {
-                	ENV.EPIC = true;
-                    Principal.identity(true).then(function (account) {
-                        deferred.resolve(account);
-                    });
+				AuthServerProvider.login().then(function (data) {
+					// retrieve the logged account information
+					Principal.identity(true).then(function (account) {
+						deferred.resolve(account);
+					});
+					return cb();
+				}).catch(function (err) {
+					auth_service.logout();
+					deferred.reject(err);
+					return cb(err);
+				}.bind(this));
 
-                    return deferred.promise
-				} else {
-                    AuthServerProvider.login().then(function (data) {
-                        // retrieve the logged account information
-                        Principal.identity(true).then(function (account) {
-                            deferred.resolve(account);
-                        });
-                        return cb();
-                    }).catch(function (err) {
-                        auth_service.logout();
-                        deferred.reject(err);
-                        return cb(err);
-                    }.bind(this));
-
-                    return deferred.promise;
-				}
+				return deferred.promise;
 			};
 
 			auth_service.logout = function () {

@@ -66,7 +66,7 @@ angular.module('matchminerUiApp')
                     setTimeout(function () {
                         localStorage.removeItem('afterAuthRedirectURL');
                         window.location.href = redirectURL;
-                    }, 500);
+                    }, 1000);
                 }
 
 				interceptor.requestError = function (config) {
