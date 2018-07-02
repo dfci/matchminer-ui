@@ -79,16 +79,16 @@ angular.module('matchminerUiApp')
 
 							break;
 						case 404:
-							$log.warn('[404]', eR);
-
-							if (isApiCall.test(eR.config.url)) {
-								return $q.resolve(eR);
-							}
-
-							$state.go('home', {
-								'error': true,
-								'errorMessage': 'Page not found. The following link could not be resolved by MatchMiner. We\'re sorry!'
-							});
+							// $log.warn('[404]', eR);
+                            //
+							// if (isApiCall.test(eR.config.url)) {
+							// 	return $q.resolve(eR);
+							// }
+                            //
+							// $state.go('home', {
+							// 	'error': true,
+							// 	'errorMessage': 'Page not found. The following link could not be resolved by MatchMiner. We\'re sorry!'
+							// });
 							break;
 						case 412:
 							$log.error('[412] Precondition failed. Missing etag. ', eR);
