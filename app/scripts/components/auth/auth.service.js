@@ -66,7 +66,7 @@ angular.module('matchminerUiApp')
 								$rootScope.previousStateName = $rootScope.toState;
 								$rootScope.previousStateNameParams = $rootScope.toStateParams;
 
-                                localStorage.setItem('afterAuthRedirectURL', window.location.href);
+                                //localStorage.setItem('afterAuthRedirectURL', window.location.href);
                                 auth_service.login();
 							}
 						}

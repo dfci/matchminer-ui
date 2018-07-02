@@ -60,14 +60,14 @@ angular.module('matchminerUiApp')
 				};
 
                 // When a user is redirected back to MM after being prompted to login, bring them to the original page they were trying to access
-                if (localStorage.getItem('afterAuthRedirectURL') !== null) {
-                    var redirectURL = localStorage.getItem('afterAuthRedirectURL');
-                    $log.info("Setting redirect local storage_");
-                    setTimeout(function () {
-                        localStorage.removeItem('afterAuthRedirectURL');
-                        window.location.href = redirectURL;
-                    }, 1000);
-                }
+                // if (localStorage.getItem('afterAuthRedirectURL') !== null) {
+                //     var redirectURL = localStorage.getItem('afterAuthRedirectURL');
+                //     $log.info("Setting redirect local storage_");
+                //     setTimeout(function () {
+                //         localStorage.removeItem('afterAuthRedirectURL');
+                //         window.location.href = redirectURL;
+                //     }, 1000);
+                // }
 
 				interceptor.requestError = function (config) {
 					$log.error('[Request Error] ', config);
