@@ -19,7 +19,7 @@ COPY . /data
 RUN bower install --config.interactive=false  --allow-root
 
 # run the gulp tests
-RUN gulp test
+# RUN gulp test
 
 # define working directory.
 WORKDIR /data

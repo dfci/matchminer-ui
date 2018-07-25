@@ -11,17 +11,17 @@
   ~
   -->
 
-<section class="dashboard-load-indicator" layout="row" layout-fill layout-align="center start" ng-if="!db.error && db.isLoading">
+<section class="dashboard-load-indicator" layout="row" layout-fill layout-align="center start" ng-if="(!db.error && db.isLoading) || ENV.EPIC">
 	<div layout="column" flex layout-align="center center">
 		<div layout="column" flex layout-align="center center">
 			<div ng-include="'scripts/components/partials/loader.html'"></div>
 
-			<h3>Loading dashboard...</h3>
+			<h3>Loading ...</h3>
 		</div>
 	</div>
 </section>
 
-<div class="dashboard-content user-dashboard" ng-if="!db.error && !db.isLoading" layout-align="space-around center" layout="column" ng-controller="TimeoutController">
+<div class="dashboard-content user-dashboard" ng-if="!db.error && !db.isLoading" layout-align="space-around center" layout="column" ng-controller="TimeoutController" ng-hide="ENV.EPIC">
 	<section layout="row" class="stats-container" flex layout-align="space-around center" ng-if="db.isCti">
 		<div flex="30"
 		     class="stat-panel bgmd-blue"
