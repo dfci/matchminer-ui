@@ -78,6 +78,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
+    "start": "gulp --env production build",
     "test": "bower install; grunt test"
   }
 }
