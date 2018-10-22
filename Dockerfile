@@ -6,6 +6,7 @@ COPY ["package.json", "bower.json", "package-lock.json", "/"]
 WORKDIR /
 RUN npm install
 
+# install bower and gulp globally
 RUN npm install -g gulp-cli bower
 RUN bower install --config.interactive=false  --allow-root
 
