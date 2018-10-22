@@ -10,7 +10,7 @@ RUN npm install -g gulp-cli bower
 RUN bower install --config.interactive=false  --allow-root
 
 # add files to context
-COPY app /app
+COPY . /app
 COPY gulp /gulp
 COPY gulpfile.js /gulpfile.js
 COPY properties /properties
