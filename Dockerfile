@@ -17,6 +17,3 @@ COPY properties /properties
 
 # build it
 RUN gulp build
-
-# copy the data
-COPY dist /var/www/apache-flask/api/static
