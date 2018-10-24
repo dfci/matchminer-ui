@@ -1,20 +1,8 @@
 # pull base node image.
-FROM node:7
+FROM node:7-alpine
 
-# add the npm dependencies and install
-COPY ["package.json", "bower.json", "package-lock.json", "/"]
-WORKDIR /
-RUN npm install
+# copy the data
+COPY dist /var/www/apache-flask/api/static
 
-# install bower and gulp globally
-RUN npm install -g gulp-cli bower
-RUN bower install --config.interactive=false  --allow-root
-
-# add files to context
-COPY app /app
-COPY gulp /gulp
-COPY gulpfile.js /gulpfile.js
-COPY properties /properties
-
-# build it
-RUN gulp build
+# UI is mounted into the api docker image via a volume in the docker-compose file
+# docker-compose file and other relevant configs are in the API repo.
