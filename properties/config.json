@@ -3,7 +3,7 @@
     "ENV": {
       "name": "development",
       "elasticsearch": {
-        "host": "http://matchminer.dfci.harvard.edu:9200",
+        "host": "https://mm-elastic.dfci.harvard.edu",
         "proxy": "http://matchminer.dfci.harvard.edu:8001/elasticsearch",
         "index": "matchminer"
       },
@@ -41,16 +41,16 @@
       "cBio": false
     }
   },
-  "staging" : {
+  "stage" : {
     "ENV": {
       "name": "staging",
       "elasticsearch": {
-        "host": "https://matchminer.dfci.harvard.edu:9300",
-        "index": "matchminer"
+        "host": "https://mm-elastic.dfci.harvard.edu",
+        "index": "staging"
       },
       "api": {
-        "host": "https://matchminer.dfci.harvard.edu:8443",
-        "endpoint": "https://matchminer.dfci.harvard.edu:8443/api"
+        "host": "https://mm-stage.dfci.harvard.edu",
+        "endpoint": "https://mm-stage.dfci.harvard.edu/api"
       },
       "samlAuthentication": true,
       "certificate" : {
@@ -78,11 +78,11 @@
       "cBio": false
     }
   },
-  "production" : {
+  "prod" : {
     "ENV": {
       "name": "production",
       "elasticsearch": {
-        "host": "https://matchminer.dfci.harvard.edu:9400",
+        "host": "https://mm-elastic.dfci.harvard.edu",
         "index": "matchminer"
       },
       "api": {
