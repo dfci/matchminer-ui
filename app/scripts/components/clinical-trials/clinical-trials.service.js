@@ -20,8 +20,8 @@
  */
 angular.module('matchminerUiApp')
 	.factory('ClinicalTrialsService',
-		['$q', '$log', '$window', 'ClinicalTrialsREST', 'ElasticSearchService', '_', 'TEMPLATES', 'Mailto', '$analytics',
-			function ($q, $log, $window, ClinicalTrialsREST, ElasticSearchService, _, TEMPLATES, Mailto, $analytics) {
+		['$q', '$log', '$window', 'ClinicalTrialsREST', 'ElasticSearchService', '_', 'TEMPLATES', 'Mailto', '$analytics', 'ENV',
+			function ($q, $log, $window, ClinicalTrialsREST, ElasticSearchService, _, TEMPLATES, Mailto, $analytics, ENV) {
 
 				var _metadata = {};
 				_metadata.total_elements = 0;
@@ -642,7 +642,7 @@ angular.module('matchminerUiApp')
 						suggestFields = [fields]
 					}
 
-					ElasticSearchService.setSearchIndex('matchminer');
+					ElasticSearchService.setSearchIndex(ENV.elasticsearch.index);
 					ElasticSearchService.setSearchType('trial');
 					ElasticSearchService.setSearchSuggestTerm(searchSuggestTerm);
 					ElasticSearchService.suggest(fields)
