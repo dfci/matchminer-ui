@@ -41,7 +41,7 @@ angular.module('matchminerUiApp')
 
 				service.init = function() {
 					// Initialize some defaults.
-					service.elasticOptions.index = 'matchminer';
+					//service.elasticOptions.index = 'matchminer';
 					service.elasticOptions.type = 'trial';
 					service.elasticBody = {};
 					service.elasticBody.from = 0;
