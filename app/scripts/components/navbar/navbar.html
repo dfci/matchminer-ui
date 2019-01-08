@@ -32,11 +32,6 @@
 				    MatchMiner
 			    </a>
 			</li>
-		    <li ng-if="ENV.resources.institution === 'DFCI'">
-			    <a ui-sref-active="active"
-			       analytics-on="click" analytics-event="Navigate to Early Adopter" analytics-category="Navbar" analytics-label="Unauthenticated"
-			       ui-sref="early-adopter">Early Adopter</a>
-		    </li>
 		    <li>
 			    <a ui-sref-active="active"
 			       ui-sref="clinicaltrials.overview"
@@ -82,17 +77,12 @@
 		           analytics-on="click" analytics-event="Navigate to home" analytics-category="Navbar" analytics-label="Authenticated"
 			       ui-sref="home">Home</a>
 	        </li>
-	        <li ng-if="ENV.resources.institution === 'DFCI'">
-		        <a ui-sref-active="active"
-		           analytics-on="click" analytics-event="Navigate to Early Adopter" analytics-category="Navbar" analytics-label="Authenticated"
-		           ui-sref="early-adopter">Early Adopter</a>
-	        </li>
-            <li>
-                <a ui-sref-active="active"
-	               ui-sref="clinicaltrials.overview"
-	               analytics-on="click" analytics-event="Navigate to clinical trials" analytics-category="Navbar" analytics-label="Authenticated"
-	               ng-class="{ 'active' :nbc.isClinicalTrialPage}">Clinical Trials</a>
-            </li>
+          <li>
+              <a ui-sref-active="active"
+               ui-sref="clinicaltrials.overview"
+               analytics-on="click" analytics-event="Navigate to clinical trials" analytics-category="Navbar" analytics-label="Authenticated"
+               ng-class="{ 'active' :nbc.isClinicalTrialPage}">Clinical Trials</a>
+          </li>
 	        <li has-authority="admin">
 		        <a ui-sref-active-eq="active"
 		           analytics-on="click" analytics-event="Navigate to statistics" analytics-category="Navbar" analytics-label="Authenticated"
