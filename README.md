@@ -68,7 +68,7 @@ _Several tasks have been built into the build automation system gulp to help wit
 
 #### Important
 Prior to building MatchMiner the respective properties in the 'properties/config.json' will have to be set.
-Please click [here](mm-properties-setup) to read up on what the property configuration expects.
+Please see below to read up on what the property configuration expects.
 
 #### Gulp tasks and environments
 As mentioned before gulp has several tasks to aid in the process of development and deploying.
