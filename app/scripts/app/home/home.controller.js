@@ -27,6 +27,7 @@ angular.module('matchminerUiApp')
 				var hc = this;
 
 				hc.scroll = 0;
+				hc.year = (new Date()).getFullYear();
 
 				if ($stateParams.error) {
 					hc.error = true;
