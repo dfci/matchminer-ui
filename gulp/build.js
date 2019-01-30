@@ -51,6 +51,7 @@ gulp.task('html', ['inject', 'partials'], function () {
 	var htmlFilter = $.filter('*.html', {restore: true});
 	var jsFilter = $.filter('**/*.js', {restore: true});
 	var cssFilter = $.filter('**/*.css', {restore: true});
+    var vendorFilter = filter(['**', '!*vendor'], {restore: true});
 
 	return gulp.src(path.join(conf.paths.tmp, '/serve/index.html'))
 		.pipe($.inject(partialsInjectFile, partialsInjectOptions))
@@ -60,8 +61,10 @@ gulp.task('html', ['inject', 'partials'], function () {
 		.pipe($.ngAnnotate())
 		.pipe($.uglify({preserveComments: $.uglifySaveLicense})).on('error', conf.errorHandler('Uglify'))
 		.pipe($.rev())
+		.pipe(vendorFilter)
         .pipe($.sourcemaps.write('maps'))
 		.pipe(jsFilter.restore)
+        .pipe(vendorFilter.restore)
 		.pipe(cssFilter)
 		.pipe($.sourcemaps.init())
 		//.pipe($.cssnano({
