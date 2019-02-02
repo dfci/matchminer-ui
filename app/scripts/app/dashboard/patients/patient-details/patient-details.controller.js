@@ -110,37 +110,37 @@ angular.module('matchminerUiApp')
                     angular.element($window).bind('scroll', function () {
                         lastScroll = currentScroll;
                         currentScroll = $window.scrollY;
-                        checkSidebarSpacingScroll(lastScroll, currentScroll);
+                        // checkSidebarSpacingScroll(lastScroll, currentScroll);
                     });
                 }
                 
                 var checkSidebarSpacingWidth = function(last, current) {
-                    if (initialWidth >= 1200 && current <= 1200 && scrollReset) {
-                        pc.resize = true;
-                    }
-                    if (initialWidth < 1200 && current >= 1200 && scrollReset) {
-                        pc.resize = true;
-                    }
-                    if (last < 960 && current >= 960) {
-                        recentSidebarSwitch = false;
-                        pc.resize = true;
-                        return true;
-                    }
-                    if (!scrollReset && last >= current) {
-                        pc.resize = true;
-                        scrollReset = false;
-                    }
-                    if (current >= 960) {
-                        return true;
-                    }
-                    return false;
+                    // if (initialWidth >= 1200 && current <= 1200 && scrollReset) {
+                    //     pc.resize = true;
+                    // }
+                    // if (initialWidth < 1200 && current >= 1200 && scrollReset) {
+                    //     pc.resize = true;
+                    // }
+                    // if (last < 960 && current >= 960) {
+                    //     recentSidebarSwitch = false;
+                    //     pc.resize = true;
+                    //     return true;
+                    // }
+                    // if (!scrollReset && last >= current) {
+                    //     pc.resize = true;
+                    //     scrollReset = false;
+                    // }
+                    // if (current >= 960) {
+                    //     return true;
+                    // }
+                    // return false;
                 }
                 
                 var checkSidebarSpacingScroll = function(last, current) {
-                    if (last <= 193 && current > 193) {
-                        scrollReset = true;
-                        pc.resize = false;
-                    }
+                    // if (last <= 193 && current > 193) {
+                    //     scrollReset = true;
+                    //     pc.resize = false;
+                    // }
                 }
 
 				/**
