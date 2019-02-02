@@ -25,16 +25,16 @@ angular.module('matchminerUiApp')
         return function(input, secondary) {
             if (!angular.isObject(input)) return input;
             if (!angular.isFunction(secondary)) return input;
-            
+
             var array = [];
             for(var objectKey in input) {
                 array.push(input[objectKey]);
             }
-            
+
             array = _.partition(array, function(item) {
                 return secondary({collection: item})
             })
-            
+
             array = array.map(function(e) {
                 return e.sort(function(a, b){
                     a = parseInt(a[0].CNV_ROW_ID);
@@ -42,7 +42,7 @@ angular.module('matchminerUiApp')
                     return a - b;
                 })
             });
-            
+
             return _.flatten(array, true);
         }
     })
@@ -52,20 +52,20 @@ angular.module('matchminerUiApp')
 				var pc = this;
 				pc.sidebarScroll = 0;
 				pc.TEMPLATES = TEMPLATES.patient_view;
-				
+
 				pc.isCti = UserAccount.roles.indexOf('cti') > -1;
 				pc.isOncologist = UserAccount.roles.indexOf('oncologist') > -1;
 				pc.resize = true;
-								
+
 				if (pc.patient) {
 					ClinicalTrialsService.setMRN(pc.patient.clinical.MRN);
 				}
-				
+
                 var lastWidth, currentWidth, initialWidth, lastScroll, currentScroll, scrollReset, recentSidebarSwitch;
                 lastWidth = currentWidth = initialWidth = $window.innerWidth;
                 lastScroll = currentScroll = 0;
                 scrollReset = recentSidebarSwitch = true;
-				
+
                 pc.showAnyFilters = function(cnvs) {
                     return _.some(cnvs, function(cnv) {return cnv.FILTER && cnv.FILTER.length > 0});
                 }
@@ -99,48 +99,48 @@ angular.module('matchminerUiApp')
 					}, function(isGtSm) {
 						pc.isGtSm = isGtSm;
 				});
-                
+
                 if (pc.isSafari) {
                     angular.element($window).bind('resize', function () {
                         lastWidth = currentWidth;
                         currentWidth = $window.innerWidth;
                         pc.shouldShowSpacingWidth = checkSidebarSpacingWidth(lastWidth, currentWidth);
                     });
-    
+
                     angular.element($window).bind('scroll', function () {
                         lastScroll = currentScroll;
                         currentScroll = $window.scrollY;
                         // checkSidebarSpacingScroll(lastScroll, currentScroll);
                     });
                 }
-                
+
                 var checkSidebarSpacingWidth = function(last, current) {
-                    // if (initialWidth >= 1200 && current <= 1200 && scrollReset) {
-                    //     pc.resize = true;
-                    // }
-                    // if (initialWidth < 1200 && current >= 1200 && scrollReset) {
-                    //     pc.resize = true;
-                    // }
-                    // if (last < 960 && current >= 960) {
-                    //     recentSidebarSwitch = false;
-                    //     pc.resize = true;
-                    //     return true;
-                    // }
-                    // if (!scrollReset && last >= current) {
-                    //     pc.resize = true;
-                    //     scrollReset = false;
-                    // }
-                    // if (current >= 960) {
-                    //     return true;
-                    // }
-                    // return false;
+                    if (initialWidth >= 1200 && current <= 1200 && scrollReset) {
+                        pc.resize = true;
+                    }
+                    if (initialWidth < 1200 && current >= 1200 && scrollReset) {
+                        pc.resize = true;
+                    }
+                    if (last < 960 && current >= 960) {
+                        recentSidebarSwitch = false;
+                        pc.resize = true;
+                        return true;
+                    }
+                    if (!scrollReset && last >= current) {
+                        pc.resize = true;
+                        scrollReset = false;
+                    }
+                    if (current >= 960) {
+                        return true;
+                    }
+                    return false;
                 }
-                
+
                 var checkSidebarSpacingScroll = function(last, current) {
-                    // if (last <= 193 && current > 193) {
-                    //     scrollReset = true;
-                    //     pc.resize = false;
-                    // }
+                    if (last <= 193 && current > 193) {
+                        scrollReset = true;
+                        pc.resize = false;
+                    }
                 }
 
 				/**
@@ -244,9 +244,9 @@ angular.module('matchminerUiApp')
 
 					return patientDetailsBasePath + "/tooltips/point-mutation/tier-" + tier + ".html";
 				};
-				
+
 				pc.additionalMutationalSignatures = function(variants) {
-					
+
 					var specVariants = {
 						APOBEC: variants.APOBEC_STATUS,
 						POLE: variants.POLE_STATUS,
@@ -254,16 +254,16 @@ angular.module('matchminerUiApp')
 						TEMOZOLOMIDE: variants.TEMOZOLOMIDE_STATUS,
 						UVA: variants.UVA_STATUS,
 					};
-					
+
 					var specVariantsValues = _.reduce(specVariants, function(agg, val, key){
 						if (val !== null && val.toLowerCase() === "yes") {
 							agg.push(key);
 						}
 						return agg;
 					}, []);
-					
+
 					var mutSigValues = _.values(specVariants);
-					
+
 					if (!_.isEmpty(specVariantsValues)) {
 						return specVariantsValues.map(function(val) {
 							return val + " signature was detected (see comment).";
