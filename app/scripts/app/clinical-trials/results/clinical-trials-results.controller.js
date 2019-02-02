@@ -436,7 +436,7 @@ angular.module('matchminerUiApp')
 
 				if (tS.drug_list) {
 					var uniques = uniqueFilter(tS.drug_list.drug, 'drug_name');
-					if (uniques.length  !== null ) {
+					if (uniques.length != null) {
 						drugLen = uniques.length;
 					} else {
 						drugLen = 0
