@@ -70,6 +70,8 @@ angular
 				$rootScope.toState = toState;
 				$rootScope.toStateParams = toStateParams;
 
+				ElasticSearchService.resetPatientSearchSize();
+
 				if (Principal.isIdentityResolved()) {
 					Auth.authorize();
 				}
@@ -101,7 +103,6 @@ angular
                 
 				if (fromState.name == 'patient' && toState.name == "clinicaltrials.overview") {
 						ClinicalTrialsService.resetSearchFilters();
-						ElasticSearchService.resetPatientSearchSize();
 				}
 
 				// Set the page title key to the one configured in state or use default one
