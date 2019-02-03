@@ -70,7 +70,9 @@ angular
 				$rootScope.toState = toState;
 				$rootScope.toStateParams = toStateParams;
 
-				ElasticSearchService.resetPatientSearchSize();
+				if (fromState.name == 'patient' && toState.name == "clinicaltrials.overview") {
+					ElasticSearchService.resetPatientSearchSize();
+				}
 
 				if (Principal.isIdentityResolved()) {
 					Auth.authorize();
