@@ -127,3 +127,10 @@ MatchMiner UI has several profiles which it uses for configuration. These can be
 After building the MatchMiner UI with the `gulp --env production build` command, a new `dist/` folder will have been generated with the production optimized version of MatchMiner. This includes .js minification, uglification, .html template caching libraries and revision versioning. 
 
 The contents of this folder can be deployed in a webserver folder.
+
+## Built with 
+* npm
+* Bower
+* AngularJS
+* Gulp
+* Karma
