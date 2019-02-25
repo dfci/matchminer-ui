@@ -144,11 +144,11 @@ angular.module('matchminerUiApp')
 					return this.patientSearchSize;
 				}
 
-				service.resetPatientSearchSize = function() {
-					this.patientSearchSize = null;
-				}
-				
-				/**
+                service.resetPatientSearchSize = function() {
+                    this.patientSearchSize = null;
+                }
+
+                /**
 				 * Sets the query pagination page size
 				 * @param size
 				 */
