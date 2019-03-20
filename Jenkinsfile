@@ -9,8 +9,7 @@ pipeline {
         stage('install') {
             steps {
                 sh 'npm install'
-                sh 'npm install grunt@~0.4.0'
-                sh 'bower --allow-root install'
+                sh 'bower --allow-root --config.interactive=false install'
             }
         }
         stage('build') {
