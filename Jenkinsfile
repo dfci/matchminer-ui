@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'node_build:8'
+            image 'matchminer_ui_builder:latest'
             args '-v $HOME/.npm:/root/.npm'
         }
     }
