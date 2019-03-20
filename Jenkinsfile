@@ -6,7 +6,7 @@ pipeline {
         stage('install') {
             steps {
                 sh 'npm install'
-                sh 'bower install'
+                sh 'bower install --allow-root'
             }
         }
         stage('build') {
