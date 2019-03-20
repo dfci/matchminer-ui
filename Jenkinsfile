@@ -14,7 +14,7 @@ pipeline {
         }
         stage('build') {
             steps {
-                sh 'npm run gulp test'
+                sh 'gulp test'
             }
         }
     }
