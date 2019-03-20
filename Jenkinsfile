@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'node_build:latest'
+            image 'node_build:8'
             args '-v $HOME/.npm:/root/.npm'
         }
     }
