@@ -28,7 +28,7 @@ var pathSrcJs = [
 ];
 
 function runTests(singleRun, done) {
-	var reporters = ['progress'];
+	var reporters = ['progress', 'dots', 'junit'];
 	var preprocessors = {};
 
 	pathSrcHtml.forEach(function (path) {
@@ -47,7 +47,12 @@ function runTests(singleRun, done) {
 		singleRun: singleRun,
 		autoWatch: !singleRun,
 		reporters: reporters,
-		preprocessors: preprocessors
+		preprocessors: preprocessors,
+    	junitReporter: {
+            outputDir: '.',
+			useBrowserName: false,
+        	outputFile: 'matchminer_ui_test_results.xml'
+    	}
 	};
 
 	var server = new karma.Server(localConfig, function (failCount) {

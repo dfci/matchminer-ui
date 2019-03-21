@@ -14,7 +14,11 @@ pipeline {
         }
         stage('build') {
             steps {
+                sh 'gulp build'
                 sh 'gulp test'
+
+                //report on karma test results
+                junit '*.xml'
             }
         }
     }

@@ -11,3 +11,4 @@ properties/config.json
 app/scripts/config.js
 app/scripts/templates.js
 package-lock.json
+matchminer_ui_test_results.xml
