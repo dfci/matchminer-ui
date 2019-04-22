@@ -69,12 +69,12 @@ This is an example:
 ```
 db.user.insertOne({
     "_id": ObjectId("577cf6ef2b9920002cef0337"),
-	"last_name" : "User",
+	"last_name" : "Doe",
 	"teams" : [
 		ObjectId("5a8ede8f4e0cce002dd5913c")
 	],
 	"_updated" : ISODate("2018-02-22T10:15:27.000-05:00"),
-	"first_name" : "Dev",
+	"first_name" : "John",
 	"roles" : [
 		"user",
 		"cti",
