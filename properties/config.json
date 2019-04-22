@@ -4,11 +4,11 @@
       "name": "development",
       "elasticsearch": {
         "host": "https://mm-elastic.dfci.harvard.edu",
-        "proxy": "http://matchminer.dfci.harvard.edu:8001/elasticsearch",
-        "index": "matchminer"
+        "proxy": "https://mm-elastic.dfci.harvard.edu",
+        "index": "staging"
       },
       "api": {
-        "host": "https://matchminer.dfci.harvard.edu:5555",
+        "host": "http://localhost:5000",
         "endpoint": "/api"
       },
       "samlAuthentication": false,

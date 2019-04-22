@@ -62,6 +62,33 @@ If you do not have SSL certificates you would like to use you can, generate them
 After all these steps you can start the hot reloading development server
 
     gulp serve
+    
+In order to devlop features which are behind the login, a dev user must be inserted into the database with the credentials found in config.json
+This is an example:
+
+```
+db.user.insertOne({
+    "_id": ObjectId("577cf6ef2b9920002cef0337"),
+	"last_name" : "User",
+	"teams" : [
+		ObjectId("5a8ede8f4e0cce002dd5913c")
+	],
+	"_updated" : ISODate("2018-02-22T10:15:27.000-05:00"),
+	"first_name" : "Dev",
+	"roles" : [
+		"user",
+		"cti",
+		"oncologist",
+		"admin"
+	],
+	"title" : "",
+	"email" : "fake_email@dfci.harvard.edu",
+	"_created" : ISODate("2018-02-22T10:15:27.000-05:00"),
+	"user_name" : "du123",
+	"token" : "fb4d6830-d3aa-481b-bcd6-270d69790e11",
+	"oncore_token" : "5f3c2421-271c-41ba-ac14-899f214d49b9"
+})
+```
 
 ## <a name="setup-matchminer"></a>Building MatchMiner UI
 _Several tasks have been built into the build automation system gulp to help with preparing and packaging the required code._

@@ -40,12 +40,13 @@ function browserSyncInit(baseDir, browser) {
 	}
 	var config = require(path.join('..', conf.paths.properties, 'config.json'));
 	var environment = gutil.env.env ? gutil.env.env : 'dev';
+    var agent = environment === 'dev' ? null : https.globalAgent;
 
 	var matchMinerProxy = proxy('/api', {
 		target: config[environment].ENV.api.host,
 		changeOrigin: true,
 		logLevel: 'debug',
-		agent: https.globalAgent,
+		agent: agent,
 		secure: true,
 		https: true,
 		ssl: {
