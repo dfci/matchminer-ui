@@ -8,8 +8,8 @@
         "index": "dev"
       },
       "api": {
-        "README": "When doing development off of a locally hosted API, replace mm1.dfci.harvard.edu:5000 with http://localhost:5000",
-        "host": "mm1.dfci.harvard.edu:5000",
+        "README": "When doing development off of a locally hosted API, set host to http://localhost:5000",
+        "host": "dev_api:5000",
         "endpoint": "/api"
       },
       "samlAuthentication": false,
