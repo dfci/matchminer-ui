@@ -5,7 +5,7 @@
       "elasticsearch": {
         "host": "https://mm-elastic.dfci.harvard.edu",
         "proxy": "https://mm-elastic.dfci.harvard.edu",
-        "index": "staging"
+        "index": "dev"
       },
       "api": {
         "host": "http://localhost:5000",
