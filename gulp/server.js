@@ -44,7 +44,7 @@ function browserSyncInit(baseDir, browser) {
 
 	var matchMinerProxy = proxy('/api', {
 		target: config[environment].ENV.api.host,
-		changeOrigin: true,
+		changeOrigin: false,
 		logLevel: 'debug',
 		agent: agent,
 		secure: true,
