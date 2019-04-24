@@ -8,8 +8,7 @@
         "index": "dev"
       },
       "api": {
-        "README": "When doing development off of a locally hosted API, set host to http://localhost:5000",
-        "host": "dev_api:5000",
+        "host": "http://localhost:5000",
         "endpoint": "/api"
       },
       "samlAuthentication": false,
