@@ -8,7 +8,7 @@
         "index": "dev"
       },
       "api": {
-        "README": "When doing development off of a locally hosted API, replace dev_api:5000 with http://localhost:5000",
+        "README": "When doing development off of a locally hosted API, replace mm1.dfci.harvard.edu:5000 with http://localhost:5000",
         "host": "mm1.dfci.harvard.edu:5000",
         "endpoint": "/api"
       },
