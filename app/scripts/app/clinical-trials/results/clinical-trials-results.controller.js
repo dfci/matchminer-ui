@@ -435,11 +435,8 @@ angular.module('matchminerUiApp')
 				}
 
 				if (tS.drug_list) {
-					var uniques = uniqueFilter(tS.drug_list.drug, 'drug_name');
-					if (uniques != null) {
-						drugLen = uniques.length;
-					} else {
-						drugLen = 0
+					if (tS.drug_list.drug != null) {
+						drugLen = uniqueFilter(tS.drug_list.drug, 'drug_name').length;
 					}
 				}
 
