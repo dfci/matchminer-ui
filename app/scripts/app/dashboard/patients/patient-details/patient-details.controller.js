@@ -202,7 +202,7 @@ angular.module('matchminerUiApp')
 				var actionableDNAVariantTiers = [1, 2];
 				var investigationalDNAVariantTiers = [3, 4];
 
-				var availableLayoutVersions = [1, 2];
+				var availableLayoutVersions = [1, 2, 3];
 				var availablePmTiers = [1, 2, 3, 4, 5];
 				var availableNgCategories = ['PN', 'PLC', 'NPLC'];
 
@@ -225,6 +225,7 @@ angular.module('matchminerUiApp')
 					if (availableLayoutVersions.indexOf(pdf_version) === -1) {
 						return;
 					}
+					console.log('---------> ', id);
 
 					return patientDetailsBasePath + "/tooltips/layout-v" + pdf_version + "/" + id + ".html";
 				};
