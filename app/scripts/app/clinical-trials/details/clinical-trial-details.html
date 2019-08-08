@@ -664,14 +664,16 @@
 								<p class="coordinator-name">
 									{{ ctd.studyCoordinator.first_name }} {{ ctd.studyCoordinator.last_name }}
 								</p>
-								<p class="coordinator-role">
-									{{ ctd.studyCoordinator.staff_role }}
-								</p>
+                <p class="coordinator-role">
+                  {{ ctd.studyCoordinator.staff_role }}
+                </p>
 								<p class="coordinator-institution">
 									{{ ctd.studyCoordinator.institution_name }}
 								</p>
 							</div>
-
+              <p class="coordinator-role">
+                {{ ctd.studyCoordinator.email_address.toLowerCase() }}
+              </p>
 							<md-button ng-if="!ENV.EPIC"
                                        class="md-raised trial-link contact-button"
 							           ng-class="{
@@ -692,11 +694,11 @@
 									Email {{ ctd.studyCoordinator.staff_role }}
 								</md-tooltip>
 							</md-button>
-                            <div class="epic-contact-details" ng-if="ENV.EPIC"><br>
-                                <span class="trial-coordinator-email-label">Contact Email: </span>
-                                <br>
-                                <span class="trial-coordinator-email">{{ ctd.studyCoordinator.email_address }}</span>
-                            </div>
+                <div class="epic-contact-details" ng-if="ENV.EPIC"><br>
+                    <span class="trial-coordinator-email-label">Contact Email: </span>
+                    <br>
+                    <span class="trial-coordinator-email">{{ ctd.studyCoordinator.email_address }}</span>
+                </div>
 						</div>
 
 						<div class="trial-coordinator-details" ng-if="!ctd.studyCoordinator">

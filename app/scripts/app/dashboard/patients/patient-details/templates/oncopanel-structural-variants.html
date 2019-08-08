@@ -49,16 +49,11 @@
 				</md-icon>
 				<div>
 					<h3>Caution</h3>
-					<p>The Profile project currently reports structural variants as plain text, e.g.
-						'Patient is positive for EML4-ALK fusion…', as opposed to structured data, e.g.
-						geneA=EML4, geneB=ALK.</p>
-					<p>Because the data is not reported as structured data, it is possible that MatchMiner may
-						miss or incorrectly classify some structural variants.
-						For example, if searching for ALK structural variants, a patient who was 'Negative for
-						ALK rearrangements' will be a match.</p>
-					<p>Users should therefore always check the structural variants text carefully before
-						making a final decision.</p>
-				</div>
+          <p>Samples sequenced prior to December 2018 had structural variants reported as plain text, e.g. 'Patient is positive for EML4-ALK fusion...', as opposed to structured data, e.g. geneA=EML4, geneB=ALK.</p>
+          <p>For samples with this unstructured data, it is possible that MatchMiner may miss or incorrectly classify some structural variants. For example, a filter for ALK structural variants will match a patient who was 'Negative for ALK rearrangements'.
+          Users should therefore always carefully check the structural variant comment for each sample before making a final decision.
+          </p>
+        </div>
 			</div>
 			<md-divider></md-divider>
 		</div>

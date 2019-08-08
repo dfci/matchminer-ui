@@ -190,13 +190,13 @@ angular.module('matchminerUiApp')
                 };
 
 				var _svNotice
-					= "<p>The Profile project currently reports structural rearrangements as plain text, e.g. "
-					+ "'Patient is positive for EML4-ALK fusion…', as opposed to structured data, e.g. geneA=EML4, geneB=ALK.</p>"
-					+ "<p>Because the data is not reported as structured data, "
-					+ "it is possible that MatchMiner may miss or incorrectly classify some structural rearrangements. "
-					+ "For example, if searching for ALK structural variants, a patient who was 'Negative for ALK rearrangements' will be a match.</p>"
-					+ "<p>Users should therefore always check the structurual rearrangement text carefully before making a final decision.</p>";
-
+					=  "<p>Samples sequenced prior to December 2018 had structural variants reported as plain text, e.g. "
+				  +  "'Patient is positive for EML4-ALK fusion...', as opposed to structured data, e.g. geneA=EML4, geneB=ALK.</p>"
+					+ "<p>For samples with this unstructured data, it is possible that MatchMiner may miss or incorrectly "
+					+ "classify some structural variants. For example, a filter for ALK structural variants will match a patient "
+					+ "who was 'Negative for ALK rearrangements. </p>"
+					+ "<p>Users should therefore always carefully check the structural variant comment for each sample before "
+					+ "making a final decision.</p>";
 				vm._geneAutocompleteChange = function(gene) {
 					if (!!gene) {
 						$log.debug("Auto change gene ", vm.filter, gene);
