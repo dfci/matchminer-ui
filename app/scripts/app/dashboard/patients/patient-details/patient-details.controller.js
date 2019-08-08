@@ -225,7 +225,6 @@ angular.module('matchminerUiApp')
 					if (availableLayoutVersions.indexOf(pdf_version) === -1) {
 						return;
 					}
-					console.log('---------> ', id);
 
 					return patientDetailsBasePath + "/tooltips/layout-v" + pdf_version + "/" + id + ".html";
 				};
