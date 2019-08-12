@@ -120,7 +120,7 @@
                             <br />
                             <span class="genomic-match-level" ng-if="ga.variant_category !== 'SIGNATURE'">
                                 <span ng-if="ga.match_type">
-                                    {{ ga.match_type | capitalize }}-Level Match
+                                    {{ ctr.toTitleCase(ga.match_type.replace('_',' ')) }}-Level Match
                                 </span>
                                 <span ng-if="!ga.match_type">
                                     Non-Genomic Match
