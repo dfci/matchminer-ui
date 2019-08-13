@@ -19,7 +19,7 @@ describe('Trial Match Service Unit Tests', function () {
 		TrialMatchREST,
 		mrn,
 		vital_status,
-		trial_accrual_status,
+		trial_curation_level_status,
 		sample_id,
 		sort,
 		$rootScope;
@@ -34,41 +34,23 @@ describe('Trial Match Service Unit Tests', function () {
 			TrialMatchREST = _TrialMatchREST_;
 			mrn = 'TCGA-11A-3D4C';
 			vital_status = 'alive';
-			trial_accrual_status = 'open';
+			trial_curation_level_status = 'open';
 			sample_id = 'BRCA-METABRIC-S2-MB-0245';
 			sort = 'sort_order';
 			$rootScope = _$rootScope_;
 		})
 	);
 
-	// it('should able to fetch trial matches by MRN, vital status, trial accrual status, sample id and sort', function () {
-	// 	spyOn(TrialMatchREST, 'query').and.returnValue({});
-    //
-	// 	TrialMatchService.getTrialMatchesForPatient(mrn, vital_status, trial_accrual_status, sample_id, sort);
-    //
-	// 	var q = {
-	// 		where: {
-	// 			mrn: mrn,
-	// 			vital_status: vital_status,
-	// 			trial_accrual_status: trial_accrual_status,
-	// 			sample_id: sample_id,
-	// 			sort: sort
-	// 		}
-	// 	};
-    //
-	// 	expect(TrialMatchREST.query).toHaveBeenCalledWith(q);
-	// });
-	//
-	it('should able to fetch trial matches by MRN, vital status, trial accrual status and sample id', function () {
+	it('should able to fetch trial matches by MRN, vital status, trial_curation_level_status and sample id', function () {
 		spyOn(TrialMatchREST, 'query').and.returnValue({});
 
-		TrialMatchService.getTrialMatchesForPatient(mrn, vital_status, trial_accrual_status, sample_id);
+		TrialMatchService.getTrialMatchesForPatient(mrn, vital_status, trial_curation_level_status, sample_id);
 
 		var q = {
 			where: {
 				mrn: mrn,
 				vital_status: vital_status,
-				trial_accrual_status: trial_accrual_status,
+				trial_curation_level_status: trial_curation_level_status,
 				sample_id: sample_id
 			}
 		};
@@ -76,16 +58,16 @@ describe('Trial Match Service Unit Tests', function () {
 		expect(TrialMatchREST.query).toHaveBeenCalledWith(q);
 	});
 
-	it('should able to fetch trial matches by MRN, vital status and trial accrual status', function () {
+	it('should able to fetch trial matches by MRN, vital status and trial curation level status', function () {
 		spyOn(TrialMatchREST, 'query').and.returnValue({});
 
-		TrialMatchService.getTrialMatchesForPatient(mrn, vital_status, trial_accrual_status);
+		TrialMatchService.getTrialMatchesForPatient(mrn, vital_status, trial_curation_level_status);
 
 		var q = {
 			where: {
 				mrn: mrn,
 				vital_status: vital_status,
-				trial_accrual_status: trial_accrual_status
+				trial_curation_level_status: trial_curation_level_status
 			}
 		};
 

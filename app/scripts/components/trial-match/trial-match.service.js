@@ -126,7 +126,7 @@ angular.module('matchminerUiApp')
 
 					if (trial_status) {
 						_.extend(q.where, {
-							trial_accrual_status: trial_status
+							trial_curation_level_status: trial_status
 						});
 					}
 
