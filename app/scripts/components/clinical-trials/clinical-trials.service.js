@@ -255,7 +255,7 @@ angular.module('matchminerUiApp')
 								// Depending on the variant_category, store the respective specific alteration.
 								if (i.hasOwnProperty('hugo_symbol')) {
 									var x = {};
-									x.hugo_symbol = i.hugo_symbol;
+									x.hugo_symbol = i.hugo_symbol.toUpperCase().replace('_', ' ');
 									x.variant_category  = i.variant_category;
 
 									var cat = x.variant_category;
@@ -305,7 +305,30 @@ angular.module('matchminerUiApp')
 											x.specific_alteration = i.cnv_call;
 											break;
 										case 'Structural Variation':
-											x.specific_alteration = i.display_name;
+											var display = '';
+											var left = i.hugo_symbol;
+											var right = i.fusion_partner_hugo_symbol;
+
+											if (left == null || left === 'any_gene') {
+												left = ''
+											}
+
+											if (right == null || right === 'any_gene') {
+												right = ''
+											}
+
+											if (left.length !== 0 && right.length !== 0) {
+												display += left.toUpperCase() + '-' + right.toUpperCase()
+											} else {
+												if (left.length === 0 && right.length === 0) {
+													display = 'ANY GENE'
+												} else if (left.length === 0) {
+													display = right.toUpperCase()
+												} else if (right.length === 0) {
+													display = left.toUpperCase()
+												}
+											}
+											x.specific_alteration = display;
 											break;
 										default:
 											break;

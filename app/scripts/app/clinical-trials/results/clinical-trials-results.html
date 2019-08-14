@@ -197,6 +197,8 @@
                     <tr>
                         <td colspan="3" class="trial-badge-field" ng-style="{'padding-left': ctr.hasTrialMatches ? 0 : '24px'}">
                             <div class="ct-badge-container">
+                                <clinical-trial-badge category="mmr_status" value="sig" view="hgs"
+                                                      ng-repeat="sig in trial._source._summary.signatures | limitTo: (trial.numTags || 3)"></clinical-trial-badge>
 
                                 <clinical-trial-badge category="hugo_symbol" value="hgs" view="hgs"
                                                       ng-repeat="hgs in trial._source._summary.nonsynonymous_genes | filter: '!None' | limitTo: (trial.numTags || 3)"></clinical-trial-badge>

@@ -56,6 +56,13 @@ angular.module('matchminerUiApp')
 			ctd.removeVariantFilter = function() {
 				ctd.variantFilter.query = '';
 			};
+
+			ctd.getAllSignatures = function() {
+				var sigs = ctd.trial._summary.signatures != null ? ctd.trial._summary.signatures : {};
+				var mmr =  ctd.trial._summary.mmr_status != null ? ctd.trial._summary.mmr_status : {};
+				var ms = ctd.trial._summary.ms_status != null ? ctd.trial._summary.ms_status : {};
+				return Object.assign(sigs, mmr, ms);
+			}
 			
 			ctd.filterGeneChips = function(genes) {
 				if (genes && genes.length > 1) {

@@ -1,22 +1,124 @@
 <div class="trial-badge-wrap">
 	<span ng-if="::isNumber">
-		<clinical-trial-badge category="hugo_symbol" genomic-object="::node.genomic" value="::node.genomic.hugo_symbol" ng-if="::node.genomic.hugo_symbol && node.genomic.hugo_symbol !== 'None'" view="::node.genomic.hugo_symbol"></clinical-trial-badge>
-		<clinical-trial-badge category="tumor_type" clinical-object="::node.clinical" value="::node.clinical.oncotree_primary_diagnosis" ng-if="::node.clinical.oncotree_primary_diagnosis" view="::node.clinical.oncotree_primary_diagnosis"></clinical-trial-badge>
-		<clinical-trial-badge category="age" value="::node.clinical.age_numerical" ng-if="::node.clinical.age_numerical" view="::node.clinical.age_numerical"></clinical-trial-badge>
-		<clinical-trial-badge category="variant_category" value="::node.genomic.variant_category" ng-if="::node.genomic.variant_category" view="::node.genomic.variant_category"></clinical-trial-badge>
-		<clinical-trial-badge category="disease_status" value="::node.clinical.stage" ng-if="::node.clinical.stage" view="::node.clinical.stage"></clinical-trial-badge>
-		<clinical-trial-badge category="ms_status" value="::node.genomic.ms_status" ng-if="::node.genomic.ms_status" view="::node.genomic.ms_status"></clinical-trial-badge>
-		<clinical-trial-badge category="mmr_status" value="::node.genomic.mmr_status" ng-if="::node.genomic.mmr_status" view="::node.genomic.mmr_status"></clinical-trial-badge>
+		<clinical-trial-badge category="hugo_symbol"
+                              genomic-object="::node.genomic"
+                              value="::node.genomic.hugo_symbol"
+                              ng-if="::node.genomic.hugo_symbol && node.genomic.hugo_symbol !== 'None'"
+                              view="::node.genomic.hugo_symbol">
+        </clinical-trial-badge>
+
+		<clinical-trial-badge category="tumor_type"
+                              clinical-object="::node.clinical"
+                              value="::node.clinical.oncotree_primary_diagnosis"
+                              ng-if="::node.clinical.oncotree_primary_diagnosis"
+                              view="::node.clinical.oncotree_primary_diagnosis">
+        </clinical-trial-badge>
+
+		<clinical-trial-badge category="age"
+                              value="::node.clinical.age_numerical"
+                              ng-if="::node.clinical.age_numerical"
+                              view="::node.clinical.age_numerical">
+        </clinical-trial-badge>
+
+		<clinical-trial-badge category="variant_category"
+                              value="::node.genomic.variant_category"
+                              ng-if="::node.genomic.variant_category"
+                              view="::node.genomic.variant_category">
+        </clinical-trial-badge>
+
+		<clinical-trial-badge category="disease_status"
+                              value="::node.clinical.stage"
+                              ng-if="::node.clinical.stage"
+                              view="::node.clinical.stage">
+        </clinical-trial-badge>
+
+		<clinical-trial-badge category="ms_status"
+                              value="::node.genomic.ms_status"
+                              ng-if="::node.genomic.ms_status"
+                              view="::node.genomic.ms_status">
+        </clinical-trial-badge>
+
+		<clinical-trial-badge category="mmr_status"
+                              value="::node.genomic.mmr_status"
+                              ng-if="::node.genomic.mmr_status"
+                              view="::node.genomic.mmr_status">
+        </clinical-trial-badge>
 	</span>
 
 	<span ng-if="::!isNumber">
-		<clinical-trial-badge category="hugo_symbol" genomic-object="::node" value="::node.hugo_symbol" ng-if="::node.hugo_symbol && node.hugo_symbol !== 'None'" view="::node.hugo_symbol"></clinical-trial-badge>
-		<clinical-trial-badge category="tumor_type" clinical-object="::node" value="::node.oncotree_primary_diagnosis" ng-if="::node.oncotree_primary_diagnosis" view="::node.oncotree_primary_diagnosis"></clinical-trial-badge>
-		<clinical-trial-badge category="age" value="::node.age_numerical" ng-if="::node.age_numerical" view="::node.age_numerical"></clinical-trial-badge>
-		<clinical-trial-badge category="variant_category" value="::node.variant_category" ng-if="::node.variant_category" view="::node.variant_category"></clinical-trial-badge>
-		<clinical-trial-badge category="disease_status" value="::node.stage" ng-if="::node.stage" view="::node.stage"></clinical-trial-badge>
-		<clinical-trial-badge category="ms_status" value="::node.ms_status" ng-if="::node.ms_status" view="::node.ms_status"></clinical-trial-badge>
-		<clinical-trial-badge category="mmr_status" value="::node.mmr_status" ng-if="::node.mmr_status" view="::node.mmr_status"></clinical-trial-badge>
+		<clinical-trial-badge category="hugo_symbol"
+                              genomic-object="::node"
+                              value="::node.hugo_symbol"
+                              ng-if="::node.hugo_symbol && node.hugo_symbol !== 'None'"
+                              view="::node.hugo_symbol">
+        </clinical-trial-badge>
+
+		<clinical-trial-badge category="tumor_type"
+                              clinical-object="::node"
+                              value="::node.oncotree_primary_diagnosis"
+                              ng-if="::node.oncotree_primary_diagnosis"
+                              view="::node.oncotree_primary_diagnosis">
+        </clinical-trial-badge>
+
+		<clinical-trial-badge category="age"
+                              value="::node.age_numerical"
+                              ng-if="::node.age_numerical"
+                              view="::node.age_numerical">
+        </clinical-trial-badge>
+
+		<clinical-trial-badge category="variant_category"
+                              value="::node.variant_category"
+                              ng-if="::node.variant_category"
+                              view="::node.variant_category">
+        </clinical-trial-badge>
+
+		<clinical-trial-badge category="disease_status"
+                              value="::node.stage"
+                              ng-if="::node.stage"
+                              view="::node.stage">
+        </clinical-trial-badge>
+
+		<clinical-trial-badge category="ms_status"
+                              value="::node.ms_status"
+                              ng-if="::node.ms_status"
+                              view="::node.ms_status">
+        </clinical-trial-badge>
+
+		<clinical-trial-badge category="mmr_status"
+                              value="::node.mmr_status"
+                              ng-if="::node.mmr_status"
+                              view="::node.mmr_status">
+        </clinical-trial-badge>
+
+		<clinical-trial-badge category="temozolomide_signature"
+                              value="::node.temozolomide_signature"
+                              ng-if="::node.temozolomide_signature"
+                              postfix=" Temozolomide Signature">
+        </clinical-trial-badge>
+
+        <clinical-trial-badge category="tobacco_signature"
+                              value="::node.tobacco_signature"
+                              ng-if="::node.tobacco_signature"
+                              postfix=" Tobacco Signature">
+        </clinical-trial-badge>
+
+        <clinical-trial-badge category="pole_signature"
+                              value="::node.pole_signature"
+                              ng-if="::node.pole_signature"
+                              postfix=" POLE Signature">
+        </clinical-trial-badge>
+
+        <clinical-trial-badge category="apobec_signature"
+                              value="::node.apobec_signature"
+                              ng-if="::node.apobec_signature"
+                              postfix=" APOBEC Signature">
+        </clinical-trial-badge>
+
+        <clinical-trial-badge category="uva_signature"
+                              value="::node.uva_signature"
+                              ng-if="::node.uva_signature"
+                              postfix=" UVA Signature">
+        </clinical-trial-badge>
 	</span>
 </div>
 
