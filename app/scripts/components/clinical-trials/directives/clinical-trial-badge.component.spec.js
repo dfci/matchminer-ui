@@ -159,7 +159,7 @@ describe('Clinical Trials Badge Unit Tests', function () {
 		scope.$apply();
 
 		var badgeSpan = hugoSymbolBadge.find('span');
-		expect(badgeSpan.text().trim()).toEqual('CCND1 (IGH-CCND1)');
+		expect(badgeSpan.text().trim()).toEqual('CCND1');
 		expect(badgeSpan.hasClass('ct-badge-gene-symbol')).toBeTruthy();
 	});
 

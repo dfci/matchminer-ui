@@ -257,7 +257,7 @@ angular.module('matchminerUiApp')
 				return [
 					{
 						"hugo_symbol": "RET",
-						"specific_alteration": "---",
+						"specific_alteration": "RET",
 						"variant_category": "Structural Variation"
 					},
 					{
@@ -287,7 +287,7 @@ angular.module('matchminerUiApp')
 					},
 					{
 						"hugo_symbol": "CCND1",
-						"specific_alteration": "IGH-CCND1",
+						"specific_alteration": "CCND1",
 						"variant_category": "Structural Variation"
 					}
 				];
