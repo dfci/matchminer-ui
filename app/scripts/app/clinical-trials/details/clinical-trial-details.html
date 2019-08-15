@@ -253,9 +253,7 @@
 									<span class="ct-badge-properties-container ct-badge-inline-spacer" ng-if="ctd.trial">
 										 <clinical-trial-badge category="mmr_status" value="mmr" view="mmr"
 															   ng-repeat="mmr in ctd.getAllSignatures() | limitTo: (trial.numTags || 3)"></clinical-trial-badge>
-                                		 <clinical-trial-badge category="ms_status" value="ms" view="ms"
-		                                                      ng-repeat="ms in ctd.trial._summary.ms_status | limitTo: (trial.numTags || 3)"></clinical-trial-badge>
-										 <clinical-trial-badge ng-if="ctd.getAllSignatures() === 0"
+										 <clinical-trial-badge ng-if="ctd.getAllSignatures().length === 0"
 															  category="mmr_status" value="'None'" view="'None'"></clinical-trial-badge>
 									</span>
 								</span>

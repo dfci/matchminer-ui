@@ -58,11 +58,19 @@ angular.module('matchminerUiApp')
 			};
 
 			ctd.getAllSignatures = function() {
-				var sigs = ctd.trial._summary.signatures != null ? ctd.trial._summary.signatures : {};
-				var mmr =  ctd.trial._summary.mmr_status != null ? ctd.trial._summary.mmr_status : {};
-				var ms = ctd.trial._summary.ms_status != null ? ctd.trial._summary.ms_status : {};
-				return Object.assign(sigs, mmr, ms);
-			}
+				var sigs = [];
+				if (ctd.trial._summary.signatures != null && ctd.trial._summary.signatures.length > 0) {
+					sigs = sigs.concat( ctd.trial._summary.signatures)
+				}
+				if (ctd.trial._summary.mmr_status != null && ctd.trial._summary.mmr_status.length > 0) {
+					sigs = sigs.concat(ctd.trial._summary.mmr_status)
+				}
+
+				if (ctd.trial._summary.ms_status != null && ctd.trial._summary.ms_status.length > 0) {
+					sigs = sigs.concat(ctd.trial._summary.ms_status)
+				}
+				return sigs;
+			};
 			
 			ctd.filterGeneChips = function(genes) {
 				if (genes && genes.length > 1) {
@@ -75,7 +83,7 @@ angular.module('matchminerUiApp')
 				return variants.filter(function(variant) {
 					return variant.hugo_symbol && variant.hugo_symbol !== "None";
 				}).length;
-			}
+			};
 
 			$scope.$watch(function() {
 				return $mdMedia('gt-sm');
