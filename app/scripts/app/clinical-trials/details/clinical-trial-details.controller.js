@@ -59,8 +59,8 @@ angular.module('matchminerUiApp')
 
 			ctd.getAllSignatures = function() {
 				var sigs = [];
-				if (ctd.trial._summary.signatures != null && ctd.trial._summary.signatures.length > 0) {
-					sigs = sigs.concat( ctd.trial._summary.signatures)
+				if (ctd.trial._summary.mutational_signatures != null && ctd.trial._summary.mutational_signatures.length > 0) {
+					sigs = sigs.concat(ctd.trial._summary.mutational_signatures)
 				}
 				if (ctd.trial._summary.mmr_status != null && ctd.trial._summary.mmr_status.length > 0) {
 					sigs = sigs.concat(ctd.trial._summary.mmr_status)

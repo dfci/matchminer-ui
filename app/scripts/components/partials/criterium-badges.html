@@ -119,6 +119,12 @@
                               ng-if="::node.uva_signature"
                               postfix=" UVA Signature">
         </clinical-trial-badge>
+
+        <clinical-trial-badge category="tmb"
+                              value="::node.tmb_numerical"
+                              ng-if="::node.tmb_numerical"
+                              prefix="Tumor Mutational Burden">
+        </clinical-trial-badge>
 	</span>
 </div>
 

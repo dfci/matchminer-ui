@@ -168,7 +168,7 @@ function ClinicalTrialBadgeCtrl() {
         }
     }
 
-    if (ctrl.category == 'signatures') {
+    if (ctrl.category == 'signatures' || ctrl.category === 'tmb') {
         ctrl.view = ctrl.value
     }
 
@@ -261,6 +261,7 @@ function getBadgeCategoryClass(category, status) {
         case 'tobacco_signature':
         case 'pole_signature':
         case 'apobec_signature':
+        case 'tmb':
         case 'uva_signature':
             return 'ct-badge-signatures';
             break
@@ -322,6 +323,9 @@ function getBadgeTooltip(category) {
         case 'uva_signature':
             return 'Signature';
             break
+        case 'tmb':
+            return 'TMB';
+            break;
         case 'tumor_type':
             return 'Tumor type';
             break;
