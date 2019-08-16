@@ -422,7 +422,7 @@ angular.module('matchminerUiApp')
             ctr.hasMoreTags = function (trial) {
                 if (!trial) return;
 
-                var hgsLen, wtHgsLen, stageLen, diagLen, drugLen;
+                var hgsLen, wtHgsLen, stageLen, diagLen, drugLen, mutLength;
                 var tS = trial._source;
                 var hasMore = 1;
 
@@ -441,6 +441,11 @@ angular.module('matchminerUiApp')
                     hasMore += stageLen;
                 }
 
+                if (tS._summary && tS._summary.mutational_signatures) {
+                    mutLength = tS._summary.mutational_signatures.length;
+                    hasMore += mutLength;
+                }
+
                 if (tS._summary && tS._summary.tumor_types) {
                     var filtered = $filter('trialBadgeFilter')(tS._summary.tumor_types);
                     diagLen = uniqueFilter(filtered).length;
@@ -453,7 +458,7 @@ angular.module('matchminerUiApp')
                     }
                 }
 
-                return (hgsLen > 3 || wtHgsLen > 3 || stageLen > 3 || diagLen > 3 || drugLen > 3) || hasMore > 21;
+                return (hgsLen > 3 || wtHgsLen > 3 || stageLen > 3 || diagLen > 3 || drugLen > 3 || mutLength > 3) || hasMore > 21;
             };
 
             /**
