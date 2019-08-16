@@ -329,10 +329,11 @@ angular.module('matchminerUiApp')
 
 				    if (this.hasSpecificSearchTerm()) {
 						var fullSearchTerm = this.getSearchTerm();
-						var splitSearchTerm = [fullSearchTerm];
+						var splitSearchTerm = fullSearchTerm.split(' ');
 						var isTemozolomide = false;
 						if (fullSearchTerm.toLowerCase() === 'temozolomide signature') {
-							splitSearchTerm = fullSearchTerm.split(' ');
+							//Don't search for temozolomide and signature as separate terms
+							splitSearchTerm = [fullSearchTerm];
 							isTemozolomide = true;
 						}
 						var investigatorSearchTerm = this.getInvestigatorSearchTerms(splitSearchTerm);

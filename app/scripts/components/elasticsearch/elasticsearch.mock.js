@@ -73,7 +73,6 @@ angular.module('matchminerUiApp')
 												"query":"BRCA",
 												"fields":[
 													"_elasticsearch.protocol_no^200.0",
-													"_elasticsearch.drugs^2.0",
 													"_elasticsearch.age",
 													"_elasticsearch.phase",
 													"_elasticsearch.disease_status",
@@ -81,7 +80,8 @@ angular.module('matchminerUiApp')
 													"_elasticsearch.disease_center",
 													"_elasticsearch.mmr_status",
 													"_elasticsearch.ms_status",
-													"_elasticsearch.short_title"
+													"_elasticsearch.short_title",
+													"_elasticsearch.drugs^2.0"
 												],
 												"type":"most_fields"
 											}
@@ -91,7 +91,6 @@ angular.module('matchminerUiApp')
 												"query":"Trial",
 												"fields":[
 													"_elasticsearch.protocol_no^200.0",
-													"_elasticsearch.drugs^2.0",
 													"_elasticsearch.age",
 													"_elasticsearch.phase",
 													"_elasticsearch.disease_status",
@@ -99,7 +98,8 @@ angular.module('matchminerUiApp')
 													"_elasticsearch.disease_center",
 													"_elasticsearch.mmr_status",
 													"_elasticsearch.ms_status",
-													"_elasticsearch.short_title"
+													"_elasticsearch.short_title",
+													"_elasticsearch.drugs^2.0"
 												],
 												"type":"most_fields"
 											}
