@@ -69,7 +69,7 @@ angular.module('matchminerUiApp')
 				if (ctd.trial._summary.ms_status != null && ctd.trial._summary.ms_status.length > 0) {
 					sigs = sigs.concat(ctd.trial._summary.ms_status)
 				}
-				return sigs;
+				return _.uniq(sigs, true);
 			};
 			
 			ctd.filterGeneChips = function(genes) {

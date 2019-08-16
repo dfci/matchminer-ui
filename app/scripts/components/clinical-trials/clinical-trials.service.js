@@ -105,18 +105,11 @@ angular.module('matchminerUiApp')
 				 * Order of priorities of highlighting fields
 				 */
 				var highlight_priorities = {
-                    // '_elasticsearch.genes': "Gene",
-                    // '_elasticsearch.variants': "Gene Variant",
-                    // '_elasticsearch.wildtype_genes': "Wildtype",
-                    // '_elasticsearch.exclusion_genes': "Gene Exclusion Criteria",
-                    // '_elasticsearch.cnv_genes': "CNV",
-                    // '_elasticsearch.sv_genes': "SV",
                     '_elasticsearch.protocol_no': "Protocol #",
                     '_elasticsearch.drugs': "Drug",
                     '_elasticsearch.age': "Age",
                     '_elasticsearch.phase': "Phase",
                     '_elasticsearch.investigator': "Investigator",
-                    // '_elasticsearch.disease_center': 'Disease Center',
                     '_elasticsearch.nct_number': 'NCT number',
 					'_elasticsearch.mmr_status': 'Mutational Signature',
                     '_elasticsearch.ms_status': 'Mutational Signature',
