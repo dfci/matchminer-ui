@@ -681,6 +681,8 @@ angular.module('matchminerUiApp')
 									suggestions[i].text = suggestions[i].text + ' All Variants';
                                 } else if (suggestions[i].type === "wildtype_suggest") {
 									suggestions[i].text = suggestions[i].text.split(' ')[0] + ' Wild-Type';
+								} else if (suggestions[i].type === "mmr_status_suggest" && suggestions[i].text.contains('_')) {
+                                	suggestions[i].text = suggestions[i].text.replace(/_/g, ' ')
 								}
 							}
 

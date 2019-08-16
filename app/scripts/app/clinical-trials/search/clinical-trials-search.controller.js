@@ -208,6 +208,7 @@ angular.module('matchminerUiApp')
 						ElasticSearchService.setSearchTerm(null);
 						terms = _.omit(terms, 'All');
 					}
+
 					if (geneTerm == "" || !geneTerm) {
 						ElasticSearchService.setGeneSearchTerm(null);
 						terms = _.omit(terms, 'Gene');
