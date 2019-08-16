@@ -170,6 +170,13 @@ describe('ElasticSearch Service Unit Tests', function () {
 			ElasticSearchService.setSearchTerm(searchTerm);
 			expect(ElasticSearchService.getSearchQuery()).toEqual(ElasticSearchMocks.getSearchQuery());
 		});
+
+		it('should get the elastic search query for temozolomide signature', function () {
+			//elastic search query should omit searching for drugs
+			var searchTerm = 'Temozolomide Signature';
+			ElasticSearchService.setSearchTerm(searchTerm);
+			expect(ElasticSearchService.getSearchQuery()).toEqual(ElasticSearchMocks.getTemozolomideSearch());
+		});
 	});
 
 });
