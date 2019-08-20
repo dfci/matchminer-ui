@@ -70,10 +70,14 @@
                             <br/>
                             <span>
                                 The MatchMiner ranking algorithm takes into account the following variables, in this
-                                order: <br/>1) variant actionability (MS/MMR status > Tier 1 > Tier 2 > CNV > Tier 3 >
-                                Tier 4 > wild-type GENE) <br/>2) match type (Variant-level match > Gene-level match) <br/>3) cancer
-                                type match (exact cancer type match > all solid/liquid trial matches) <br/>4) coordinating
-                                center ({{ ENV.resources.institution }} > Other) <br/>5) reverse protocol number (high > low).
+                                order: <br/>
+                                1) variant actionability (MS/MMR status > Tier 1 > Tier 2 > CNV > Tier 3 >
+                                Tier 4 > wild-type GENE) <br/>
+                                2) match type (Variant-level match > Gene-level match) <br/>
+                                3) alteration type (Structural Variation > Mutation) <br/>
+                                4) cancer type match (exact cancer type match > all solid/liquid trial matches) <br/>
+                                5) coordinating center ({{ ENV.resources.institution }} > Other) <br/>
+                                6) reverse protocol number (high > low).
                             </span>
 
                         </md-tooltip>
