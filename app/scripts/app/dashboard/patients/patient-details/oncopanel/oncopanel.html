@@ -78,10 +78,10 @@
         </patient-mutational-signatures>
 
         <patient-structured-s-v category="'structuredSV'"
-                                tiered-variants="pdc.patient.actionableDNAVariants"
+                                tiered-variants="pdc.patient.actionableSvMuts"
                                 dt-opts="pdc.dtPmOpts"
                                 tooltip="pdc.getLayoutTooltipByVersion(id)"
-                                ng-if="pdc.includeForOncopanelVersion(3)">
+                                ng-if="pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)">
         </patient-structured-s-v>
 
         <!-- Each tier is a row consisting of a mutation table on the left side and a visualisation on the right side -->
@@ -151,10 +151,10 @@
         </patient-additional-mutational-signatures>
 
         <patient-structured-s-v category="'structuredSV'"
-                                tiered-variants="pdc.patient.additionalDNAVariants"
+                                tiered-variants="pdc.patient.additionalSvMuts"
                                 dt-opts="pdc.dtPmOpts"
                                 tooltip="pdc.getLayoutTooltipByVersion(id)"
-                                ng-if="pdc.includeForOncopanelVersion(3)">
+                                ng-if="pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)">
         </patient-structured-s-v>
 
         <!-- Each tier is a row consisting of a mutation table -->

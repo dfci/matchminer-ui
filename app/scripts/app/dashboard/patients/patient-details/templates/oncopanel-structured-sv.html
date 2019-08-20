@@ -1,75 +1,77 @@
 <div>
-  <div class="card attached-card">
-    <div class="card-header">
-      <h2>
-        <span>Structural Variants</span>
-        <span>
+    <div class="card attached-card">
+        <div class="card-header">
+            <h2>
+                <span>Structural Variants</span>
+                <span>
 					<ng-include ng-if="category == 'structuredSV'"
-                      src="tooltip({id: 'actionable-dna-variants'})">
+                                src="tooltip({id: 'actionable-dna-variants'})">
 					</ng-include>
 				</span>
-      </h2>
-    </div>
+            </h2>
+        </div>
 
-    <div ng-if="!tieredVariants" class="info-missing-container" layout="row">
-      <md-icon aria-label="Notice"
-               md-font-library="material-icons">
-        error
-      </md-icon>
-      <div>
-        <h3 ng-if="category == 'structuredSV'">No structured SV data available.</h3>
-        <h3 ng-if="category == 'structuredSV'">No structured SV data available.</h3>
-      </div>
+        <div ng-if="!tieredVariants" class="info-missing-container" layout="row">
+            <md-icon aria-label="Notice"
+			         md-font-library="material-icons">
+				warning_outline
+			</md-icon>
+            <div>
+                <h3>No structured SV data available.</h3>
+            </div>
+        </div>
+
     </div>
-  </div>
-  <div layout="row" ng-repeat="(tierId, tierData) in tieredVariants">
-    <div flex>
-      <div class="card dna-variant-card" ng-class="{'stacked-card': $last, 'attached-card': !$last}">
-        <div class="card-header">
-          <h2>
-            Tier {{ ::tierId }}
-            <span style="display:inline; font-size: 90%;">
+    <div layout="row" ng-repeat="(tierId, tierData) in tieredVariants">
+        <div flex>
+            <div class="card dna-variant-card" ng-class="{'stacked-card': $last, 'attached-card': !$last}">
+                <div class="card-header">
+                    <h2>
+                        Tier {{ ::tierId }}
+                        <span style="display:inline; font-size: 90%;">
               <ng-include src="pmTooltip({tier: tierId})"></ng-include>
             </span>
-          </h2>
-        </div>
-        <div class="card-body">
-          <table datatable="ng" dt-options="dtOpts" class="table table-inner table-vmiddle"
-                 width="100%">
-            <thead>
-            <tr>
-              <th ng-if="!isOncologist || isCti">Filter</th>
-              <th>SV Type</th>
-              <th>Left Partner</th>
-              <th>Left Exon/Intron</th>
-              <th>Left Breakpoint</th>
-              <th>Right Partner</th>
-              <th>Right Exon/Intron</th>
-              <th>Right Breakpoint</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="pmRow" ng-repeat="mut in tierData track by $index">
-              <td class="mutation-filter-cell" ng-if="!isOncologist || isCti" ng-class="{'flex-cell': mut.FILTER}">
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <table datatable="ng" dt-options="dtOpts" class="table table-inner table-vmiddle"
+                           width="100%">
+                        <thead>
+                        <tr>
+                            <th ng-if="!isOncologist || isCti">Filter</th>
+                            <th>SV Type</th>
+                            <th>Left Partner</th>
+                            <th>Left Exon/Intron</th>
+                            <th>Left Breakpoint</th>
+                            <th>Right Partner</th>
+                            <th>Right Exon/Intron</th>
+                            <th>Right Breakpoint</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="pmRow" ng-repeat="mut in tierData track by $index">
+                            <td class="mutation-filter-cell" ng-if="!isOncologist || isCti"
+                                ng-class="{'flex-cell': mut.FILTER}">
 								<span ng-if="!mut.FILTER">
 									<strong>- </strong>
 								</span>
-                <genomic-filter-badge filter="filter"
-                                      ng-repeat="filter in mut.FILTER">
-                </genomic-filter-badge>
-              </td>
-              <td>{{ ::mut.STRUCTURAL_VARIANT_TYPE || '-' }}</td>
-              <td title="{{ ::mut.LEFT_PARTNER_GENE }}">{{ ::mut.LEFT_PARTNER_GENE || '-' }}</td>
-              <td title="{{ ::mut.LEFT_PARTNER_EXON_INTRON }}">{{ ::mut.LEFT_PARTNER_EXON_INTRON || '-'}}</td>
-              <td>{{ mut.LEFT_PARTNER_BAND || '' }} {{ mut.LEFT_PARTNER_POSITION || '-' }}</td>
-              <td title="{{ ::mut.RIGHT_PARTNER_GENE}}">{{ ::mut.RIGHT_PARTNER_GENE || '-' }}</td>
-              <td>{{ ::mut.RIGHT_PARTNER_EXON_INTRON || '-' }}</td>
-              <td>{{ mut.RIGHT_PARTNER_BAND || '' }} {{ ::mut.RIGHT_PARTNER_POSITION || '-' }}</td>
-            </tr>
-            </tbody>
-          </table>
+                                <genomic-filter-badge filter="filter"
+                                                      ng-repeat="filter in mut.FILTER">
+                                </genomic-filter-badge>
+                            </td>
+                            <td>{{ ::mut.STRUCTURAL_VARIANT_TYPE || '-' }}</td>
+                            <td title="{{ ::mut.LEFT_PARTNER_GENE }}">{{ ::mut.LEFT_PARTNER_GENE || '-' }}</td>
+                            <td title="{{ ::mut.LEFT_PARTNER_EXON_INTRON }}">
+                                {{ ::mut.LEFT_PARTNER_EXON_INTRON || '-'}}</td>
+                            <td>{{ mut.LEFT_PARTNER_BAND || '' }} {{ mut.LEFT_PARTNER_POSITION || '-' }}</td>
+                            <td title="{{ ::mut.RIGHT_PARTNER_GENE}}">{{ ::mut.RIGHT_PARTNER_GENE || '-' }}</td>
+                            <td>{{ ::mut.RIGHT_PARTNER_EXON_INTRON || '-' }}</td>
+                            <td>{{ mut.RIGHT_PARTNER_BAND || '' }} {{ ::mut.RIGHT_PARTNER_POSITION || '-' }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>

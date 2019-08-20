@@ -252,7 +252,7 @@ angular.module('matchminerUiApp')
 						POLE: variants.POLE_STATUS,
 						TOBACCO: variants.TABACCO_STATUS,
 						TEMOZOLOMIDE: variants.TEMOZOLOMIDE_STATUS,
-						UVA: variants.UVA_STATUS,
+						UVA: variants.UVA_STATUS
 					};
 
 					var specVariantsValues = _.reduce(specVariants, function(agg, val, key){
@@ -355,12 +355,11 @@ angular.module('matchminerUiApp')
                                         'TEMOZOLOMIDE_STATUS',
                                         'POLE_STATUS',
                                         'APOBEC_STATUS',
-                                        'UVA_STATUS',
+                                        'UVA_STATUS'
 							        ];
 							        for (var j=0; j < mutationalSignatureFields.length; j++) {
 							            if (pc.patient.additionalSignatures[i][mutationalSignatureFields[j]] !== undefined &&
 							                pc.patient.additionalSignatures[i][mutationalSignatureFields[j]] !== null) {
-                                                console.log(mutationalSignatureFields[j], pc.patient.additionalSignatures[i][mutationalSignatureFields[j]]);
                                                 pc.hasAdditionalSignatures = true;
 							            }
 							        }
@@ -480,14 +479,33 @@ angular.module('matchminerUiApp')
 								}
 							});
 
+
+							/**
+							 * SV Structural Variants
+							 */
 							pc.patient.actionableSvMuts = svMut._items.filter(function(svMut) {
-								return svMut.ACTIONABILITY === 'actionable';
+							    return (svMut.ACTIONABILITY === 'actionable' || svMut.TIER === 1 || svMut.TIER === 2) && svMut.TIER !== null;
 							});
 
 							pc.patient.additionalSvMuts = svMut._items.filter(function(svMut) {
-								return svMut.ACTIONABILITY === 'investigational';
+							    return (svMut.ACTIONABILITY === 'investigational' || svMut.TIER === 3 || svMut.TIER === 4) && svMut.TIER !== null;
 							});
 
+							pc.patient.additionalSvMuts = _.groupBy(pc.patient.additionalSvMuts, 'TIER');
+							pc.patient.actionableSvMuts= _.groupBy(pc.patient.actionableSvMuts, 'TIER');
+
+							if (_.isEmpty(pc.patient.actionableSvMuts)) {
+								delete pc.patient.actionableSvMuts;
+							}
+
+							if (_.isEmpty(pc.patient.additionalSvMuts)) {
+								delete pc.patient.additionalSvMuts;
+							}
+
+
+							/**
+							 * CNV Copy Number Variations
+							 */
 							pc.patient.cnvMut = cnvMut._items;
 							var actionableCnvMuts = cnvMut._items.filter(function(cnvMut) {
 								return cnvMut.ACTIONABILITY === 'actionable';
