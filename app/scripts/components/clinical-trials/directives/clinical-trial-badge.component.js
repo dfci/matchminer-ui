@@ -253,7 +253,7 @@ function getBadgeCategoryClass(category, status) {
     var _trialGreenStatusses = ['OPEN TO ACCRUAL'];
     var _trialGreyStatusses = ['NEW', 'ON HOLD', 'SRC APPROVAL', 'IRB INITIAL APPROVAL', 'ACTIVATION COORDINATOR SIGNOFF'];
     var _trialYellowStatusses = ['CLOSED TO ACCRUAL', 'SUSPENDED'];
-    var _trialRedStatusses = ['IRB STUDY CLOSURE', 'TERMINATED'];
+    var _trialRedStatusses = ['IRB STUDY CLOSURE', 'TERMINATED', 'ABANDONED'];
 
     switch (category) {
         case 'signature':

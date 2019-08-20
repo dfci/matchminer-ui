@@ -30,7 +30,7 @@ angular.module('matchminerUiApp')
 			var _trialGreenStatusses = ['Open to Accrual'];
 			var _trialGreyStatusses = ['New', 'On Hold', 'SRC Approval', 'IRB Initial Approval', 'Activation Coordinator Signoff'];
 			var _trialYellowStatusses = ['Closed to Accrual', 'Suspended'];
-			var _trialRedStatusses = ['IRB Study Closure', 'Terminated'];
+			var _trialRedStatusses = ['IRB Study Closure', 'Terminated', 'Abandoned'];
 
 			ctd.isLoading = true;
 			ctd.isLargeMediaQuery = $mdMedia('gt-sm');
