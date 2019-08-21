@@ -109,7 +109,10 @@
                                     <br />
                                     <strong>These are strong matches.</strong>
                                 </span>
-                                <span ng-if="ga.match_type == 'gene' && ga.variant_category !== 'SIGNATURE'">
+                                <span ng-if="ga.variant_category === 'SV'">
+                                    These are matches based on structural variations.
+                                </span>
+                                <span ng-if="ga.match_type == 'gene' && ga.variant_category !== 'SIGNATURE' && ga.variant_category !== 'SV'">
                                     Gene-level matches are found when the trial specifies all variants in a given gene, or it was not possible to entirely capture the protocol's criteria directly in MatchMiner.
                                     <br />
                                     Gene level matches are <strong>less specific </strong>than a variant level match and will likely need to be reviewed by trial staff.
@@ -122,15 +125,16 @@
                             </md-tooltip>
                             {{ ::ga.genomic_alteration | transformNegation }}
                             <br />
-                            <span class="genomic-match-level" ng-if="ga.variant_category !== 'SIGNATURE'">
+                            <span class="genomic-match-level" ng-if="ga.variant_category !== 'SIGNATURE' && ga.variant_category !== 'SV'">
                                 <span ng-if="ga.match_type">
                                     {{ ctr.toTitleCase(ga.match_type.replace('_',' ')) }}-Level Match
                                 </span>
                                 <span ng-if="!ga.match_type">
                                     Non-Genomic Match
                                 </span>
+                                <br />
                             </span>
-                            <br />
+
                             <span class="genomic-match-level genomic-match-tier" ng-if="ga.tier">Tier {{ ga.tier }}</span>
                             <span class="genomic-match-level genomic-match-tier"
                                   ng-if="!ga.tier && ga.variant_category == 'SIGNATURE'" style="margin-top: -19px; display: block">
