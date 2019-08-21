@@ -108,8 +108,9 @@ angular.module('matchminerUiApp')
 
 					var q = {
 						where: {
-							mrn: mrn
-						},
+							mrn: mrn,
+							show_in_ui: true
+						}
 					};
 					
 					if (sort) {
@@ -135,11 +136,6 @@ angular.module('matchminerUiApp')
 							sample_id: sample_id
 						});
 					}
-
-					//matchengine v2 includes a flag to display a match or not
-					_.extend(q.where, {
-						show_in_ui: true
-					});
 
 					return TrialMatchREST.query(q).$promise;
 				};
