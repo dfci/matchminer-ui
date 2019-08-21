@@ -51,7 +51,8 @@ describe('Trial Match Service Unit Tests', function () {
 				mrn: mrn,
 				vital_status: vital_status,
 				trial_curation_level_status: trial_curation_level_status,
-				sample_id: sample_id
+				sample_id: sample_id,
+				show_in_ui: true
 			}
 		};
 
@@ -67,7 +68,8 @@ describe('Trial Match Service Unit Tests', function () {
 			where: {
 				mrn: mrn,
 				vital_status: vital_status,
-				trial_curation_level_status: trial_curation_level_status
+				trial_curation_level_status: trial_curation_level_status,
+				show_in_ui: true
 			}
 		};
 
@@ -82,7 +84,8 @@ describe('Trial Match Service Unit Tests', function () {
 		var q = {
 			where: {
 				mrn: mrn,
-				vital_status: vital_status
+				vital_status: vital_status,
+				show_in_ui: true
 			}
 		};
 
@@ -96,7 +99,8 @@ describe('Trial Match Service Unit Tests', function () {
 
 		var q = {
 			where: {
-				mrn: mrn
+				mrn: mrn,
+				show_in_ui: true
 			}
 		};
 
