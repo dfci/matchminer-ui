@@ -81,6 +81,7 @@
                                 tiered-variants="pdc.patient.actionableSvMuts"
                                 dt-opts="pdc.dtPmOpts"
                                 tooltip="pdc.getLayoutTooltipByVersion(id)"
+                                pm-tooltip="pdc.getPointMutationTooltip(tier)"
                                 ng-if="pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)">
         </patient-structured-s-v>
 
@@ -154,6 +155,7 @@
                                 tiered-variants="pdc.patient.additionalSvMuts"
                                 dt-opts="pdc.dtPmOpts"
                                 tooltip="pdc.getLayoutTooltipByVersion(id)"
+                                pm-tooltip="pdc.getPointMutationTooltip(tier)"
                                 ng-if="pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)">
         </patient-structured-s-v>
 
