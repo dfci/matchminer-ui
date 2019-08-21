@@ -136,6 +136,11 @@ angular.module('matchminerUiApp')
 						});
 					}
 
+					//matchengine v2 includes a flag to display a match or not
+					_.extend(q.where, {
+						show_in_ui: true
+					});
+
 					return TrialMatchREST.query(q).$promise;
 				};
 
