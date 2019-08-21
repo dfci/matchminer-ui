@@ -481,25 +481,37 @@ angular.module('matchminerUiApp')
 
 
 							/**
-							 * SV Structural Variants
+							 * SV Structural Variants - Unstructured
 							 */
 							pc.patient.actionableSvMuts = svMut._items.filter(function(svMut) {
-							    return (svMut.ACTIONABILITY === 'actionable' || svMut.TIER === 1 || svMut.TIER === 2) && svMut.TIER !== null;
+								return svMut.ACTIONABILITY === 'actionable';
 							});
 
 							pc.patient.additionalSvMuts = svMut._items.filter(function(svMut) {
+								return svMut.ACTIONABILITY === 'investigational';
+							});
+
+
+							/**
+							 * SV Structured Structural Variants
+							 */
+							pc.patient.actionableStructuredSV = svMut._items.filter(function(svMut) {
+							    return (svMut.ACTIONABILITY === 'actionable' || svMut.TIER === 1 || svMut.TIER === 2) && svMut.TIER !== null;
+							});
+
+							pc.patient.additionalStructuredSV = svMut._items.filter(function(svMut) {
 							    return (svMut.ACTIONABILITY === 'investigational' || svMut.TIER === 3 || svMut.TIER === 4) && svMut.TIER !== null;
 							});
 
-							pc.patient.additionalSvMuts = _.groupBy(pc.patient.additionalSvMuts, 'TIER');
-							pc.patient.actionableSvMuts= _.groupBy(pc.patient.actionableSvMuts, 'TIER');
+							pc.patient.additionalStructuredSV = _.groupBy(pc.patient.additionalSvMuts, 'TIER');
+							pc.patient.actionableStructuredSV= _.groupBy(pc.patient.actionableSvMuts, 'TIER');
 
-							if (_.isEmpty(pc.patient.actionableSvMuts)) {
-								delete pc.patient.actionableSvMuts;
+							if (_.isEmpty(pc.patient.additionalStructuredSV)) {
+								delete pc.patient.additionalStructuredSV;
 							}
 
-							if (_.isEmpty(pc.patient.additionalSvMuts)) {
-								delete pc.patient.additionalSvMuts;
+							if (_.isEmpty(pc.patient.actionableStructuredSV)) {
+								delete pc.patient.actionableStructuredSV;
 							}
 
 
