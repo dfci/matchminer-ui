@@ -503,8 +503,8 @@ angular.module('matchminerUiApp')
 							    return (svMut.ACTIONABILITY === 'investigational' || svMut.TIER === 3 || svMut.TIER === 4) && svMut.TIER !== null;
 							});
 
-							pc.patient.additionalStructuredSV = _.groupBy(pc.patient.additionalSvMuts, 'TIER');
-							pc.patient.actionableStructuredSV= _.groupBy(pc.patient.actionableSvMuts, 'TIER');
+							pc.patient.additionalStructuredSV = _.groupBy(pc.patient.additionalStructuredSV, 'TIER');
+							pc.patient.actionableStructuredSV = _.groupBy(pc.patient.actionableStructuredSV, 'TIER');
 
 							if (_.isEmpty(pc.patient.additionalStructuredSV)) {
 								delete pc.patient.additionalStructuredSV;
