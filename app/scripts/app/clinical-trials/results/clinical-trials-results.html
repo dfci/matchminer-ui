@@ -110,7 +110,9 @@
                                     <strong>These are strong matches.</strong>
                                 </span>
                                 <span ng-if="ga.variant_category === 'SV'">
-                                    These are matches based on structural variations.
+                                    Structural variant matches are found when the trial specifies genomic rearrangements (e.g. gene fusions or large intragenic deletions) as part of the eligibility for that trial. <br />
+
+Structural variant matches will often require review by trial staff.
                                 </span>
                                 <span ng-if="ga.match_type == 'gene' && ga.variant_category !== 'SIGNATURE' && ga.variant_category !== 'SV'">
                                     Gene-level matches are found when the trial specifies all variants in a given gene, or it was not possible to entirely capture the protocol's criteria directly in MatchMiner.
@@ -123,7 +125,7 @@
                                     <strong>These are strong matches.</strong>
                                 </span>
                                 <span ng-if="ga.match_type == 'tmb'">
-                                    Tumor Mutational Burden matches occur when the quantity of mutations in a tumor matches a curated value.
+                                    Tumor mutational burden matches are found when the trial specifies a tumor mutational burden as part of the eligibility for that trial.
                                     <br />
                                     <strong>These are strong matches.</strong>
                                 </span>
