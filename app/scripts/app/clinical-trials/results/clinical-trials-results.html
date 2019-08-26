@@ -123,7 +123,7 @@
                                     <br />
                                     Gene level matches are <strong>less specific </strong>than a variant level match and will likely need to be reviewed by trial staff.
                                 </span>
-                                <span ng-if="ga.match_type == 'variant' && !ga.variant_category == 'SV'">
+                                <span ng-if="ga.match_type == 'variant' && !ga.genomic_alteration.contains('Structural Variation')">
                                     Variant-level matches are found when the trial protocol or sponsor provides explicit variants for the trial.
                                     <br />
                                     <strong>These are strong matches.</strong>
