@@ -138,11 +138,11 @@ function ClinicalTrialBadgeCtrl() {
             var left = ctrl.genomicObject.hugo_symbol;
             var right = ctrl.genomicObject.fusion_partner_hugo_symbol;
 
-            if (left == null || left === 'any_gene') {
+            if (left == null) {
                 left = ''
             }
 
-            if (right == null || right === 'any_gene') {
+            if (right == null) {
                 right = ''
             }
 
