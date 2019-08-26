@@ -48,7 +48,7 @@
     <patient-mutational-burden is-embedded="false"
                                clinical="::pdc.patient.clinical"
                                tooltip="pdc.getLayoutTooltipByVersion(id)"
-                               ng-if="pdc.includeForOncopanelVersion(2)">
+                               ng-if="pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)">
     </patient-mutational-burden>
 
     <!-- Actionable Findings section -->
@@ -74,16 +74,8 @@
         <patient-mutational-signatures is-embedded="false"
                                        clinical="::pdc.patient.additionalSignatures[0]"
                                        tooltip="pdc.getLayoutTooltipByVersion(id)"
-                                       ng-if="pdc.includeForOncopanelVersion(2)">
+                                       ng-if="pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)">
         </patient-mutational-signatures>
-
-        <patient-structured-s-v category="'structuredSV'"
-                                tiered-variants="pdc.patient.actionableStructuredSV"
-                                dt-opts="pdc.dtPmOpts"
-                                tooltip="pdc.getLayoutTooltipByVersion(id)"
-                                pm-tooltip="pdc.getPointMutationTooltip(tier)"
-                                ng-if="pdc.includeForOncopanelVersion(3)">
-        </patient-structured-s-v>
 
         <!-- Each tier is a row consisting of a mutation table on the left side and a visualisation on the right side -->
         <patient-dna-tiered-variants category="'actionableDNAVariants'"
@@ -94,19 +86,27 @@
                                      is-oncologist="pdc.isOncologist && !pdc.isCti">
         </patient-dna-tiered-variants>
 
+        <patient-structured-s-v category="'structuredSV'"
+                                tiered-variants="pdc.patient.actionableStructuredSV"
+                                dt-opts="pdc.dtPmOpts"
+                                tooltip="pdc.getLayoutTooltipByVersion(id)"
+                                pm-tooltip="pdc.getPointMutationTooltip(tier)"
+                                ng-if="pdc.includeForOncopanelVersion(3)">
+        </patient-structured-s-v>
+
         <patient-cnv-grouped-by category="'actionableCnvMuts'"
                                 cnv-mut="pdc.patient.actionableCnvMut"
                                 dt-opts="pdc.dtCNVOpts"
                                 show-filters-fnc="pdc.showAnyFilters(collection)"
                                 is-oncologist="pdc.isOncologist && !pdc.isCti"
                                 tooltip="pdc.getLayoutTooltipByVersion(id)"
-                                ng-if="pdc.includeForOncopanelVersion(2)">
+                                ng-if="pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)">
         </patient-cnv-grouped-by>
 
         <!-- Structural Variants -->
         <patient-structural-variants sv-mut="::pdc.patient.actionableSvMuts"
                                      is-embedded="true"
-                                     ng-if="pdc.includeForOncopanelVersion(2) && pdc.patient.actionableSvMuts.length"
+                                     ng-if="(pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)) && pdc.patient.actionableSvMuts.length"
                                      tooltip="pdc.getLayoutTooltipByVersion(id)">
         </patient-structural-variants>
 
@@ -148,16 +148,8 @@
           variants="pdc.patient.additionalSignatures[0]"
           filter="pdc.additionalMutationalSignatures"
           tooltip="pdc.getLayoutTooltipByVersion(id)"
-          ng-if="pdc.includeForOncopanelVersion(2) && pdc.hasAdditionalSignatures">
+          ng-if="(pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)) && pdc.hasAdditionalSignatures">
         </patient-additional-mutational-signatures>
-
-        <patient-structured-s-v category="'structuredSV'"
-                                tiered-variants="pdc.patient.additionalStructuredSV"
-                                dt-opts="pdc.dtPmOpts"
-                                tooltip="pdc.getLayoutTooltipByVersion(id)"
-                                pm-tooltip="pdc.getPointMutationTooltip(tier)"
-                                ng-if="pdc.includeForOncopanelVersion(3)">
-        </patient-structured-s-v>
 
         <!-- Each tier is a row consisting of a mutation table -->
         <patient-dna-tiered-variants category="'additionalDNAVariants'"
@@ -168,19 +160,27 @@
                                      is-oncologist="pdc.isOncologist && !pdc.isCti">
         </patient-dna-tiered-variants>
 
+        <patient-structured-s-v category="'structuredSV'"
+                                tiered-variants="pdc.patient.additionalStructuredSV"
+                                dt-opts="pdc.dtPmOpts"
+                                tooltip="pdc.getLayoutTooltipByVersion(id)"
+                                pm-tooltip="pdc.getPointMutationTooltip(tier)"
+                                ng-if="pdc.includeForOncopanelVersion(3)">
+        </patient-structured-s-v>
+
         <patient-cnv-grouped-by category="'additionalCnvMuts'"
                                 cnv-mut="pdc.patient.additionalCnvMut"
                                 dt-opts="pdc.dtCNVOpts"
                                 show-filters-fnc="pdc.showAnyFilters(collection)"
                                 is-oncologist="pdc.isOncologist && !pdc.isCti"
                                 tooltip="pdc.getLayoutTooltipByVersion(id)"
-                                ng-if="pdc.includeForOncopanelVersion(2)">
+                                ng-if="pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)">
         </patient-cnv-grouped-by>
 
         <!-- Structural Variants -->
         <patient-structural-variants sv-mut="::pdc.patient.additionalSvMuts"
                                      is-embedded="true"
-                                     ng-if="pdc.includeForOncopanelVersion(2) && pdc.patient.additionalSvMuts.length"
+                                     ng-if="(pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)) && pdc.patient.additionalSvMuts.length"
                                      tooltip="pdc.getLayoutTooltipByVersion(id)">
         </patient-structural-variants>
 
