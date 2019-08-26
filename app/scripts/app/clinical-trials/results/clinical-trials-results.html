@@ -125,7 +125,7 @@
                             </md-tooltip>
                             {{ ::ga.genomic_alteration | transformNegation }}
                             <br />
-                            <span class="genomic-match-level" ng-if="ga.variant_category !== 'SIGNATURE' && ga.variant_category !== 'SV'">
+                            <span class="genomic-match-level" ng-if="ga.variant_category !== 'SIGNATURE' && ga.variant_category !== 'SV' && !ga.genomic_alteration.contains('Structural Variation')">
                                 <span ng-if="ga.match_type">
                                     {{ ctr.toTitleCase(ga.match_type.replace('_',' ')) }}-Level Match
                                 </span>
