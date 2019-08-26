@@ -478,11 +478,15 @@ angular.module('matchminerUiApp')
             };
 
             ctr.toTitleCase = function (str) {
-                str = str.toLowerCase().split(' ');
-                for (var i = 0; i < str.length; i++) {
-                    str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+                if (str.toLowerCase() !== 'tmb') {
+                    str = str.toLowerCase().split(' ');
+                    for (var i = 0; i < str.length; i++) {
+                        str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+                    }
+                    return str.join(' ');
+                } else {
+                    return 'TMB'
                 }
-                return str.join(' ');
             };
 
         }]);
