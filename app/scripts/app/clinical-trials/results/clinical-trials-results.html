@@ -109,17 +109,21 @@
                                     <br />
                                     <strong>These are strong matches.</strong>
                                 </span>
-                                <span ng-if="ga.variant_category === 'SV'">
-                                    Structural variant matches are found when the trial specifies genomic rearrangements (e.g. gene fusions or large intragenic deletions) as part of the eligibility for that trial. <br />
-
-Structural variant matches will often require review by trial staff.
+                                <span ng-if="ga.variant_category === 'SV' || ga.genomic_alteration.contains('Structural Variation')">
+                                    Structural variant matches are found when the trial specifies genomic rearrangements
+                                    (e.g. gene fusions or large intragenic deletions) as part of the eligibility for that trial. <br />
+                                    Structural variant matches will often require review by trial staff.
                                 </span>
-                                <span ng-if="ga.match_type == 'gene' && ga.variant_category !== 'SIGNATURE' && ga.variant_category !== 'SV'">
-                                    Gene-level matches are found when the trial specifies all variants in a given gene, or it was not possible to entirely capture the protocol's criteria directly in MatchMiner.
+                                <span ng-if="ga.match_type == 'gene' &&
+                                             ga.variant_category !== 'SIGNATURE' &&
+                                             ga.variant_category !== 'SV' &&
+                                             !ga.genomic_alteration.contains('Structural Variation')">
+                                    Gene-level matches are found when the trial specifies all variants in a given gene, or it was not
+                                    possible to entirely capture the protocol's criteria directly in MatchMiner.
                                     <br />
                                     Gene level matches are <strong>less specific </strong>than a variant level match and will likely need to be reviewed by trial staff.
                                 </span>
-                                <span ng-if="ga.match_type == 'variant'">
+                                <span ng-if="ga.match_type == 'variant' && !ga.variant_category == 'SV'">
                                     Variant-level matches are found when the trial protocol or sponsor provides explicit variants for the trial.
                                     <br />
                                     <strong>These are strong matches.</strong>
