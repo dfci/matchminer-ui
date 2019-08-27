@@ -63,11 +63,11 @@
                             <td>{{ ::mut.STRUCTURAL_VARIANT_TYPE || '-' }}</td>
                             <td title="{{ ::mut.LEFT_PARTNER_GENE }}">{{ ::mut.LEFT_PARTNER_GENE || '-' }}</td>
                             <td title="{{ ::mut.LEFT_PARTNER_EXON_INTRON }}">
-                                {{ mut.LEFT_PARTNER_EXON_INTRON + ' ' +  mut.LEFT_PARTNER_EXON_INTRON_NUM|| '-'}}</td>
-                            <td>chr{{ mut.LEFT_PARTNER_CHROMOSOME || '' }}:{{ mut.LEFT_PARTNER_POSITION || '-' }}</td>
+                                {{ mut.LEFT_PARTNER_EXON_INTRON || '-'}} {{ mut.LEFT_PARTNER_EXON_INTRON_NUM || ''}}</td>
+                            <td>chr{{ mut.LEFT_PARTNER_CHROMOSOME || '' }}:{{ ::mut.LEFT_PARTNER_POSITION || '-' }}</td>
                             <td title="{{ ::mut.RIGHT_PARTNER_GENE}}">{{ ::mut.RIGHT_PARTNER_GENE || '-' }}</td>
-                            <td>{{ ::mut.RIGHT_PARTNER_EXON_INTRON + ' ' + mut.RIGHT_PARTNER_EXON_INTRON_NUM || '-' }}</td>
-                            <td>chr{{ mut.RIGHT_PARTNER_CHROMOSOME || '' }}:{{ ::mut.RIGHT_PARTNER_POSITION || '-' }}</td>
+                            <td>{{ ::mut.RIGHT_PARTNER_EXON_INTRON || '-' }} {{ ::mut.RIGHT_PARTNER_EXON_INTRON_NUM || '' }}</td>
+                            <td>chr{{ ::mut.RIGHT_PARTNER_CHROMOSOME || '' }}:{{ ::mut.RIGHT_PARTNER_POSITION || '-' }}</td>
                         </tr>
                         </tbody>
                     </table>
