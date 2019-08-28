@@ -4,8 +4,11 @@
             <h2>
                 <span>Structural Variants</span>
                 <span>
-					<ng-include ng-if="category == 'structuredSVadditional' || category == 'structuredSVactionable'"
-                                src="tooltip({id: 'structured-sv'})">
+					<ng-include ng-if="category == 'structuredSVadditional'"
+                                src="tooltip({id: 'structured-sv-additional'})">
+					</ng-include>
+                    <ng-include ng-if="category == 'structuredSVactionable'"
+                                src="tooltip({id: 'structured-sv-actionable'})">
 					</ng-include>
 				</span>
             </h2>
