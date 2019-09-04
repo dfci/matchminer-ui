@@ -20,6 +20,9 @@ describe('Trial Match Service Unit Tests', function () {
 		mrn,
 		vital_status,
 		trial_curation_level_status,
+		show_in_ui,
+		trial_summary_status,
+		is_disabled,
 		sample_id,
 		sort,
 		$rootScope;
@@ -35,6 +38,9 @@ describe('Trial Match Service Unit Tests', function () {
 			mrn = 'TCGA-11A-3D4C';
 			vital_status = 'alive';
 			trial_curation_level_status = 'open';
+			trial_summary_status = 'open';
+			is_disabled = false;
+			show_in_ui = true;
 			sample_id = 'BRCA-METABRIC-S2-MB-0245';
 			sort = 'sort_order';
 			$rootScope = _$rootScope_;
@@ -51,8 +57,10 @@ describe('Trial Match Service Unit Tests', function () {
 				mrn: mrn,
 				vital_status: vital_status,
 				trial_curation_level_status: trial_curation_level_status,
+				trial_summary_status: trial_summary_status,
 				sample_id: sample_id,
-				show_in_ui: true
+				show_in_ui: show_in_ui,
+				is_disabled: is_disabled
 			}
 		};
 
@@ -69,7 +77,9 @@ describe('Trial Match Service Unit Tests', function () {
 				mrn: mrn,
 				vital_status: vital_status,
 				trial_curation_level_status: trial_curation_level_status,
-				show_in_ui: true
+				trial_summary_status: trial_summary_status,
+				show_in_ui: show_in_ui,
+				is_disabled: is_disabled
 			}
 		};
 
@@ -85,7 +95,8 @@ describe('Trial Match Service Unit Tests', function () {
 			where: {
 				mrn: mrn,
 				vital_status: vital_status,
-				show_in_ui: true
+				show_in_ui: show_in_ui,
+				is_disabled: is_disabled
 			}
 		};
 
@@ -100,7 +111,8 @@ describe('Trial Match Service Unit Tests', function () {
 		var q = {
 			where: {
 				mrn: mrn,
-				show_in_ui: true
+				show_in_ui: show_in_ui,
+				is_disabled: is_disabled
 			}
 		};
 
