@@ -109,7 +109,8 @@ angular.module('matchminerUiApp')
 					var q = {
 						where: {
 							mrn: mrn,
-							show_in_ui: true
+							show_in_ui: true,
+							is_disabled: false
 						}
 					};
 					
