@@ -252,10 +252,8 @@
 								<span class="trial-property-value">
 									<span class="ct-badge-properties-container ct-badge-inline-spacer" ng-if="ctd.trial">
 										 <clinical-trial-badge category="mmr_status" value="mmr" view="mmr"
-															   ng-repeat="mmr in ctd.trial._summary.mmr_status | limitTo: (trial.numTags || 3)"></clinical-trial-badge>
-                                		 <clinical-trial-badge category="ms_status" value="ms" view="ms"
-		                                                      ng-repeat="ms in ctd.trial._summary.ms_status | limitTo: (trial.numTags || 3)"></clinical-trial-badge>
-										 <clinical-trial-badge ng-if="ctd.trial._summary.mmr_status.length === 0 && ctd.trial._summary.ms_status.length === 0"
+															   ng-repeat="mmr in ctd.getAllSignatures()"></clinical-trial-badge>
+										 <clinical-trial-badge ng-if="ctd.getAllSignatures().length === 0"
 															  category="mmr_status" value="'None'" view="'None'"></clinical-trial-badge>
 									</span>
 								</span>
@@ -421,10 +419,20 @@
 								<div class="match-criterium tree ng-scope ng-isolate-scope">
 									<li ng-if="matchCriterium.clinical">
 										<h4 class="criterium">Required</h4>
-										<clinical-trial-tree class="match-criterium" match-criteria="criterium" tree-idx="idx" ng-repeat="(idx, criterium) in ::matchCriterium track by $index"></clinical-trial-tree>
+										<clinical-trial-tree class="match-criterium"
+                                                             match-criteria="criterium"
+                                                             tree-idx="idx"
+                                                             ng-repeat="(idx, criterium) in ::matchCriterium track by $index">
+
+                                        </clinical-trial-tree>
 									</li>
 								</div>
-								<clinical-trial-tree ng-if="!matchCriterium.clinical" class="match-criterium" match-criteria="criterium" tree-idx="idx" ng-repeat="(idx, criterium) in ::matchCriterium track by $index"></clinical-trial-tree>
+								<clinical-trial-tree ng-if="!matchCriterium.clinical"
+                                                     class="match-criterium"
+                                                     match-criteria="criterium"
+                                                     tree-idx="idx"
+                                                     ng-repeat="(idx, criterium) in ::matchCriterium track by $index">
+                                </clinical-trial-tree>
 							</div>
 						</div>
 
@@ -664,14 +672,16 @@
 								<p class="coordinator-name">
 									{{ ctd.studyCoordinator.first_name }} {{ ctd.studyCoordinator.last_name }}
 								</p>
-								<p class="coordinator-role">
-									{{ ctd.studyCoordinator.staff_role }}
-								</p>
+                <p class="coordinator-role">
+                  {{ ctd.studyCoordinator.staff_role }}
+                </p>
 								<p class="coordinator-institution">
 									{{ ctd.studyCoordinator.institution_name }}
 								</p>
 							</div>
-
+              <p class="coordinator-role">
+                {{ ctd.studyCoordinator.email_address.toLowerCase() }}
+              </p>
 							<md-button ng-if="!ENV.EPIC"
                                        class="md-raised trial-link contact-button"
 							           ng-class="{
@@ -692,11 +702,11 @@
 									Email {{ ctd.studyCoordinator.staff_role }}
 								</md-tooltip>
 							</md-button>
-                            <div class="epic-contact-details" ng-if="ENV.EPIC"><br>
-                                <span class="trial-coordinator-email-label">Contact Email: </span>
-                                <br>
-                                <span class="trial-coordinator-email">{{ ctd.studyCoordinator.email_address }}</span>
-                            </div>
+                <div class="epic-contact-details" ng-if="ENV.EPIC"><br>
+                    <span class="trial-coordinator-email-label">Contact Email: </span>
+                    <br>
+                    <span class="trial-coordinator-email">{{ ctd.studyCoordinator.email_address }}</span>
+                </div>
 						</div>
 
 						<div class="trial-coordinator-details" ng-if="!ctd.studyCoordinator">

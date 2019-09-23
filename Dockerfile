@@ -1,28 +1,28 @@
 # pull base node image.
 FROM node:7-onbuild
 
-# Just in case PhantomJS fails, or you had to run a docker system prune -a
+ # Just in case PhantomJS fails, or you had to run a docker system prune -a
 RUN apt-get install libfontconfig
 
-# install phantomjs globally
+ # install phantomjs globally
 RUN npm install -g phantomjs-prebuilt
 ENV PHANTOMJS_BIN "/usr/local/bin/phantomjs"
 
-# install dependencies globally and with package.json
+ # install dependencies globally and with package.json
 RUN npm install -g bower gulp
 RUN npm install
 
-# copy all app data to /data
+ # copy all app data to /data
 COPY . /data
 
-# run bower install with sudo
+ # run bower install with sudo
 RUN bower install --config.interactive=false  --allow-root
 
-# run the gulp tests
+ # run the gulp tests
 RUN gulp test
 
-# define working directory.
+ # define working directory.
 WORKDIR /data
 
-# copy the data
+ # copy the data
 COPY dist /var/www/apache-flask/api/static

@@ -3,12 +3,11 @@
     "ENV": {
       "name": "development",
       "elasticsearch": {
-        "host": "http://localhost:9200",
-        "proxy": "http://localhost:8001/elasticsearch",
-        "index": "matchminer"
+        "host": "http://localhost:9300",
+        "index": "staging"
       },
       "api": {
-        "host": "http://localhost:5555",
+        "host": "http://localhost:5000",
         "endpoint": "/api"
       },
       "samlAuthentication": false,
@@ -32,7 +31,7 @@
         "oncpro_base": "",
         "ctgov_base": "https://clinicaltrials.gov/ct2/show/",
         "logo": "dfci.jpg",
-        "institution": "DEFAULT",
+         "institution": "DEFAULT",
         "institutionFull": "Replace with your institute name",
         "email": "info@yourInstitute.com",
         "emailSecondary": "info2@yourInstitute.com"
@@ -41,16 +40,16 @@
       "cBio": false
     }
   },
-  "staging" : {
+  "stage" : {
     "ENV": {
       "name": "staging",
       "elasticsearch": {
         "host": "http://localhost:9300",
-        "index": "matchminer"
+        "index": "staging"
       },
       "api": {
-        "host": "http://localhost:8443",
-        "endpoint": "http://localhost:8443/api"
+        "host": "http://localhost:5000",
+        "endpoint": "http://localhost:5000/api"
       },
       "samlAuthentication": true,
       "certificate" : {
@@ -69,7 +68,7 @@
         "oncpro_base": "",
         "ctgov_base": "https://clinicaltrials.gov/ct2/show/",
         "logo": "dfci.jpg",
-        "institution": "DEFAULT",
+         "institution": "DEFAULT",
         "institutionFull": "Replace with your institute name",
         "email": "info@yourInstitute.com",
         "emailSecondary": "info2@yourInstitute.com"
@@ -78,16 +77,16 @@
       "cBio": false
     }
   },
-  "production" : {
+  "prod" : {
     "ENV": {
       "name": "production",
       "elasticsearch": {
-        "host": "http://localhost:9400",
+        "host": "http://localhost:9300",
         "index": "matchminer"
       },
       "api": {
-        "host": "http://localhost",
-        "endpoint": "http://localhost/api"
+        "host": "http://localhost:5000",
+        "endpoint": "http://localhost:5000/api"
       },
       "samlAuthentication": true,
       "certificate" : {
@@ -106,7 +105,7 @@
         "oncpro_base": "",
         "ctgov_base": "https://clinicaltrials.gov/ct2/show/",
         "logo": "dfci.jpg",
-        "institution": "DEFAULT",
+         "institution": "DEFAULT",
         "institutionFull": "Replace with your institute name",
         "email": "info@yourInstitute.com",
         "emailSecondary": "info2@yourInstitute.com"

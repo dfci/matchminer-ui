@@ -25,16 +25,16 @@ angular.module('matchminerUiApp')
         return function(input, secondary) {
             if (!angular.isObject(input)) return input;
             if (!angular.isFunction(secondary)) return input;
-            
+
             var array = [];
             for(var objectKey in input) {
                 array.push(input[objectKey]);
             }
-            
+
             array = _.partition(array, function(item) {
                 return secondary({collection: item})
             })
-            
+
             array = array.map(function(e) {
                 return e.sort(function(a, b){
                     a = parseInt(a[0].CNV_ROW_ID);
@@ -42,7 +42,7 @@ angular.module('matchminerUiApp')
                     return a - b;
                 })
             });
-            
+
             return _.flatten(array, true);
         }
     })
@@ -52,20 +52,20 @@ angular.module('matchminerUiApp')
 				var pc = this;
 				pc.sidebarScroll = 0;
 				pc.TEMPLATES = TEMPLATES.patient_view;
-				
+
 				pc.isCti = UserAccount.roles.indexOf('cti') > -1;
 				pc.isOncologist = UserAccount.roles.indexOf('oncologist') > -1;
 				pc.resize = true;
-								
+
 				if (pc.patient) {
 					ClinicalTrialsService.setMRN(pc.patient.clinical.MRN);
 				}
-				
+
                 var lastWidth, currentWidth, initialWidth, lastScroll, currentScroll, scrollReset, recentSidebarSwitch;
                 lastWidth = currentWidth = initialWidth = $window.innerWidth;
                 lastScroll = currentScroll = 0;
                 scrollReset = recentSidebarSwitch = true;
-				
+
                 pc.showAnyFilters = function(cnvs) {
                     return _.some(cnvs, function(cnv) {return cnv.FILTER && cnv.FILTER.length > 0});
                 }
@@ -99,21 +99,21 @@ angular.module('matchminerUiApp')
 					}, function(isGtSm) {
 						pc.isGtSm = isGtSm;
 				});
-                
+
                 if (pc.isSafari) {
                     angular.element($window).bind('resize', function () {
                         lastWidth = currentWidth;
                         currentWidth = $window.innerWidth;
                         pc.shouldShowSpacingWidth = checkSidebarSpacingWidth(lastWidth, currentWidth);
                     });
-    
+
                     angular.element($window).bind('scroll', function () {
                         lastScroll = currentScroll;
                         currentScroll = $window.scrollY;
-                        checkSidebarSpacingScroll(lastScroll, currentScroll);
+                        // checkSidebarSpacingScroll(lastScroll, currentScroll);
                     });
                 }
-                
+
                 var checkSidebarSpacingWidth = function(last, current) {
                     if (initialWidth >= 1200 && current <= 1200 && scrollReset) {
                         pc.resize = true;
@@ -135,7 +135,7 @@ angular.module('matchminerUiApp')
                     }
                     return false;
                 }
-                
+
                 var checkSidebarSpacingScroll = function(last, current) {
                     if (last <= 193 && current > 193) {
                         scrollReset = true;
@@ -202,7 +202,7 @@ angular.module('matchminerUiApp')
 				var actionableDNAVariantTiers = [1, 2];
 				var investigationalDNAVariantTiers = [3, 4];
 
-				var availableLayoutVersions = [1, 2];
+				var availableLayoutVersions = [1, 2, 3];
 				var availablePmTiers = [1, 2, 3, 4, 5];
 				var availableNgCategories = ['PN', 'PLC', 'NPLC'];
 
@@ -244,26 +244,26 @@ angular.module('matchminerUiApp')
 
 					return patientDetailsBasePath + "/tooltips/point-mutation/tier-" + tier + ".html";
 				};
-				
+
 				pc.additionalMutationalSignatures = function(variants) {
-					
+
 					var specVariants = {
 						APOBEC: variants.APOBEC_STATUS,
 						POLE: variants.POLE_STATUS,
 						TOBACCO: variants.TABACCO_STATUS,
 						TEMOZOLOMIDE: variants.TEMOZOLOMIDE_STATUS,
-						UVA: variants.UVA_STATUS,
+						UVA: variants.UVA_STATUS
 					};
-					
+
 					var specVariantsValues = _.reduce(specVariants, function(agg, val, key){
 						if (val !== null && val.toLowerCase() === "yes") {
 							agg.push(key);
 						}
 						return agg;
 					}, []);
-					
+
 					var mutSigValues = _.values(specVariants);
-					
+
 					if (!_.isEmpty(specVariantsValues)) {
 						return specVariantsValues.map(function(val) {
 							return val + " signature was detected (see comment).";
@@ -355,12 +355,11 @@ angular.module('matchminerUiApp')
                                         'TEMOZOLOMIDE_STATUS',
                                         'POLE_STATUS',
                                         'APOBEC_STATUS',
-                                        'UVA_STATUS',
+                                        'UVA_STATUS'
 							        ];
 							        for (var j=0; j < mutationalSignatureFields.length; j++) {
 							            if (pc.patient.additionalSignatures[i][mutationalSignatureFields[j]] !== undefined &&
 							                pc.patient.additionalSignatures[i][mutationalSignatureFields[j]] !== null) {
-                                                console.log(mutationalSignatureFields[j], pc.patient.additionalSignatures[i][mutationalSignatureFields[j]]);
                                                 pc.hasAdditionalSignatures = true;
 							            }
 							        }
@@ -480,6 +479,10 @@ angular.module('matchminerUiApp')
 								}
 							});
 
+
+							/**
+							 * SV Structural Variants - Unstructured
+							 */
 							pc.patient.actionableSvMuts = svMut._items.filter(function(svMut) {
 								return svMut.ACTIONABILITY === 'actionable';
 							});
@@ -488,6 +491,33 @@ angular.module('matchminerUiApp')
 								return svMut.ACTIONABILITY === 'investigational';
 							});
 
+
+							/**
+							 * SV Structured Structural Variants
+							 */
+							pc.patient.actionableStructuredSV = svMut._items.filter(function(svMut) {
+							    return (svMut.ACTIONABILITY === 'actionable' || svMut.TIER === 1 || svMut.TIER === 2) && svMut.TIER !== null;
+							});
+
+							pc.patient.additionalStructuredSV = svMut._items.filter(function(svMut) {
+							    return (svMut.ACTIONABILITY === 'investigational' || svMut.TIER === 3 || svMut.TIER === 4) && svMut.TIER !== null;
+							});
+
+							pc.patient.additionalStructuredSV = _.groupBy(pc.patient.additionalStructuredSV, 'TIER');
+							pc.patient.actionableStructuredSV = _.groupBy(pc.patient.actionableStructuredSV, 'TIER');
+
+							if (_.isEmpty(pc.patient.additionalStructuredSV)) {
+								delete pc.patient.additionalStructuredSV;
+							}
+
+							if (_.isEmpty(pc.patient.actionableStructuredSV)) {
+								delete pc.patient.actionableStructuredSV;
+							}
+
+
+							/**
+							 * CNV Copy Number Variations
+							 */
 							pc.patient.cnvMut = cnvMut._items;
 							var actionableCnvMuts = cnvMut._items.filter(function(cnvMut) {
 								return cnvMut.ACTIONABILITY === 'actionable';

@@ -121,7 +121,7 @@
 				Pathologist Comments
 			</li>
 			<li du-scrollspy="mutationalBurden"
-			    ng-if="pdc.includeForOncopanelVersion(2)"
+			    ng-if="pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)"
 			    offset="150"
 			    ng-click="pdc.scrollToSection('mutationalBurden')"
 			    analytics-on="click" analytics-event="Navigate oncopanel" analytics-category="Patients" analytics-label="Mutational Burden">

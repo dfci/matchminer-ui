@@ -61,6 +61,8 @@
     "karma-coverage": "^1.0.0",
     "karma-firefox-launcher": "^1.0.0",
     "karma-jasmine": "^0.3.8",
+    "karma-jasmine-html-reporter": "^1.4.0",
+    "karma-junit-reporter": "^1.2.0",
     "karma-ng-html2js-preprocessor": "~1.0.0",
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-phantomjs-shim": "~1.4.0",

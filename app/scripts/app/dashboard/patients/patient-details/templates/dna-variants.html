@@ -2,7 +2,7 @@
 	<div class="card attached-card">
 		<div class="card-header">
 			<h2>
-				<span>DNA Variants</span>
+				<span>Mutations</span>
 				<span>
 					<ng-include ng-if="category == 'actionableDNAVariants'"
 					            src="tooltip({id: 'actionable-dna-variants'})">
@@ -20,8 +20,8 @@
 				error
 			</md-icon>
 			<div>
-				<h3 ng-if="category == 'additionalDNAVariants'">No additional DNA Variants found.</h3>
-				<h3 ng-if="category == 'actionableDNAVariants'">No actionable DNA Variants found.</h3>
+				<h3 ng-if="category == 'additionalDNAVariants'">No additional mutations found.</h3>
+				<h3 ng-if="category == 'actionableDNAVariants'">No actionable mutations found.</h3>
 			</div>
 		</div>
 	</div>

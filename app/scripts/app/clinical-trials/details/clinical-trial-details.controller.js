@@ -27,10 +27,10 @@ angular.module('matchminerUiApp')
 			var ctd = this;
 			var protocol_no = $stateParams.protocol_no;
 
-			var _trialGreenStatusses = ['Open to Accrual'];
-			var _trialGreyStatusses = ['New', 'On Hold', 'SRC Approval', 'IRB Initial Approval', 'Activation Coordinator Signoff'];
-			var _trialYellowStatusses = ['Closed to Accrual', 'Suspended'];
-			var _trialRedStatusses = ['IRB Study Closure', 'Terminated'];
+			var _trialGreenStatusses = ['OPEN TO ACCRUAL'];
+			var _trialGreyStatusses = ['NEW', 'ON HOLD', 'SRC APPROVAL', 'IRB INITIAL APPROVAL', 'ACTIVATION COORDINATOR SIGNOFF'];
+			var _trialYellowStatusses = ['CLOSED TO ACCRUAL', 'SUSPENDED'];
+			var _trialRedStatusses = ['IRB STUDY CLOSURE', 'TERMINATED', 'ABANDONED'];
 
 			ctd.isLoading = true;
 			ctd.isLargeMediaQuery = $mdMedia('gt-sm');
@@ -56,6 +56,21 @@ angular.module('matchminerUiApp')
 			ctd.removeVariantFilter = function() {
 				ctd.variantFilter.query = '';
 			};
+
+			ctd.getAllSignatures = function() {
+				var sigs = [];
+				if (ctd.trial._summary.mutational_signatures != null && ctd.trial._summary.mutational_signatures.length > 0) {
+					sigs = sigs.concat(ctd.trial._summary.mutational_signatures)
+				}
+				if (ctd.trial._summary.mmr_status != null && ctd.trial._summary.mmr_status.length > 0) {
+					sigs = sigs.concat(ctd.trial._summary.mmr_status)
+				}
+
+				if (ctd.trial._summary.ms_status != null && ctd.trial._summary.ms_status.length > 0) {
+					sigs = sigs.concat(ctd.trial._summary.ms_status)
+				}
+				return _.uniq(sigs, true);
+			};
 			
 			ctd.filterGeneChips = function(genes) {
 				if (genes && genes.length > 1) {
@@ -68,7 +83,7 @@ angular.module('matchminerUiApp')
 				return variants.filter(function(variant) {
 					return variant.hugo_symbol && variant.hugo_symbol !== "None";
 				}).length;
-			}
+			};
 
 			$scope.$watch(function() {
 				return $mdMedia('gt-sm');
@@ -171,6 +186,7 @@ angular.module('matchminerUiApp')
 			};
 
 			ctd.getIconForTrialStatus = function (status) {
+				status = status.toUpperCase();
 				if (_trialGreenStatusses.indexOf(status) > -1) {
 					return 'check';
 				} else if (_trialGreyStatusses.indexOf(status) > -1) {
@@ -194,7 +210,7 @@ angular.module('matchminerUiApp')
 			};
 
 			ctd.getStatusCss = function(trial) {
-				var status = trial._summary.status[0].value;
+				var status = trial._summary.status[0].value.toUpperCase();
 				return {
 					'ct-badge-status-green' : _trialGreenStatusses.indexOf(status) > -1,
 					'ct-badge-status-grey' : _trialGreyStatusses.indexOf(status) > -1,

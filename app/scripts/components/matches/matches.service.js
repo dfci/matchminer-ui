@@ -498,14 +498,16 @@ angular.module('matchminerUiApp')
                         };
 
                         //Add mutational signature value
-                        //Complicated because MMR-Status and all the other signature indicators exist in the same level in hierarchy, need to add display val
-                        if (match.VARIANTS[0] !== null && match.VARIANTS[0].VARIANT_CATEGORY === 'SIGNATURE') {
+                        //Complicated because MMR-Status and all the other signature indicators
+                        // exist in the same level in hierarchy, need to add display val
+                        var variant =  match.VARIANTS[0];
+                        if (variant != null && variant.VARIANT_CATEGORY === 'SIGNATURE') {
                             for (var i = 0; i < signatures.length; i++) {
-                                if (match.VARIANTS[0][signatures[i].key] === signatures[i].value) {
+                                if (variant[signatures[i].key] === signatures[i].value) {
                                     if (match['FILTER_ID'].genomic_filter.hasOwnProperty('MMR_STATUS')) {
                                         match['MUTATIONAL_SIGNATURE'] = signatures[i].name;
                                         break;
-                                    } else if (match.VARIANTS[0].hasOwnProperty(signatures[i].key) && signatures[i].key !== 'MMR_STATUS') {
+                                    } else if (variant.hasOwnProperty(signatures[i].key) && signatures[i].key !== 'MMR_STATUS') {
                                         match['MUTATIONAL_SIGNATURE'] = signatures[i].name;
                                         break;
                                     }

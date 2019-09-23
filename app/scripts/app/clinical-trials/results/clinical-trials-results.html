@@ -70,10 +70,14 @@
                             <br/>
                             <span>
                                 The MatchMiner ranking algorithm takes into account the following variables, in this
-                                order: <br/>1) variant actionability (MS/MMR status > Tier 1 > Tier 2 > CNV > Tier 3 >
-                                Tier 4 > wild-type GENE) <br/>2) match type (Variant-level match > Gene-level match) <br/>3) cancer
-                                type match (exact cancer type match > all solid/liquid trial matches) <br/>4) coordinating
-                                center ({{ ENV.resources.institution }} > Other) <br/>5) reverse protocol number (high > low).
+                                order: <br/>
+                                1) variant actionability (MS/MMR status > TMB > Other Signatures > Tier 1 > Tier 2 > CNV > Tier 3 >
+                                Tier 4 > wildtype gene) <br/>
+                                2) match type (Variant-level match > Gene-level match) <br/>
+                                3) alteration type (Structural Variation > Mutation) <br/>
+                                4) cancer type match (exact cancer type match > all solid/liquid trial matches) <br/>
+                                5) coordinating center ({{ ENV.resources.institution }} > Other) <br/>
+                                6) reverse protocol number (high > low).
                             </span>
 
                         </md-tooltip>
@@ -105,31 +109,61 @@
                                     <br />
                                     <strong>These are strong matches.</strong>
                                 </span>
-                                <span ng-if="ga.match_type == 'gene' && ga.variant_category !== 'SIGNATURE'">
-                                    Gene-level matches are found when the trial specifies all variants in a given gene, or it was not possible to entirely capture the protocol's criteria directly in MatchMiner.
+                                <span ng-if="ga.variant_category === 'SV' || ga.genomic_alteration.contains('Structural Variation')">
+                                    Structural variant matches are found when the trial specifies genomic rearrangements
+                                    (e.g. gene fusions or large intragenic deletions) as part of the eligibility for that trial. <br />
+                                    Structural variant matches will often require review by trial staff.
+                                </span>
+                                <span ng-if="ga.match_type == 'gene' &&
+                                             ga.variant_category !== 'SIGNATURE' &&
+                                             ga.variant_category !== 'SV' &&
+                                             !ga.genomic_alteration.contains('Structural Variation')">
+                                    Gene-level matches are found when the trial specifies all variants in a given gene, or it was not
+                                    possible to entirely capture the protocol's criteria directly in MatchMiner.
                                     <br />
                                     Gene level matches are <strong>less specific </strong>than a variant level match and will likely need to be reviewed by trial staff.
                                 </span>
-                                <span ng-if="ga.match_type == 'variant'">
+                                <span ng-if="ga.match_type == 'variant' &&
+                                             !ga.genomic_alteration.contains('Structural Variation') &&
+                                             ga.variant_category !== 'SV'">
                                     Variant-level matches are found when the trial protocol or sponsor provides explicit variants for the trial.
+                                    <br />
+                                    <strong>These are strong matches.</strong>
+                                </span>
+                                <span ng-if="ga.match_type == 'tmb'">
+                                    Tumor mutational burden matches are found when the trial specifies a tumor mutational burden as part of the eligibility for that trial.
                                     <br />
                                     <strong>These are strong matches.</strong>
                                 </span>
                             </md-tooltip>
                             {{ ::ga.genomic_alteration | transformNegation }}
                             <br />
-                            <span class="genomic-match-level" ng-if="ga.variant_category !== 'SIGNATURE'">
+                            <span class="genomic-match-level" ng-if="ga.variant_category !== 'SIGNATURE' &&
+                                                                        ga.variant_category !== 'SV' &&
+                                                                        !ga.genomic_alteration.contains('Structural Variation') &&
+                                                                        ga.match_type !== 'tmb'">
                                 <span ng-if="ga.match_type">
-                                    {{ ga.match_type | capitalize }}-Level Match
+                                    {{ ctr.toTitleCase(ga.match_type.replace('_',' ')) }}-Level Match
                                 </span>
                                 <span ng-if="!ga.match_type">
                                     Non-Genomic Match
                                 </span>
+                                <br />
                             </span>
-                            <br />
+
                             <span class="genomic-match-level genomic-match-tier" ng-if="ga.tier">Tier {{ ga.tier }}</span>
                             <span class="genomic-match-level genomic-match-tier"
-                                  ng-if="!ga.tier && ga.variant_category == 'SIGNATURE'" style="margin-top: -19px; display: block">
+                                  ng-if="!ga.tier &&
+                                    ga.variant_category == 'SIGNATURE' &&
+                                    !ga.genomic_alteration.toUpperCase().contains('UVA') &&
+                                    !ga.genomic_alteration.toUpperCase().contains('APOBEC') &&
+                                    !ga.genomic_alteration.toUpperCase().contains('TOBACCO') &&
+                                    !ga.genomic_alteration.toUpperCase().contains('POLE') &&
+                                    !ga.genomic_alteration.toUpperCase().contains('TEMOZOLOMIDE') &&
+                                    ga.match_type !== 'tmb'"
+                                  style="margin-top: -19px;
+                                  display: block">
+                                <br />
                                 N/A Tier
                             </span>
                         </p>
@@ -197,7 +231,6 @@
                     <tr>
                         <td colspan="3" class="trial-badge-field" ng-style="{'padding-left': ctr.hasTrialMatches ? 0 : '24px'}">
                             <div class="ct-badge-container">
-
                                 <clinical-trial-badge category="hugo_symbol" value="hgs" view="hgs"
                                                       ng-repeat="hgs in trial._source._summary.nonsynonymous_genes | filter: '!None' | limitTo: (trial.numTags || 3)"></clinical-trial-badge>
 
@@ -209,6 +242,9 @@
 
                                 <clinical-trial-badge category="ms_status" value="ms" view="ms"
                                                       ng-repeat="ms in trial._source._summary.ms_status | limitTo: (trial.numTags || 3)"></clinical-trial-badge>
+
+                                <clinical-trial-badge category="mmr_status" value="sig" view="hgs"
+                                                      ng-repeat="sig in trial._source._summary.mutational_signatures | limitTo: (trial.numTags || 3)"></clinical-trial-badge>
 
                                 <clinical-trial-badge category="tumor_type" value="diagnosis" view="diagnosis"
                                                       ng-repeat="diagnosis in trial._source._summary.tumor_types | trialBadgeFilter | limitTo: (trial.numTags || 3)"></clinical-trial-badge>

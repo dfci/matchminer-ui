@@ -33,6 +33,7 @@ angular.module('matchminerUiApp')
 				vm.hasAuthority = Principal.hasAuthority;
 				vm.state = $state.current.name;
 				vm.userAccount = UserAccount;
+                vm.showBanner = true;
 
 				$scope.$watch(function() {
 					return $state.current.name;
@@ -90,5 +91,10 @@ angular.module('matchminerUiApp')
 					$log.debug("Scrolling to section ", section);
 					var scrollSection = angular.element(document.getElementById(section));
 					return $document.scrollToElementAnimated(scrollSection, 150, 500);
+				}
+
+				vm.toggleBanner = function () {
+					sessionStorage.setItem('hideBanner', true);
+					return vm.showBanner = !vm.showBanner;
 				}
 			}]);

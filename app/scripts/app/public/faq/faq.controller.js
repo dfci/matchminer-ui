@@ -42,7 +42,7 @@ angular.module('matchminerUiApp')
 						icon: 'storage',
 						question: 'Where does the genomic data in MatchMiner come from?',
 						answer: [
-							'MatchMiner automatically imports all genomic data from the Profile Sequencing project (11-104 '+ ENV.resources.institution +' Protocol). MatchMiner automatically imports all genomic data each week on Monday mornings.'
+							'MatchMiner automatically imports all genomic data from the Profile Sequencing project (11-104 '+ ENV.resources.institution +' Protocol). MatchMiner automatically imports all genomic data twice weekly.'
 						]
 					},
 					{

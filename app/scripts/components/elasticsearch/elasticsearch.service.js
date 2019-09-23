@@ -41,7 +41,7 @@ angular.module('matchminerUiApp')
 
 				service.init = function() {
 					// Initialize some defaults.
-					service.elasticOptions.index = 'matchminer';
+					service.elasticOptions.index = ENV.elasticsearch.index;
 					service.elasticOptions.type = 'trial';
 					service.elasticBody = {};
 					service.elasticBody.from = 0;
@@ -143,8 +143,12 @@ angular.module('matchminerUiApp')
 				service.getPatientSearchSize = function() {
 					return this.patientSearchSize;
 				}
-				
-				/**
+
+                service.resetPatientSearchSize = function() {
+                    this.patientSearchSize = null;
+                }
+
+                /**
 				 * Sets the query pagination page size
 				 * @param size
 				 */
@@ -326,25 +330,19 @@ angular.module('matchminerUiApp')
 				    if (this.hasSpecificSearchTerm()) {
 						var fullSearchTerm = this.getSearchTerm();
 						var splitSearchTerm = fullSearchTerm.split(' ');
+						var isTemozolomide = false;
+						if (fullSearchTerm.toLowerCase() === 'temozolomide signature') {
+							//Don't search for temozolomide and signature as separate terms
+							splitSearchTerm = [fullSearchTerm];
+							isTemozolomide = true;
+						}
 						var investigatorSearchTerm = this.getInvestigatorSearchTerms(splitSearchTerm);
 						partialQuery.bool.must.push({'bool': {'should': []}});
 						for (var i=0; i < splitSearchTerm.length; i++) {
-
-
-							//TODO finish elastic search
-							// partialQuery.bool.must = [];
-							// partialQuery.bool.must.push({
-							// 	'terms' : {
-							// 		'_elasticsearch.protocol_no' : user_input
-							// 	}
-							// });
-
-                            partialQuery.bool.must[0].bool.should.push({
-                                'multi_match': {
+							var multi_match = {
                                     'query': splitSearchTerm[i],
                                     'fields': [
                                         '_elasticsearch.protocol_no^200.0',
-                                        '_elasticsearch.drugs^2.0',
                                         '_elasticsearch.age',
                                         '_elasticsearch.phase',
                                         '_elasticsearch.disease_status',
@@ -352,10 +350,20 @@ angular.module('matchminerUiApp')
                                         '_elasticsearch.disease_center',
                                         '_elasticsearch.mmr_status',
                                         '_elasticsearch.ms_status',
-                                        '_elasticsearch.short_title'
+                                        '_elasticsearch.short_title',
+										'_elasticsearch.drugs^2.0'
                                     ],
                                     'type': 'most_fields'
-                                }
+                                };
+
+							if (isTemozolomide) {
+								//remove _elasticsearch.drugs^2.0 from search if
+								// temozomolide signature if passed as a search term
+								multi_match.fields.pop()
+							}
+
+                            partialQuery.bool.must[0].bool.should.push({
+                                'multi_match': multi_match
                             });
                         }
 						for (var j=0; j < investigatorSearchTerm.length; j++) {

@@ -108,8 +108,10 @@ angular.module('matchminerUiApp')
 
 					var q = {
 						where: {
-							mrn: mrn
-						},
+							mrn: mrn,
+							show_in_ui: true,
+							is_disabled: false
+						}
 					};
 					
 					if (sort) {
@@ -126,7 +128,10 @@ angular.module('matchminerUiApp')
 
 					if (trial_status) {
 						_.extend(q.where, {
-							trial_accrual_status: trial_status
+							// trial curation level indicates whether the arm/step/dose for a match is suspended
+							trial_curation_level_status: trial_status,
+							trial_summary_status: trial_status
+
 						});
 					}
 

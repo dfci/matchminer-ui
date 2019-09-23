@@ -62,13 +62,40 @@ If you do not have SSL certificates you would like to use you can, generate them
 After all these steps you can start the hot reloading development server
 
     gulp serve
+    
+In order to devlop features which are behind the login, a dev user must be inserted into the database with the credentials found in config.json
+This is an example:
+
+```
+db.user.insertOne({
+    "_id": ObjectId("577cf6ef2b9920002cef0337"),
+	"last_name" : "Doe",
+	"teams" : [
+		ObjectId("5a8ede8f4e0cce002dd5913c")
+	],
+	"_updated" : ISODate("2018-02-22T10:15:27.000-05:00"),
+	"first_name" : "John",
+	"roles" : [
+		"user",
+		"cti",
+		"oncologist",
+		"admin"
+	],
+	"title" : "",
+	"email" : "fake_email@dfci.harvard.edu",
+	"_created" : ISODate("2018-02-22T10:15:27.000-05:00"),
+	"user_name" : "du123",
+	"token" : "fb4d6830-d3aa-481b-bcd6-270d69790e11",
+	"oncore_token" : "5f3c2421-271c-41ba-ac14-899f214d49b9"
+})
+```
 
 ## <a name="setup-matchminer"></a>Building MatchMiner UI
 _Several tasks have been built into the build automation system gulp to help with preparing and packaging the required code._
 
 #### Important
 Prior to building MatchMiner the respective properties in the 'properties/config.json' will have to be set.
-Please see below to read up on what the property configuration expects.
+Please click [here](mm-properties-setup) to read up on what the property configuration expects.
 
 #### Gulp tasks and environments
 As mentioned before gulp has several tasks to aid in the process of development and deploying.
@@ -127,3 +154,10 @@ MatchMiner UI has several profiles which it uses for configuration. These can be
 After building the MatchMiner UI with the `gulp --env production build` command, a new `dist/` folder will have been generated with the production optimized version of MatchMiner. This includes .js minification, uglification, .html template caching libraries and revision versioning. 
 
 The contents of this folder can be deployed in a webserver folder.
+
+## Built with 
+* npm
+* Bower
+* AngularJS
+* Gulp
+* Karma

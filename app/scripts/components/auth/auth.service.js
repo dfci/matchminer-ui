@@ -62,6 +62,7 @@ angular.module('matchminerUiApp')
 							} else {
 								// user is not authenticated. stow the state they wanted before you
 								// send them to the signin state, so you can return them when you're done
+                                $log.info('user not authenticated');
 								$rootScope.previousStateName = $rootScope.toState;
 								$rootScope.previousStateNameParams = $rootScope.toStateParams;
 

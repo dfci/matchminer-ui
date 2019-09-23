@@ -13,8 +13,8 @@
 
 <section layout="column" class="dashboard-wrapper">
     <!-- Navbar -->
-    <div ng-hide="ENV.EPIC || ENV.cBio">
-        <div  ui-view="navbar"></div>
+    <div ng-hide="ENV.cBio || ENV.EPIC">
+        <div ui-view="navbar"></div>
         <section class="section-primary section-banner" layout="column">
         </section>
 
@@ -22,5 +22,4 @@
     </div>
 	<!-- User dashboard -->
 	<div ui-view="content" class="dashboard" layout="column"></div>
-
 </section>

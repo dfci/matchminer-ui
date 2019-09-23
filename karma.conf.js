@@ -79,6 +79,7 @@ module.exports = function (config) {
 			'karma-phantomjs-shim',
 			'karma-coverage',
 			'karma-jasmine',
+            'karma-junit-reporter',
 			'karma-ng-html2js-preprocessor'
 		],
 

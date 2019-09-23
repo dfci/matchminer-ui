@@ -11,22 +11,26 @@
   ~
   -->
 
-<!-- Piwik -->
+<!-- Piwik
+updated 11/26/18
+-->
 <script type="text/javascript">
 	var _paq = window._paq || [];
 
 	_paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
-	_paq.push(["setCookieDomain", "*.matchminer.dfci.harvard.edu"]);
-	_paq.push(["setDomains", ["*.matchminer.dfci.harvard.edu"]]);
+	_paq.push(["setCookieDomain", "#.somewhere.edu"]);
+	_paq.push(["setDomains", ["*.somewhere.edu"]]);
 	_paq.push(['trackPageView']);
 	_paq.push(['enableLinkTracking']);
 	(function() {
-		var u="https://matchminer.dfci.harvard.edu:8881/";
+		var u="https://matchminer.homepage.edu/piwik/";
 		_paq.push(['setTrackerUrl', u+'piwik.php']);
 		_paq.push(['setSiteId', window._paq_vars.piwik_site_id ]);
 		var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
 		g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
 	})();
+    var ee = '';
+    var f = ee;
 </script>
-<noscript><p><img src="https://matchminer.dfci.harvard.edu:8881/piwik.php?idsite=5" style="border:0;" alt="" /></p></noscript>
+<noscript><p><img src="" style="border:0;" alt="" /></p></noscript>
 <!-- End Piwik Code -->

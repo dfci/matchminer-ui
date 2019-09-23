@@ -20,8 +20,8 @@
  */
 angular.module('matchminerUiApp')
 	.factory('ClinicalTrialsService',
-		['$q', '$log', '$window', 'ClinicalTrialsREST', 'ElasticSearchService', '_', 'TEMPLATES', 'Mailto', '$analytics',
-			function ($q, $log, $window, ClinicalTrialsREST, ElasticSearchService, _, TEMPLATES, Mailto, $analytics) {
+		['$q', '$log', '$window', 'ClinicalTrialsREST', 'ElasticSearchService', '_', 'TEMPLATES', 'Mailto', '$analytics', 'ENV',
+			function ($q, $log, $window, ClinicalTrialsREST, ElasticSearchService, _, TEMPLATES, Mailto, $analytics, ENV) {
 
 				var _metadata = {};
 				_metadata.total_elements = 0;
@@ -105,18 +105,11 @@ angular.module('matchminerUiApp')
 				 * Order of priorities of highlighting fields
 				 */
 				var highlight_priorities = {
-                    // '_elasticsearch.genes': "Gene",
-                    // '_elasticsearch.variants': "Gene Variant",
-                    // '_elasticsearch.wildtype_genes': "Wildtype",
-                    // '_elasticsearch.exclusion_genes': "Gene Exclusion Criteria",
-                    // '_elasticsearch.cnv_genes': "CNV",
-                    // '_elasticsearch.sv_genes': "SV",
                     '_elasticsearch.protocol_no': "Protocol #",
                     '_elasticsearch.drugs': "Drug",
                     '_elasticsearch.age': "Age",
                     '_elasticsearch.phase': "Phase",
                     '_elasticsearch.investigator': "Investigator",
-                    // '_elasticsearch.disease_center': 'Disease Center',
                     '_elasticsearch.nct_number': 'NCT number',
 					'_elasticsearch.mmr_status': 'Mutational Signature',
                     '_elasticsearch.ms_status': 'Mutational Signature',
@@ -255,7 +248,7 @@ angular.module('matchminerUiApp')
 								// Depending on the variant_category, store the respective specific alteration.
 								if (i.hasOwnProperty('hugo_symbol')) {
 									var x = {};
-									x.hugo_symbol = i.hugo_symbol;
+									x.hugo_symbol = i.hugo_symbol.toUpperCase().replace('_', ' ');
 									x.variant_category  = i.variant_category;
 
 									var cat = x.variant_category;
@@ -305,7 +298,30 @@ angular.module('matchminerUiApp')
 											x.specific_alteration = i.cnv_call;
 											break;
 										case 'Structural Variation':
-											x.specific_alteration = i.display_name;
+											var display = '';
+											var left = i.hugo_symbol;
+											var right = i.fusion_partner_hugo_symbol;
+
+											if (left == null) {
+												left = ''
+											}
+
+											if (right == null) {
+												right = ''
+											}
+
+											if (left.length !== 0 && right.length !== 0) {
+												display += left.toUpperCase() + '-' + right.toUpperCase()
+											} else {
+												if (left.length === 0 && right.length === 0) {
+													display = 'ANY GENE'
+												} else if (left.length === 0) {
+													display = right.toUpperCase()
+												} else if (right.length === 0) {
+													display = left.toUpperCase()
+												}
+											}
+											x.specific_alteration = display;
 											break;
 										default:
 											break;
@@ -642,7 +658,7 @@ angular.module('matchminerUiApp')
 						suggestFields = [fields]
 					}
 
-					ElasticSearchService.setSearchIndex('matchminer');
+					ElasticSearchService.setSearchIndex(ENV.elasticsearch.index);
 					ElasticSearchService.setSearchType('trial');
 					ElasticSearchService.setSearchSuggestTerm(searchSuggestTerm);
 					ElasticSearchService.suggest(fields)
@@ -665,6 +681,8 @@ angular.module('matchminerUiApp')
 									suggestions[i].text = suggestions[i].text + ' All Variants';
                                 } else if (suggestions[i].type === "wildtype_suggest") {
 									suggestions[i].text = suggestions[i].text.split(' ')[0] + ' Wild-Type';
+								} else if (suggestions[i].type === "mmr_status_suggest" && suggestions[i].text.contains('_')) {
+                                	suggestions[i].text = suggestions[i].text.replace(/_/g, ' ')
 								}
 							}
 

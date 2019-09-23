@@ -12,12 +12,12 @@
   -->
 
 <section id="main">
-    <div ui-view="nav" scroll-position="nbc.scroll"></div>
+    <div ui-view="nav" scroll-position="nbc.scroll" ng-hide="ENV.EPIC"></div>
 
-    <section class="main-primary section-hero" ng-class="{'not-authenticated': !hc.isAuthenticated}" layout="column" id="matchminer">
+    <section class="main-primary section-hero" ng-class="{'not-authenticated': !hc.isAuthenticated}" layout="column" id="matchminer" ng-hide="ENV.EPIC">
     </section>
 
-    <section ncy-breadcrumb>
+    <section ncy-breadcrumb ng-hide="ENV.EPIC">
     </section>
 
     <div layout="row" class="mm-welcome-container" flex>
@@ -52,17 +52,6 @@
             </section>
         </div>
     </div>
-
-    <section ng-if="ENV.resources.institution === 'DFCI'">
-        <md-toolbar class="nav-alert attention-alert" flex layout="column" layout-align="center center">
-            <span class="attention-details">
-                Interested to receive tailored clinical trial match notifications for your patients?
-            </span>
-            <span class="attention-details">
-                Learn more about our <a analytics-on="click" analytics-event="Navigate to Early Adopter" ui-sref="early-adopter">Early Adopter Program</a>.
-            </span>
-        </md-toolbar>
-    </section>
 
     <section>
         <md-toolbar class="nav-alert md-warn" ng-if="hc.error" flex layout="column" layout-align="center center">
@@ -106,7 +95,7 @@
     <section class="section section-dark" layout="row" layout-align="start start">
         <div layout="column">
             <h3>MatchMiner</h3>
-            <p>Dana-Farber Cancer Institute - 2016-2018</p>
+            <p>Dana-Farber Cancer Institute - 2016 - {{ hc.year }}</p>
         </div>
     </section>
 
