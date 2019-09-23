@@ -3,9 +3,8 @@
     "ENV": {
       "name": "development",
       "elasticsearch": {
-        "host": "https://mm-elastic.dfci.harvard.edu",
-        "proxy": "https://mm-elastic.dfci.harvard.edu",
-        "index": "dev"
+        "host": "http://localhost:9300",
+        "index": "staging"
       },
       "api": {
         "host": "http://localhost:5000",
@@ -69,10 +68,10 @@
         "oncpro_base": "",
         "ctgov_base": "https://clinicaltrials.gov/ct2/show/",
         "logo": "dfci.jpg",
-        "institution": "DFCI",
-        "institutionFull": "Dana-Farber Cancer Institute",
-        "email": "matchminer@dfci.harvard.edu",
-        "emailSecondary": "deceased_patients@dfci.harvard.edu"
+         "institution": "DEFAULT",
+        "institutionFull": "Replace with your institute name",
+        "email": "info@yourInstitute.com",
+        "emailSecondary": "info2@yourInstitute.com"
       },
       "EPIC": false,
       "cBio": false
@@ -106,10 +105,10 @@
         "oncpro_base": "",
         "ctgov_base": "https://clinicaltrials.gov/ct2/show/",
         "logo": "dfci.jpg",
-        "institution": "DFCI",
-        "institutionFull": "Dana-Farber Cancer Institute",
-        "email": "matchminer@dfci.harvard.edu",
-        "emailSecondary": "deceased_patients@dfci.harvard.edu"
+         "institution": "DEFAULT",
+        "institutionFull": "Replace with your institute name",
+        "email": "info@yourInstitute.com",
+        "emailSecondary": "info2@yourInstitute.com"
       },
       "EPIC": false,
       "cBio": false
