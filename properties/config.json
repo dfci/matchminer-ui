@@ -17,8 +17,8 @@
         "user_id" : "577cf6ef2b9920002cef0337"
       },
       "certificate" : {
-        "key": "../certificates/matchminer_dfci_harvard_edu.key",
-        "cert": "../certificates/matchminer_dfci_harvard_edu.crt"
+        "key": "../certificates/matchminer.key",
+        "cert": "../certificates/matchminer.crt"
       },
       "sessionTimeout": {
         "idleAllowed": 2700,
@@ -27,15 +27,15 @@
       "tracking": {
         "piwik_site_id": 3
       },
-      "slsUrl": "https://partnershealthcare.oktapreview.com/home/partnershealthcarepreview_matchminerdev_1/0oae8lrmiwRFGqNDl0h7/alne8mj3ceJ5AtFGe0h7",
+      "slsUrl": "",
       "resources": {
-        "oncpro_base": "https://ctportal.partners.org/protocollookup_landing.asp?protid=",
+        "oncpro_base": "",
         "ctgov_base": "https://clinicaltrials.gov/ct2/show/",
         "logo": "dfci.jpg",
-        "institution": "DFCI",
-        "institutionFull": "Dana-Farber Cancer Institute",
-        "email": "matchminer@dfci.harvard.edu",
-        "emailSecondary": "deceased_patients@dfci.harvard.edu"
+         "institution": "DEFAULT",
+        "institutionFull": "Replace with your institute name",
+        "email": "info@yourInstitute.com",
+        "emailSecondary": "info2@yourInstitute.com"
       },
       "EPIC": false,
       "cBio": false
@@ -45,17 +45,17 @@
     "ENV": {
       "name": "staging",
       "elasticsearch": {
-        "host": "https://mm-elastic.dfci.harvard.edu",
+        "host": "http://localhost:9300",
         "index": "staging"
       },
       "api": {
-        "host": "https://mm-stage.dfci.harvard.edu",
-        "endpoint": "https://mm-stage.dfci.harvard.edu/api"
+        "host": "http://localhost:5000",
+        "endpoint": "http://localhost:5000/api"
       },
       "samlAuthentication": true,
       "certificate" : {
-        "key": "../certificates/matchminer_dfci_harvard_edu.key",
-        "cert": "../certificates/matchminer_dfci_harvard_edu.crt"
+        "key": "../certificates/matchminer.key",
+        "cert": "../certificates/matchminer.crt"
       },
       "sessionTimeout": {
         "idleAllowed": 2700,
@@ -64,9 +64,9 @@
       "tracking": {
         "piwik_site_id": 2
       },
-      "slsUrl": "https://partnershealthcare.oktapreview.com/home/partnershealthcarepreview_matchminerdev_1/0oae8lrmiwRFGqNDl0h7/alne8mj3ceJ5AtFGe0h7",
+      "slsUrl": "",
       "resources": {
-        "oncpro_base": "https://ctportal.partners.org/protocollookup_landing.asp?protid=",
+        "oncpro_base": "",
         "ctgov_base": "https://clinicaltrials.gov/ct2/show/",
         "logo": "dfci.jpg",
         "institution": "DFCI",
@@ -82,17 +82,17 @@
     "ENV": {
       "name": "production",
       "elasticsearch": {
-        "host": "https://mm-elastic.dfci.harvard.edu",
+        "host": "http://localhost:9300",
         "index": "matchminer"
       },
       "api": {
-        "host": "https://matchminer.dfci.harvard.edu",
-        "endpoint": "https://matchminer.dfci.harvard.edu/api"
+        "host": "http://localhost:5000",
+        "endpoint": "http://localhost:5000/api"
       },
       "samlAuthentication": true,
       "certificate" : {
-        "key": "../certificates/matchminer_dfci_harvard_edu.key",
-        "cert": "../certificates/matchminer_dfci_harvard_edu.crt"
+        "key": "../certificates/matchminer.key",
+        "cert": "../certificates/matchminer.crt"
       },
       "sessionTimeout": {
         "idleAllowed": 2700,
@@ -101,9 +101,9 @@
       "tracking": {
         "piwik_site_id": 1
       },
-      "slsUrl": "https://partnershealthcare.okta.com/home/partnershealthcare_matchminer_1/0oal2vz49FEFPYErH296/alnl35ftbU9ScpJgK296",
+      "slsUrl": "",
       "resources": {
-        "oncpro_base": "https://ctportal.partners.org/protocollookup_landing.asp?protid=",
+        "oncpro_base": "",
         "ctgov_base": "https://clinicaltrials.gov/ct2/show/",
         "logo": "dfci.jpg",
         "institution": "DFCI",
