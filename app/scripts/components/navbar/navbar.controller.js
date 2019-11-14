@@ -34,6 +34,7 @@ angular.module('matchminerUiApp')
 				vm.state = $state.current.name;
 				vm.userAccount = UserAccount;
                 vm.showBanner = true;
+                vm.loginText = ENV.demo ? 'Login' : 'Partners Login';
 
 				$scope.$watch(function() {
 					return $state.current.name;
