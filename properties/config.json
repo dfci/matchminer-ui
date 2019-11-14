@@ -38,7 +38,8 @@
       },
       "EPIC": false,
       "cBio": false,
-      "accessRequestFormLink":  "https://example.com"
+      "accessRequestFormLink":  "https://example.com",
+      "demo": true,
     }
   },
   "stage" : {
@@ -76,7 +77,8 @@
       },
       "EPIC": false,
       "cBio": false,
-      "accessRequestFormLink":  "https://example.com"
+      "accessRequestFormLink":  "https://example.com",
+      "demo": false
     }
   },
   "prod" : {
@@ -114,7 +116,8 @@
       },
       "EPIC": false,
       "cBio": false,
-      "accessRequestFormLink":  "https://example.com"
+      "accessRequestFormLink":  "https://example.com",
+      "demo": false
     }
   }
 }
