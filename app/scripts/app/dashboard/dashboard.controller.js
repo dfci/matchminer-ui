@@ -72,9 +72,9 @@ angular.module('matchminerUiApp')
 							$log.debug('Got status obj ', statusObj);
 							// Sort array and take most recent date.
 							var sortedDates = _.sortBy(statusObj._items, function(so){
-								return new Date(so.last_update);
+								return so.last_update === undefined ? [] : new Date(so.last_update);
 							});
-							db.lastUpdated = sortedDates[sortedDates.length - 1].last_update;
+							db.lastUpdated = (!Array.isArray(sortedDates) || sortedDates.length === 0) ? null : sortedDates[sortedDates.length - 1].last_update;
 						}
 
 						if (!!matchCount) {

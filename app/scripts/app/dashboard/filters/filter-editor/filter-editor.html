@@ -401,7 +401,7 @@
 											</div>
 											<!-- Genomic filter comments / description -->
 											<md-input-container class="md-icon-float" flex="auto" style="width:95%;">
-												<label>{{ ENV.resources.institution }} protocol ID(s)</label>
+												<label>Protocol ID(s)</label>
 												<md-icon md-font-library="material-icons">description</md-icon>
 												<input  name="protocol_id"
 												        ng-model="fe.filter.protocol_id"
@@ -410,22 +410,19 @@
 												        ng-maxlength="75"
 												        style="margin-right: 24px;" />
 												<div ng-messages="filterForm.protocol_id.$error" role="alert">
-													<div ng-message="required">You must enter one or more {{ ENV.resources.institution }} Protocol IDs for your genomic filter.</div>
-													<div ng-message="minlength" class="small">The {{ ENV.resources.institution }} protocol ID(s) has to be atleast 3 characters long.</div>
-													<div ng-message="maxlength" class="small">The {{ ENV.resources.institution }} protocol ID(s) can only be 30 characters long.</div>
+													<div ng-message="required">You must enter one or more Protocol IDs for your genomic filter.</div>
+													<div ng-message="minlength" class="small">The protocol ID(s) has to be atleast 3 characters long.</div>
+													<div ng-message="maxlength" class="small">The protocol ID(s) can only be 30 characters long.</div>
 												</div>
                                                 <span style="margin-left:calc(100% - 24px); margin-top: -25px; position: absolute;">
                                                    <md-icon aria-label="{{ ENV.resources.institution }} Protocol"
                                                             md-font-library="material-icons">
                                                        info_outline
                                                    </md-icon>
-                                                    <md-tooltip md-autohide md-direction="top">
-                                                        <h4>{{ ENV.resources.institution }} protocol IDs</h4>
-                                                        <p>
-                                                            You must enter one or more {{ ENV.resources.institution }} protocol IDs, e.g. 10-040 for your genomic filter.
+                                                    <md-tooltip md-autohide class="md-content" md-direction="top">
+                                                        You must enter one or more protocol IDs, e.g. 10-040 for your genomic filter.
                                                             <br />
                                                             Please note that all genomic filters are centrally logged and reviewed.
-                                                        </p>
                                                     </md-tooltip>
                                                 </span>
 											</md-input-container>
@@ -468,10 +465,7 @@
 						</md-dialog-actions>
 					</div>
 					<div flex-sm="100" flex-gt-sm="50" class="plot-container">
-						<md-toolbar class="plot-container-toolbar" layout="row" flex="100">
-							<div class="md-toolbar-tools">
-							</div>
-						</md-toolbar>
+						<md-toolbar class="plot-container-toolbar" layout="row" flex="100"></md-toolbar>
 						<md-content class="md-padding">
 							<div layout="column" layout-align="center center" class="filter-charts-column">
 								<div id="histogramPlot" class="filter-chart-container" >

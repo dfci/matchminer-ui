@@ -1,0 +1,70 @@
+<!--
+  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
+  ~
+  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~
+  ~ See the file LICENSE in the root of this repository.
+  ~
+  ~ Contributing authors:
+  ~ - berndvdveen
+  ~
+  -->
+
+<md-dialog class="patient-sample-select-container" aria-label="Patient sample select" ng-cloak>
+    <form>
+        <md-toolbar flex-order="0">
+            <div class="md-toolbar-tools">
+                <h2>Clinical Trials</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="dbf.parent.cancel()">
+                    <md-icon md-font-library="material-icons" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content flex-order="1">
+            <div class="md-dialog-content">
+                <div>
+                    <div layout="row"
+                         class="clinical-trials-search-advanced-search clinical-trials-search-input-container clinical-trials-search-row">
+                        <md-autocomplete flex
+                                         required
+                                         md-input-name="clinicaltrialSuggest"
+                                         md-input-minlength="1"
+                                         md-input-maxlength="50"
+                                         md-selected-item="dbf.parent.selectedItem"
+                                         md-search-text="dbf.parent.searchTerm"
+                                         md-items="suggestion in dbf.parent.suggestWatch(dbf.parent.searchTerm)"
+                                         md-item-text="suggestion.text"
+                                         md-clear-button="true"
+                                         md-no-asterisk
+                                         md-no-cache="true"
+                                         md-input-id="small-advanced-input-id"
+                                         md-menu-class="small-advanced-menu-class"
+                                         md-dropdown-position="bottom"
+                                         md-dropdown-items="5"
+                                         md-floating-label="Protocol #">
+                            <md-item-template>
+                                    <span md-highlight-text="dbf.parent.searchTerm" class="search_suggestion">{{ suggestion.text }}</span>
+                            </md-item-template>
+                            <md-not-found>
+                                No matches found.
+                            </md-not-found>
+                        </md-autocomplete>
+                        <div>
+                            <md-dialog-actions layout="row" layout-align="end end">
+                                <md-button class="md-primary md-raised" ng-click="dbf.parent.sendWatch(dbf.parent.selectedItem)">
+                                    Select
+                                </md-button>
+                            </md-dialog-actions>
+                        </div>
+                    </div>
+                    <div class="text-button">
+                        Some explanation text might go here
+                    </div>
+                </div>
+            </div>
+        </md-dialog-content>
+
+    </form>
+</md-dialog>

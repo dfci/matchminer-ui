@@ -27,7 +27,7 @@ angular.module('matchminerUiApp')
 			var ctd = this;
 			var protocol_no = $stateParams.protocol_no;
 
-			var _trialGreenStatusses = ['OPEN TO ACCRUAL'];
+			var _trialGreenStatusses = ['OPEN TO ACCRUAL', 'ACTIVE'];
 			var _trialGreyStatusses = ['NEW', 'ON HOLD', 'SRC APPROVAL', 'IRB INITIAL APPROVAL', 'ACTIVATION COORDINATOR SIGNOFF'];
 			var _trialYellowStatusses = ['CLOSED TO ACCRUAL', 'SUSPENDED'];
 			var _trialRedStatusses = ['IRB STUDY CLOSURE', 'TERMINATED', 'ABANDONED'];
@@ -56,7 +56,6 @@ angular.module('matchminerUiApp')
 			ctd.removeVariantFilter = function() {
 				ctd.variantFilter.query = '';
 			};
-
 			ctd.getAllSignatures = function() {
 				var sigs = [];
 				if (ctd.trial._summary.mutational_signatures != null && ctd.trial._summary.mutational_signatures.length > 0) {
@@ -69,7 +68,10 @@ angular.module('matchminerUiApp')
 				if (ctd.trial._summary.ms_status != null && ctd.trial._summary.ms_status.length > 0) {
 					sigs = sigs.concat(ctd.trial._summary.ms_status)
 				}
-				return _.uniq(sigs, true);
+
+				var unique_sigs = _.uniq(sigs,false);
+
+				return unique_sigs
 			};
 			
 			ctd.filterGeneChips = function(genes) {

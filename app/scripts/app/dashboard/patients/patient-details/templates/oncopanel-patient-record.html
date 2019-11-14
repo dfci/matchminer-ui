@@ -1,5 +1,5 @@
 <div id="patientRecord">
-	<div class="block-header" ng-if="::!isEmbedded">
+	<div class="block-header" ng-if="::!isEmbedded" style="padding-bottom: 5px">
 		<h2>
 			<md-icon aria-label="Patient details"
 			         md-font-library="material-icons">
@@ -12,15 +12,15 @@
 	<div layout="row" layout-align="space-around start">
 		<div flex="45" flex-sm="45" flex-xs="100">
 
-			<div class="card">
-				<div class="card-header bgmd-orange">
+			<div class="card" style="box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">
+				<div class="card-header pr-header">
 					<h2>
 						<md-icon aria-label="General information"
-						         md-font-library="material-icons">
+						         md-font-library="material-icons" style="color: white !important;">
 							person
 						</md-icon>
 						Patient Information
-						<small>Patient details at time of genomic testing.</small>
+						<small class="white-white">Patient details at time of genomic testing.</small>
 					</h2>
 				</div>
 				<div class="card-body">
@@ -49,18 +49,18 @@
 		<div flex></div>
 		<div flex="45" flex-sm="45" flex-xs="100">
 
-			<div class="card">
-				<div class="card-header bgmd-bluegray">
+			<div class="card" style="box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">
+				<div class="card-header pr-header">
 					<h2>
 						<md-icon aria-label="Cancer type"
-						         md-font-library="material-icons">
+						         md-font-library="material-icons" style="color: white !important;">
 							blur_on
 						</md-icon>
 						Cancer type information
-						<small>Cancer type, biopsy site</small>
+						<small class="white-white">Cancer type, biopsy site</small>
 					</h2>
 				</div>
-				<div class="card-body" md-padding>
+				<div class="card-body">
 					<div class="ps-block">
 						<div class="ps-body">
 							<dl>
@@ -85,14 +85,14 @@
 
 	<div layout="row">
 		<div class="card" flex>
-			<div class="card-header bgmd-lightgreen">
+			<div class="card-header pr-header">
 				<h2>
 					<md-icon aria-label="Analysis"
 					         md-font-library="material-icons">
 						donut_large
 					</md-icon>
 					Analysis information
-					<small>Treating physician, pathologist, sample identifiers, etc.</small>
+					<small class="white-white">Treating physician, pathologist, sample identifiers, etc.</small>
 				</h2>
 			</div>
 			<div class="card-body">

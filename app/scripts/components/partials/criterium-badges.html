@@ -43,6 +43,41 @@
                               ng-if="::node.genomic.mmr_status"
                               view="::node.genomic.mmr_status">
         </clinical-trial-badge>
+        <clinical-trial-badge category="temozolomide_signature"
+                              value="::node.genomic.temozolomide_signature"
+                              ng-if="::node.genomic.temozolomide_signature"
+                              postfix="Temozolomide Signature">
+        </clinical-trial-badge>
+
+        <clinical-trial-badge category="tobacco_signature"
+                              value="::node.genomic.tobacco_signature"
+                              ng-if="::node.genomic.tobacco_signature"
+                              postfix=" Tobacco Signature">
+        </clinical-trial-badge>
+
+        <clinical-trial-badge category="pole_signature"
+                              value="::node.genomic.pole_signature"
+                              ng-if="::node.genomic.pole_signature"
+                              postfix="POLE Signature">
+        </clinical-trial-badge>
+
+        <clinical-trial-badge category="apobec_signature"
+                              value="::node.genomic.apobec_signature"
+                              ng-if="::node.genomic.apobec_signature"
+                              postfix=" APOBEC Signature">
+        </clinical-trial-badge>
+
+        <clinical-trial-badge category="uva_signature"
+                              value="::node.genomic.uva_signature"
+                              ng-if="::node.genomic.uva_signature"
+                              postfix=" UVA Signature">
+        </clinical-trial-badge>
+
+        <clinical-trial-badge category="tmb"
+                              value="::node.clinical.tmb_numerical"
+                              ng-if="::node.clinical.tmb_numerical"
+                              prefix="Tumor Mutational Burden">
+        </clinical-trial-badge>
 	</span>
 
 	<span ng-if="::!isNumber">
@@ -107,6 +142,7 @@
                               ng-if="::node.pole_signature"
                               postfix=" POLE Signature">
         </clinical-trial-badge>
+
 
         <clinical-trial-badge category="apobec_signature"
                               value="::node.apobec_signature"

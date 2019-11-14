@@ -326,7 +326,7 @@
 								<span class="td-small" layout="row" layout-align="space-between center">
 								  <b>Category:&nbsp;</b> {{ match.VARIANTS[0].VARIANT_CATEGORY }}
 								  <span flex> </span>
-								  <span class="small md-red" ng-if="match.VARIANTS[0].VARIANT_CATEGORY == 'SV' && match.CLINICAL_ID.PDF_LAYOUT_VERSION == 2">
+								  <span class="small md-red" ng-if="match.VARIANTS[0].VARIANT_CATEGORY == 'SV' && match.CLINICAL_ID.PDF_LAYOUT_VERSION <= 2">
 									<i>Manual Review Required</i>
 								  </span>
 								</span>

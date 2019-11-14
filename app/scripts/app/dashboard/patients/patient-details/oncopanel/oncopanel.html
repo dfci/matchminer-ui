@@ -180,7 +180,7 @@
         <!-- Structural Variants -->
         <patient-structural-variants sv-mut="::pdc.patient.additionalSvMuts"
                                      is-embedded="true"
-                                     ng-if="(pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)) && pdc.patient.additionalSvMuts.length"
+                                     ng-if="(pdc.includeForOncopanelVersion(2)) && pdc.patient.additionalSvMuts.length"
                                      tooltip="pdc.getLayoutTooltipByVersion(id)">
         </patient-structural-variants>
 

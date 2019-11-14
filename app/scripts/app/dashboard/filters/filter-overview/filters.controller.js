@@ -33,6 +33,7 @@ angular.module('matchminerUiApp')
 			dbf.filters = FiltersService.getFilters();
 			dbf.tableOpts = FiltersService.getTableOpts();
 			dbf.totalElements = 0;
+			dbf.selectedItem = '';
 
 			$scope.$watch(function() {
 				return FiltersService.getIsLoading();
@@ -55,6 +56,52 @@ angular.module('matchminerUiApp')
 					.then(dbf._successFilterQuery)
 					.catch(dbf._handleError);
 			};
+			/**
+			 * Show the confirmation dialog
+             */
+			dbf.showWatchDialog = function () {
+                $mdDialog.show({
+                    templateUrl: '/scripts/app/dashboard/filters/partials/watch.html',
+                    locals: {
+                        parent: dbf
+                    },
+                    controller: angular.noop,
+                    controllerAs: 'dbf',
+                    bindToController: true,
+                    clickOutsideToClose: true
+				});
+            };
+			 /**
+			 * Populate autocomplete suggestions based on user input. Returns a promise
+             * @param suggestion
+             * @returns {*}
+             */
+            dbf.suggestWatch = function(suggestion) {
+                return ClinicalTrialsService.suggestTermsForString(['protocol_no_suggest'], suggestion);
+            };
+
+			   /**
+			 * Send add watch query to backend
+             * @param trial
+             */
+            dbf.sendWatch = function(trial) {
+                $.ajax({
+                    type: "POST",
+                    url: ENV.api.endpoint + "/trial_watch/" + trial.text,
+                    dataType: "html",
+                    data: {
+                        user_id: UserAccount._id,
+                        team_id: UserAccount.teams[0]
+                    },
+                    success: function (response) {
+                        ToastService.success("Successfully added to trial " + trial.text + " watch list.");
+                    },
+                    error: function () {
+                        ToastService.warn("Error adding trial " + trial.text + " to watch list. Please try again.");
+                    }
+                });
+                $mdDialog.hide();
+            };
 
 			/**
 			 * Show a deletion confirmation dialog prior to deleting a filter.

@@ -500,15 +500,19 @@ angular.module('matchminerUiApp')
                         //Add mutational signature value
                         //Complicated because MMR-Status and all the other signature indicators
                         // exist in the same level in hierarchy, need to add display val
-                        var variant =  match.VARIANTS[0];
-                        if (variant != null && variant.VARIANT_CATEGORY === 'SIGNATURE') {
+                        var genomic_doc =  match.VARIANTS[0];
+                        if (genomic_doc != null && genomic_doc.VARIANT_CATEGORY === 'SIGNATURE') {
                             for (var i = 0; i < signatures.length; i++) {
-                                if (variant[signatures[i].key] === signatures[i].value) {
-                                    if (match['FILTER_ID'].genomic_filter.hasOwnProperty('MMR_STATUS')) {
-                                        match['MUTATIONAL_SIGNATURE'] = signatures[i].name;
+                                var signature = signatures[i];
+                                var filter = match['FILTER_ID'].genomic_filter;
+                                var signature_present = genomic_doc.hasOwnProperty(signature.key);
+
+                                if (genomic_doc[signature.key] === signature.value) {
+                                    if (filter.hasOwnProperty('MMR_STATUS')) {
+                                        match['MUTATIONAL_SIGNATURE'] = signature.name;
                                         break;
-                                    } else if (variant.hasOwnProperty(signatures[i].key) && signatures[i].key !== 'MMR_STATUS') {
-                                        match['MUTATIONAL_SIGNATURE'] = signatures[i].name;
+                                    } else if (signature_present && signature.key !== 'MMR_STATUS' && !!filter[signature.key]) {
+                                        match['MUTATIONAL_SIGNATURE'] = signature.name;
                                         break;
                                     }
                                 }

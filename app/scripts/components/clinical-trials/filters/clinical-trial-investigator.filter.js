@@ -19,17 +19,20 @@ angular.module('matchminerUiApp')
 	.filter('principalInvestigatorFilter', function() {
 		return function(pi) {
 		if (pi) {
-			var piArr = pi.split(",");
-			var name = "";
+			if (pi.contains(',')) {
+				var piArr = pi.split(",");
+				var name = "";
 
-			if (piArr) {
-				name = piArr[0] + ", " + piArr[1];
-				if (!!piArr[2]) {
-					name += " " + piArr[2];
+				if (piArr) {
+					name = piArr[0] + ", " + piArr[1];
+					if (!!piArr[2]) {
+						name += " " + piArr[2];
+					}
 				}
+				return name;
+			} else {
+				return pi
 			}
-
-			return name;
 		} else {
 			return "";
 		}

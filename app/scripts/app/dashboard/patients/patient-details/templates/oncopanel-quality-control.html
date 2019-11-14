@@ -15,9 +15,9 @@
 		</ul>
 	</div>
 
-	<div layout="row" layout-align="space-between center">
+	<div layout="row" layout-align="space-between center" style="margin-top: 10px !important;">
 		<div flex="30" flex-sm="30" flex-xs="50">
-			<div class="mini-charts-item bgmd-cyan">
+			<div class="mini-charts-item">
 				<div class="clearfix">
 					<div class="chart">
 						<md-icon aria-label="Sequencing Reads"
@@ -26,7 +26,7 @@
 						</md-icon>
 					</div>
 					<div class="count">
-						<small>Aligned Reads</small>
+                        <small>Aligned Reads</small>
 						<h2>{{ ::(clinical.TOTAL_ALIGNED_READS | number) || 'Not available' }}</h2>
 					</div>
 				</div>
@@ -34,7 +34,7 @@
 		</div>
 
 		<div flex="33" flex-sm="33" flex-xs="50">
-			<div class="mini-charts-item bgmd-amber">
+			<div class="mini-charts-item">
 				<div class="clearfix">
 					<div class="chart">
 						<md-icon aria-label="Tumor percentage"
@@ -51,7 +51,7 @@
 		</div>
 
 		<div flex="30" flex-sm="30" flex-xs="100">
-			<div class="mini-charts-item bgmd-red">
+			<div class="mini-charts-item">
 				<div class="clearfix">
 					<div class="chart">
 						<md-icon aria-label="Tumor percentage"
@@ -68,7 +68,7 @@
 		</div>
 	</div>
 
-	<div class="card">
+	<div class="card" style="margin-top: 10px !important;">
 		<div class="card-header">
 			<strong>Quality Control Summary</strong>: There are <strong>{{ ::clinical.TOTAL_ALIGNED_READS
 			| number }}</strong> unique, aligned, high-quality reads for this specimen with a mean of <strong>{{
