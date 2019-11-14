@@ -1,4 +1,4 @@
-<div id="mutationalBurden">
+<div id="mutationalBurden" style="padding-bottom: 30px">
 	<div class="block-header" ng-if="::!isEmbedded">
 		<h2>
 			<md-icon
@@ -16,11 +16,9 @@
 		</ul>
 	</div>
 
-	<div layout="row" layout-align="space-between start" class="mutational-burden-cards-row">
-
-
+	<div layout="row" layout-align="space-between start" class="mutational-burden-cards-row" style="padding-top: 10px; ">
 		<div flex="30" flex-sm="30" flex-xs="50" class="mutational-burden-card">
-			<div class="mini-charts-item bgmd-orange mb-container">
+			<div class="mini-charts-item mb-container">
 				<div class="clearfix">
 					<div  class="mb-emphasis">
 						<span ng-if="clinical.TUMOR_MUTATIONAL_BURDEN_PER_MEGABASE === 0" class="mb-percentage">
@@ -41,7 +39,7 @@
 		</div>
 
 		<div flex="33" flex-sm="33" flex-xs="50" class="mutational-burden-card">
-			<div class="mini-charts-item bgmd-green mb-container">
+			<div class="mini-charts-item mb-container">
 				<patient-mutational-burden-cancer-type-percentile-box class="clearfix">
 					<div ng-if="clinical.CANCER_TYPE_PERCENTILE === 0" class="mb-emphasis">
 						<span>
@@ -68,7 +66,7 @@
 		</div>
 
 		<div flex="30" flex-sm="30" flex-xs="100" class="mutational-burden-card">
-			<div class="mini-charts-item bgmd-pink mb-container">
+			<div class="mini-charts-item mb-container">
 				<div class="clearfix">
                     <div ng-if="clinical.ALL_PROFILE_PERCENTILE === null" class="mb-percentage mb-emphasis">
                         N/A

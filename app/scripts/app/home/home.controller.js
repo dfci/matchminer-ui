@@ -22,8 +22,8 @@
  */
 angular.module('matchminerUiApp')
 	.controller('HomeCtrl',
-		['$stateParams', '$log', '$window', 'Principal', 'PublicStatisticsService',
-			function ($stateParams, $log, $window, Principal, PublicStatisticsService) {
+		['$stateParams', '$log', '$window', 'Principal', 'PublicStatisticsService', 'ENV',
+			function ($stateParams, $log, $window, Principal, PublicStatisticsService, ENV) {
 				var hc = this;
 
 				hc.scroll = 0;
@@ -38,7 +38,7 @@ angular.module('matchminerUiApp')
 				hc.isAuthenticated = Principal.isAuthenticated();
 
 				hc.applyForAccess = function () {
-					$window.location.href = 'http://bit.ly/matchminer-apply';
+					$window.location.href = ENV.accessRequestFormLink;
 				};
 
 				/**

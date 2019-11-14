@@ -194,7 +194,7 @@ angular.module('matchminerUiApp')
 				  +  "'Patient is positive for EML4-ALK fusion...', as opposed to structured data, e.g. geneA=EML4, geneB=ALK.</p>"
 					+ "<p>For samples with this unstructured data, it is possible that MatchMiner may miss or incorrectly "
 					+ "classify some structural variants. For example, a filter for ALK structural variants will match a patient "
-					+ "who was 'Negative for ALK rearrangements. </p>"
+					+ "who was 'Negative for ALK rearrangements.' </p>"
 					+ "<p>Users should therefore always carefully check the structural variant comment for each sample before "
 					+ "making a final decision.</p>";
 				vm._geneAutocompleteChange = function(gene) {

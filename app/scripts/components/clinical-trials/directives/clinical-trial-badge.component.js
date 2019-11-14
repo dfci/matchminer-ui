@@ -250,7 +250,7 @@ function ClinicalTrialBadgeCtrl() {
 function getBadgeCategoryClass(category, status) {
     if (!category) return;
 
-    var _trialGreenStatusses = ['OPEN TO ACCRUAL'];
+    var _trialGreenStatusses = ['OPEN TO ACCRUAL', 'ACTIVE'];
     var _trialGreyStatusses = ['NEW', 'ON HOLD', 'SRC APPROVAL', 'IRB INITIAL APPROVAL', 'ACTIVATION COORDINATOR SIGNOFF'];
     var _trialYellowStatusses = ['CLOSED TO ACCRUAL', 'SUSPENDED'];
     var _trialRedStatusses = ['IRB STUDY CLOSURE', 'TERMINATED', 'ABANDONED'];

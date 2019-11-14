@@ -148,6 +148,7 @@ MatchMiner UI has several profiles which it uses for configuration. These can be
 | **ui**      	|                                                                                                                                                                                                                                                                                                          	|                                                                           	|
 | logo       	| Should point to an image file which will be placed in upper left hand corner of the site e.g. DFCI.jpg                                                                                                	| `https://trialportal.myresource.com/protocols.asp?protid=`                	|
 | institution         	| The name of the hosting institution e.g. 'DFCI'                                                                                                                                                                               	| `https://clinicaltrials.gov/ct2/show/`                                    	|
+| accessRequestFormLink         	| A link to a google form which may be used to control access to the application.                                                                                                                                                                               	| `https://google_form_url.com`                                    	|
 
 
 ## Deploying MatchMiner UI
@@ -155,9 +156,10 @@ After building the MatchMiner UI with the `gulp --env production build` command,
 
 The contents of this folder can be deployed in a webserver folder.
 
-## Built with 
+## Built with
+* node@v10.16.0 
 * npm
 * Bower
 * AngularJS
-* Gulp
+* Gulp@v3.9.1
 * Karma

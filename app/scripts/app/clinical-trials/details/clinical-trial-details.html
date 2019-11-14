@@ -138,7 +138,7 @@
 									<span class="trial-property-label">Protocol number</span>
 								</span>
 								<span class="trial-property-value">
-									{{ ctd.trial.protocol_no }}
+									{{ ctd.trial.protocol_no || '-' }}
 								</span>
 							</div>
 							<div flex="45">
@@ -158,8 +158,8 @@
 									<md-icon md-font-set="material-icons">business</md-icon>
 									<span class="trial-property-label">Coordinating center</span>
 								</span>
-								<span class="trial-property-value" ng-repeat="site in (ctd.trial.site_list.site | filter: { coordinating_center : 'Y'}) track by $index">
-									{{ site.site_name }}
+								<span class="trial-property-value">
+									{{ ctd.trial._summary.coordinating_center }}
 								</span>
 							</div>
 							<div flex="45">
@@ -179,8 +179,8 @@
 									<md-icon md-font-set="material-icons">account_balance</md-icon>
 									<span class="trial-property-label">Sponsor</span>
 								</span>
-								<span class="trial-property-value" ng-repeat="sponsor in (ctd.trial.sponsor_list.sponsor | filter: { is_principal_sponsor : 'Y'}) track by $index">
-									{{ sponsor.sponsor_name }}
+								<span class="trial-property-value">
+									{{ ctd.trial._summary.sponsor }}
 								</span>
 							</div>
 							<div flex="45">
@@ -251,10 +251,10 @@
 							<div flex>
 								<span class="trial-property-value">
 									<span class="ct-badge-properties-container ct-badge-inline-spacer" ng-if="ctd.trial">
-										 <clinical-trial-badge category="mmr_status" value="mmr" view="mmr"
-															   ng-repeat="mmr in ctd.getAllSignatures()"></clinical-trial-badge>
 										 <clinical-trial-badge ng-if="ctd.getAllSignatures().length === 0"
 															  category="mmr_status" value="'None'" view="'None'"></clinical-trial-badge>
+										<clinical-trial-badge category="mmr_status" value="sig" view="sig"
+															  ng-repeat="sig in ctd.getAllSignatures()"></clinical-trial-badge>
 									</span>
 								</span>
 							</div>
@@ -398,8 +398,8 @@
 						 class="step-container">
 
 						<div class="step-details md-whiteframe-2dp" layout="row">
-							<span class="step-code">{{ step.step_code }}</span>
-							<span class="step-type">{{ step.step_type }}</span>
+							<span class="step-code">{{ step.step_code || '-'}}</span>
+							<span class="step-type">{{ step.step_type || 'Step'}}</span>
 							<span flex> </span>
 							<md-button class="md-primary md-raised criteria-loading-button criteria-toggle-spacing"
 							           md-no-ink aria-label="Toggle step genomic details"

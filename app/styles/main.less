@@ -1,6 +1,5 @@
-/*
- * Main page
- */
+@import "site.colors.less";
+
 #main {
  height: 100%;
 }
@@ -21,15 +20,15 @@
 }
 
 #main .main-primary.section-hero {
-  background-image: linear-gradient(45deg, #f4c34e, #cd8200);
+  background-image: linear-gradient(45deg, @primary-blue, #fff7f1);
   transition: height .75s ease;
-  height: 38px !important;
+  height: 12px !important;
   min-height: 38px;
   padding-top: 151px;
 }
 
 #main .main-primary.section-hero.not-authenticated {
-  padding-top: 132px!important;
+  padding-top: 120px!important;
 }
 
 #main .section.section-trial-search {
@@ -281,7 +280,7 @@
 }
 
 #main section .section-mm-partners {
-  background: url('../images/combined.png') no-repeat;
+  background: url('../images/combined_new.png') no-repeat;
   height: 7rem;
   width: 40rem;
   background-size: 100%;
@@ -306,6 +305,8 @@
   font-weight: 400;
   font-size: 24px;
 }
+
+
 
 #main .section.section-subtle-padding {
   padding-top: 2.5rem !important;

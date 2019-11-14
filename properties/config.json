@@ -37,7 +37,8 @@
         "emailSecondary": "info2@yourInstitute.com"
       },
       "EPIC": false,
-      "cBio": false
+      "cBio": false,
+      "accessRequestFormLink":  "https://example.com"
     }
   },
   "stage" : {
@@ -74,7 +75,8 @@
         "emailSecondary": "info2@yourInstitute.com"
       },
       "EPIC": false,
-      "cBio": false
+      "cBio": false,
+      "accessRequestFormLink":  "https://example.com"
     }
   },
   "prod" : {
@@ -111,7 +113,8 @@
         "emailSecondary": "info2@yourInstitute.com"
       },
       "EPIC": false,
-      "cBio": false
+      "cBio": false,
+      "accessRequestFormLink":  "https://example.com"
     }
   }
 }

@@ -1,3 +1,5 @@
+@import "site.colors.less";
+
 #clinical-trial-details:first-child h3 {
   margin-top: 0;
 }
@@ -238,8 +240,8 @@
 }
 
 #clinical-trial-details .navbar-separator {
-  background-image: linear-gradient(45deg, #f4c34e, #cd8200);
-  height: 24px;
+  background-image: linear-gradient(45deg, @primary-blue, #fff7f1);
+  height: 12px;
 }
 
 #clinical-trial-details md-list-item md-icon {
@@ -338,7 +340,7 @@
   font-weight: 600;
   font-size: 23px;
   color: white;
-  background-color: #0074D9;
+  background-color: @primary-blue;
 }
 
 #clinical-trial-details .step-type {
@@ -377,7 +379,7 @@
 
 #clinical-trial-details .arm-status-container md-icon.arm-open-icon,
   #clinical-trial-details .dose-status-container md-icon.dose-open-icon {
-    color: #5b932e!important;
+    color: rgba(17, 147, 56, 0.75)!important;
 }
 
 #clinical-trial-details .status-container {
@@ -394,7 +396,7 @@
 
 #clinical-trial-details .arm-status-container md-icon.arm-suspended-icon,
   #clinical-trial-details .dose-status-container md-icon.dose-suspended-icon {
-    color: #F44336!important;
+    color: #a61500!important;
 }
 
 #clinical-trial-details .status-suspended {
