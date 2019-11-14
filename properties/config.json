@@ -39,7 +39,7 @@
       "EPIC": false,
       "cBio": false,
       "accessRequestFormLink":  "https://example.com",
-      "demo": true,
+      "demo": true
     }
   },
   "stage" : {
