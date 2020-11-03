@@ -1,0 +1,156 @@
+<div ui-view="navbar"></div>
+
+<section class="section-primary section-banner" layout="column"></section>
+<section ncy-breadcrumb></section>
+
+<section id="applyForAccess">
+    <div layout="row"
+         layout-align="space-around center">
+        <h1>Apply for Access</h1>
+    </div>
+
+    <section class="section"
+             layout="row"
+             layout-align="space-around center">
+        <div class="access-card">
+            <h2>Oncologist Access</h2>
+            <p>
+                Oncologist access enables a user to look up data associated with individual patients. Patient-specific data includes results from molecular tests and genomically-driven clinical trial matches.
+            </p>
+            <p>
+                Oncologist access is automatically granted to all users with existing access to <b>Results Viewer</b>.
+            </p>
+            <p>
+                If you do not have results viewer access, you can apply by submitting a ticket to Partners
+                IT through ServiceNow.
+            </p>
+
+            <md-button href="https://wiki.dfci.harvard.edu:8443/rv/access-request-process"
+                       class="md-primary md-raised">
+                <md-icon md-font-library="material-icons">
+                    exit_to_app
+                </md-icon>
+                Apply For <u>Oncologist</u> Access
+            </md-button>
+        </div>
+
+        <div class="access-card">
+            <h2>Clinical Trial Investigator Access</h2>
+            <p>
+                Clinical Trial Investigator access enables users involved in running a clinical trial to identify patients for their trials. Access may be granted to clinical trial investigators and support staff.
+            </p>
+            <p>
+                Clinical Trial Investigator access is controlled by the Office of Clinical Research (OCR).
+            </p>
+            <p>
+                To apply for access, please fill out the form below.
+            </p>
+            <md-button ng-click="ac.applyForAccess()"
+                       class="md-primary md-raised">
+                <md-icon md-font-library="material-icons">
+                    exit_to_app
+                </md-icon>
+                Apply For <u>CTI</u> Access
+            </md-button>
+        </div>
+	</section>
+    <br/>
+    <br/>
+    <br/>
+
+    <section layout="column"
+             layout-align="start center">
+        <h2>What access do I need?</h2>
+        <table style="border-collapse: collapse">
+            <thead>
+            <tr>
+                <th></th>
+                <th>No Approval Required</th>
+                <th>Oncologist Access</th>
+                <th>Clinical Trial Investigator Access</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>View & search for genomically driven clinical trials.
+                    <br/>
+                    <small>*Search interface also available in Epic.</small>
+                </td>
+                <td>
+                    <md-icon md-font-library="material-icons" style="color: green">
+                        check_circle_outline
+                    </md-icon>
+                </td>
+                <td>
+                    <md-icon md-font-library="material-icons" style="color: green">
+                        check_circle_outline
+                    </md-icon>
+                </td>
+                <td>
+                    <md-icon md-font-library="material-icons" style="color: green">
+                        check_circle_outline
+                    </md-icon>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    View patient-specific molecular data and patient-trial matches
+                    <br/>
+                    <small>*Interface also available in Epic.</small>
+                </td>
+                <td></td>
+                <td>
+                    <md-icon md-font-library="material-icons" style="color: green">
+                        check_circle_outline
+                    </md-icon>
+                </td>
+                <td>
+                    <md-icon md-font-library="material-icons" style="color: green">
+                        check_circle_outline
+                    </md-icon>
+                </td>
+            </tr>
+            <tr>
+                <td>Search for specific patients</td>
+                <td></td>
+                <td>
+                    <md-icon md-font-library="material-icons" style="color: green">
+                        check_circle_outline
+                    </md-icon>
+                </td>
+                <td>
+                    <md-icon md-font-library="material-icons" style="color: green">
+                        check_circle_outline
+                    </md-icon>
+                </td>
+            </tr>
+            <tr>
+                <td>Find patients with specific genomic or clinical features for potential enrollment on clinical trials</td>
+                <td></td>
+                <td></td>
+                <td>
+                    <md-icon md-font-library="material-icons" style="color: green">
+                        check_circle_outline
+                    </md-icon>
+                </td>
+            </tr>
+            <tr>
+                <td>Receive notifications when new patients are found who match existing filter criteria</td>
+                <td></td>
+                <td></td>
+                <td>
+                    <md-icon md-font-library="material-icons" style="color: green">
+                        check_circle_outline
+                    </md-icon>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br/>
+        <p class="section-body">
+            If you have questions please email <i><a style="color: blue; text-decoration: underline" href="mailto:{{ ENV.resources.email }}">{{  ENV.resources.email }}</a></i>.
+        </p>
+        <br/>
+    </section>
+</section>
+

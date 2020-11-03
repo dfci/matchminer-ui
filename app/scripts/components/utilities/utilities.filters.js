@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *
- */
-
 'use strict';
 
 angular.module('matchminerUiApp')
@@ -30,7 +17,9 @@ angular.module('matchminerUiApp')
 	.filter('parsedate', function () {
 		return function (input, scope) {
 			if (!!input) {
-				return Date.parse(input);
+				var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+				var date = new Date(input);
+				return monthNames[date.getMonth()] + ' ' + date.getDate() + ' ' + date.getFullYear();
 			} else {
 				return "";
 			}

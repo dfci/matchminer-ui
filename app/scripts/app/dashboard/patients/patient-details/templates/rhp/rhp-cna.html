@@ -1,0 +1,80 @@
+<div id="rhpCNVs">
+    <div class="card attached-card">
+        <div class="card-header">
+            <h2>
+                <span>Copy Number Analysis*</span>
+            </h2>
+        </div>
+
+        <div ng-if="" class="info-missing-container" layout="row">
+            <md-icon aria-label="Notice"
+                     md-font-library="material-icons">
+                error
+            </md-icon>
+            <div>
+                <h3 ng-if="">Insertions & Deletions</h3>
+            </div>
+        </div>
+
+        <div ng-if="cnvs.length === 0" class="info-missing-container" layout="row">
+            <md-icon aria-label="Notice"
+                     md-font-library="material-icons">
+                error
+            </md-icon>
+            <div>
+                <h3>None detected.</h3>
+            </div>
+        </div>
+
+        <div layout="row" ng-if="cnvs.length > 0">
+            <div flex>
+                <table datatable="ng" dt-options="dtOpts" class="table dna-variant-card table-inner table-vmiddle rhp-table" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Gene</th>
+                        <th>CNV Call</th>
+                        <th>CNV Band</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="pmRow" ng-repeat="mut in cnvs track by $index">
+                        <td title="{{ ::mut.TRUE_HUGO_SYMBOL }}">{{ ::mut.TRUE_HUGO_SYMBOL || '-' }}</td>
+                        <td title="{{ ::mut.CNV_CALL }}">{{ ::mut.CNV_CALL || '-' }}</td>
+                        <td title="{{ ::mut.CNV_BAND }}">{{ ::mut.CNV_BAND || '-' }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <br/>
+
+                <div class="card-header">
+                    <h2>
+                        <span>Pertinent Negatives</span>
+                    </h2>
+                </div>
+                <table datatable="ng" dt-options="dtOpts" class="table dna-variant-card table-inner table-vmiddle rhp-table" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Gene</th>
+                        <th>Detected</th>
+                        <th>CNV Call</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="pmRow" ng-repeat="mut in cnvsPertNegs track by $index">
+                        <td title="{{ ::mut.TRUE_HUGO_SYMBOL }}">{{ ::mut.TRUE_HUGO_SYMBOL || '-' }}</td>
+                        <td title="{{ ::mut.DETECTED }}">{{ ::mut.DETECTED || '-' }}</td>
+                        <td title="{{ ::mut.CNV_CALL }}">{{ ::mut.CNV_CALL || '-' }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card-header" ng-if="cnvs.length > 0">
+            <small>
+                *This test assesses only autosomal chromosomal copy number changes.
+            </small>
+        </div>
+    </div>
+</div>

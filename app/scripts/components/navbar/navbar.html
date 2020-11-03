@@ -1,16 +1,3 @@
-<!--
-  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
-  ~
-  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
-  ~  you may not use this file except in compliance with the License.
-  ~
-  ~ See the file LICENSE in the root of this repository.
-  ~
-  ~ Contributing authors:
-  ~ - berndvdveen
-  ~
-  -->
-
 <nav id="site-nav"
      ng-class="{
         stuck: nbc.scroll > 5,
@@ -50,7 +37,6 @@
 
         <div ng-if="!nbc.isAuthenticated" class="user-action-button" layout="row">
             <div layout="column">
-                <span class="apply-for-access-header"> &nbsp;</span>
                 <md-button class="md-primary md-raised" ng-click="nbc.login()"
                            analytics-on="click" analytics-event="Login from navbar" analytics-category="Navbar"
                            analytics-label="Unauthenticated">
@@ -88,63 +74,46 @@
                    ui-sref="clinicaltrials.overview"
                    analytics-on="click" analytics-event="Navigate to clinical trials" analytics-category="Navbar"
                    analytics-label="Authenticated"
-                   ng-class="{ 'active' :nbc.isClinicalTrialPage}">Clinical Trials</a>
+                   ng-class="{ 'active' :nbc.isClinicalTrialPage}">Trials</a>
             </li>
-            <li has-authority="admin">
-                <a ui-sref-active-eq="active"
-                   analytics-on="click" analytics-event="Navigate to statistics" analytics-category="Navbar"
-                   analytics-label="Authenticated"
-                   ui-sref="statistics">Statistics</a>
+            <li ui-sref-active="active" has-any-authority="cti">
+                <a ui-sref="filters-overview"
+                   ng-class="{ 'active' :nbc.isFilterPage}"
+                   analytics-on="click" analytics-event="Navigate to genomic filters"
+                   analytics-category="Navbar" analytics-label="Authenticated - CTI">
+                    Filters
+                </a>
             </li>
-            <li has-any-authority="cti"
-                ng-class="{ 'active' :nbc.isMatching }"
-                class="dropdown">
-                <span>Matching</span>
-                <md-icon aria-label="Expand menu"
-                         md-font-library="material-icons">
-                    expand_more
-                </md-icon>
-                <ul>
-                    <li ui-sref-active="active">
-                        <a ui-sref="matches"
-                           analytics-on="click" analytics-event="Navigate to patient matches"
-                           analytics-category="Navbar" analytics-label="Authenticated - CTI">
-                            <md-icon aria-label="Patient Matches"
-                                     md-font-library="material-icons">
-                                play_for_work
-                            </md-icon>
-                            <span>Patient Matches</span>
-                        </a>
-                    </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="filters-overview"
-                           analytics-on="click" analytics-event="Navigate to genomic filters"
-                           analytics-category="Navbar" analytics-label="Authenticated - CTI">
-                            <md-icon aria-label="Genomic Filters"
-                                     md-font-library="material-icons">
-                                filter_list
-                            </md-icon>
-                            Filters
-                        </a>
-                    </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="patient-search"
-                           analytics-on="click" analytics-event="Navigate to patient search" analytics-category="Navbar"
-                           analytics-label="Authenticated - CTI">
-                            <md-icon aria-label="Patient search"
-                                     md-font-library="material-icons">
-                                search
-                            </md-icon>
-                            Patient Search
-                        </a>
-                    </li>
-                </ul>
+            <li ui-sref-active="active" has-any-authority="cti">
+                <a ui-sref="matches"
+                   ng-class="{ 'active' :nbc.isMatchesPage}"
+                   analytics-on="click" analytics-event="Navigate to patient matches"
+                   analytics-category="Navbar" analytics-label="Authenticated - CTI">
+                    <span>Matches</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="patient-search"
+                   ng-class="{ 'active' :nbc.isPatientSearchPage}"
+                   analytics-on="click" analytics-event="Navigate to patient search" analytics-category="Navbar"
+                   analytics-label="Authenticated - CTI">
+                    Patient Search
+                </a>
             </li>
             <li>
                 <a ui-sref-active="active"
                    analytics-on="click" analytics-event="Navigate to FAQ" analytics-category="Navbar"
                    analytics-label="Authenticated"
                    ui-sref="faq">FAQ</a>
+            </li>
+            <li has-authority="admin">
+                <a ui-sref-active-eq="active"
+                   ng-class="{ 'active' :nbc.isStatisticsPage}"
+                   analytics-on="click"
+                   analytics-event="Navigate to statistics"
+                   analytics-category="Navbar"
+                   analytics-label="Authenticated"
+                   ui-sref="statistics">Statistics</a>
             </li>
         </ul>
 

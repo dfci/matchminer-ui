@@ -1,0 +1,28 @@
+<div style="margin-top: 10px;">
+    <div class="card attached-card">
+        <div class="card-header">
+            <h2>
+                <span>Targeted Gene/Exon List</span>
+            </h2>
+        </div>
+
+        <table datatable="ng" dt-options="dtOpts" class="table dna-variant-card table-inner table-vmiddle rhp-table" width="100%">
+				<thead>
+					<tr>
+						<th>Gene</th>
+						<th>Transcript ID</th>
+						<th>?</th>
+						<th>Exon</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="gene in genePanel">
+						<td>{{ gene.gene }}</td>
+						<td>{{ gene.enst }}</td>
+						<td>?</td>
+						<td>{{ gene.sci }}</td>
+					</tr>
+				</tbody>
+			</table>
+    </div>
+</div>

@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *
- */
-
 'use strict';
 
 /**
@@ -157,11 +144,6 @@ angular.module('matchminerUiApp')
 			 * Header tokens are set in deferred promises
 			 */
 			dbm.updateStatus = function (selectedMatches, newStat) {
-				selectedMatches.forEach(function(match) {
-					if (match.TIER === null) {
-						match.TIER = 0;
-					}
-				});
 				MatchesService.updateStatus(selectedMatches, newStat)
 					.then(dbm._successUpdate)
 					.catch(dbm._handleError);
@@ -243,6 +225,27 @@ angular.module('matchminerUiApp')
 				return "<span class='md-red'>Within the past " + d + " month" + ( d > 1 ? "s" : '' ) + "</span>";
 			};
 
+			/**
+			 * For structured SV data, show LEFT-RIGHT genes.
+			 * For unstructured data, show TRUE_HUGO_SYMBOL.
+			 * TRUE_HUGO_SYMBOL is populated from original query which returned match
+			 * @param match
+			 * @returns {*|string}
+			 */
+			dbm.getSVGeneText = function (match) {
+				var alteration = match['TRUE_HUGO_SYMBOL'];
+				var left_gene = match.VARIANTS[0].LEFT_PARTNER_GENE;
+				var right_gene = match.VARIANTS[0].RIGHT_PARTNER_GENE;
+				if (left_gene && right_gene) {
+					alteration = left_gene + '-' + right_gene
+				} else if (left_gene) {
+					alteration = left_gene + '-Intergenic'
+				} else if (right_gene) {
+					alteration = right_gene + '-Intergenic'
+				}
+				return alteration
+			}
+
 			dbm.closeFilterSelect = function () {
 				var filters = dbm.tableFilter.filter;
 				$log.debug("Filter select ", filters);
@@ -276,10 +279,10 @@ angular.module('matchminerUiApp')
 				event.preventDefault();
 				event.stopPropagation();
 
-				var recipient = match.EMAIL_ADDRESS;
+				var recipient = match.CLINICAL_ID.ORD_PHYSICIAN_EMAIL;
 				var options = {
 					subject: match.EMAIL_SUBJECT,
-					body: match.EMAIL_BODY
+					body: ""
 				};
 
 				var maillink = Mailto.url(recipient, options);
@@ -303,7 +306,9 @@ angular.module('matchminerUiApp')
 			dbm._loadFilters();
 
             /**
-			 * Display TIER value. If patient has multiple genomic matches, or tier value doesn't exist, show 'N/A'
+			 * Display TIER value for Oncoanel patients.
+			 * Display PATHOGENICITY_PATHOLOGIST for rapid Heme pabel patients
+			 * If patient has multiple genomic matches, or tier value doesn't exist, show 'N/A'
              * @param match
              * @returns {*}
              */

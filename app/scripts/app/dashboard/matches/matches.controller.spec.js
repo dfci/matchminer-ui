@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *
- */
-
 'use strict';
 
 describe('Controller: MatchesCtrl', function () {
@@ -153,12 +140,13 @@ describe('Controller: MatchesCtrl', function () {
 	it('should be able to navigate to the patient details', function() {
 		var evt = jasmine.createSpyObj('e', ['stopPropagation']);
 		var patient_id = "1234567890";
+		var match = { CLINICAL_ID: { _id: patient_id } };
 
 		spyOn(state, 'go');
 
-		ctrl.gotoPatientDetails(evt, patient_id);
+		ctrl.gotoPatientDetails(evt, match);
 		expect(evt.stopPropagation).toHaveBeenCalled();
-		expect(state.go).toHaveBeenCalledWith('patient', { patient_id: patient_id});
+		expect(state.go).toHaveBeenCalledWith('patient', { patient_id: patient_id });
 	});
 
 	it('should be able to handle a match load success', function() {

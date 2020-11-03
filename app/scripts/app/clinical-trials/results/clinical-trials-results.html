@@ -1,16 +1,3 @@
-<!--
-  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
-  ~
-  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
-  ~  you may not use this file except in compliance with the License.
-  ~
-  ~ See the file LICENSE in the root of this repository.
-  ~
-  ~ Contributing authors:
-  ~ - berndvdveen
-  ~
-  -->
-
 <div id="clinical-trials-results" layout="column" flex>
     <h3 ng-if="ctr.hasTrialMatches" class="trial-results-header">Clinical trial matches</h3>
     <div layout="row" ng-if="ctr.hasTrialMatches" class="trial-match-container" layout-align="start start">
@@ -94,7 +81,7 @@
                 analytics-on="click" analytics-event="Open Clinical Trial Details" analytics-category="Clinical Trials" analytics-label="{{trial._source.protocol_no}}">
                 <tr md-row class="trial-genomic-matches-row">
                     <td md-cell rowspan="2" ng-if="ctr.trialMatches" class="trial-results-trial-rank-cell">
-                        <span>{{ctr.getTrialRankOrder(trial) + 1 || ''}}</span>
+                        <span>{{ctr.getTrialRankOrder(trial) || ''}}</span>
                     </td>
                     <td md-cell ng-class="{'trial-genomic-matches-cell': ctr.hasTrialMatches}"rowspan="2" ng-if="ctr.hasTrialMatches">
                         <p class="trial-genomic-match" ng-repeat="ga in ctr.getFilteredMatches(trial) | limitTo: (trial.numMatches || ctr.maxVisibleMatches)">
@@ -186,7 +173,7 @@
                         </p>
                         <p class="trial-investigator trial-description-field">
                             <span class="trial-field-label" ng-if="trial._source._summary.dfci_investigator.is_overall_pi">DFCI & </span>
-                            <span class="trial-field-label">Overall Principal Investigator:</span>
+                            <span class="trial-field-label">Core Principal Investigator:</span>
                             <span>{{ trial._source.principal_investigator | principalInvestigatorFilter }} </span>
                         </p>
                         <p class="trial-investigator trial-description-field" ng-if="trial._source._summary.dfci_investigator.first_name  && !trial._source._summary.dfci_investigator.is_overall_pi">

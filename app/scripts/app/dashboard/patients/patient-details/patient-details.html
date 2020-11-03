@@ -1,16 +1,3 @@
-<!--
-  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
-  ~
-  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
-  ~  you may not use this file except in compliance with the License.
-  ~
-  ~ See the file LICENSE in the root of this repository.
-  ~
-  ~ Contributing authors:
-  ~ - berndvdveen
-  ~
-  -->
-
 <section layout="row">
 	<div class="patient-sidebar-wrapper"
 	     ng-if="!pdc.error && !pdc.isLoading"
@@ -79,7 +66,10 @@
 							'left-spacing': pdc.isGtSm
                          }">
 					<md-tab label="trial matches"
-					        analytics-on="click" analytics-event="Navigate trial matches" analytics-category="Patients">
+					        analytics-on="click"
+                            analytics-event="Navigate trial matches"
+                            analytics-category="Patients">
+
 						<md-content class="md-padding">
 							<!-- Vital status banner -->
 							<patient-vital-status ctrl="pdc" clinical="::pdc.patient.clinical"></patient-vital-status>
@@ -97,12 +87,27 @@
 						</md-content>
 					</md-tab>
                     <md-tab ng-if="ENV.demo"
-                            label="Patient Report"
-					        analytics-on="click"
-                            analytics-event="Navigate oncopanel"
-                            analytics-category="Patients">
+                            label="Patient Report">
 						<md-content class="md-padding">
 							<ng-include src="'scripts/app/dashboard/patients/patient-details/oncopanel/oncopanel.html'"></ng-include>
+						</md-content>
+					</md-tab>
+                    <md-tab ng-if="!ENV.demo && pdc.patient.clinical.TEST_NAME == 'immunoprofile'"
+                            label="ImmunoProfile"
+					        analytics-on="click"
+                            analytics-event="Navigate immunoprofile"
+                            analytics-category="Patients">
+						<md-content class="md-padding">
+							<ng-include src="'scripts/app/dashboard/patients/patient-details/immunoprofile/immunoprofile.html'"></ng-include>
+						</md-content>
+					</md-tab>
+                    <md-tab ng-if="!ENV.demo && pdc.patient.clinical.TEST_NAME == 'rapid heme panel' && pdc.isAdmin"
+                            label="Rapid Heme Panel"
+					        analytics-on="click"
+                            analytics-event="Navigate rapid heme panel"
+                            analytics-category="Patients">
+						<md-content class="md-padding">
+							<ng-include src="'scripts/app/dashboard/patients/patient-details/rhp/rhp.html'"></ng-include>
 						</md-content>
 					</md-tab>
 				</md-tabs>

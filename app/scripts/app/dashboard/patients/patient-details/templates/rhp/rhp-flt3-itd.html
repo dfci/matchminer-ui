@@ -1,0 +1,67 @@
+<div id="rhpCNVs">
+    <div class="card attached-card">
+        <div class="card-header">
+            <h2>
+                <span>FLT3-ITD Analysis</span>
+            </h2>
+        </div>
+
+        <br/>
+
+        <div ng-if="ctrl.patient.rapidhemepanel.flt3.length === 0" class="info-missing-container" layout="row">
+            <md-icon aria-label="Notice"
+                     md-font-library="material-icons">
+                error
+            </md-icon>
+            <div>
+                <h3 class="md-red">None detected.</h3>
+            </div>
+        </div>
+
+        <div layout="row" ng-if="ctrl.patient.rapidhemepanel.flt3.length > 0">
+            <div flex>
+                <div class="attached-card">
+                    <div class="card-body">
+                        <table datatable="ng" dt-options="dtOpts" class="table dna-variant-card table-inner table-vmiddle rhp-table"
+                               width="100%">
+                            <thead>
+                            <tr>
+                                <th ng-if="!isOncologist || isCti">Filter</th>
+                                <th>ITD Size</th>
+                                <th>Start Position</th>
+                                <th>ITD Sequence</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="pmRow" ng-repeat="mut in flt3 track by $index">
+                                <td class="mutation-filter-cell" ng-if="!isOncologist || isCti"
+                                    ng-class="{'flex-cell': mut.FILTER}">
+								<span ng-if="!mut.FILTER">
+									<strong>- </strong>
+								</span>
+                                    <genomic-filter-badge filter="filter"
+                                                          ng-repeat="filter in mut.FILTER">
+                                    </genomic-filter-badge>
+                                </td>
+                                <td title="{{ ::mut.SEQ }}">{{ ::mut.SEQ.length || '-' }}</td>
+                                <td title="{{ ::mut.POSITION }}">{{ ::mut.POSITION || '-' }}</td>
+                                <td title="{{ ::mut.SEQ }}">{{ ::mut.SEQ || '-' }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-header" ng-if="ctrl.patient.rapidhemepanel.flt3.length > 0">
+            <small>
+                *This assay has been validated to detect FLT3-ITDs with insert size up to 180 bp. AR (allelic ratio) is
+                approximated as Mutant/Wildtype or Sum(Mutants)/Wildtype and is calculated from the variant allele
+                fraction by the following formula: AR=FLT3-ITD alleles / wild-type alleles. However, the AR may be
+                underestimated for certain ITDs by the technical limitations of the assay and should be considered
+                semi-quantitative only for these cases.
+            </small>
+        </div>
+    </div>
+</div>

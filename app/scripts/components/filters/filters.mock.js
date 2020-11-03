@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *
- */
-
 'use strict';
 /**
  * @Service FilterMocks
@@ -59,16 +46,19 @@ angular.module('matchminerUiApp')
 							label: 'test filter',
 							protocol_id: ENV.resources.institution + ' protocol ID',
 							genomic_filter: {
-								TRUE_HUGO_SYMBOL: ['ABL1']
+								TRUE_HUGO_SYMBOL: ['ABL1'],
+								TRUE_TRUE_PROTEIN_CHANGE: [],
+								TEST_NAME: 'oncopanel'
 							},
 							clinical_filter: {
 								ONCOTREE_PRIMARY_DIAGNOSIS_NAME: '_SOLID_',
-								BIRTH_DATE: {
-									'^gte': new Date().getFullYear() - 18
+								AGE_NUMERICAL: {
+									'^gte': 18
 								},
 								REPORT_DATE: {
 									'^lte': 6
-								}
+								},
+								TEST_NAME: 'oncopanel'
 							},
 							status: 2
 						},
@@ -76,16 +66,19 @@ angular.module('matchminerUiApp')
 							label: 'test filter 2',
                             protocol_id: ENV.resources.institution + ' protocol ID 02',
 							genomic_filter: {
-								TRUE_HUGO_SYMBOL: ['ABL1', 'EGFR']
+								TRUE_HUGO_SYMBOL: ['ABL1', 'EGFR'],
+								TRUE_TRUE_PROTEIN_CHANGE: [],
+								TEST_NAME: 'oncopanel'
 							},
 							clinical_filter: {
 								ONCOTREE_PRIMARY_DIAGNOSIS_NAME: 'Lung Adenocarcinoma',
-								BIRTH_DATE: {
-									'^lte': new Date().getFullYear() - 18
+								AGE_NUMERICAL: {
+									'^lte': 18
 								},
 								REPORT_DATE: {
 									'^lte': 3
-								}
+								},
+								TEST_NAME: 'oncopanel'
 							},
 							status: 2
 						},
@@ -93,12 +86,15 @@ angular.module('matchminerUiApp')
 							label: 'test filter 3',
                             protocol_id: ENV.resources.institution + ' protocol ID 03',
 							genomic_filter: {
-								TRUE_HUGO_SYMBOL: ['ABL3', 'EGFR']
+								TRUE_HUGO_SYMBOL: ['ABL3', 'EGFR'],
+								TRUE_TRUE_PROTEIN_CHANGE: [],
+								TEST_NAME: 'oncopanel'
 							},
 							clinical_filter: {
 								ONCOTREE_PRIMARY_DIAGNOSIS_NAME: 'Lung Adenocarcinoma',
-								BIRTH_DATE: {},
-								REPORT_DATE: {}
+								AGE_NUMERICAL: {},
+								REPORT_DATE: {},
+								TEST_NAME: 'oncopanel'
 							},
 							status: 2
 						}

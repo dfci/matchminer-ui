@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *
- */
-
 'use strict';
 
 /**
@@ -62,8 +49,8 @@ angular
 	.run(['$rootScope', '$state', '$window', '$log', 'Principal', 'Auth', 'ENV', 'ElasticSearchService', 'ClinicalTrialsService', 'PatientsService', 'TrialMatchService',
 		function ($rootScope, $state, $window, $log, Principal, Auth, ENV, ElasticSearchService, ClinicalTrialsService, PatientsService, TrialMatchService) {
 			$rootScope.ENV = ENV;
-			$rootScope.$on('$stateChangeError', function(e) {
-				console.log("State change error : ", e);
+			$rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+				console.log(event, toState, toParams, fromState, fromParams, error);
 			});
 
 			$rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {

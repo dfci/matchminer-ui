@@ -1,8 +1,9 @@
 .tmp
 .idea
+.vscode
 .DS_Store
 app/.DS_Store
-bower_components/
+bower_components
 node_modules/
 dist/
 coverage/

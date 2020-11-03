@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *   
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *  
- */
-
 'use strict';
 
 describe('Trial Match Service Unit Tests', function () {
@@ -18,6 +5,7 @@ describe('Trial Match Service Unit Tests', function () {
 	var TrialMatchService,
 		TrialMatchREST,
 		mrn,
+		clinical_id,
 		vital_status,
 		trial_curation_level_status,
 		show_in_ui,
@@ -36,6 +24,7 @@ describe('Trial Match Service Unit Tests', function () {
 			TrialMatchService = _TrialMatchService_;
 			TrialMatchREST = _TrialMatchREST_;
 			mrn = 'TCGA-11A-3D4C';
+			clinical_id = "123id";
 			vital_status = 'alive';
 			trial_curation_level_status = 'open';
 			trial_summary_status = 'open';
@@ -50,15 +39,14 @@ describe('Trial Match Service Unit Tests', function () {
 	it('should able to fetch trial matches by MRN, vital status, trial_curation_level_status and sample id', function () {
 		spyOn(TrialMatchREST, 'query').and.returnValue({});
 
-		TrialMatchService.getTrialMatchesForPatient(mrn, vital_status, trial_curation_level_status, sample_id);
+		TrialMatchService.getTrialMatchesForPatient(clinical_id, vital_status, trial_curation_level_status);
 
 		var q = {
 			where: {
-				mrn: mrn,
+				clinical_id: clinical_id,
 				vital_status: vital_status,
 				trial_curation_level_status: trial_curation_level_status,
 				trial_summary_status: trial_summary_status,
-				sample_id: sample_id,
 				show_in_ui: show_in_ui,
 				is_disabled: is_disabled
 			}
@@ -70,11 +58,11 @@ describe('Trial Match Service Unit Tests', function () {
 	it('should able to fetch trial matches by MRN, vital status and trial curation level status', function () {
 		spyOn(TrialMatchREST, 'query').and.returnValue({});
 
-		TrialMatchService.getTrialMatchesForPatient(mrn, vital_status, trial_curation_level_status);
+		TrialMatchService.getTrialMatchesForPatient(clinical_id, vital_status, trial_curation_level_status);
 
 		var q = {
 			where: {
-				mrn: mrn,
+				clinical_id: clinical_id,
 				vital_status: vital_status,
 				trial_curation_level_status: trial_curation_level_status,
 				trial_summary_status: trial_summary_status,
@@ -89,11 +77,11 @@ describe('Trial Match Service Unit Tests', function () {
 	it('should able to fetch trial matches by MRN and vital status', function () {
 		spyOn(TrialMatchREST, 'query').and.returnValue({});
 
-		TrialMatchService.getTrialMatchesForPatient(mrn, vital_status);
+		TrialMatchService.getTrialMatchesForPatient(clinical_id, vital_status);
 
 		var q = {
 			where: {
-				mrn: mrn,
+				clinical_id: clinical_id,
 				vital_status: vital_status,
 				show_in_ui: show_in_ui,
 				is_disabled: is_disabled
@@ -106,11 +94,11 @@ describe('Trial Match Service Unit Tests', function () {
 	it('should able to fetch trial matches by MRN', function () {
 		spyOn(TrialMatchREST, 'query').and.returnValue({});
 
-		TrialMatchService.getTrialMatchesForPatient(mrn);
+		TrialMatchService.getTrialMatchesForPatient(clinical_id);
 
 		var q = {
 			where: {
-				mrn: mrn,
+				clinical_id: clinical_id,
 				show_in_ui: show_in_ui,
 				is_disabled: is_disabled
 			}

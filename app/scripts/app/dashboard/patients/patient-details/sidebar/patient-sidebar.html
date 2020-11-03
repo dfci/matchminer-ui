@@ -1,16 +1,3 @@
-<!--
-  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
-  ~
-  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
-  ~  you may not use this file except in compliance with the License.
-  ~
-  ~ See the file LICENSE in the root of this repository.
-  ~
-  ~ Contributing authors:
-  ~ - berndvdveen
-  ~
-  -->
-
 <aside class="patient-sidebar inverse-sidebar"
        hide
        show-gt-sm
@@ -34,7 +21,7 @@
 				</tr>
 
 				<tr class="patient-detail-container">
-					<td class="patient-detail-label">MRN</td>
+					<td class="patient-detail-label">DFCI MRN</td>
 					<td class="patient-detail">
 						{{ ::pdc.patient.clinical.MRN || 'Not available' }}
 					</td>
@@ -43,33 +30,56 @@
 				<tr  class="patient-detail-container">
 					<td class="patient-detail-label">Date of Birth</td>
 					<td class="patient-detail">
-						{{ ::(pdc.patient.clinical.BIRTH_DATE | parsedate | date: "d MMM y") || 'Not available' }}
+						{{ (pdc.patient.clinical.BIRTH_DATE | parsedate) || 'Not available' }}
 					</td>
 				</tr>
 
 				<tr class="patient-detail-container">
 					<td class="patient-detail-label">Primary Cancer Type</td>
-					<td class="patient-detail">
+					<td class="patient-detail" ng-if="pdc.patient.clinical.TEST_NAME !== 'rapid heme panel'">
 						{{ ::pdc.patient.clinical.ONCOTREE_PRIMARY_DIAGNOSIS_NAME || 'Not available' }}
+					</td>
+                    <td class="patient-detail" ng-if="pdc.patient.clinical.TEST_NAME === 'rapid heme panel'">
+						None given
 					</td>
 				</tr>
 
 				<tr class="patient-detail-container">
-					<td class="patient-detail-label">Biopsy Site</td>
+					<td class="patient-detail-label"
+                        ng-if="pdc.patient.clinical.TEST_NAME === 'oncopanel' || pdc.patient.clinical.TEST_NAME === 'rapid heme panel'">
+                        Biopsy Site
+                    </td>
+                    <td class="patient-detail-label"
+                        ng-if="pdc.patient.clinical.TEST_NAME === 'immunoprofile'">
+                        Anatomic Site
+                    </td>
 					<td class="patient-detail">
 						{{ ::pdc.patient.clinical.ONCOTREE_BIOPSY_SITE_NAME || 'Not available' }}
 					</td>
 				</tr>
 
 				<tr class="patient-detail-container">
-					<td class="patient-detail-label">Biopsy Site Type</td>
+					<td class="patient-detail-label"
+                        ng-if="pdc.patient.clinical.TEST_NAME === 'oncopanel' || pdc.patient.clinical.TEST_NAME === 'rapid heme panel'">
+                        Biopsy Site Type
+                    </td>
+                    <td class="patient-detail-label"
+                        ng-if="pdc.patient.clinical.TEST_NAME === 'immunoprofile'">
+                        Anatomic Site Type
+                    </td>
 					<td class="patient-detail">
 						{{ ::pdc.patient.clinical.ONCOTREE_BIOPSY_SITE_TYPE || 'Not available' }}
 					</td>
 				</tr>
 
 				<tr class="patient-detail-container">
-					<td class="patient-detail-label">Sample ID</td>
+					<td class="patient-detail-label" ng-if="pdc.patient.clinical.TEST_NAME !== 'immunoprofile'">
+                        Sample ID
+                    </td>
+                    <td class="patient-detail-label"
+                        ng-if="pdc.patient.clinical.TEST_NAME === 'immunoprofile'">
+                        ImmunoProfile Case ID
+                    </td>
 					<td class="patient-detail">
 						{{ ::pdc.patient.clinical.SAMPLE_ID || 'Not available' }}
 					</td>
@@ -78,7 +88,7 @@
 				<tr class="patient-detail-container">
 					<td class="patient-detail-label">Report Date</td>
 					<td class="patient-detail">
-						{{ ::(pdc.patient.clinical.REPORT_DATE | parsedate | date: "d MMM y") || 'Not available' }}
+						{{ (pdc.patient.clinical.REPORT_DATE | parsedate) || 'Not available' }}
 					</td>
 				</tr>
 			</tbody>
@@ -89,7 +99,7 @@
 		<div ui-view="clinical-trials-filters" flex="noshrink"></div>
 	</div>
 
-	<div ng-if="pdc.selectedTab == 1" class="sidebar-oncopanel-options">
+	<div ng-if="pdc.selectedTab == 1 && pdc.patient.clinical.TEST_NAME === 'oncopanel'" class="sidebar-options">
 		<h3>Sections</h3>
 		<ul class="menu">
 			<li du-scrollspy="qualityControl"

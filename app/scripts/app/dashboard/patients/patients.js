@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *
- */
-
 'use strict';
 
 angular.module('matchminerUiApp')
@@ -34,7 +21,7 @@ angular.module('matchminerUiApp')
 						var trial_status = 'open';
 						var sort = 'sort_order';
 						
-						return TrialMatchService.getTrialMatchesForPatient(patient.MRN, vital_status, trial_status, patient.SAMPLE_ID, sort);
+						return TrialMatchService.getTrialMatchesForPatient(patient._id, vital_status, trial_status, patient.SAMPLE_ID, sort);
 					}],
 					trialSearch: ['ClinicalTrialsService', 'ElasticSearchService', 'TrialMatchService', 'trialMatches', '$q', 'patient', '$stateParams',
 						function(ClinicalTrialsService, ElasticSearchService, TrialMatchService, trialMatches, $q, patient, $stateParams) {

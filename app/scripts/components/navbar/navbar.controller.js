@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *
- */
-
 'use strict';
 
 /**
@@ -47,17 +34,34 @@ angular.module('matchminerUiApp')
 						.css('background-size','100%')
 						.css('background-repeat', 'no-repeat');
 
-					if (vm.state == "filters-overview"
-						|| vm.state == "matches"
-						|| vm.state == "patient-search") {
-						vm.isMatching = true;
+                    vm.isFilterPage = false;
+                    vm.isMatchesPage = false;
+                    vm.isPatientSearchPage = false;
+                    vm.isClinicalTrialPage = false;
+                    vm.isHomeRoute = false;
+                    vm.isStatisticsPage = false;
+
+                    if (vm.state === "filters-overview") {
+						vm.isFilterPage = true;
+					}
+
+					if (vm.state === "matches") {
+						vm.isMatchesPage = true;
+					}
+
+					if (vm.state === "patient-search") {
+						vm.isPatientSearchPage = true;
+					}
+
+					if (vm.state === "statistics") {
+						vm.isStatisticsPage = true;
 					}
 
 					if (vm.state.indexOf('clinicaltrials') > -1) {
 						vm.isClinicalTrialPage = true;
 					}
 
-					if (vm.state == "home" || vm.state == "dashboard") {
+					if (vm.state === "home" || vm.state === "dashboard") {
 						vm.isHomeRoute = true;
 					}
 				});

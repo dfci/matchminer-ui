@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *   
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *  
- */
-
 'use strict';
 
 describe('ElasticSearch Service Unit Tests', function () {
@@ -99,27 +86,12 @@ describe('ElasticSearch Service Unit Tests', function () {
 			expect(ElasticSearchService.getSearchAggregators()).toEqual(aggregators);
 		});
 
-		it('should indicate if the elastic search service has filters', function () {
-			//var aggregators = ClinicalTrialsService.getAggregators();
-			//ElasticSearchService.setSearchAggregators(aggregators);
-			//expect(ElasticSearchService.hasSearchAggregators()).toEqual(true);
-		});
-
 		it('should set the elastic search filters', function () {
 			// Test with a single filter
 			var filters = [];
 			filters.push(ClinicalTrialsMocks.getFilter());
 			ElasticSearchService.setSearchFilters(filters);
 			var esFilters = ElasticSearchService.elasticBody.filter;
-			expect(esFilters).toEqual(filters);
-		});
-
-		it('should get the elastic search filters', function () {
-			// Test with a single filter
-			var filters = [];
-			filters.push(ClinicalTrialsMocks.getFilter());
-			ElasticSearchService.setSearchFilters(filters);
-			var esFilters = ElasticSearchService.getSearchFilters();
 			expect(esFilters).toEqual(filters);
 		});
 
@@ -171,12 +143,6 @@ describe('ElasticSearch Service Unit Tests', function () {
 			expect(ElasticSearchService.getSearchQuery()).toEqual(ElasticSearchMocks.getSearchQuery());
 		});
 
-		it('should get the elastic search query for temozolomide signature', function () {
-			//elastic search query should omit searching for drugs
-			var searchTerm = 'Temozolomide Signature';
-			ElasticSearchService.setSearchTerm(searchTerm);
-			expect(ElasticSearchService.getSearchQuery()).toEqual(ElasticSearchMocks.getTemozolomideSearch());
-		});
 	});
 
 });

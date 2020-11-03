@@ -16,7 +16,7 @@
     "angular-color-picker": "angularjs-color-picker#2.5.0",
     "angular-q-spread": "1.1.0",
     "angular-datatables": "0.5.3",
-    "elasticsearch": "13.0",
+    "elasticsearch": "15.2.0",
     "underscore": "1.8.3",
     "angular-cache-buster": "0.4.3",
     "ng-idle": "1.2.0",

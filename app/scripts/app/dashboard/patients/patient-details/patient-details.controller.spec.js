@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *
- */
-
 'use strict';
 
 describe('Controller: PatientDetailsCtrl', function () {
@@ -105,27 +92,24 @@ describe('Controller: PatientDetailsCtrl', function () {
 	});
 
 	it('should be able to return the contact template path', function() {
-		var expectedContact = "scripts/app/dashboard/patients/patient-details/templates/contact.html";
+		var expectedContact = "scripts/app/dashboard/patients/patient-details/templates/oncopanel/contact.html";
 		var contactPath = ctrl.getContact();
 		expect(contactPath).toEqual(expectedContact);
 	});
 
 	it('should return a valid filepath for the allowed methodologies', function() {
 		var fp = ctrl.getMethodology(1);
-		var expectedV1 = "scripts/app/dashboard/patients/patient-details/templates/methodology-v1.html";
+		var expectedV1 = "scripts/app/dashboard/patients/patient-details/templates/oncopanel/methodology-v1.html";
 		expect(fp).toEqual(expectedV1);
 	});
 
 	it('should return a invalid filepath when the methodology panel isnt available', function() {
 		var fp = ctrl.getMethodology(5);
-		var invalidPath = "scripts/app/dashboard/patients/patient-details/templates/methodology_notfound.html";
+		var invalidPath = "scripts/app/dashboard/patients/patient-details/templates/oncopanel/methodology_notfound.html";
 		expect(fp).toEqual(invalidPath);
 	});
 
 	it('should be able to load the patient details', function() {
-
-		// todo enable this unit test with issue #424 bugfix
-		// todo https://gitlab-bcb.dfci.harvard.edu/knowledge-systems/matchminer-ui/issues/424
 
 		// Mock patient
 		var patients = PatientsMocks.mockPatientClinical();
@@ -145,14 +129,6 @@ describe('Controller: PatientDetailsCtrl', function () {
 
 		spyOn(ctrl, '_queryGenomicByVariantCategory').and.callThrough();
 		spyOn(ctrl, '_queryNegativeGenomic').and.callThrough();
-
-		// ctrl.loadPatientDetails(patient);
-
-		// expect(ctrl._queryGenomicByVariantCategory).toHaveBeenCalledWith($stateParams.patient_id, "sample 01", "CNV");
-		// expect(ctrl._queryGenomicByVariantCategory).toHaveBeenCalledWith($stateParams.patient_id, "sample 01", "MUTATION");
-		// expect(ctrl._queryGenomicByVariantCategory).toHaveBeenCalledWith($stateParams.patient_id, "sample 01", "SIGNATURE");
-		// expect(ctrl._queryGenomicByVariantCategory).toHaveBeenCalledWith($stateParams.patient_id, "sample 01", "SV");
-		// expect(ctrl._queryNegativeGenomic).toHaveBeenCalledWith($stateParams.patient_id, "sample 01");
 
 		var mockNegGen = PatientsMocks.mockNegativeGenomic();
 
@@ -192,13 +168,6 @@ describe('Controller: PatientDetailsCtrl', function () {
 				entire_gene: []
 			}
 		};
-
-		// Expect all values to have been set in $q.spread (callback)
-		// expect(ctrl.patient.cnvMut).toEqual(PatientsMocks.mockGenomicCNV()._items);
-		// expect(ctrl.patient.transformedNegativeGenomics.NPLC).toEqual(expectedNPLC);
-		// expect(ctrl.patient.transformedNegativeGenomics.PLC).toEqual(expectedPLC);
-		// expect(ctrl.patient.transformedNegativeGenomics.PN).toEqual(expectedPN);
-		// expect(ctrl.patient.svMut).toEqual(PatientsMocks.mockGenomicSV()._items);
 	});
 
 	it('should be able to show a modal dialog for a multi sample select', function() {
