@@ -1,0 +1,144 @@
+<div id="patientRecord">
+	<div class="block-header" ng-if="::!isEmbedded" style="padding-bottom: 5px">
+		<h2>
+			<md-icon aria-label="Patient details"
+			         md-font-library="material-icons">
+				assignment
+			</md-icon>
+			Patient record
+		</h2>
+	</div>
+
+	<div layout="row" layout-align="space-around start">
+		<div flex="45" flex-sm="45" flex-xs="100">
+
+			<div class="card" style="box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">
+				<div class="card-header pr-header">
+					<h2>
+						<md-icon aria-label="General information"
+						         md-font-library="material-icons" style="color: white !important;">
+							person
+						</md-icon>
+						Patient Information
+						<small class="white-white">Patient details at time of genomic testing.</small>
+					</h2>
+				</div>
+				<div class="card-body">
+
+					<div class="ps-block">
+						<div class="ps-body">
+							<dl>
+								<dt>Patient Name</dt>
+								<dd>Redacted for Privacy</dd>
+								<dt>Date of Birth</dt>
+								<dd>{{ ::(clinical.BIRTH_DATE | parsedate) || 'Not available' }}</dd>
+								<dt>Gender</dt>
+								<dd>{{ ::(clinical.GENDER | capitalize) || 'Not available' }}</dd>
+								<dt>PowerPath ID</dt>
+								<dd>{{ ::clinical.POWERPATH_PATIENT_ID || 'Not available' }}</dd>
+								<dt>{{ ENV.resources.institution }} MRN</dt>
+								<dd>{{ ::clinical.MRN || 'Not available' }}</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div flex></div>
+		<div flex="45" flex-sm="45" flex-xs="100">
+
+			<div class="card" style="box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">
+				<div class="card-header pr-header">
+					<h2>
+						<md-icon aria-label="Cancer type"
+						         md-font-library="material-icons" style="color: white !important;">
+							blur_on
+						</md-icon>
+						Cancer Type Information
+						<small class="white-white">Cancer type, biopsy site</small>
+					</h2>
+				</div>
+				<div class="card-body">
+					<div class="ps-block">
+						<div class="ps-body">
+							<dl>
+								<dt>
+                                    Primary Cancer Type
+                                    <small>
+                                        <a href="http://profile-app.dipr.partners.org/oncotree/"
+                                           style="color: blue"
+                                           target="_blank">(OncoTree Legacy v1.1)</a>
+                                    </small>
+                                </dt>
+								<dd>{{ ::clinical.ONCOTREE_PRIMARY_DIAGNOSIS_NAME || 'Not available' }}
+								</dd>
+								<dt>Biopsy Site</dt>
+								<dd>{{ ::clinical.ONCOTREE_BIOPSY_SITE_NAME || 'Not available' }}</dd>
+								<dt>Biopsy Site Type</dt>
+								<dd>{{ ::clinical.ONCOTREE_BIOPSY_SITE_TYPE || 'Not available' }}</dd>
+								<dt>Estimate Tumor Purity</dt>
+								<dd>{{ ::(clinical.TUMOR_PURITY_PERCENT*100 | number:0) || 'Not available'}}%
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div layout="row">
+		<div class="card" flex>
+			<div class="card-header pr-header">
+				<h2>
+					<md-icon aria-label="Analysis"
+					         md-font-library="material-icons">
+						donut_large
+					</md-icon>
+					Analysis Information
+					<small class="white-white">Treating physician, pathologist, sample identifiers, etc.</small>
+				</h2>
+			</div>
+			<div class="card-body">
+				<div class="ps-block">
+					<div class="ps-body" layout="row" layout-align="space-around start">
+						<div flex="50">
+							<dl>
+								<dt>Physician</dt>
+								<dd>{{ ::clinical.ORD_PHYSICIAN_NAME || 'Not available' }}</dd>
+								<dt>Pathologist</dt>
+								<dd>{{ ::clinical.PATHOLOGIST_NAME || 'Not available' }}</dd>
+								<dt>Sample ID</dt>
+								<dd>{{ ::clinical.SAMPLE_ID || 'Not available' }}</dd>
+								<dt>Block Number</dt>
+								<dd>{{ ::clinical.BLOCK_NUMBER || 'Not available' }}</dd>
+								<dt>Original specimen collection date</dt>
+								<dd>{{ ::(clinical.DATE_RECEIVED_AT_SEQ_CENTER | parsedate) || "Not
+									available" }}
+								</dd>
+								<dt>Report Date</dt>
+								<dd>{{ ::(clinical.REPORT_DATE | parsedate) ||
+									'Not available' }}
+								</dd>
+							</dl>
+						</div>
+						<div flex="50">
+							<dl>
+								<dt>Test type</dt>
+								<dd>{{ ::clinical.TEST_TYPE || 'Not available' }}</dd>
+								<dt>OncoPanel Version</dt>
+								<dd>{{ ::clinical.PANEL_VERSION || 'Not available' }}</dd>
+								<dt>Report Version</dt>
+								<dd>{{ ::clinical.REPORT_VERSION || 'Not available' }}</dd>
+								<dt>Disease Center</dt>
+								<dd>{{ ::clinical.DISEASE_CENTER_DESCR || 'Not available' }}</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

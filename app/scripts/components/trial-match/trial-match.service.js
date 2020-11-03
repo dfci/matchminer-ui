@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *
- */
-
 /**
  * Service for retrieving to manage the trials belonging to matches, i.e. trial_matches
  */
@@ -101,14 +88,14 @@ angular.module('matchminerUiApp')
 					this.selected_protocol_no = null;
 				};
 
-				service.getTrialMatchesForPatient = function(mrn, vital_status, trial_status, sample_id, sort) {
-					if (mrn == undefined) {
+				service.getTrialMatchesForPatient = function(clinical_id, vital_status, trial_status, sort) {
+					if (clinical_id == undefined) {
 						return $q.resolve([]);
 					}
 
 					var q = {
 						where: {
-							mrn: mrn,
+							clinical_id: clinical_id,
 							show_in_ui: true,
 							is_disabled: false
 						}
@@ -132,12 +119,6 @@ angular.module('matchminerUiApp')
 							trial_curation_level_status: trial_status,
 							trial_summary_status: trial_status
 
-						});
-					}
-
-					if (sample_id) {
-						_.extend(q.where, {
-							sample_id: sample_id
 						});
 					}
 

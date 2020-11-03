@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *   
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *  
- */
-
 'use strict';
 /**
  * @Service MatchesMocks
@@ -36,6 +23,9 @@ angular.module('matchminerUiApp')
 							FILTER_NAME: "test",
 							FILTER_STATUS: 1,
 							MATCH_STATUS: 0,
+							CLINICAL_ID: {
+								ORD_PHYSICIAN_EMAIL: "Luciano@fake_email.com",
+							},
 							MMID: "E185A3",
 							ONCOTREE_BIOPSY_SITE_TYPE: "Any/Other",
 							ONCOTREE_PRIMARY_DIAGNOSIS_NAME: "Cutaneous Melanoma",

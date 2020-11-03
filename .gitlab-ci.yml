@@ -1,0 +1,15 @@
+default:
+    image: node:11
+
+before_script:
+    - yarn
+    - yarn global add gulp-cli
+
+run_test:
+  script:
+    - gulp build
+    - gulp test
+
+  artifacts:
+    reports:
+      junit: matchminer_ui_test_results.xml

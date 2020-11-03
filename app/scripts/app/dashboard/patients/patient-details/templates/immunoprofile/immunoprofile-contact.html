@@ -1,0 +1,26 @@
+<div id="contactsAndReferences">
+    <div class="block-header">
+        <h2>
+            <md-icon aria-label="Summary of Results"
+                     md-font-library="material-icons">
+                list
+            </md-icon>
+            Contact
+        </h2>
+    </div>
+
+    <div class="card">
+        <div class="card-body card-padding">
+            <h3 class="md-title">Contact</h3>
+            For questions about the ImmunoProfile assay, please email
+            <a ng-if="!ctrl.ENV.EPIC" style="color: blue; text-decoration: underline" href="mailto:immunoprofile@ds.dfci.harvard.edu">
+                immunoprofile@ds.dfci.harvard.edu
+            </a>
+            <span ng-if="ctrl.ENV.EPIC" style="color: blue; text-decoration: underline">
+                immunoprofile@ds.dfci.harvard.edu
+            </span>
+            </p>
+        </div>
+    </div>
+</div>
+

@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *
- */
-
 'use strict';
 
 /**
@@ -66,7 +53,7 @@ angular.module('matchminerUiApp')
 				//Preloaded data for autocomplete
 				vm.geneSymbols = [];
 				vm.oncotreeData = [];
-				vm.isGeneSelected= false;
+				vm.isGeneSelected = false;
 
                 vm.loadingIntermediate = false;
 
@@ -82,13 +69,13 @@ angular.module('matchminerUiApp')
                         id: 1,
                         name: 'MMR-Proficient',
                         key: 'MMR_STATUS',
-                        value: 'Proficient (MMR-P / MSS)'
+                        value: 'MMR-Proficient'
                     },
                     {
                         id: 2,
                         name: 'MMR-Deficient',
                         key: 'MMR_STATUS',
-                        value: 'Deficient (MMR-D / MSI-H)'
+                        value: 'MMR-Deficient'
                     },
                     {
                         id: 3,
@@ -123,6 +110,7 @@ angular.module('matchminerUiApp')
                 ];
 
                 vm.isMutationalSignatureSelected = false;
+                vm.isSavingFilter = false;
 
                 /**
                  * Search for mutational signatures
@@ -150,6 +138,7 @@ angular.module('matchminerUiApp')
                 	if (vm.filter.genomic_filter.TRUE_HUGO_SYMBOL[0] === '' || vm.filter.genomic_filter.TRUE_HUGO_SYMBOL.length === 0 && signature !== null) {
                         // Reset/remove gene symbols
                         vm.filter.genomic_filter.TRUE_HUGO_SYMBOL = [];
+                        vm.filter.genomic_filter.TRUE_PROTEIN_CHANGE = [];
 
                         //Add selected option to object to send to backend
                         if (!vm.filter.genomic_filter.hasOwnProperty(signature.key)
@@ -161,21 +150,19 @@ angular.module('matchminerUiApp')
                             vm.filter.genomic_filter.VARIANT_CATEGORY = ['MUTATION'];
                             delete vm.filter.genomic_filter[signature.key];
                         }
-
-                        vm.fetchIntermediateFilterResults(vm.filter, false);
                     } else {
                         vm.isMutationalSignatureSelected = false;
                         vm.clearAllMutationalSignatures();
                         vm.filter.genomic_filter.VARIANT_CATEGORY = ['MUTATION'];
-                        vm.hidePreviewGraph();
                     }
+                	vm.hidePreviewGraph();
                 };
 
                 /**
                  * Remove any/all selected mutational signatures from filter.genomic_filter and reset VARIANT_CATEGORY
                  * @param refresh
                  */
-                vm.clearAllMutationalSignatures = function(refresh) {
+                vm.clearAllMutationalSignatures = function() {
                     vm.selectedMutationalSignature = '';
                     vm.isMutationalSignatureSelected = false;
                     vm.filter.genomic_filter.VARIANT_CATEGORY = ['MUTATION'];
@@ -184,9 +171,6 @@ angular.module('matchminerUiApp')
                             delete vm.filter.genomic_filter[signature.key]
 						}
                     });
-                    if (refresh) {
-                        vm.fetchIntermediateFilterResults(vm.filter, false);
-                    }
                 };
 
 				var _svNotice
@@ -217,27 +201,32 @@ angular.module('matchminerUiApp')
 							 * clear the 'protein_change' and 'transcript_exon' fields.
 							 */
 							if (vm.filter.genomic_filter.TRUE_HUGO_SYMBOL.length > 1) {
-								vm.filter.genomic_filter.TRUE_PROTEIN_CHANGE = null;
+								vm.filter.genomic_filter.TRUE_PROTEIN_CHANGE = [];
 								vm.data.searchTextProtein = null;
 								vm.filter.genomic_filter.TRUE_TRANSCRIPT_EXON = null;
 								vm.data.searchTextExon = null;
+								vm.clearAlleleOperator(vm.filter)
 							} else {
 								vm.preloadTranscriptExonForGene(gene);
 								vm.preloadProteinChangesForGene(gene);
 							}
-
-							// Refresh preview
-							vm.fetchIntermediateFilterResults(vm.filter);
 						}
-					} else {
-						vm.fetchIntermediateFilterResults(vm.filter);
 					}
+					vm.hidePreviewGraph();
+				};
+
+				vm._proteinAutocompleteChange = function(protein) {
+					if (!!protein) {
+						if (!!vm.filter.genomic_filter && !vm.filter.genomic_filter.TRUE_PROTEIN_CHANGE.includes(protein)) {
+							vm.filter.genomic_filter.TRUE_PROTEIN_CHANGE.push(protein);
+                        }
+					}
+					vm.hidePreviewGraph();
 				};
 
 				vm.removeGene = function(geneChip) {
 					$log.debug("Removed gene chip ", geneChip);
-					if( vm.filter.genomic_filter.TRUE_HUGO_SYMBOL
-						&& vm.filter.genomic_filter.TRUE_HUGO_SYMBOL.length > 0) {
+					if( vm.filter.genomic_filter.TRUE_HUGO_SYMBOL && vm.filter.genomic_filter.TRUE_HUGO_SYMBOL.length > 0) {
 						var idx = vm.filter.genomic_filter.TRUE_HUGO_SYMBOL.indexOf(geneChip);
 						if (idx > -1) {
 							vm.filter.genomic_filter.TRUE_HUGO_SYMBOL.splice(idx,1);
@@ -252,8 +241,21 @@ angular.module('matchminerUiApp')
 					if (vm.filter.genomic_filter.TRUE_HUGO_SYMBOL.length === 0){
                         vm.isGeneSelected = false;
 					}
+					vm.hidePreviewGraph();
+				};
 
-                    vm.fetchIntermediateFilterResults(vm.filter, false);
+				vm.removeProtein = function(proteinChip) {
+					if (vm.filter.genomic_filter.TRUE_PROTEIN_CHANGE != null && vm.filter.genomic_filter.TRUE_PROTEIN_CHANGE.length > 0) {
+						var idx = vm.filter.genomic_filter.TRUE_PROTEIN_CHANGE.indexOf(proteinChip);
+						if (idx > -1) {
+							vm.filter.genomic_filter.TRUE_PROTEIN_CHANGE.splice(idx,1);
+						}
+					} else {
+						// Clear data and invalidate the rest of the filter fields.
+						vm.data.searchTextProtein = "";
+						vm.data.selectedProtein = null;
+					}
+					vm.hidePreviewGraph();
 				};
 
 				vm.queryGeneSearch = function(geneQuery) {
@@ -404,7 +406,6 @@ angular.module('matchminerUiApp')
 					$log.debug("Preloading Transcript exon data for ", g);
 					vm.isLoadingTranscriptExonData = true;
 
-
 					var q = {
 						resource: 'genomic',
 						field: 'TRUE_TRANSCRIPT_EXON',
@@ -478,6 +479,7 @@ angular.module('matchminerUiApp')
 				vm.saveFilter = function(filter) {
 					$log.debug("Saving genomic filter ", filter);
 					vm.isProcessingBusy = true;
+					vm.isSavingFilter = true;
 
 					// Save as ACTIVE filter.
 					filter.status = 1;
@@ -487,9 +489,7 @@ angular.module('matchminerUiApp')
 
 					// Sanitise genomic filter to make it compatible with the API.
 					var f = MatchminerApiSanitizer.transformGenomicFilter(angular.copy(filter), true, ['TRUE_HUGO_SYMBOL', 'VARIANT_CATEGORY', 'CNV_CALL']);
-
-					delete f.enrollment;
-					delete f.matches;
+					f = vm.cleanFilter(f);
 
 					FiltersREST.saveGenomicFilter(f)
 						.$promise
@@ -539,6 +539,9 @@ angular.module('matchminerUiApp')
 				vm.updateGenomicFilter = function(filter) {
 					$log.debug("Updating filter ", filter);
 					vm.isProcessingBusy = true;
+					vm.isSavingFilter = true;
+                    filter.temporary = false;
+
 					var fc = angular.copy(filter);
 
 					// Use the tokenHandler to set the etag which needs updating.
@@ -553,8 +556,6 @@ angular.module('matchminerUiApp')
 					var f = MatchminerApiSanitizer.transformGenomicFilter(angular.copy(fc), true, ['TRUE_HUGO_SYMBOL', 'VARIANT_CATEGORY', 'CNV_CALL']);
 					f = MatchminerApiSanitizer.sanitizeEveResource(angular.copy(f), {}, true);
 
-					delete f.enrollment;
-					delete f.matches;
 					delete f.description;
 
 					$log.debug("Using etag token for update :: ", tokenHandler.get());
@@ -565,11 +566,7 @@ angular.module('matchminerUiApp')
 							$log.debug("Filter", res);
 
 							// Show success msg
-							if(!!res.num_samples) {
-								ToastService.success("Update success. " + res.num_samples + " matches were marked as 'Pending'.");
-							} else {
-								ToastService.success("Successfully updated filter.");
-							}
+							ToastService.success("Successfully updated filter.");
 
 							/*
 							 * Clear Match filters
@@ -595,6 +592,34 @@ angular.module('matchminerUiApp')
 							ToastService.warn("Error updating genomic filter.")
 						});
 				};
+
+				vm.cleanFilter = function(filter) {
+				    //If RHP is selected, clear cancer type selection
+				    if (vm.selectedTestType === 1) {
+				        vm.selectedCancerTypeCategory = null;
+				        delete filter.clinical_filter.ONCOTREE_PRIMARY_DIAGNOSIS_NAME
+                    }
+
+				    delete filter.enrollment;
+					delete filter.matches;
+
+					if (vm.allele_percentage) {
+					    //Only mutations are relevant when user selects allele_percentage
+					    filter.genomic_filter.VARIANT_CATEGORY = ["MUTATION"];
+                        delete filter.genomic_filter.CNV_CALL;
+                    }
+
+					vm.hidePreviewGraph();
+				    return filter
+				};
+
+				vm.getIsAlterationDisabled = function (ga) {
+					return !!(!ga.is_available
+						|| vm.filter.genomic_filter.TRUE_HUGO_SYMBOL.length === 0
+						|| vm.isProcessingBusy
+						|| vm.allele_percentage
+						|| vm.isMutationalSignatureSelected);
+				}
 
 				/**
 				 * Add or remove a selected alteration.
@@ -657,8 +682,7 @@ angular.module('matchminerUiApp')
 
 						vm.filter.genomic_filter['VARIANT_CATEGORY'].push(alt.variant_category);
 					}
-
-					vm.fetchIntermediateFilterResults(vm.filter, false);
+					vm.hidePreviewGraph()
 				};
 
 				vm.hasAlteration = function (alt) {
@@ -693,7 +717,7 @@ angular.module('matchminerUiApp')
 					vm.filter = {};
 					vm.filter.TEAM_ID = vm._teamId;
 					vm.filter.USER_ID = vm._userId;
-					vm.filter.temporary = false;
+					vm.filter.temporary = true;
 					vm.filter.badgeTextColor = "black";
 					vm.filter.clinical_filter = {};
 					vm.filter.genomic_filter = {};
@@ -712,13 +736,15 @@ angular.module('matchminerUiApp')
 					$log.debug("Set temporary form data placeholders");
 					vm.data = {};
 					vm.data.selectedGene = [];
+					vm.data.selectedProtein = [];
 					vm.data.reportDate = {};
 					vm.data.reportDate.prefix = 'all';
 					vm.data.reportDate.date = null;
 					vm.data.ageRange = {};
 					vm.data.ageRange.prefix = 'all';
-					vm.data.ageRange.date = null;
+					vm.data.ageRange.age = null;
 					$rootScope.loadedGenomicFilter = false;
+					vm._loadedGenomicFilter = false;
 				};
 
 				var _errorQuery = function(err) {
@@ -727,24 +753,48 @@ angular.module('matchminerUiApp')
 				};
 
 				vm.isValidFilter = function(gf) {
+					var valid_allele_opt = ((vm.allele_operator ==='^gt' || vm.allele_operator === '^lt') &&
+						vm.allele_percentage !== null) || (vm.allele_operator === "" && vm.allele_percentage == null);
 					return !(!gf
 					|| !gf.label
 					|| !gf.genomic_filter
 					|| !gf.clinical_filter
 					|| !gf.protocol_id
+					|| !valid_allele_opt
 					|| (vm.selectedCancerTypeCategory == CANCERTYPE_SPECIFIC
 							&& gf.clinical_filter.ONCOTREE_PRIMARY_DIAGNOSIS_NAME == null)
 					 || ((gf.genomic_filter.TRUE_HUGO_SYMBOL == null || !gf.genomic_filter.TRUE_HUGO_SYMBOL.length) && !vm.isMutationalSignatureSelected)
 					|| (!!vm.data.ageRange
-					&& ((vm.data.ageRange.prefix == '^lte' || vm.data.ageRange.prefix == '^gte')
-					&& !vm.data.ageRange.date))
+					&& ((vm.data.ageRange.prefix == '^lt' || vm.data.ageRange.prefix == '^gt')
+					&& !vm.data.ageRange.age))
 					|| (!gf.genomic_filter.VARIANT_CATEGORY || gf.genomic_filter.VARIANT_CATEGORY.length == 0));
-
 				};
 
-				vm.updateCancerType = function(ct, filter, isReset) {
+				vm.allowPreview = function(filter) {
+					var valid_allele_opt = ((vm.allele_operator ==='^gt' || vm.allele_operator === '^lt') &&
+						vm.allele_percentage !== null) || (vm.allele_operator === "" && vm.allele_percentage == null);
+
+					return (!filter
+					|| !filter.genomic_filter
+					|| !filter.clinical_filter
+					|| !valid_allele_opt
+					|| (vm.selectedCancerTypeCategory == CANCERTYPE_SPECIFIC
+							&& filter.clinical_filter.ONCOTREE_PRIMARY_DIAGNOSIS_NAME == null)
+					 || ((filter.genomic_filter.TRUE_HUGO_SYMBOL == null || !filter.genomic_filter.TRUE_HUGO_SYMBOL.length) && !vm.isMutationalSignatureSelected)
+					|| (!!vm.data.ageRange
+					&& ((vm.data.ageRange.prefix == '^lt' || vm.data.ageRange.prefix == '^gt')
+					&& !vm.data.ageRange.age))
+					|| (!filter.genomic_filter.VARIANT_CATEGORY || filter.genomic_filter.VARIANT_CATEGORY.length == 0));
+				};
+
+				vm.updateCancerType = function(ct) {
 					vm.selectedCancerType = ct;
-					vm.fetchIntermediateFilterResults(filter, isReset);
+					if (vm.selectedCancerTypeCategory === CANCERTYPE_SPECIFIC && ct) {
+						vm.filter.clinical_filter.ONCOTREE_PRIMARY_DIAGNOSIS_NAME = vm.selectedCancerType.text;
+					} else if (vm.selectedCancerTypeCategory === CANCERTYPE_SPECIFIC && ct == null) {
+						vm.filter.clinical_filter.ONCOTREE_PRIMARY_DIAGNOSIS_NAME = null
+					}
+					vm.hidePreviewGraph();
 					return ct;
 				};
 
@@ -779,13 +829,25 @@ angular.module('matchminerUiApp')
 					 * and remove the selected options from the filter
 					 * When absent, enable them.
 					 */
-					if (filter.genomic_filter.TRUE_PROTEIN_CHANGE || filter.genomic_filter.TRUE_TRANSCRIPT_EXON) {
+					if (filter.genomic_filter.TRUE_PROTEIN_CHANGE != null &&
+						(filter.genomic_filter.TRUE_PROTEIN_CHANGE.length > 0 || filter.genomic_filter.TRUE_TRANSCRIPT_EXON)) {
 						vm.clearCnvSvFromFilter(filter);
 						vm.toggleCnvSvAlterationState(true);
 					} else {
 						// Enable the CNV / SV options
 						vm.toggleCnvSvAlterationState(false);
 					}
+
+					// Reset allele percentage if user deletes
+					if (vm.allele_percentage === "") {
+						vm.allele_percentage = null
+					}
+
+					if (vm.allele_percentage) {
+					    //Only mutations are relevant when user selects allele_percentage
+					    filter.genomic_filter.VARIANT_CATEGORY = ["MUTATION"];
+                        delete filter.genomic_filter.CNV_CALL;
+                    }
 
 					if (vm.loadingIntermediate || isReset || $rootScope.isReset) {
 						$log.warn("Exiting creation... ", vm.loadingIntermediate, isReset, $rootScope.isReset);
@@ -819,7 +881,7 @@ angular.module('matchminerUiApp')
 					if (filter.genomic_filter) {
 						var gf = filter.genomic_filter;
 
-						if (gf.TRUE_PROTEIN_CHANGE != null) {
+						if (gf.TRUE_PROTEIN_CHANGE != null && gf.TRUE_PROTEIN_CHANGE.length > 0) {
 							delete vm.filter.genomic_filter.TRUE_TRANSCRIPT_EXON;
 							delete filter.genomic_filter.TRUE_TRANSCRIPT_EXON;
 						} else if (gf.TRUE_TRANSCRIPT_EXON != null) {
@@ -828,11 +890,8 @@ angular.module('matchminerUiApp')
 						}
 					}
 
-					if (
-						vm.selectedCancerTypeCategory == CANCERTYPE_SPECIFIC
-						&& (!vm.selectedCancerType
-						|| vm.selectedCancerType == '')
-					) {
+					if (vm.selectedCancerTypeCategory == CANCERTYPE_SPECIFIC &&
+						(!vm.selectedCancerType || vm.selectedCancerType == '')) {
 						vm.isProcessingBusy = false;
 						return false;
 					}
@@ -871,11 +930,10 @@ angular.module('matchminerUiApp')
 					var intermediateFilter = angular.copy(tf);
 					// Force to intermediate status.
 					intermediateFilter.status = 2;
-					if ( $rootScope.loadedGenomicFilter || ( filter.status == 1 && filter._id)) {
+					if ($rootScope.loadedGenomicFilter || ( filter.status == 1 && filter._id)) {
 						delete intermediateFilter._id;
 					}
 
-					intermediateFilter.temporary = true;
 					delete intermediateFilter.enrollment;
 					delete intermediateFilter.matches;
 					delete intermediateFilter.description;
@@ -989,76 +1047,17 @@ angular.module('matchminerUiApp')
                                 }
                             };
 
-                            vm.charts.matches = {
-                            	colors: ['#ff6384', '#36a2eb', '#cc65fe'],
-								data: [filter.num_genomic_samples, filter.num_clinical, filter.num_samples],
-								labels: ['Genomic', 'Clinical', ['Genomic &', 'Clinical']],
-                                options: {
-                                    title: {
-                                        display: true,
-                                        text: 'Patient Matches',
-                                        fontSize: 16,
-                                    },
-                                    scales: {
-                                        xAxes: [{
-                                            ticks: {
-                                                fontSize: 13
-											},
-                                            gridLines: {display: false}
-										}],
-                                        yAxes: [{
-                                            scaleLabel: {
-                                                display: true,
-                                                labelString: 'Patient Count',
-                                                fontSize: 14.5
-                                            },
-											ticks: {
-                                                fontSize: 13,
-                                                callback: function(tick, index, ticksArray) {
-                                                    if (Math.floor(tick) === tick) {
-                                                        if (ticksArray[0] === ticksArray[1] + (ticksArray[1] - ticksArray[2])) return tick;
-                                                        else if (ticksArray[0] === tick) return undefined;
-                                                        return tick;
-                                                    }
-                                                },
-                                                max: Math.max(filter.num_genomic_samples, filter.num_clinical, filter.num_samples) * 1.1
-											}
-                                        }]
-                                    },
-                                    tooltips: {
-                                        callbacks: {
-                                            label: function (tooltipItems) {
-                                                return tooltipItems.yLabel + ' patients';
-                                            },
-                                        }
-                                    },
-                                    animation: {
-                                        duration: 1,
-                                        onComplete: function() {
-                                            var chartInstance = this.chart,
-                                                ctx = chartInstance.ctx;
-
-                                            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
-                                            ctx.textAlign = 'center';
-                                            ctx.textBaseline = 'bottom';
-
-                                            this.data.datasets.forEach(function(dataset, i) {
-                                                var meta = chartInstance.controller.getDatasetMeta(i);
-                                                meta.data.forEach(function(bar, index) {
-                                                    var data = dataset.data[index];
-                                                    ctx.fillText(data, bar._model.x, bar._model.y - 5);
-                                                });
-                                            });
-                                        }
-                                    },
-                                }
-                            };
-
                             vm.filter.enrollment = true;
                             vm.filter.matches = true;
-
 							vm.loadingIntermediate = false;
 							vm.isProcessingBusy = false;
+							vm.isLoadingFilter = false;
+							vm.filter.num_samples = filter.num_samples;
+
+							//Reset allele_percentage for display
+							if (vm.allele_percentage < 1 && vm.allele_percentage != null) {
+								vm.allele_percentage  = vm.allele_percentage * 100;
+							}
 
 						}).catch(_errorQuery);
 				};
@@ -1090,12 +1089,14 @@ angular.module('matchminerUiApp')
 				};
 
 				vm.hidePreviewGraph = function() {
-					$('#loadingPlot').hide();
-					$('#filterPlot').hide();
-					$('#histogramPlot').hide();
-					$('#emptyPlot').show();
-					$('#plotResults').show();
-					$('#noPlotData').hide();
+					if (vm.isLoadingFilter !== undefined && !vm.isLoadingFilter) {
+						$('#loadingPlot').hide();
+						$('#filterPlot').hide();
+						$('#histogramPlot').hide();
+						$('#emptyPlot').show();
+						$('#plotResults').show();
+						$('#noPlotData').hide();
+					}
 				};
 
 				vm.clearMatchFilters = function() {
@@ -1121,22 +1122,19 @@ angular.module('matchminerUiApp')
 						return filter;
 					}
 
-					if (!vm.selectedCancerTypeCategory
-						|| vm.selectedCancerTypeCategory == 'ALL') {
+					if (!vm.selectedCancerTypeCategory || vm.selectedCancerTypeCategory == 'ALL') {
 						filter.clinical_filter.ONCOTREE_PRIMARY_DIAGNOSIS_NAME = null;
 						vm.selectedCancerType = null;
 						return filter;
 					}
 
-					if (vm.selectedCancerTypeCategory != CANCERTYPE_SPECIFIC)
-					{
+					if (vm.selectedCancerTypeCategory != CANCERTYPE_SPECIFIC) {
 						vm.selectedCancerType = 'All ' + vm.cancerTypes[vm.selectedCancerTypeCategory];
 						filter.clinical_filter.ONCOTREE_PRIMARY_DIAGNOSIS_NAME = vm.selectedCancerTypeCategory;
 					} else if (vm.selectedCancerTypeCategory == CANCERTYPE_SPECIFIC) {
 						if (vm.selectedCancerType == null
 							|| filter.clinical_filter.ONCOTREE_PRIMARY_DIAGNOSIS_NAME == CANCERTYPE_LIQUID
-							|| filter.clinical_filter.ONCOTREE_PRIMARY_DIAGNOSIS_NAME == CANCERTYPE_SOLID
-						) {
+							|| filter.clinical_filter.ONCOTREE_PRIMARY_DIAGNOSIS_NAME == CANCERTYPE_SOLID) {
 							vm.data.searchOncotreeText = "";
 							vm.selectedCancerType = null;
 							filter.clinical_filter.ONCOTREE_PRIMARY_DIAGNOSIS_NAME = null;
@@ -1161,30 +1159,22 @@ angular.module('matchminerUiApp')
 
 						// Clear values for intermediate filter.
 						if (dataField == 'ageRange') {
-							vm.filter.clinical_filter.BIRTH_DATE = null;
+							vm.filter.clinical_filter.AGE_NUMERICAL = null;
 						} else if (dataField == 'reportDate') {
 							vm.filter.clinical_filter.REPORT_DATE = null;
 						} else {
 							$log.warn("Unknown data field ", dataField);
 						}
-
-						// Update the intermediate filter.
-						vm.fetchIntermediateFilterResults(vm.filter, false);
 					} else {
 						if (!value) {
+							vm.hidePreviewGraph();
 							return false;
 						}
 						// Calculate date and set
 						// field : { '$lte : 'date' }
 						if (dataField == 'ageRange' && value > 0) {
-							// Calculate difference
-							// CurrentDate - set age
-							var d = new Date(Date.now());
-							d.setFullYear(d.getFullYear() - value);
-
-							vm.filter.clinical_filter.BIRTH_DATE = {};
-							vm.filter.clinical_filter.BIRTH_DATE[comparatorValue] = d;
-							$log.debug("BIRTH DATE ", d, vm.filter);
+							vm.filter.clinical_filter.AGE_NUMERICAL = {};
+							vm.filter.clinical_filter.AGE_NUMERICAL[comparatorValue] = value;
 						} else if (dataField == 'reportDate') {
 							vm.filter.clinical_filter.REPORT_DATE = {};
 							vm.filter.clinical_filter.REPORT_DATE[comparatorValue] = value;
@@ -1192,10 +1182,8 @@ angular.module('matchminerUiApp')
 						} else {
 							$log.warn("Unknown data field - non all", dataField);
 						}
-
-						// Update the intermediate filter.
-						vm.fetchIntermediateFilterResults(vm.filter, false);
 					}
+					vm.hidePreviewGraph();
 				};
 
 				vm.initLoadedFilter = function(filter) {
@@ -1217,18 +1205,24 @@ angular.module('matchminerUiApp')
 						}
 
 						// Process clinical filter age
-						var birthDate = filter.clinical_filter.BIRTH_DATE;
+						var birthDate = filter.clinical_filter.AGE_NUMERICAL;
 						if (!!birthDate) {
 							vm.data.ageRange = {};
 							if ('^lte' in birthDate) {
 								vm.data.ageRange.prefix = '^lte';
-								vm.data.ageRange.date = new Date(new Date - new Date(birthDate['^lte'])).getFullYear()-1970
+								vm.data.ageRange.age = birthDate['^lte']
 							} else if ('^gte' in birthDate) {
 								vm.data.ageRange.prefix = '^gte';
-								vm.data.ageRange.date = new Date(new Date - new Date(birthDate['^gte'])).getFullYear()-1970
+								vm.data.ageRange.age = birthDate['^gte']
+							}else if ('^lt' in birthDate) {
+								vm.data.ageRange.prefix = '^lt';
+								vm.data.ageRange.age = birthDate['^lt']
+							} else if ('^gt' in birthDate) {
+								vm.data.ageRange.prefix = '^gt';
+								vm.data.ageRange.age = birthDate['^gt']
 							} else {
 								vm.data.ageRange.prefix = 'all';
-								vm.data.ageRange.date = null;
+								vm.data.ageRange.age = null;
 								$log.error("Unknown birth day field.", birthDate);
 							}
 						}

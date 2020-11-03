@@ -1,0 +1,58 @@
+<div layout="row" layout-align="center start">
+    <section class="patient-detail-container" flex-md="100" flex="100" flex-lg="100"
+             layout-align="space-between stretch"
+             layout="column">
+
+        <rhp-patient-quality-control clinical="::pdc.patient.clinical">
+        </rhp-patient-quality-control>
+
+        <rhp-patient-record is-embedded="false"
+                            clinical="::pdc.patient.clinical">
+        </rhp-patient-record>
+
+        <!-- Actionable Findings -->
+        <rhp-single-variants dt-opts="pdc.dtRHPOptions"
+                  ctrl="::pdc"
+                  snvs="pdc.patient.rapidhemepanel.snvSid"
+                  clinical="::pdc.patient.clinical">
+        </rhp-single-variants>
+        <rhp-cna dt-opts="pdc.dtRHPOptions"
+                  ctrl="::pdc"
+                  cnvs-pert-negs="::pdc.patient.rapidhemepanel.cnvsPertNegs"
+                  cnvs="::pdc.patient.rapidhemepanel.cnvs"
+                  clinical="::pdc.patient.clinical">
+        </rhp-cna>
+        <rhp-flt3-itd dt-opts="pdc.dtRHPOptions"
+                      ctrl="::pdc"
+                      flt3="::pdc.patient.rapidhemepanel.flt3"
+                      clinical="::pdc.patient.clinical">
+        </rhp-flt3-itd>
+        <rhp-vus dt-opts="pdc.dtRHPOptions"
+                 ctrl="::pdc"
+                 vus="::pdc.patient.rapidhemepanel.vus"
+                 clinical="::pdc.patient.clinical"></rhp-vus>
+
+        <!-- Additional Findings -->
+        <div class="block-header" style="margin-bottom: 10px" id="rhpAdditionalFindings">
+            <h2>
+                <md-icon aria-label="Actionable Findings" md-font-library="material-icons"> linear_scale </md-icon>
+                Additional Findings
+            </h2>
+        </div>
+        <rhp-wildtypes clinical="::pdc.patient.clinical"
+                       ctrl="::pdc"
+                       dt-opts="pdc.dtRHPOptionsPaged"></rhp-wildtypes>
+        <rhp-insufficient-codon-coverage clinical="::pdc.patient.clinical"></rhp-insufficient-codon-coverage>
+        <rhp-interpretation clinical="::pdc.patient.clinical"></rhp-interpretation>
+
+        <rhp-methodology></rhp-methodology>
+        <rhp-insufficient-read-coverage clinical="::pdc.patient.clinical"
+                                        ctrl="::pdc">
+        </rhp-insufficient-read-coverage>
+        <rhp-gene-list gene-panel="pdc.patient.rapidhemepanel.genePanel"
+                       dt-opts="pdc.dtRHPOptionsPaged">
+        </rhp-gene-list>
+
+    </section>
+</div>
+

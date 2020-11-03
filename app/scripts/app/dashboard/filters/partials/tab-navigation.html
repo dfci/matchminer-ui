@@ -1,16 +1,3 @@
-<!--
-  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
-  ~
-  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
-  ~  you may not use this file except in compliance with the License.
-  ~
-  ~ See the file LICENSE in the root of this repository.
-  ~
-  ~ Contributing authors:
-  ~ - berndvdveen
-  ~
-  -->
-
 <!-- Tab navigation and options -->
 <section layout="row"
 		 layout-align="center center"
@@ -33,8 +20,8 @@
 		   class="message error">
 			Filter label and / or {{ ENV.resources.institution }} protocol ID(s) are missing.
 		</p>
-		<p ng-if="(fe.data.ageRange.prefix == '^lte' || fe.data.ageRange.prefix == '^gte')
-					&& (!fe.data.ageRange.date || fe.data.ageRange.date == '')"
+		<p ng-if="(fe.data.ageRange.prefix == '^lt' || fe.data.ageRange.prefix == '^gt')
+					&& (!fe.data.ageRange.age || fe.data.ageRange.age == '')"
 		   class="message info">
 			Please select a cut off age in the 'Clinical' tab.
 		</p>
@@ -44,8 +31,16 @@
 		</p>
 		<p  ng-if="fe.filter.genomic_filter.TRUE_HUGO_SYMBOL.length > 1"
 			class="message info">
-			Multiple genes selected. Protein change and transcript exon criteria disabled.
+			Multiple genes selected. Protein change, transcript exon, and variant allele frequency criteria disabled.
 		</p>
+		<p  ng-if="((fe.allele_operator ==='^gt' || fe.allele_operator === '^lt') && fe.allele_percentage == null) ||
+                   (fe.allele_operator === '' && fe.allele_percentage != null)"
+			class="message error">
+			Please select an allele fraction percentage and operator.
+		</p>
+        <p ng-if="fe._loadedGenomicFilter" class="message error">
+            Warning: Updating a filter's genomic, clinical, or protocol criteria may reset existing <br/>patient matches into the "Pending" bin on the patient matches page.
+        </p>
 	</div>
 </section>
 <section layout="row" layout-sm="column" layout-wrap layout-align="center end" layout-wrap>

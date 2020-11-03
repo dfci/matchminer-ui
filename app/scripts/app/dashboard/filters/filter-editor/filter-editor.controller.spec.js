@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *
- */
-
 'use strict';
 
 /*
@@ -167,10 +154,10 @@ describe('Controller: FilterEditorCtrl', function () {
 		f.protocol_id = ENV.resources.institution + ' protocol ID';
 
 		f.genomic_filter.TRUE_HUGO_SYMBOL = ['ABL1'];
-		f.clinical_filter.BIRTH_DATE = {};
+		f.clinical_filter.AGE_NUMERICAL = {};
 		var d = new Date();
 		d.setFullYear(d.getFullYear()-1);
-		f.clinical_filter.BIRTH_DATE['^lte'] = d;
+		f.clinical_filter.AGE_NUMERICAL['^lte'] = d;
 
 		expect(ctrl.isValidFilter(f)).toBeTruthy();
 	});
@@ -190,22 +177,6 @@ describe('Controller: FilterEditorCtrl', function () {
 	/*
 	 * Filter API sanitization
 	 */
-	it('to be able to sanitze a filter for API communication.', function() {
-		// Setup a valid filter
-		var f = ctrl.filter;
-		f.label = 'test filter';
-		f.protocol_id = ENV.resources.institution + ' protocol ID';
-
-		// Pre sanitization TRUE_HUGO_SYMBOL and VARIANT_CATEGORY are arrays
-		f.genomic_filter.TRUE_HUGO_SYMBOL = ['ABL1'];
-		f.genomic_filter.VARIANT_CATEGORY = ['SV'];
-
-		expect(ctrl.isValidFilter(f)).toBe(true);
-
-		// Sanitize filter
-		var sf = MatchminerApiSanitizer.transformGenomicFilter(f, true, ['TRUE_HUGO_SYMBOL', 'VARIANT_CATEGORY']);
-		expect(_.has(sf.genomic_filter.TRUE_HUGO_SYMBOL, '^in') && _.has(sf.genomic_filter.VARIANT_CATEGORY, '^in')).toBe(true);
-	});
 
 	it('to set the team and user id\'s when account is set', function() {
 		expect(ctrl._teamId).toEqual('577cf6ef2b9920002e041cb3');
@@ -226,7 +197,6 @@ describe('Controller: FilterEditorCtrl', function () {
 		expect(ctrl.filter.genomic_filter.TRUE_HUGO_SYMBOL[0]).toEqual(gene);
 		expect(ctrl.preloadTranscriptExonForGene).toHaveBeenCalledWith(gene);
 		expect(ctrl.preloadProteinChangesForGene).toHaveBeenCalledWith(gene);
-		expect(ctrl.fetchIntermediateFilterResults).toHaveBeenCalledWith(ctrl.filter);
 	});
 
 	it('should add a second TRUE_HUGO_SYMBOL to the array and recalculate the intermediate filter', function() {
@@ -244,7 +214,6 @@ describe('Controller: FilterEditorCtrl', function () {
 		expect(ctrl.filter.genomic_filter.TRUE_HUGO_SYMBOL.length).toBe(2);
 		expect(ctrl.preloadProteinChangesForGene).not.toHaveBeenCalled();
 		expect(ctrl.preloadTranscriptExonForGene).not.toHaveBeenCalled();
-		expect(ctrl.fetchIntermediateFilterResults).toHaveBeenCalledWith(ctrl.filter);
 	});
 
 	it('to remove a give TRUE_HUGO_SYMBOL from the array given its present.', function() {
@@ -255,7 +224,6 @@ describe('Controller: FilterEditorCtrl', function () {
 
 		ctrl.removeGene(gene);
 		expect(ctrl.filter.genomic_filter.TRUE_HUGO_SYMBOL.length).toBe(0);
-		expect(ctrl.fetchIntermediateFilterResults).toHaveBeenCalledWith(ctrl.filter, false);
 	});
 
 	it('to remove a give TRUE_HUGO_SYMBOL from the array given its NOT present.', function() {
@@ -266,10 +234,10 @@ describe('Controller: FilterEditorCtrl', function () {
 
 		ctrl.removeGene(gene);
 		expect(ctrl.filter.genomic_filter.TRUE_HUGO_SYMBOL.length).toBe(0);
-		expect(ctrl.fetchIntermediateFilterResults).toHaveBeenCalledWith(ctrl.filter, false);
 	});
 
 	it('to sanitize and save a genomic filter', function() {
+		var filter = FiltersMocks.mockFilters()._items[2];
 		expect(ctrl.isProcessingBusy).toBe(undefined);
 
 		// Init default filter model.
@@ -277,7 +245,7 @@ describe('Controller: FilterEditorCtrl', function () {
 
 		// Set spies
 		spyOn(MatchminerApiSanitizer, 'transformGenomicFilter').and.callFake( function() {
-			return ctrl.filter;
+			return filter;
 		});
 
 		spyOn(ToastService, 'success').and.callFake(function(input) {
@@ -312,10 +280,10 @@ describe('Controller: FilterEditorCtrl', function () {
 			num_samples: 15
 		};
 
-		ctrl.saveFilter(ctrl.filter);
+		ctrl.saveFilter(filter);
 
-		expect(MatchminerApiSanitizer.transformGenomicFilter).toHaveBeenCalledWith(ctrl.filter, true, ['TRUE_HUGO_SYMBOL', 'VARIANT_CATEGORY', 'CNV_CALL']);
-		expect(FiltersREST.saveGenomicFilter).toHaveBeenCalledWith(ctrl.filter);
+		expect(MatchminerApiSanitizer.transformGenomicFilter).toHaveBeenCalledWith(filter, true, ['TRUE_HUGO_SYMBOL', 'VARIANT_CATEGORY', 'CNV_CALL']);
+		expect(FiltersREST.saveGenomicFilter).toHaveBeenCalledWith(filter);
 
 		FiltersPromise.resolve(res);
 		// Tell angular to process all the async calls first and resolve the callbacks.
@@ -336,11 +304,12 @@ describe('Controller: FilterEditorCtrl', function () {
 	});
 
 	it('to catch an error while saving a filter.', function(){
+		var filter = FiltersMocks.mockFilters()._items[1];
 		ctrl.clearForm();
 
 		// Set spies
 		spyOn(MatchminerApiSanitizer, 'transformGenomicFilter').and.callFake( function() {
-			return ctrl.filter;
+			return filter;
 		});
 
 		spyOn(ToastService, 'warn').and.callFake(function(input) {
@@ -352,10 +321,10 @@ describe('Controller: FilterEditorCtrl', function () {
 		var r = new RegExp(ENV.api.endpoint +'\/utility\/unique.*');
 		$httpBackend.whenGET(r).respond({"Test": 'object'});
 
-		ctrl.saveFilter(ctrl.filter);
+		ctrl.saveFilter(filter);
 
-		expect(MatchminerApiSanitizer.transformGenomicFilter).toHaveBeenCalledWith(ctrl.filter, true, ['TRUE_HUGO_SYMBOL', 'VARIANT_CATEGORY', 'CNV_CALL']);
-		expect(FiltersREST.saveGenomicFilter).toHaveBeenCalledWith(ctrl.filter);
+		expect(MatchminerApiSanitizer.transformGenomicFilter).toHaveBeenCalledWith(filter, true, ['TRUE_HUGO_SYMBOL', 'VARIANT_CATEGORY', 'CNV_CALL']);
+		expect(FiltersREST.saveGenomicFilter).toHaveBeenCalledWith(filter);
 
 		var err = 'An error occurred while saving the filter';
 		FiltersPromise.reject(err);
@@ -366,17 +335,18 @@ describe('Controller: FilterEditorCtrl', function () {
 	});
 
 	it('to sanitize and update a genomic filter', function() {
+		var filter = FiltersMocks.mockFilters()._items[1];
 		spyOn($state, 'go');
 		var ru = new RegExp(ENV.api.endpoint +'\/user.*');
 		$httpBackend.whenGET(ru).respond({"test": 'object'});
 
 		// Set spies
 		spyOn(MatchminerApiSanitizer, 'transformGenomicFilter').and.callFake( function() {
-			return ctrl.filter;
+			return filter;
 		});
 
 		spyOn(MatchminerApiSanitizer, 'sanitizeEveResource').and.callFake( function() {
-			return ctrl.filter;
+			return filter;
 		});
 
 		// Bogus data which has to be cleared when set
@@ -395,12 +365,12 @@ describe('Controller: FilterEditorCtrl', function () {
 		rootScope.matchQuery.FILTER_ID = "1234567890";
 		rootScope.tableFilter.REPORT_DATE = new Date();
 
-		ctrl.updateGenomicFilter(ctrl.filter);
+		ctrl.updateGenomicFilter(filter);
 		expect(ctrl.isProcessingBusy).toBeTruthy();
 
-		expect(MatchminerApiSanitizer.transformGenomicFilter).toHaveBeenCalledWith(ctrl.filter, true, ['TRUE_HUGO_SYMBOL', 'VARIANT_CATEGORY', 'CNV_CALL']);
-		expect(MatchminerApiSanitizer.sanitizeEveResource).toHaveBeenCalledWith(ctrl.filter, {}, true);
-		expect(FiltersREST.updateGenomicFilter).toHaveBeenCalledWith(ctrl.filter);
+		expect(MatchminerApiSanitizer.transformGenomicFilter).toHaveBeenCalledWith(filter, true, ['TRUE_HUGO_SYMBOL', 'VARIANT_CATEGORY', 'CNV_CALL']);
+		expect(MatchminerApiSanitizer.sanitizeEveResource).toHaveBeenCalledWith(filter, {}, true);
+		expect(FiltersREST.updateGenomicFilter).toHaveBeenCalledWith(filter);
 
 		FiltersPromise.resolve(res);
 		// Tell angular to process all the async calls first and resolve the callbacks.
@@ -419,6 +389,7 @@ describe('Controller: FilterEditorCtrl', function () {
 	});
 
 	it('to catch an error while updating a filter.', function(){
+		var filter = FiltersMocks.mockFilters()._items[0];
 		spyOn(ToastService, 'warn').and.callFake(function(input) {
 			var deferred = $q.defer();
 			deferred.resolve('Warning success');
@@ -427,13 +398,12 @@ describe('Controller: FilterEditorCtrl', function () {
 
 		// Set spies
 		spyOn(MatchminerApiSanitizer, 'transformGenomicFilter').and.callFake( function() {
-			return ctrl.filter;
+			return filter;
 		});
 
-		ctrl.updateGenomicFilter(ctrl.filter);
-		expect(MatchminerApiSanitizer.transformGenomicFilter).toHaveBeenCalledWith(ctrl.filter, true, ['TRUE_HUGO_SYMBOL', 'VARIANT_CATEGORY', 'CNV_CALL']);
-
-		expect(FiltersREST.updateGenomicFilter).toHaveBeenCalledWith(ctrl.filter);
+		ctrl.updateGenomicFilter(filter);
+		expect(MatchminerApiSanitizer.transformGenomicFilter).toHaveBeenCalledWith(filter, true, ['TRUE_HUGO_SYMBOL', 'VARIANT_CATEGORY', 'CNV_CALL']);
+		expect(FiltersREST.updateGenomicFilter).toHaveBeenCalledWith(filter);
 
 		FiltersPromise.reject();
 		scope.$digest();
@@ -442,14 +412,11 @@ describe('Controller: FilterEditorCtrl', function () {
 		expect(ToastService.warn).toHaveBeenCalledWith('Error updating genomic filter.');
 	});
 
-	it('should be able to update teh cancer type', function() {
+	it('should be able to update the cancer type', function() {
 		var selectedCancerType = '_LIQUID_';
-		var isReset = false;
-		spyOn(ctrl, 'fetchIntermediateFilterResults');
 
-		var ct = ctrl.updateCancerType(selectedCancerType, ctrl.filter, isReset);
+		var ct = ctrl.updateCancerType(selectedCancerType);
 		expect(ctrl.selectedCancerType).toEqual(selectedCancerType);
-		expect(ctrl.fetchIntermediateFilterResults).toHaveBeenCalledWith(ctrl.filter, isReset);
 		expect(ct).toBe(selectedCancerType);
 	});
 
@@ -777,8 +744,6 @@ describe('Controller: FilterEditorCtrl', function () {
 		var value = 6;
 		var d = new Date(Date.now());
 		ctrl.updateDateField(dataField, comparator, value);
-
-		expect(ctrl.fetchIntermediateFilterResults).toHaveBeenCalled();
 	});
 
 	it('should be able to update a report date field using a specific comparator', function() {
@@ -790,7 +755,6 @@ describe('Controller: FilterEditorCtrl', function () {
 		ctrl.updateDateField(dataField, comparator, value);
 
 		expect(ctrl.filter.clinical_filter.REPORT_DATE['$gte']).toBe(value);
-		expect(ctrl.fetchIntermediateFilterResults).toHaveBeenCalled();
 	});
 
 
@@ -802,7 +766,6 @@ describe('Controller: FilterEditorCtrl', function () {
 		ctrl.updateDateField(dataField, comparator);
 
 		expect(ctrl.filter.clinical_filter.REPORT_DATE).toBe(null);
-		expect(ctrl.fetchIntermediateFilterResults).toHaveBeenCalled();
 	});
 
 	it('should be able to reset the birth date field using the all comparator.', function() {
@@ -812,8 +775,7 @@ describe('Controller: FilterEditorCtrl', function () {
 		var comparator = 'all';
 		ctrl.updateDateField(dataField, comparator);
 
-		expect(ctrl.filter.clinical_filter.BIRTH_DATE).toBe(null);
-		expect(ctrl.fetchIntermediateFilterResults).toHaveBeenCalled();
+		expect(ctrl.filter.clinical_filter.AGE_NUMERICAL).toBe(null);
 	});
 
 	it('should return false when using a specific comparator without a value arg.', function() {

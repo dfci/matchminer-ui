@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *
- */
-
 'use strict';
 
 /**
@@ -85,21 +72,7 @@ angular.module('matchminerUiApp')
              * @param trial
              */
             dbf.sendWatch = function(trial) {
-                $.ajax({
-                    type: "POST",
-                    url: ENV.api.endpoint + "/trial_watch/" + trial.text,
-                    dataType: "html",
-                    data: {
-                        user_id: UserAccount._id,
-                        team_id: UserAccount.teams[0]
-                    },
-                    success: function (response) {
-                        ToastService.success("Successfully added to trial " + trial.text + " watch list.");
-                    },
-                    error: function () {
-                        ToastService.warn("Error adding trial " + trial.text + " to watch list. Please try again.");
-                    }
-                });
+                //TODO send request to backend to process trial watch
                 $mdDialog.hide();
             };
 

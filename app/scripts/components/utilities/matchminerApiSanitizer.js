@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *
- */
-
 'use strict';
 
 angular.module('matchminerUiApp')
@@ -77,7 +64,7 @@ angular.module('matchminerUiApp')
 		};
 
 		sanitizer.transformGenomicFilter = function (filter, toApi, fields) {
-			$log.info("Starting transformation ", filter);
+			$log.debug("Starting transformation ", filter);
 
 			// Iterate over all fields defined
 			for (var i = 0; i < fields.length; i++) {
@@ -127,7 +114,7 @@ angular.module('matchminerUiApp')
 					filter.genomic_filter.TRUE_HUGO_SYMBOL = [""];
 				}
 
-				$log.info("Transformed ", filter.genomic_filter[field]);
+				$log.debug("Transformed ", filter.genomic_filter[field]);
 			}
 
 			return filter;

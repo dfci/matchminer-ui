@@ -1,16 +1,3 @@
-<!--
-  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
-  ~
-  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
-  ~  you may not use this file except in compliance with the License.
-  ~
-  ~ See the file LICENSE in the root of this repository.
-  ~
-  ~ Contributing authors:
-  ~ - berndvdveen
-  ~
-  -->
-
 <div class="dashboard-content matches-wrapper">
 	<div class="block-header">
 		<h2>
@@ -28,6 +15,10 @@
 				<li>
                     <span class="match-status no-select"
                           ng-click="dbm._loadMatches(0, false)"
+                          analytics-event="View new bin matches"
+                          analytics-on="click"
+                          analytics-lanel="Matches bin action"
+                          analytics-category="Patient Match"
                           ng-class="{
                             'active-match-status' : dbm.matchStatus == 0
                             }">
@@ -45,6 +36,10 @@
 				<li>
 					<span class="match-status no-select"
 						  ng-click="dbm._loadMatches(1, false)"
+                          analytics-event="View pending bin matches"
+                          analytics-on="click"
+                          analytics-lanel="Matches bin action"
+                          analytics-category="Patient Match"
 						  ng-class="{
 							'active-match-status' : dbm.matchStatus == 1
 							}">
@@ -62,6 +57,10 @@
 				<li>
 					<span class="match-status no-select"
 						  ng-click="dbm._loadMatches(2, false)"
+                          analytics-event="View flagged bin matches"
+                          analytics-on="click"
+                          analytics-lanel="Matches bin action"
+                          analytics-category="Patient Match"
 						  ng-class="{
 							'active-match-status' : dbm.matchStatus == 2
 							}">
@@ -79,6 +78,10 @@
 				<li>
 					<span class="match-status no-select"
 					      ng-click="dbm._loadMatches(5, false)"
+                          analytics-event="View contacted bin matches"
+                          analytics-on="click"
+                          analytics-lanel="Matches bin action"
+                          analytics-category="Patient Match"
 					      ng-class="{
 							'active-match-status' : dbm.matchStatus == 5
 							}">
@@ -96,6 +99,10 @@
 				<li>
 					<span class="match-status no-select"
 					      ng-click="dbm._loadMatches(6, false)"
+                          analytics-event="View eligible bin matches"
+                          analytics-on="click"
+                          analytics-lanel="Matches bin action"
+                          analytics-category="Patient Match"
 					      ng-class="{
 							'active-match-status' : dbm.matchStatus == 6
 							}">
@@ -113,6 +120,10 @@
 				<li>
 					<span class="match-status no-select"
 					      ng-click="dbm._loadMatches(7, false)"
+                          analytics-event="View deferred bin matches"
+                          analytics-on="click"
+                          analytics-lanel="Matches bin action"
+                          analytics-category="Patient Match"
 					      ng-class="{
 							'active-match-status' : dbm.matchStatus == 7
 							}">
@@ -130,6 +141,10 @@
 				<li>
 					<span class="match-status no-select"
 						  ng-click="dbm._loadMatches(3, false)"
+                          analytics-event="View not eligibile bin matches"
+                          analytics-on="click"
+                          analytics-lanel="Matches bin action"
+                          analytics-category="Patient Match"
 						  ng-class="{
 							'active-match-status' : dbm.matchStatus == 3
 							}">
@@ -147,6 +162,10 @@
 				<li>
 					<span class="match-status no-select"
 						  ng-click="dbm._loadMatches(4, false)"
+                          analytics-event="View enrolled bin matches"
+                          analytics-on="click"
+                          analytics-lanel="Matches bin action"
+                          analytics-category="Patient Match"
 						  ng-class="{
 							'active-match-status' : dbm.matchStatus == 4
 							}">
@@ -169,6 +188,10 @@
 							ng-model="dbm.matchSearchTerms"
 							placeholder="Search"
 							secondary-placeholder="Add another term"
+                            analytics-on="keypress"
+                            analytics-event="Search filter matches by MRN"
+                            analytics-category="Patient Match"
+                            analytics-lanel="Matches bin action"
 							md-on-add="dbm.onSearchAdd($chip)"
 							md-on-remove="dbm.onSearchRemove($chip)">
 					</md-chips>
@@ -186,12 +209,18 @@
 						id="matchStatusUpdate"
 						class="match-status-select"
 						ng-model="dbm.matchStatusUpdate"
+                        analytics-on="click"
+                        analytics-event="Select New Status"
+                        analytics-category="Patient Match"
 						placeholder="{{ dbm.selectedMatches.length > 0 ? 'Select new status' : 'Select matches' }}"
 						ng-disabled="!dbm.selectedMatches.length"
 						ng-change="dbm.updateStatus(dbm.selectedMatches, dbm.matchStatusUpdate)"
 						aria-label="selection option">
 					<md-option ng-value="{{sid}}"
 					           ng-if="changeState"
+                               analytics-on="click"
+                               analytics-event="{{ changeState }}"
+                               analytics-category="Patient Match"
 					           ng-repeat="(sid, changeState) in dbm.matchStatusChange[dbm.matchStatus].action">
 						{{changeState}}
 					</md-option>
@@ -231,6 +260,10 @@
 						<td md-cell>
 							<md-select placeholder="All filters"
 							           md-selected-html="dbm.getSelectedFilterText()"
+                                       analytics-on="click"
+                                       analytics-event="Filter patient matches by filter label"
+                                       analytics-category="Patient Match"
+                                       analytics-label="Matches page sub-filtering"
 							           ng-disabled="!dbm.filters.length"
 							           ng-model="dbm.tableFilter.filter"
 							           ng-model-options="{debounce: 500}"
@@ -251,6 +284,10 @@
 							<md-select placeholder="Date reported"
 							           md-selected-html="dbm.getSelectedDateText()"
 							           ng-disabled="!dbm.filters.length"
+                                       analytics-on="click"
+                                       analytics-event="Filter patient matches by report date"
+                                       analytics-category="Patient Match"
+                                       analytics-label="Matches page sub-filtering"
 							           ng-model="dbm.tableFilter.date"
 							           ng-change="dbm.closeDateSelect()">
 								<md-option ng-value="'all'">All time</md-option>
@@ -273,7 +310,7 @@
 						<td md-cell>
 							<a ng-click="dbm.gotoPatientDetails($event, match.CLINICAL_ID._id)"
 					           analytics-on="click"
-                               analytics-event="Navigate to patient details"
+                               analytics-event="Navigate to patient details from filter matches"
                                analytics-category="Patient Match"
                                analytics-label="{{match.CLINICAL_ID._id}}">
 							<span class="match-patient-record">
@@ -318,7 +355,16 @@
 									'-' }}</i></span>
 								</span>
 								<span class="td-lead" ng-if="match.VARIANTS[0].VARIANT_CATEGORY == 'SV'">
-									<b>Gene: </b> {{ match.TRUE_HUGO_SYMBOL || '-' }}
+									<b>Gene: </b>
+                                    <span ng-if="match.VARIANTS[0].LEFT_PARTNER_GENE ||
+                                                 match.VARIANTS[0].RIGHT_PARTNER_GENE ||
+                                                 match.TRUE_HUGO_SYMBOL"
+                                          style="margin-right: -3px">
+										{{ dbm.getSVGeneText(match) }}
+                                    </span>
+                                    <span ng-if="match.VARIANTS[0].STRUCTURAL_VARIANT_TYPE">
+                                        &nbsp;{{ match.VARIANTS[0].STRUCTURAL_VARIANT_TYPE || ' ' }}
+                                    </span>
 								</span>
 								<span class="td-lead" ng-if="match.ONCOTREE_BIOPSY_SITE_TYPE">
 									<b>Biopsy site: </b> {{ match.ONCOTREE_BIOPSY_SITE_TYPE }}

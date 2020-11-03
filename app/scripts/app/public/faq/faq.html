@@ -1,15 +1,4 @@
-<!--
-  ~ Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
-  ~
-  ~  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
-  ~  you may not use this file except in compliance with the License.
-  ~
-  ~ See the file LICENSE in the root of this repository.
-  ~
-  ~ Contributing authors:
-  ~ - berndvdveen
-  ~
-  -->
+
 
 <div ui-view="nav" scroll-position="nbc.scroll"></div>
 
@@ -26,20 +15,242 @@
 		<div layout="column" class="content-container">
 			<section layout="column" class="feature-row">
 				<h1>Frequently Asked Questions</h1>
-				<section layout="column" layout-gt-sm="row" flex-offset="10" class="feature-column"
-				         ng-repeat="faq in fc.faqList">
+                <section layout="column" layout-gt-sm="row" flex-offset="10" class="feature-column">
 					<div flex>
 						<div class="feature">
 							<md-icon class="feature-icon md-accent" md-font-library="material-icons">
-								{{ faq.icon }}
+                                label
 							</md-icon>
 						</div>
 						<h3>
-							{{ faq.question }}
+                            What is MatchMiner?
 						</h3>
-						<p ng-bind-html="answer" ng-repeat="answer in faq.answer"></p>
+                        <p>
+                            MatchMiner is a computational platform for matching genomic profiles to open clinical trials
+                            at Dana-Farber Cancer Institute. It currently provides the following features: <br/>
+                        </p>
+                        <ul>
+                            <li>
+                                <p>
+                                    <b>Trial Search: </b>For example, one can easily identify all trials requiring a
+                                    BRAF or EGFR mutation, and further filter by cancer type. Trial
+                                    search is open to all, and does not require a user name or password. Trial search is
+                                    based on extensive genomic curation of precision medicine clinical trials currently
+                                    active at {{ fc.ENV.resources.institution }}.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    <b>Patient-Specific Matching for Precision Medicine Clinical Trials: </b>Oncologists
+                                    can search for a patient and view genomically-matched clinical trials currently
+                                    active
+                                    at DFCI.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    <b>Patient Recruitment for Specific Clinical Trials: </b>Clinical trial
+                                    investigators can identify patients with a specific genomic alteration and get
+                                    automatic email notifications of new patients who have received sequencing. Patient
+                                    identification
+                                    and notification is only available to approved clinical trial investigators. To
+                                    apply for access, complete the <a class="faq-link"
+                                                                      href="{{ fc.ENV.accessRequestFormLink }}"
+                                                                      target="_blank"> online registration form.</a>.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    MatchMiner also displays the results of molecular testing, including
+                                    <b>OncoPanel</b>
+                                    and <b>ImmunoProfile reports</b>.
+                                </p>
+                            </li>
+                        </ul>
 					</div>
 				</section>
+                <section layout="column" layout-gt-sm="row" flex-offset="10" class="feature-column">
+                    <div flex>
+                        <div class="feature">
+                            <md-icon class="feature-icon md-accent" md-font-library="material-icons">
+                                insert_chart_outlined
+                            </md-icon>
+                        </div>
+                        <h3>
+                            How can I access MatchMiner?
+                        </h3>
+                        <p>
+                            MatchMiner may be accessed by navigating to <a class="faq-link"
+                                                                           href="https://matchminer.dfci.harvard.edu">https://matchminer.dfci.harvard.edu</a>,
+                            or, through Epic Hyperspace. <br/><br/> To access MatchMiner in Epic when viewing a
+                            patients chart, go to the "More" menu at the bottom left of the screen (<b>More > Rarely
+                            Used > PHS Applications > MatchMiner</b>). <br/><br/>To access the MatchMiner Trial Search
+                            feature in Epic, go to the "Epic" menu at the top left of the screen (<b>Epic > PHS
+                            Applications > DFCI Applications > MatchMiner Trial Search</b>). <br/><br/> We encourage you
+                            to star access to MatchMiner, because this will give you easy access to MatchMiner from the
+                            Activity Menu in the left sidebar.
+                        </p>
+                    </div>
+                </section>
+                <section layout="column" layout-gt-sm="row" flex-offset="10" class="feature-column">
+                    <div flex>
+                        <div class="feature">
+                            <md-icon class="feature-icon md-accent" md-font-library="material-icons">
+                                storage
+                            </md-icon>
+                        </div>
+                        <h3>
+                            What data is in MatchMiner?
+                        </h3>
+                        <p>
+                            MatchMiner has data from <b>OncoPanel</b>, <b>Rapid Heme Panel</b>, and <b>ImmunoProfile</b>.
+                        </p>
+                        <p>
+                            OncoPanel and Rapid Heme Panel data is generated by the Center for Advanced Molecular
+                            Diagnostics at BWH and is updated nightly.
+                        </p>
+                        <p>
+                            ImmunoProfile data is generated by the ImmunoProfile team and is available in MatchMiner
+                            immediately upon signout.
+                        </p>
+                        <p>
+                            All data is clinical or covered by Profile research consent (DFCI protocols 11-104 or
+                            17-000).
+                        </p>
+                        <p></p>
+
+                        <table class="faq-table" style="border-collapse: collapse">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>OncoPanel</th>
+                                <th>Rapid Heme Panel</th>
+                                <th>ImmunoProfile</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>View molecular test results</td>
+                                <td>
+                                    <md-icon md-font-library="material-icons" style="color: green">
+                                        check_circle_outline
+                                    </md-icon>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <md-icon md-font-library="material-icons" style="color: green">
+                                        check_circle_outline
+                                    </md-icon>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Patient-specific trial matches</td>
+                                <td>
+                                    <md-icon md-font-library="material-icons" style="color: green">
+                                        check_circle_outline
+                                    </md-icon>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Identify patients based on specific criteria</td>
+                                <td>
+                                    <md-icon md-font-library="material-icons" style="color: green">
+                                        check_circle_outline
+                                    </md-icon>
+                                </td>
+                                <td>
+                                    <md-icon md-font-library="material-icons" style="color: green">
+                                        check_circle_outline
+                                    </md-icon>
+                                </td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <section layout="column" layout-gt-sm="row" flex-offset="10" class="feature-column">
+                    <div flex>
+                        <div class="feature">
+                            <md-icon class="feature-icon md-accent" md-font-library="material-icons">
+                                assignment
+                            </md-icon>
+                        </div>
+                        <h3>
+                            What clinical trials are currently in MatchMiner?
+                        </h3>
+                        <p>
+                            MatchMiner includes precision medicine clinical trials currently active
+                            at {{ fc.ENV.resources.institution }}. This specifically includes any active clinical trial
+                            that lists a genomic biomarker, such as a gene mutation or copy number alteration, as
+                            required eligibility criteria. Because we manually curate each trial, we do not currently
+                            include or curate trials beyond {{ fc.ENV.resources.institution }}.
+                        </p>
+                    </div>
+                </section>
+                <section layout="column" layout-gt-sm="row" flex-offset="10" class="feature-column">
+                    <div flex>
+                        <div class="feature">
+                            <md-icon class="feature-icon md-accent" md-font-library="material-icons">
+                                lock
+                            </md-icon>
+                        </div>
+                        <h3>
+                            Who can access MatchMiner?
+                        </h3>
+                        <p>
+                            We currently maintain three levels of access:,
+                            <ul>
+                                <li><b>Trial Search is open to all, </b>and does not require a user name or password.</li>
+                                <li><b>Patient-Centric Matching, including molecular results and trial matching, is
+                                    available to all Oncologists who currently have access to Profile reports via OncoPanel
+                                    Results Viewer. </b>The approved user list is automatically synced on a nightly basis.
+                                </li>
+                                <li><b>Patient identification and notification is only available to approved clinical trial
+                                    investigators. </b>
+                                </li>
+                            </ul>
+                        <p>
+                            Access approval is granted by the DFCI Office of Clinical Research.
+                            Visit our <a class="faq-link" href="/#/apply-for-access" target="_blank">Apply for
+                            Access page</a> for instructions to apply for any level of access.
+                        </p>
+                    </div>
+                </section>
+                <section layout="column" layout-gt-sm="row" flex-offset="10" class="feature-column">
+                    <div flex>
+                        <div class="feature">
+                            <md-icon class="feature-icon md-accent" md-font-library="material-icons">
+                                bug_report
+                            </md-icon>
+                        </div>
+                        <h3>
+                            I found a bug or would like to suggest a feature. Who do I contact?
+                        </h3>
+                        <p>
+                            Please send an email to <a class="faq-link" href="mailto:{{ fc.ENV.resources.email }}"
+                                                       target="_top">{{ fc.ENV.resources.email }}</a>
+                        </p>
+                    </div>
+                </section>
+                <section layout="column" layout-gt-sm="row" flex-offset="10" class="feature-column">
+                    <div flex>
+                        <div class="feature">
+                            <md-icon class="feature-icon md-accent" md-font-library="material-icons">
+                                help
+                            </md-icon>
+                        </div>
+                        <h3>
+                            I need help! Who do I contact?
+                        </h3>
+                        <p>
+                            Please send an email to <a class="faq-link" href="mailto:{{ fc.ENV.resources.email }}"
+                                                       target="_top">{{ fc.ENV.resources.email }}</a>
+                        </p>
+                    </div>
+                </section>
 			</section>
 		</div>
 	</section>

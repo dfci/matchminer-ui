@@ -1,16 +1,3 @@
-/*
- * Copyright (c) 2017. Dana-Farber Cancer Institute. All rights reserved.
- *
- *  Licensed under the GNU Affero General Public License, Version 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *
- * See the file LICENSE in the root of this repository.
- *
- * Contributing authors:
- * - berndvdveen
- *
- */
-
 'use strict';
 
 describe('Various utilities function and filters', function () {
@@ -42,10 +29,10 @@ describe('Various utilities function and filters', function () {
 	});
 
 	it('should be able to parse a date ', function() {
-		var date_string = 'Fri Mar 25 2015 09:56:24 GMT+0100';
+		var date_string = 'Fri, 12 Oct 1956 04:00:00 GMT';
 		var parseDateFilter = filter('parsedate');
 		var date = parseDateFilter(date_string);
-		expect(date).toBe(1427273784000);
+		expect(date).toBe("Oct 12 1956");
 	});
 
 	it('should return an empty string when parsing a null date ', function() {
