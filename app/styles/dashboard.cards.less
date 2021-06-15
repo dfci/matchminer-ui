@@ -35,10 +35,9 @@
 }
 
 .mini-charts-item .count > h2,
-.mini-charts-item .count > small {
+.mini-charts-item .count > .count-header {
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .mini-charts-item .count > h2 {
@@ -49,11 +48,19 @@
   color: black !important;
 }
 
-.mini-charts-item .count > small {
-  margin-bottom: 2px;
+.mini-charts-item .count > .count-header {
+  margin-top: 2px;
   font-size: 16px;
   font-weight: 700;
   color: black;
+}
+
+.mini-charts-item .count > .count-header.with-note {
+  margin-bottom: 2px;
+}
+
+.ip-summary-call {
+  font-weight: bold;
 }
 
 #methodology {

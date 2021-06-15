@@ -23,7 +23,12 @@ angular.module('matchminerUiApp')
 					3: 'looks_3',
 					4: 'looks_4',
 					5: 'looks_5',
-					6: 'looks_6'
+					6: 'looks_6',
+					7: 'looks_7',
+					8: 'looks_8',
+					9: 'looks_9',
+					10: 'looks_10',
+					11: 'looks_11',
 				};
 
 				$scope.$watchCollection(

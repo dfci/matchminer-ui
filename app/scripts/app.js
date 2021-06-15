@@ -88,9 +88,9 @@ angular
 					window.toPatientPage = false;
 				}
                 
-				if (fromState.name == 'patient' && toState.name == "clinicaltrials.overview") {
-						ClinicalTrialsService.resetSearchFilters();
-				}
+                if (fromState.name == 'patient' && toState.name == "clinicaltrials.overview") {
+                    ClinicalTrialsService.resetSearchFilters();
+                }
 
 				// Set the page title key to the one configured in state or use default one
 				if (toState.data.pageTitle) {

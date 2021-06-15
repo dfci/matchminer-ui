@@ -6,6 +6,9 @@ angular.module('matchminerUiApp')
 			.state('matches', {
 				url: '/matches',
 				parent: 'dashboard',
+				params: {
+					'filter_id': null,
+				},
 				data: {
 					pageTitle: 'MatchMiner - Matches',
 					authorities: ['cti', 'admin']

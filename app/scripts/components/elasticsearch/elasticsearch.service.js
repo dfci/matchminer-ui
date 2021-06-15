@@ -367,30 +367,32 @@ angular.module('matchminerUiApp')
                             // 	}
                             // });
 
-                            partialQuery.bool.must[0].bool.should.push({
-                                'multi_match': {
-                                    'query': splitSearchTerm[i],
-                                    'fields': [
-                                        '_elasticsearch.protocol_no^200.0',
-                                        '_elasticsearch.age',
-                                        '_elasticsearch.phase',
-                                        '_elasticsearch.disease_status',
-                                        '_elasticsearch.nct_number',
-                                        '_elasticsearch.disease_center',
-                                        '_elasticsearch.mmr_status',
-                                        '_elasticsearch.ms_status',
-                                        '_elasticsearch.short_title',
-										'_elasticsearch.drugs^2.0'
-                                    ],
-                                    'type': 'most_fields'
-                                }
-                            });
+                            var multi_match = {
+                                'query': splitSearchTerm[i],
+                                'fields': [
+                                    '_elasticsearch.protocol_no^200.0',
+                                    '_elasticsearch.age',
+                                    '_elasticsearch.phase',
+                                    '_elasticsearch.disease_status',
+                                    '_elasticsearch.nct_number',
+                                    '_elasticsearch.disease_center',
+                                    '_elasticsearch.mmr_status',
+                                    '_elasticsearch.ms_status',
+                                    '_elasticsearch.short_title',
+                                    '_elasticsearch.drugs^2.0'
+                                ],
+                                'type': 'most_fields'
+                            };
 
                             if (isTemozolomide) {
 								//remove _elasticsearch.drugs^2.0 from search if
 								// temozomolide signature if passed as a search term
 								multi_match.fields.pop()
 							}
+
+                            partialQuery.bool.must[0].bool.should.push({
+                                'multi_match': multi_match
+                            });
                         }
                         for (var j = 0; j < investigatorSearchTerm.length; j++) {
                             partialQuery.bool.must[0].bool.should.push({

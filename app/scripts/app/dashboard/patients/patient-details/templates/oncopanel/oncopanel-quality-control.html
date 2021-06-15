@@ -26,7 +26,7 @@
 						</md-icon>
 					</div>
 					<div class="count">
-                        <small>Aligned Reads</small>
+                        <div class="small-header">Aligned Reads</div>
 						<h2>{{ ::(clinical.TOTAL_ALIGNED_READS | number) || 'Not available' }}</h2>
 					</div>
 				</div>
@@ -43,7 +43,7 @@
 						</md-icon>
 					</div>
 					<div class="count">
-						<small>Seq. Coverage</small>
+						<div class="small-header">Seq. Coverage</div>
 						<h2>{{ ::clinical.MEAN_SAMPLE_COVERAGE + 'X' || 'Not available' }}</h2>
 					</div>
 				</div>
@@ -60,7 +60,7 @@
 						</md-icon>
 					</div>
 					<div class="count">
-						<small>Tumor Purity</small>
+						<div class="small-header">Tumor Purity</div>
 						<h2>{{ ::(clinical.TUMOR_PURITY_PERCENT*100 | number:0) + '%' || 'Not available'}}</h2>
 					</div>
 				</div>

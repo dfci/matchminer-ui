@@ -12,11 +12,11 @@ angular.module('matchminerUiApp')
 		['$state', '$rootScope', '$document', '$q', '$stateParams', '$timeout',
 			'AutocompleteService', 'FiltersREST', 'ToastService', 'UtilitiesService',
 			'$mdDialog', 'Options', 'MatchminerApiSanitizer', 'TokenHandler',
-			'$log', '_', 'GraphService', 'ENV', 'UserAccount', 'moment',
+			'$log', '_', 'GraphService', 'ENV', 'UserAccount', 'moment', '$scope',
 			function ($state, $rootScope, $document, $q, $stateParams, $timeout,
 			          AutocompleteService, FiltersREST, ToastService, UtilitiesService,
 			          $mdDialog, Options, MatchminerApiSanitizer, tokenHandler,
-			          $log, _, GraphService, ENV, UserAccount, moment
+			          $log, _, GraphService, ENV, UserAccount, moment, $scope
 			) {
 				var vm = this;
 
@@ -63,7 +63,22 @@ angular.module('matchminerUiApp')
 
                 vm.selectedMutationalSignature = '';
 
-                // NOTE: 'Tobacco Status' is spelled wrong in the API as of 2/18
+                vm.testTypes = [
+				{
+                	displayName: 'OncoPanel',
+					name: 'oncopanel',
+					id: 0
+				},
+				{
+					displayName: 'Rapid Heme Panel',
+					name: 'rapid heme panel',
+					id: 1
+				}];
+                vm.selectedTestType = 0;
+
+                vm.allele_operator = "";
+                vm.allele_percentage = null;
+
                 vm.signatures =  [
                     {
                         id: 1,
@@ -181,6 +196,10 @@ angular.module('matchminerUiApp')
 					+ "who was 'Negative for ALK rearrangements.' </p>"
 					+ "<p>Users should therefore always carefully check the structural variant comment for each sample before "
 					+ "making a final decision.</p>";
+
+				var _RHPsvNotice = "RHP only calls structural rearrangements in FLT3 (FLT3 ITD)";
+				var _RHP_CNV_Notice = "Copy number alterations are only available for samples sequenced on RHP version 3.";
+
 				vm._geneAutocompleteChange = function(gene) {
 					if (!!gene) {
 						$log.debug("Auto change gene ", vm.filter, gene);
@@ -474,7 +493,7 @@ angular.module('matchminerUiApp')
 				};
 
 				/**
-				 * Save a new genomicfilter created in the wizard and notify user
+				 * Save a new genomic filter created in the wizard and notify user
 				 */
 				vm.saveFilter = function(filter) {
 					$log.debug("Saving genomic filter ", filter);
@@ -489,6 +508,8 @@ angular.module('matchminerUiApp')
 
 					// Sanitise genomic filter to make it compatible with the API.
 					var f = MatchminerApiSanitizer.transformGenomicFilter(angular.copy(filter), true, ['TRUE_HUGO_SYMBOL', 'VARIANT_CATEGORY', 'CNV_CALL']);
+					f = vm.addGenomicTestName(f);
+					f = vm.addAlleleFraction(f);
 					f = vm.cleanFilter(f);
 
 					FiltersREST.saveGenomicFilter(f)
@@ -523,6 +544,15 @@ angular.module('matchminerUiApp')
 						});
 				};
 
+				vm.addAlleleFraction = function(filter) {
+					if (Object.keys(vm.allele_operator).length > 0) {
+						var tmp_obj = {};
+						tmp_obj[vm.allele_operator] = vm.allele_percentage / 100;
+						filter.genomic_filter['ALLELE_FRACTION'] = tmp_obj;
+					}
+					return filter
+				};
+
                 /**
                  * When adding/updaing filters with mutational signatures, need to send a blank hugo symbol array so API doesn't crash
                  */
@@ -532,6 +562,23 @@ angular.module('matchminerUiApp')
                     }
                     return filter;
                 };
+
+				/**
+				 * Add test_name key to genomic and clinical filter
+				 * @param filter
+				 */
+				vm.addGenomicTestName = function(filter) {
+                	filter.genomic_filter.TEST_NAME = vm.testTypes[vm.selectedTestType].name;
+                	filter.clinical_filter.TEST_NAME = vm.testTypes[vm.selectedTestType].name;
+                	return filter
+				}
+
+                vm.clearAlleleOperator = function (filter) {
+                	vm.allele_operator = "";
+                	vm.allele_percentage = null;
+                	delete filter.genomic_filter.ALLELE_FRACTION;
+                	vm.hidePreviewGraph();
+				};
 
 				/**
 				 * Update a previously stored genomicfilter in the backend and notify user
@@ -553,8 +600,11 @@ angular.module('matchminerUiApp')
                     fc = vm.addBlankHugoSymbol(fc);
 
                     // Sanitize eve match resource.
-					var f = MatchminerApiSanitizer.transformGenomicFilter(angular.copy(fc), true, ['TRUE_HUGO_SYMBOL', 'VARIANT_CATEGORY', 'CNV_CALL']);
+					var f = MatchminerApiSanitizer.transformGenomicFilter(angular.copy(fc),true, ['TRUE_HUGO_SYMBOL', 'VARIANT_CATEGORY', 'CNV_CALL']);
 					f = MatchminerApiSanitizer.sanitizeEveResource(angular.copy(f), {}, true);
+					f = vm.addGenomicTestName(f);
+					f = vm.addAlleleFraction(f);
+					f = vm.cleanFilter(f);
 
 					delete f.description;
 
@@ -667,7 +717,8 @@ angular.module('matchminerUiApp')
 						}
 
 						// Show warning to user when selecting a SV genomic alteration
-						if (alt.variant_category == 'SV') {
+						// for OncoPanels
+						if (alt.variant_category == 'SV' && vm.selectedTestType === 0) {
 							var alert
 								= $mdDialog
 								.alert()
@@ -678,6 +729,26 @@ angular.module('matchminerUiApp')
 								.finally(function() {
 									alert = undefined;
 								});
+						//	Show different notice for RHP SV's
+						} else if (vm.selectedTestType === 1) {
+							var notice = null;
+							if (alt.variant_category === 'SV') {
+								notice = _RHPsvNotice
+							} else if (alt.variant_category === 'CNV') {
+								notice = _RHP_CNV_Notice
+							}
+							if (!!notice) {
+								var alert
+								= $mdDialog
+								.alert()
+								.htmlContent(notice)
+								.ok('OK');
+							$mdDialog
+								.show( alert )
+								.finally(function() {
+									alert = undefined;
+								});
+							}
 						}
 
 						vm.filter.genomic_filter['VARIANT_CATEGORY'].push(alt.variant_category);
@@ -723,6 +794,10 @@ angular.module('matchminerUiApp')
 					vm.filter.genomic_filter = {};
 					vm.filter.genomic_filter.WILDTYPE = false;
 					vm.filter.genomic_filter.TRUE_HUGO_SYMBOL = [];
+					vm.filter.genomic_filter.TRUE_PROTEIN_CHANGE = [];
+					vm.selectedTestType = 0;
+					vm.allele_percentage = null;
+					vm.allele_operator = "";
 
 					if(!vm.filter.genomic_filter.VARIANT_CATEGORY) {
 						vm.filter.genomic_filter.VARIANT_CATEGORY = {};
@@ -922,11 +997,14 @@ angular.module('matchminerUiApp')
 					$log.debug("Sanitizing intermediate filter object.");
 
 					var f = MatchminerApiSanitizer.sanitizeEveResource(angular.copy(filter), {}, true);
+					f = vm.addGenomicTestName(f);
+					f = vm.addAlleleFraction(f);
 					var tf =  MatchminerApiSanitizer.transformGenomicFilter(
 						f,
 						true,
 						['TRUE_HUGO_SYMBOL', 'VARIANT_CATEGORY', 'CNV_CALL']
 					);
+
 					var intermediateFilter = angular.copy(tf);
 					// Force to intermediate status.
 					intermediateFilter.status = 2;
@@ -1054,15 +1132,21 @@ angular.module('matchminerUiApp')
 							vm.isLoadingFilter = false;
 							vm.filter.num_samples = filter.num_samples;
 
-							//Reset allele_percentage for display
-							if (vm.allele_percentage < 1 && vm.allele_percentage != null) {
-								vm.allele_percentage  = vm.allele_percentage * 100;
-							}
+							vm.normalizeAllelePercentage();
 
 						}).catch(_errorQuery);
 				};
 
 
+				/**
+				 * Normalize allele_percentage for display - 
+				 * makes it to be within (0-100)
+				 */
+				vm.normalizeAllelePercentage = function() {
+					if (vm.allele_percentage != null && vm.allele_percentage < 1) {
+						vm.allele_percentage  = parseInt(vm.allele_percentage * 100);
+					}
+				};
 				/**
 				 * Iterate over the list of genomic alterations and toggle the
 				 * present CNV / SV alterations on or off.
@@ -1243,16 +1327,30 @@ angular.module('matchminerUiApp')
 								$log.error("Unknown report date field. ", reportDate);
 							}
 						}
+
+						// Process clinical filter test name
+						var testName = filter.clinical_filter.TEST_NAME;
+						if (!!testName) {
+							angular.forEach(vm.testTypes, function(test) {
+								if (test.name === testName) {
+									vm.selectedTestType = test.id
+								}
+							})
+						}
 					}
 
 					/* Sanitise filter from API object to UI object */
 					vm.filter = MatchminerApiSanitizer.transformGenomicFilter(filter, false, ['TRUE_HUGO_SYMBOL', 'VARIANT_CATEGORY', 'CNV_CALL']);
 
-					if(vm.filter.genomic_filter.TRUE_HUGO_SYMBOL.length == 1) {
+					if (vm.filter.genomic_filter.TRUE_HUGO_SYMBOL.length == 1) {
 						$log.debug("Preloading data for ", vm.filter);
 						var gene = vm.filter.genomic_filter.TRUE_HUGO_SYMBOL[0];
 						vm.preloadTranscriptExonForGene(gene);
 						vm.preloadProteinChangesForGene(gene);
+					}
+
+					if (vm.filter.genomic_filter.TRUE_HUGO_SYMBOL.length >= 1) {
+						vm.isGeneSelected = true;
 					}
 
 					// Load mutational signature
@@ -1272,8 +1370,19 @@ angular.module('matchminerUiApp')
 						}
 					}
 
+					//Fill allele operator if present
+					if (filter.genomic_filter.ALLELE_FRACTION !== undefined) {
+						var alleleObj = filter.genomic_filter.ALLELE_FRACTION;
+						vm.allele_operator = Object.keys(alleleObj)[0];
+						
+						vm.allele_percentage = alleleObj[vm.allele_operator];
+						vm.normalizeAllelePercentage();
+					}
+
+					//When loading an existing filter, intermediate "draft" filters
+                    //do not need to be saved.
+					vm.filter.temporary = true;
 					ToastService.success("Successfully loaded genomic filter");
-					vm.fetchIntermediateFilterResults(vm.filter, false);
 				};
 
 				/**
@@ -1290,7 +1399,7 @@ angular.module('matchminerUiApp')
 					FiltersREST.findOne({id: fid}).$promise
 						.then( function(filter) {
 							$rootScope.loadedGenomicFilter = true;
-
+							vm._loadedGenomicFilter = true;
 							$log.debug("LOADING FILTER ", filter);
 
 							if(!filter.genomic_filter.VARIANT_CATEGORY) {

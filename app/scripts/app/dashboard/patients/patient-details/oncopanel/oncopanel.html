@@ -61,6 +61,7 @@
       <div layout="column">
         <patient-mutational-signatures is-embedded="false"
                                        clinical="::pdc.patient.additionalSignatures[0]"
+                                       filter="pdc.additionalMutationalSignatures"
                                        tooltip="pdc.getLayoutTooltipByVersion(id)"
                                        ng-if="pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)">
         </patient-mutational-signatures>

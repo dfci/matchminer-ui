@@ -102,6 +102,7 @@ angular.module('matchminerUiApp')
                         // Use the tokenHandler to set the etag which needs updating.
                         tokenHandler.set(match._etag);
                         match.MATCH_STATUS = newStat;
+                        match.is_disabled = false;
                         // Sanitize eve match resource.
                         var m = MatchminerApiSanitizer.sanitizeEveResource(angular.copy(match), _EMBEDDED, false);
                         var mu = MatchesREST.updateMatch(m).$promise;
@@ -181,7 +182,8 @@ angular.module('matchminerUiApp')
                     var q = {
                         FILTER_STATUS: service.getFilterStatus(),
                         MATCH_STATUS: service.getMatchStatus(),
-                        TEAM_ID: service.getTeamId()
+                        TEAM_ID: service.getTeamId(),
+                        "is_disabled": false
                     };
 
                     var tableDate = service.getTableDate();
@@ -481,7 +483,9 @@ angular.module('matchminerUiApp')
                             'mrn': match.PATIENT_MRN,
                             'from_details': false,
                             'filter_label': match.FILTER_ID.label,
-                            'filter_protocol_no': match.FILTER_ID.protocol_id
+                            'filter_protocol_no': match.FILTER_ID.protocol_id,
+                            'filter_id': match.FILTER_ID._id,
+                            'sample_id': match.sample_id
                         };
 
                         //Add mutational signature value

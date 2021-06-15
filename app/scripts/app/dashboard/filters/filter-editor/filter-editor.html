@@ -45,7 +45,8 @@
                                      md-selected="fe.selectedTab"
                                      id="genomicFilterWizard"
                                      md-no-disconnect="true">
-								<md-tab id="genomicsTab">
+
+                                <md-tab id="genomicsTab">
                                     <md-tab-label>
                                         <md-icon md-font-library="material-icons"
                                                  ng-if="fe.selectedTab == 0">navigate_next
@@ -56,7 +57,52 @@
                                         <md-content class="md-padding">
                                             <h2 class="md-title">Genomic attributes</h2>
 
-                                            <div layout="row" layout-align="space-between start">
+                                            <div layout="row">
+                                                <p>
+                                                    <md-icon class="label-icon"
+                                                             md-font-library="material-icons">
+                                                        local_hospital
+                                                    </md-icon>
+                                                    <strong>Data Source</strong>
+                                                </p>
+                                            </div>
+                                            <div class="md-padding">
+                                                <md-radio-group ng-model="fe.selectedTestType"
+                                                                ng-change="fe.cleanFilter(fe.filter)"
+                                                                ng-disabled="fe.isProcessingBusy"
+                                                                layout="row">
+                                                    <md-radio-button
+                                                            ng-repeat="testType in fe.testTypes"
+                                                            ng-value="testType.id"
+                                                            class="md-primary">
+                                                        {{ testType.displayName }}
+                                                    </md-radio-button>
+                                                </md-radio-group>
+                                            </div>
+
+                                            <div flex="50" layout="row"
+                                                 class="custom-background-notice"
+                                                 ng-if="fe.selectedTestType == 1">
+												<span style="margin-right: 25px">
+                                                    <md-icon class="md-orange"
+                                                             style="font-size: 40px;"
+                                                             md-font-library="material-icons">
+                                                        add_alert
+                                                    </md-icon>
+                                                </span>
+                                                <span>
+                                                    Rapid Heme Panel
+                                                filter creation is currently in beta. Questions? Feedback?<br/>
+												Please email <a
+                                                        style="color: blue; text-decoration: underline"
+                                                        href="mailto:matchminer@dfci.harvard.edu">matchminer@dfci.harvard.edu</a>
+                                                </span>
+
+                                            </div>
+
+                                            <div layout="row"
+                                                 ng-if="fe.selectedTestType === 0"
+                                                 layout-align="space-between start">
                                                 <p style="margin-left: 0; margin-bottom: 0">
                                                     <md-icon class="label-icon"
                                                              is-autocomplete
@@ -67,7 +113,8 @@
                                                 </p>
                                             </div>
                                             <md-autocomplete
-                                                    ng-disabled="fe.isGeneSelected || fe.isProcessingBusy"
+                                                    ng-disabled="fe.isGeneSelected || fe.isProcessingBusy || fe.selectedTestType === 1"
+                                                    ng-if="fe.selectedTestType === 0"
                                                     md-no-cache="true"
                                                     md-selected-item="fe.selectedSignature"
                                                     md-clear-button="true"
@@ -129,9 +176,11 @@
                                                         <span>
                                                             <strong>{{$chip}}</strong>
                                                         </span>
-													</md-chip-template>
-												</md-chips>
-												<div ng-if="!fe.filter.clinical_filter.cancerType && !fe.filter.genomic_filter.TRUE_HUGO_SYMBOL.length" ng-messages="filterForm.geneAutocomplete.$error" role="alert" multiple>
+                                                    </md-chip-template>
+                                                </md-chips>
+                                                <div ng-if="!fe.filter.clinical_filter.cancerType && !fe.filter.genomic_filter.TRUE_HUGO_SYMBOL.length && fe.selectedTestType === 0"
+                                                     ng-messages="filterForm.geneAutocomplete.$error"
+                                                     role="alert" multiple>
                                                     <div ng-message="required">You must at least
                                                         select a gene or a cancer type.
                                                     </div>
@@ -146,34 +195,48 @@
                                                 <md-input-container
                                                         ng-hide="!fe.filter.genomic_filter.TRUE_HUGO_SYMBOL || fe.filter.genomic_filter.TRUE_HUGO_SYMBOL.length > 1"
                                                         class="md-float-icon md-block md-input-has-messages">
-                                                <p><strong>Protein Change</strong></p>
-                                                <label></label>
-                                                <md-icon class="label-icon"
-                                                         md-font-library="material-icons">donut_large</md-icon>
-                                                <md-autocomplete
-                                                        md-selected-item-change="fe.fetchIntermediateFilterResults(fe.filter, fe.isReset)"
-                                                        ng-disabled="
-                                                                   !fe.filter.genomic_filter.TRUE_HUGO_SYMBOL
-                                                                || fe.filter.genomic_filter.TRUE_HUGO_SYMBOL.length != 1
-                                                                || fe.filter.genomic_filter.TRUE_TRANSCRIPT_EXON
-																|| fe.isProcessingBusy
-																|| fe.isLoadingProteinChanges
-                                                                || fe.isMutationalSignatureSelected"
-                                                        md-no-cache="true"
-                                                        md-input-name="proteinAutocomplete"
-                                                        md-select-on-match=false
-                                                        ng-model-options="{debounce: 200}"
-                                                        md-selected-item="fe.filter.genomic_filter.TRUE_PROTEIN_CHANGE"
-                                                        md-search-text="fe.data.searchTextProtein"
-                                                        md-item-text="protein"
-                                                        md-items="protein in fe.queryProteinChange(fe.data.searchTextProtein)"
-                                                        placeholder="Protein change">
-                                                    <span md-highlight-text="fe.data.searchTextProtein">{{protein}}</span>
-                                                    <md-not-found>
-                                                        No protein changes found matching "{{fe.data.searchTextProtein}}".
-                                                    </md-not-found>
-                                                </md-autocomplete>
-                                            </md-input-container>
+                                                    <p><strong>Protein Change</strong></p>
+                                                    <label></label>
+                                                    <md-icon class="label-icon"
+                                                             md-font-library="material-icons">
+                                                        donut_large
+                                                    </md-icon>
+                                                    <md-chips
+                                                        md-input-id="proteinAutocomplete"
+                                                        ng-model="fe.filter.genomic_filter.TRUE_PROTEIN_CHANGE"
+                                                        md-require-match="true"
+                                                        md-on-remove="fe.removeProtein($chip)">
+                                                        <md-autocomplete
+                                                                placeholder="Protein change"
+                                                                md-input-name="proteinAutocomplete"
+                                                                md-no-cache="true"
+                                                                md-select-on-match=false
+                                                                md-search-text="fe.data.searchTextProtein"
+                                                                md-items="protein in fe.queryProteinChange(fe.data.searchTextProtein)"
+                                                                md-selected-item="fe.data.selectedProtein"
+                                                                ng-disabled="
+                                                                       !fe.filter.genomic_filter.TRUE_HUGO_SYMBOL
+                                                                    || fe.filter.genomic_filter.TRUE_HUGO_SYMBOL.length != 1
+                                                                    || fe.filter.genomic_filter.TRUE_TRANSCRIPT_EXON
+                                                                    || fe.isProcessingBusy
+                                                                    || fe.isLoadingProteinChanges
+                                                                    || fe.isMutationalSignatureSelected"
+                                                                md-selected-item-change="fe._proteinAutocompleteChange(fe.data.selectedProtein)"
+                                                                md-item-text="protein"
+                                                        >
+                                                            <span md-highlight-text="fe.data.searchTextProtein">{{protein}}</span>
+                                                            <md-not-found>
+                                                                No protein changes found matching
+                                                                "{{fe.data.searchTextProtein}}".
+                                                            </md-not-found>
+                                                        </md-autocomplete>
+                                                        <md-chip-template>
+                                                        <span>
+                                                            <strong>{{$chip}}</strong>
+                                                        </span>
+                                                    </md-chip-template>
+                                                    </md-chips>
+                                                </md-input-container>
 
                                                 <md-input-container
                                                         ng-hide="!fe.filter.genomic_filter.TRUE_HUGO_SYMBOL || fe.filter.genomic_filter.TRUE_HUGO_SYMBOL.length > 1"
@@ -208,6 +271,73 @@
                                                         </md-not-found>
                                                     </md-autocomplete>
                                                 </md-input-container>
+
+                                                <md-input-container
+                                                        ng-hide="!fe.filter.genomic_filter.TRUE_HUGO_SYMBOL || fe.filter.genomic_filter.TRUE_HUGO_SYMBOL.length > 1"
+                                                        class="md-float-icon md-block"
+                                                        style="margin-bottom: 0px">
+                                                    <p><strong>Variant Allele Frequency</strong>
+                                                    </p>
+                                                    <label></label>
+                                                    <md-icon md-font-library="material-icons">
+                                                        subject
+                                                    </md-icon>
+
+                                                    <div layout-gt-sm="row">
+                                                        <md-input-container
+                                                                mdstyle="min-width: 200px">
+                                                            <label>Greater than/Less than</label>
+                                                            <md-select
+                                                                    ng-model="fe.allele_operator"
+                                                                    ng-change="fe.hidePreviewGraph()"
+                                                                    ng-disabled="fe.isProcessingBusy
+																		|| fe.isLoadingTranscriptExonData
+																		|| fe.isMutationalSignatureSelected">
+                                                                <md-option value="^gt">
+                                                                    Greater than
+                                                                </md-option>
+                                                                <md-option value="^lt">
+                                                                    Less than
+                                                                </md-option>
+                                                            </md-select>
+                                                        </md-input-container>
+
+                                                        <div layout="column"
+                                                             layout-align="start center"
+                                                             style="margin-bottom: 20px">
+                                                            <md-icon
+                                                                    ng-if="fe.allele_operator !== ''"
+                                                                    ng-click="fe.clearAlleleOperator(fe.filter)"
+                                                                    md-font-library="material-icons">
+                                                                clear
+                                                            </md-icon>
+                                                        </div>
+
+                                                        <md-input-container class="md-block"
+                                                                            flex-gt-sm
+                                                                            style="margin-left: 20px">
+                                                            <label>Percentage % (1-100)</label>
+                                                            <input name="allelePercentage"
+                                                                   ng-model="fe.allele_percentage"
+                                                                   ng-blur="fe.hidePreviewGraph()"
+                                                                   ng-disabled="fe.isProcessingBusy
+																		|| fe.isLoadingTranscriptExonData
+																		|| fe.isMutationalSignatureSelected"
+                                                                   placeholder="e.g. 5"
+                                                                   ng-pattern="/^[0-9]{1,3}$/">
+                                                            <div ng-messages="filterForm.allelePercentage.$error"
+                                                                 role="alert"
+                                                                 multiple>
+                                                                <div ng-message="pattern">
+                                                                    Please use whole numbers
+                                                                    without decimals or percentage
+                                                                    sign e.g. 5
+                                                                </div>
+                                                            </div>
+                                                        </md-input-container>
+                                                    </div>
+                                                </md-input-container>
+
                                                 <!-- Genomic alteration type -->
                                                 <md-input-container class="md-icon-float md-block">
                                                     <p><strong>Genomic Alteration Type</strong></p>
@@ -255,6 +385,7 @@
                                             <!-- Cancer type selector-->
                                             <md-input-container
                                                     flex
+                                                    ng-hide="fe.selectedTestType === 1"
                                                     class="md-float-icon md-block">
                                                 <p class="filter-editor-input"><strong>Cancer
                                                     Type</strong></p>
@@ -264,6 +395,7 @@
                                                 </md-icon>
                                                 <md-select ng-model="fe.selectedCancerTypeCategory"
                                                            name="cancerType"
+                                                           ng-disabled="fe.isProcessingBusy"
                                                            ng-change="fe.hidePreviewGraph()"
                                                            placeholder="All Cancer Types">
                                                     <md-option
@@ -295,7 +427,7 @@
                                                             flex
                                                             md-delay="200"
                                                             md-no-cache="true"
-                                                            ng-disabled="fe.selectedCancerTypeCategory != '_SPECIFIC_' || fe.isLoadingOncotreeData"
+                                                            ng-disabled="fe.selectedCancerTypeCategory != '_SPECIFIC_' || fe.isLoadingOncotreeData || fe.isProcessingBusy"
                                                             md-select-on-match="true"
                                                             md-selected-item="fe.selectedCancerType"
                                                             md-search-text="fe.data.searchOncotreeText"
@@ -490,7 +622,7 @@
                                                     </div>
                                                 </div>
                                                 <span style="margin-left:calc(100% - 24px); margin-top: -25px; position: absolute;">
-                                                   <md-icon aria-label="{{ ENV.resources.institution }} Protocol"
+                                                   <md-icon aria-label="Protocol"
                                                             md-font-library="material-icons">
                                                        info_outline
                                                    </md-icon>
@@ -503,77 +635,128 @@
                                                 </span>
                                             </md-input-container>
 
-											<h2 class="md-title md-primary">Badge</h2>
+                                            <h2 class="md-title md-primary">Badge</h2>
+                                            <div layout layout-sm="column" layout-wrap>
+                                                <!-- Badge preview -->
+                                                <div flex="50" layout="column"
+                                                     class="badge-preview-container">
+                                                    <div layout="row" layout-align="start start">
+                                                        <md-icon md-font-library="material-icons">
+                                                            visibility
+                                                        </md-icon>
+                                                        <label>Badge preview</label>
+                                                    </div>
+                                                    <genomic-filter-badge filter="fe.filter"/>
+                                                </div>
 
-											<div layout layout-sm="column" layout-wrap>
-												<!-- Badge preview -->
-												<div flex="50" layout="column" class="badge-preview-container">
-													<div layout="row" layout-align="start start">
-														<md-icon md-font-library="material-icons">visibility</md-icon>
-														<label>Badge preview</label>
-													</div>
-													<genomic-filter-badge filter="fe.filter" />
-												</div>
+                                                <!-- Badge text color -->
+                                                <div flex="50">
+                                                    <md-icon md-font-library="material-icons">
+                                                        format_color_text
+                                                    </md-icon>
+                                                    <label>Badge text color</label>
 
-												<!-- Badge text color -->
-												<div flex="50">
-													<md-icon md-font-library="material-icons">format_color_text</md-icon>
-													<label>Badge text color</label>
+                                                    <md-radio-group layout="row"
+                                                                    ng-model="fe.filter.badgeTextColor"
+                                                                    class="badge-text-color-group">
+                                                        <md-radio-button value="black"
+                                                                         class="md-primary">Black
+                                                        </md-radio-button>
+                                                        <md-radio-button value="white"
+                                                                         class="md-primary">White
+                                                        </md-radio-button>
+                                                    </md-radio-group>
+                                                </div>
+                                            </div>
 
-													<md-radio-group layout="row" ng-model="fe.filter.badgeTextColor" class="badge-text-color-group">
-														<md-radio-button value="black" class="md-primary">Black</md-radio-button>
-														<md-radio-button value="white" class="md-primary">White</md-radio-button>
-													</md-radio-group>
-												</div>
-											</div>
-										</md-content>
-									</md-tab-body>
-								</md-tab>
-								<md-tab>
-									<md-tab-label></md-tab-label>
-									<md-tab-body></md-tab-body>
-								</md-tab>
-							</md-tabs>
+                                            <h2 class="md-title md-primary">Notifications</h2>
+                                            <div flex="50" layout="row"
+                                                 class="custom-background-notice">
+                                                <span style="margin-right: 25px">
+                                                    <md-icon class="md-orange"
+                                                             style="font-size: 40px;"
+                                                             md-font-library="material-icons">
+                                                        add_alert
+                                                    </md-icon>
+                                                </span>
+                                                <span>
+													Data is updated nightly. You will receive email
+													notifications when new patients are sequenced who
+													match your filter criteria.
+												</span>
+                                            </div>
+                                        </md-content>
+                                    </md-tab-body>
+                                </md-tab>
+                                <md-tab>
+                                    <md-tab-label></md-tab-label>
+                                    <md-tab-body></md-tab-body>
+                                </md-tab>
+                            </md-tabs>
 
-						</md-dialog-content>
-						<md-dialog-actions layout="row" layout-align="center end" layout-wrap class="tab-navigation-container">
-							<div ng-include="'scripts/app/dashboard/filters/partials/tab-navigation.html'"> </div>
-						</md-dialog-actions>
-					</div>
-					<div flex-sm="100" flex-gt-sm="50" class="plot-container">
-						<md-toolbar class="plot-container-toolbar" layout="row" flex="100"></md-toolbar>
-						<md-content class="md-padding">
+                        </md-dialog-content>
+                        <md-dialog-actions layout="row" layout-align="center end" layout-wrap
+                                           class="tab-navigation-container">
+                            <div ng-include="'scripts/app/dashboard/filters/partials/tab-navigation.html'"></div>
+                        </md-dialog-actions>
+                    </div>
+                    <div flex-sm="100" flex-gt-sm="50" class="plot-container">
+                        <md-toolbar class="plot-container-toolbar" layout="row"
+                                    flex="100"></md-toolbar>
+                        <md-content class="md-padding">
 							<div layout="column" layout-align="center center" class="filter-charts-column">
-								<div id="histogramPlot" class="filter-chart-container" >
-									<canvas ng-if="fe.filter.matches" chart-bar chart-data="fe.charts.matches.data" chart-labels="fe.charts.matches.labels" chart-options="fe.charts.matches.options" chart-colors="fe.charts.matches.colors"></canvas>
-								</div>
-								<div id="filterPlot" class="filter-chart-container" ng-style="{'min-height': fe.filter.enrollment ? '325px' : ''}">
-									<canvas ng-if="fe.filter.enrollment" chart-line chart-data="fe.charts.enrollment.data" chart-labels="fe.charts.enrollment.labels" chart-options="fe.charts.enrollment.options"></canvas>
-								</div>
-							</div>
-							<div id="plotResults" layout="column" layout-sm="column" layout-align="center center">
-								<div id="loadingPlot">
-									<div ng-include="'scripts/components/partials/loader.html'"> </div>
+                                <div id="histogramPlot"
+                                     layout="column"
+                                     layout-sm="column"
+                                     layout-align="center center"
+                                     class="filter-chart-container">
 
-									<p class="lead">
-										Calculating...
-									</p>
-								</div>
-								<div id="emptyPlot" >
-									<p class="lead">
-										Create or edit a genomic filter to view results
-									</p>
-								</div>
-								<div id="noPlotData">
-									<p class="lead">
-										Selected filter characteristics will currently not yield any matches
-									</p>
-								</div>
-							</div>
-						</md-content>
-					</div>
-				</div>
-			</ng-form>
-		</div>
+                                    <md-card style="padding: 20px" ng-if="fe.filter.matches">
+                                        <md-card-title>
+                                            <span class="md-headline">Patient Matches</span>
+                                        </md-card-title>
+
+                                        <h2 style="text-align: center">{{fe.filter.num_samples || '-'}}</h2>
+                                    </md-card>
+                                </div>
+                                <div id="filterPlot" class="filter-chart-container"
+                                     ng-style="{'min-height': fe.filter.enrollment ? '325px' : ''}">
+                                    <canvas ng-if="fe.filter.enrollment" chart-line
+                                            chart-data="fe.charts.enrollment.data"
+                                            chart-labels="fe.charts.enrollment.labels"
+                                            chart-options="fe.charts.enrollment.options"></canvas>
+                                </div>
+                            </div>
+
+                            <div id="emptyPlot">
+                                <p style="font-size: 130%; font-weight: 400; margin-top: 100px" id="filterPreviewText">
+                                    Click to preview results of selected criteria.
+                                </p>
+                                <md-button class="md-raised md-primary"
+                                           ng-disabled="fe.isProcessingBusy || fe.allowPreview(fe.filter)"
+                                           ng-click="fe.fetchIntermediateFilterResults(fe.filter, false)">
+                                    Preview
+                                </md-button>
+                            </div>
+
+							<div id="plotResults" layout="column" layout-sm="column" layout-align="center center">
+                                <div id="loadingPlot">
+                                    <div ng-include="'scripts/components/partials/loader.html'"></div>
+                                    <p class="lead">
+                                        Calculating...
+                                    </p>
+                                </div>
+                                <div id="noPlotData">
+                                    <p class="lead">
+                                        Selected filter characteristics will currently not yield
+                                        any matches
+                                    </p>
+                                </div>
+                            </div>
+                        </md-content>
+                    </div>
+                </div>
+            </ng-form>
+        </div>
     </div>
 </section>

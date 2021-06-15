@@ -28,7 +28,7 @@
                              ng-disabled="ctf.isLoading" analytics-on="click" analytics-event="Filter Clinical Trial"
                              analytics-category="Clinical Trials" analytics-label="{{filter.name}} - {{option.name}}"
                              ng-click="ctf.toggleFilter(option.filterName || filter.name, option.filterAggregator || filter.aggregator, option.key, option.name)">
-                    {{ option.name }}
+                    {{ option.key }}
                     <span></span>
                     <span class="count">
                         ({{ option.count }})

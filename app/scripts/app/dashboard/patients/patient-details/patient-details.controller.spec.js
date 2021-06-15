@@ -166,6 +166,12 @@ describe('Controller: PatientDetailsCtrl', function () {
 				codons: [17],
 				exons: [],
 				entire_gene: []
+			},
+			"BRCA1-2": {
+				entry: [mockNegGen._items[3]],
+				codons: [17],
+				exons: [],
+				entire_gene: []
 			}
 		};
 	});

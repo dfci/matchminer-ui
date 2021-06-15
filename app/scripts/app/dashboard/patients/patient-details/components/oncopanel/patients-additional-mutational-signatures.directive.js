@@ -14,7 +14,8 @@ angular.module('matchminerUiApp')
 				variants: '=',
 				filter: '=',
 				isEmbedded: '=',
-				tooltip: '&'
+				tooltip: '&',
+				sigMut: '='
 			},
 			templateUrl: 'scripts/app/dashboard/patients/patient-details/templates/oncopanel/oncopanel-additional-mutational-signatures.html'
 		}

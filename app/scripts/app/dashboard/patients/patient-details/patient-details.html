@@ -68,16 +68,17 @@
 					<md-tab label="trial matches"
 					        analytics-on="click"
                             analytics-event="Navigate trial matches"
-                            analytics-category="Patients">
+                            analytics-category="Patients"
+                            analytics-name="{{pdc.patient.clinical.TEST_NAME}}">
 
 						<md-content class="md-padding">
-							<!-- Vital status banner -->
 							<patient-vital-status ctrl="pdc" clinical="::pdc.patient.clinical"></patient-vital-status>
 							<patient-multi-sample-select ctrl="pdc" clinical="::pdc.patient.clinical"></patient-multi-sample-select>
-							<div ui-view="clinical-trials-results"></div>
+                            <patient-not-matched ctrl="pdc" clinical="::pdc.patient.clinical"></patient-not-matched>
+							<div ui-view="clinical-trials-results" ng-if="pdc.vital_status == 'alive' && pdc.TEST_NAME == 'OncoPanel'" ></div>
 						</md-content>
 					</md-tab>
-					<md-tab ng-if="!ENV.demo"
+					<md-tab ng-if="!ENV.demo && pdc.patient.clinical.TEST_NAME == 'oncopanel'"
                             label="Oncopanel"
 					        analytics-on="click"
                             analytics-event="Navigate oncopanel"

@@ -27,6 +27,18 @@ angular.module('matchminerUiApp')
 	});
 
 angular.module('matchminerUiApp')
+	.filter('parseAlleleFraction', function () {
+		return function (input, scope) {
+			if (!!input) {
+				input = input * 100;
+				return parseFloat(input).toFixed(0)+"%";
+			} else {
+				return "N/A"
+			}
+		}
+	});
+
+angular.module('matchminerUiApp')
 	.filter('formatUnderscoreString', function () {
 		return function (input) {
 			if (!!input) {

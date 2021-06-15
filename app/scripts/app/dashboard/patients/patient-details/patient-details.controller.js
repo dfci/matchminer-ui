@@ -12,16 +12,16 @@ angular.module('matchminerUiApp')
         return function(input, secondary) {
             if (!angular.isObject(input)) return input;
             if (!angular.isFunction(secondary)) return input;
-
+            
             var array = [];
             for(var objectKey in input) {
                 array.push(input[objectKey]);
             }
-
+            
             array = _.partition(array, function(item) {
                 return secondary({collection: item})
             })
-
+            
             array = array.map(function(e) {
                 return e.sort(function(a, b){
                     a = parseInt(a[0].CNV_ROW_ID);
@@ -29,7 +29,7 @@ angular.module('matchminerUiApp')
                     return a - b;
                 })
             });
-
+            
             return _.flatten(array, true);
         }
     })
@@ -39,21 +39,25 @@ angular.module('matchminerUiApp')
 				var pc = this;
 				pc.sidebarScroll = 0;
 				pc.TEMPLATES = TEMPLATES.patient_view;
-
+				pc.ENV = ENV;
+				
 				pc.isCti = UserAccount.roles.indexOf('cti') > -1;
 				pc.isOncologist = UserAccount.roles.indexOf('oncologist') > -1;
 				pc.isAdmin = UserAccount.roles.indexOf('admin') > -1;
 				pc.resize = true;
-
+				pc.vital_status = null;
+				pc.TEST_NAME = '';
+				pc.immunoprofile = null;
+								
 				if (pc.patient) {
 					ClinicalTrialsService.setMRN(pc.patient.clinical.MRN);
 				}
-
+				
                 var lastWidth, currentWidth, initialWidth, lastScroll, currentScroll, scrollReset, recentSidebarSwitch;
                 lastWidth = currentWidth = initialWidth = $window.innerWidth;
                 lastScroll = currentScroll = 0;
                 scrollReset = recentSidebarSwitch = true;
-
+				
                 pc.showAnyFilters = function(cnvs) {
                     return _.some(cnvs, function(cnv) {return cnv.FILTER && cnv.FILTER.length > 0});
                 };
@@ -87,21 +91,21 @@ angular.module('matchminerUiApp')
 					}, function(isGtSm) {
 						pc.isGtSm = isGtSm;
 				});
-
+                
                 if (pc.isSafari) {
                     angular.element($window).bind('resize', function () {
                         lastWidth = currentWidth;
                         currentWidth = $window.innerWidth;
                         pc.shouldShowSpacingWidth = checkSidebarSpacingWidth(lastWidth, currentWidth);
                     });
-
+    
                     angular.element($window).bind('scroll', function () {
                         lastScroll = currentScroll;
                         currentScroll = $window.scrollY;
-                        // checkSidebarSpacingScroll(lastScroll, currentScroll);
+                        checkSidebarSpacingScroll(lastScroll, currentScroll);
                     });
                 }
-
+                
                 var checkSidebarSpacingWidth = function(last, current) {
                     if (initialWidth >= 1200 && current <= 1200 && scrollReset) {
                         pc.resize = true;
@@ -123,7 +127,7 @@ angular.module('matchminerUiApp')
                     }
                     return false;
                 }
-
+                
                 var checkSidebarSpacingScroll = function(last, current) {
                     if (last <= 193 && current > 193) {
                         scrollReset = true;
@@ -161,7 +165,7 @@ angular.module('matchminerUiApp')
 
 				angular.extend(pc.dtPmOpts, {
 					"columns": [
-						{"width": "20%"}, null, null, null, null, null, null, null
+						{"width": "30%"}, null, null, null, null, null, null, null
 					]
 				});
 
@@ -235,9 +239,9 @@ angular.module('matchminerUiApp')
 
 					return patientDetailsBasePath + "/tooltips/point-mutation/tier-" + tier + ".html";
 				};
-
+				
 				pc.additionalMutationalSignatures = function(variants) {
-
+					
 					var specVariants = {
 						APOBEC: variants.APOBEC_STATUS,
 						POLE: variants.POLE_STATUS,
@@ -245,16 +249,16 @@ angular.module('matchminerUiApp')
 						TEMOZOLOMIDE: variants.TEMOZOLOMIDE_STATUS,
 						UVA: variants.UVA_STATUS
 					};
-
+					
 					var specVariantsValues = _.reduce(specVariants, function(agg, val, key){
 						if (val !== null && val.toLowerCase() === "yes") {
 							agg.push(key);
 						}
 						return agg;
 					}, []);
-
+					
 					var mutSigValues = _.values(specVariants);
-
+					
 					if (!_.isEmpty(specVariantsValues)) {
 						return specVariantsValues.map(function(val) {
 							return val + " signature was detected (see comment).";
@@ -432,6 +436,82 @@ angular.module('matchminerUiApp')
 					pc.patient = {};
 					pc.isLoading = true;
 					pc.patient.clinical = patient;
+
+					pc.vital_status = patient.VITAL_STATUS.toLowerCase();
+					if (patient.TEST_NAME === "oncopanel") {
+						pc.TEST_NAME = 'OncoPanel';
+						pc.loadOncopanelDetails(patient)
+					} else if (patient.TEST_NAME === "rapid heme panel") {
+						pc.TEST_NAME = 'Rapid Heme Panel';
+						pc.patient.rapidhemepanel = {};
+						pc.selectedTab = 1;
+						pc.loadRapidHemePanelDetails(patient)
+					} else if (patient.TEST_NAME === "immunoprofile") {
+						pc.TEST_NAME = 'ImmunoProfile';
+						pc.selectedTab = 1;
+						pc.patient.immunoprofile = {};
+						pc.loadImmunoprofileDetails()
+					}
+				};
+
+				pc.loadRapidHemePanelDetails = function (patient) {
+					return $q.all([
+						pc._queryRHPVariants(pid, patient.SAMPLE_ID),
+						pc._queryRHPCNVs(pid, patient.SAMPLE_ID),
+						pc._queryRHPCNVPertNeg(pid, patient.SAMPLE_ID),
+						pc._queryRHPFLT3(pid, patient.SAMPLE_ID),
+						pc._queryRHPVus(pid, patient.SAMPLE_ID),
+						pc._queryWildtypeCodon(pid, patient.SAMPLE_ID),
+						pc._queryInsufficientCoverage(pid, patient.SAMPLE_ID),
+						pc._queryRHPPanel()
+					])
+						.spread(function (snvSids, cnvs, cnvsPertNegs, flt3, vus, wildtypeCodons, insufCov, genePanel) {
+							pc.patient.rapidhemepanel.snvSid = snvSids._items;
+							pc.patient.rapidhemepanel.cnvs = cnvs._items;
+							pc.patient.rapidhemepanel.cnvsPertNegs = cnvsPertNegs._items;
+							pc.patient.rapidhemepanel.flt3 = flt3._items;
+							pc.patient.rapidhemepanel.vus = vus._items;
+							pc.patient.rapidhemepanel.wildtypeCodons = wildtypeCodons._items;
+							pc.patient.rapidhemepanel.insufCov = insufCov._items;
+							pc.patient.rapidhemepanel.genePanel = genePanel.panel;
+
+							//When displaying copy number analysis, always show pertinent negative
+							//information by subtracting values present in current sample against
+							//3 relevant genes for heme cancer.
+							var cnvsPertNegsToRet = [];
+							var pertNegs = ["TKZF1", "ERG", "KMT2A"];
+							_.each(pertNegs, function (pertNeg) {
+								var exists = false;
+								_.each(pc.patient.rapidhemepanel.cnvsPertNegs, function (cnvPertNeg) {
+									exists = true;
+									if (pertNeg === cnvPertNeg.TRUE_HUGO_SYMBOL) {
+										cnvsPertNegsToRet.push({
+											"TRUE_HUGO_SYMBOL": pertNeg,
+											"DETECTED": "Detected",
+											"CNV_CALL": cnvPertNeg.CNV_CALL
+										})
+									} else {
+										cnvsPertNegsToRet.push({
+											"TRUE_HUGO_SYMBOL": pertNeg,
+											"DETECTED": "Not Detected",
+											"CNV_CALL": null
+										})
+									}
+								});
+								if (!exists) {
+									cnvsPertNegsToRet.push({
+										"TRUE_HUGO_SYMBOL": pertNeg,
+										"DETECTED": "Not Detected",
+										"CNV_CALL": null
+									})
+								}
+							});
+							pc.patient.rapidhemepanel.cnvsPertNegs = _.uniq(cnvsPertNegsToRet, 'TRUE_HUGO_SYMBOL');
+							pc.isLoading = false;
+						})
+				};
+
+				pc.loadOncopanelDetails = function (patient) {
 					var sample_id = patient.SAMPLE_ID;
 
 					// Fetch genomic data
@@ -522,10 +602,11 @@ angular.module('matchminerUiApp')
 									var t = {};
 									for (var i = 0; i < pc.patient.negativeGenomics[cat].length; i++) {
 										var item = pc.patient.negativeGenomics[cat][i];
+										var symbol = item['true_hugo_symbol'] || item['camd_symbol'];
 
 										// add gene
-										if (!(item['true_hugo_symbol'] in t)) {
-											t[item['true_hugo_symbol']] = {
+										if (!(symbol in t)) {
+											t[symbol] = {
 												'codons': [],
 												'entire_gene': [],
 												'entry': [],
@@ -535,14 +616,14 @@ angular.module('matchminerUiApp')
 
 										// add regions
 										if (item['show_codon'] === true) {
-											t[item['true_hugo_symbol']]['codons'].push(item['true_codon'])
+											t[symbol]['codons'].push(item['true_codon'])
 										} else if (item['show_exon'] === true) {
-											t[item['true_hugo_symbol']]['exons'].push(item['true_transcript_exon'])
+											t[symbol]['exons'].push(item['true_transcript_exon'])
 										} else if (item['entire_gene'] === true) {
-											t[item['true_hugo_symbol']]['entire_gene'].push(true)
+											t[symbol]['entire_gene'].push(true)
 										}
 
-										t[item['true_hugo_symbol']]['entry'].push(item);
+										t[symbol]['entry'].push(item);
 
 									}
 
@@ -675,15 +756,22 @@ angular.module('matchminerUiApp')
 							pc.pd_l1_cps_percentile_tumor = pc.getPercentile(ip.pdl1.scores.cps.percentile_tumor);
 							pc.pd_l1_cps_percentile_total = pc.getPercentile(ip.pdl1.scores.cps.percentile_total);
 
-							//inflammatory cells
-							pc.pd_l1_ic_score = pc.getBiomarker(ip.pdl1.scores, "ic");
-							pc.pd_l1_ic_percentile_tumor = pc.getPercentile(ip.pdl1.scores.ic.percentile_tumor);
-							pc.pd_l1_ic_percentile_total = pc.getPercentile(ip.pdl1.scores.ic.percentile_total);
+							//ips (old inflammatory cells)
+							if (ip.pdl1.scores.ips != undefined) {
+								pc.pd_l1_ips_score = pc.getBiomarker(ip.pdl1.scores, "ips");
+								pc.pd_l1_ips_percentile_tumor = pc.getPercentile(ip.pdl1.scores.ips.percentile_tumor);
+								pc.pd_l1_ips_percentile_total = pc.getPercentile(ip.pdl1.scores.ips.percentile_total);
+							}
+							pc.ip_note_ips = pc.ipNoteIPS();
+							
 
-							//inflammatory cells area (breast cancer only)
-							pc.pd_l1_ica_score = pc.getBiomarker(ip.pdl1.scores, "ica");
-							pc.pd_l1_ica_percentile_tumor = pc.getPercentile(ip.pdl1.scores.ica.percentile_tumor);
-							pc.pd_l1_ica_percentile_total = '-';
+							//inflammatory cells area (breast cancer or v3)
+							pc.ip_hide_pdl1_ica = pc.ipHidePDL1_ICA();
+							if (ip.pdl1.scores.ica != undefined) {
+								pc.pd_l1_ica_score = pc.getBiomarker(ip.pdl1.scores, "ica");
+								pc.pd_l1_ica_percentile_tumor = pc.getPercentile(ip.pdl1.scores.ica.percentile_tumor);
+								pc.pd_l1_ica_percentile_total = pc.getPercentile(ip.pdl1.scores.ica.percentile_total);
+							}
 
 							//Biomarkers table
 							//cd8
@@ -732,8 +820,8 @@ angular.module('matchminerUiApp')
 
 							//reference comment
 							pc.ip_reference_comment = pc.detectUrl(ip.pdl1.summary.interpretation_reference);
-							pc.isLoading = false;
 						}
+						pc.isLoading = false;
 					})
 				};
 
@@ -780,4 +868,119 @@ angular.module('matchminerUiApp')
 					}
 				}
 
+				pc.toTitleCase = function (str) {
+					if (str.toLowerCase() === 'oncopanel') {
+						return 'OncoPanel'
+					} else {
+						str = str.toLowerCase().split(' ');
+						for (var i = 0; i < str.length; i++) {
+							str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+						}
+						return str.join(' ');
+					}
+				};
+
+				pc.getBiomarker = function (marker, type) {
+					var biomarker;
+					var stderr = marker[type].stderr === null ? 'N/A' : marker[type].stderr ;
+
+					if (marker[type].value === 0 && type !== 'ica') {
+						biomarker = '0 &plusmn; ' + stderr;
+					} else if (marker[type].value === 0 && type === 'ica') {
+						biomarker = marker[type].value;
+					} else if (marker[type].value && marker[type].value !== undefined) {
+						if (type === 'ica') {
+							biomarker = marker[type].value;
+						} else {
+							biomarker = marker[type].value + ' &plusmn; ' + stderr;
+						}
+					} else {
+						if (type === "tsi" || type === "it_tsi") {
+							biomarker = "N/A*"
+						} else {
+							biomarker = "N/A"
+						}
+					}
+					return biomarker
+				};
+
+				/***
+				 * Detect URL's and format comment as list
+				 * */
+				pc.detectUrl = function (comment_str) {
+					if (comment_str) {
+						var comment_arr = comment_str.split('\n');
+
+						if (comment_arr.length > 0) {
+							var to_ret = "<ul>";
+							var urlRegex =/(https?:\/\/[^\s]+)/ig;
+
+							//find and format URL's into list elements
+							for (var i = 0; i < comment_arr.length; i++) {
+								var comment = comment_arr[i];
+								//no URL's in epic
+								if (comment && !ENV.EPIC) {
+									comment = comment.replace(urlRegex, function (url) {
+										return '<a href="' + url + '"  target="_blank">' + url + '</a>';
+									});
+
+									to_ret += "<li>" + comment + '</li><br/>'
+								}
+							}
+							to_ret += "</ul>";
+							return to_ret;
+						}
+					} else {
+						return ""
+					}
+				};
+
+				pc.ipHidePDL1_ICA = function () {
+					var ip = pc.patient.immunoprofile;
+					var ip_diag = pc.patient.clinical.IP_DIAGNOSIS;
+
+					if ((ip.version == 1 || ip.version == 2) && ip_diag == 'Breast Cancer') {
+						return false;
+					}
+					if (ip.version > 2) {
+						return ip.pdl1.scores.ica.value === null;
+					}
+ 					return true;
+				}
+
+				pc.ipNoteIPS = function () {
+					var ip_v = pc.patient.immunoprofile.version;
+					var ip_diag = pc.patient.clinical.IP_DIAGNOSIS;
+
+					if (ip_diag == 'Lung Cancer' && ip_v == 2) {
+						return true;
+					}
+					if (ip_diag == 'Bladder Cancer' && (
+						ip_v == 1 || ip_v == 2)) {
+						return true;
+					}
+					return false;
+				}
+
+				pc.getPercentile = function (num) {
+					if (num || num === 0) {
+						var j = num % 10,
+						k = num % 100,
+						ord = 'th';
+
+						if (j === 1 && k !== 11) {
+							ord = 'st'
+						}
+						if (j === 2 && k !== 12) {
+							ord = 'nd'
+						}
+						if (j === 3 && k !== 13) {
+							ord = 'rd'
+						}
+
+						return num.toString() + '<sup>' + ord + '</sup>'
+					} else {
+						return '-'
+					}
+				}
 			}]);

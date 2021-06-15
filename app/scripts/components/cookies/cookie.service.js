@@ -2,8 +2,19 @@
 
 angular.module('matchminerUiApp')
 	.service('CookieService',
-		['$cookies', '$log', function ($cookies, $log) {
+		['$cookies', '$log', 'ENV', function ($cookies, $log, ENV) {
 			var _userDetails = null;
+
+			this.setHideBanner = function() {
+				var in_n_Days = new Date(new Date().getTime() + (ENV.bannerExpirationDays * 24 * 60 * 60 * 1000));
+				return $cookies.put('hideBanner', true, {
+					expires: in_n_Days
+				});
+			};
+
+			this.getHideBanner = function() {
+				return $cookies.get('hideBanner');
+			}
 
 			this.hasRequestToken = function () {
 				return $cookies.get('token') != null;

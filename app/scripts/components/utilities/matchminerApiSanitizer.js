@@ -78,28 +78,6 @@ angular.module('matchminerUiApp')
 				if (angular.isString(filter.genomic_filter[field]) && !toApi) {
 					var v = filter.genomic_filter[field];
 					filter.genomic_filter[field] = [v];
-					/*
-					 * Check if array
-					 * Transform from UI array type to a API valid object
-					 */
-				} else if (angular.isArray(filter.genomic_filter[field]) && toApi) {
-					var v = filter.genomic_filter[field];
-					filter.genomic_filter[field] = {};
-					filter.genomic_filter[field]['^in'] = v;
-
-				} else if (angular.isObject(filter.genomic_filter[field]) && !toApi) {
-					/*
-					 * Check if object
-					 * Check if valid API object, if valid transform to UI compatible array
-					 */
-					$log.info(angular.isArray(filter.genomic_filter[field]));
-					// Is mongo valid API object
-					if ('^in' in filter.genomic_filter[field]) {
-						var v = filter.genomic_filter[field]['^in'];
-						filter.genomic_filter[field] = [];
-						filter.genomic_filter[field] = v;
-						$log.info("Transformed ^in array of object to array. ", filter.genomic_filter[field]);
-					}
 				}
 
 				if (toApi

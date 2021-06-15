@@ -32,3 +32,23 @@
     }
   }
 }
+
+.filters-wrapper .filter-table tbody tr td {
+  cursor: default;
+}
+
+.dashboard-content.filter-editor {
+  md-select[disabled] {
+    cursor: not-allowed;
+  }
+  md-input-container input[disabled] {
+    cursor: not-allowed;
+  }
+}
+
+//There is a bug on the filter editor page where genomic alteration checkboxes are
+//not able to be disabled properly. This CSS class disables user click actions as
+//a temporary workaround.
+.cover-wrap {
+  pointer-events: none;
+}

@@ -243,14 +243,64 @@
 				<table md-table md-row-select multiple="true" ng-model="dbm.selectedMatches">
 					<thead md-head md-order="dbm.tableOpts.sort" md-on-reorder="dbm.onOrderChange">
 					<tr md-row>
-						<th md-column md-order-by="PATIENT_MRN">MRN</th>
-						<th md-column md-order-by="FILTER_NAME">Filter</th>
-						<th md-column md-order-by="ONCOTREE_PRIMARY_DIAGNOSIS_NAME" class="match-oncotree-diagnosis">Cancer diagnosis</th>
-						<th md-column md-order-by="TRUE_HUGO_SYMBOL">Genomic alteration(s)</th>
-                        <th md-column md-order-by="TIER" style="max-width: 50px !important;">Tier</th>
-						<th md-column md-order-by="REPORT_DATE">Report date</th>
-						<th md-column md-order-by="DATE_CONTACTED" ng-if="dbm.matchStatus == 5">Date contacted</th>
-						<th md-column>Action</th>
+						<th md-column
+                            analytics-on="click"
+                            analytics-event="Sort matches by MRN"
+                            analytics-category="Patient Match"
+                            md-order-by="PATIENT_MRN">
+                            MRN
+                        </th>
+						<th md-column
+                            md-order-by="FILTER_NAME"
+                            analytics-on="click"
+                            analytics-event="Sort matches by filter label"
+                            analytics-category="Patient Match">
+                            Filter
+                        </th>
+						<th md-column
+                            md-order-by="ONCOTREE_PRIMARY_DIAGNOSIS_NAME"
+                            class="match-oncotree-diagnosis"
+                            analytics-on="click"
+                            analytics-event="Sort matches by diagnosis"
+                            analytics-category="Patient Match">
+                            Cancer diagnosis
+                        </th>
+						<th md-column
+                            md-order-by="TRUE_HUGO_SYMBOL"
+                            analytics-on="click"
+                            analytics-event="Sort matches by alteration"
+                            analytics-category="Patient Match">
+                            Genomic alteration(s)
+                        </th>
+                        <th md-column
+                            md-order-by="TIER"
+                            analytics-on="click"
+                            analytics-event="Sort matches by actionability"
+                            analytics-category="Patient Match">
+                            Actionability
+                        </th>
+                        <th md-column
+                            md-order-by="ALLELE_FRACTION"
+                            analytics-on="click"
+                            analytics-event="Sort matches by allele frequency"
+                            analytics-category="Patient Match">
+                            Variant <br/>allele frequency
+                        </th>
+						<th md-column
+                            md-order-by="REPORT_DATE"
+                            analytics-on="click"
+                            analytics-event="Sort matches by report date"
+                            analytics-category="Patient Match">
+                            Report date
+                        </th>
+						<th md-column
+                            md-order-by="DATE_CONTACTED"
+                            analytics-on="click"
+                            analytics-event="Sort matches by date contacted"
+                            analytics-category="Patient Match"
+                            ng-if="dbm.matchStatus == 5">
+                            Date contacted</th>
+						<th md-column class="match-action-col">Action</th>
 					</tr>
 					</thead>
 					<tbody md-body>
@@ -280,6 +330,7 @@
 						<td md-cell></td>
 						<td md-cell></td>
                         <td md-cell></td>
+                        <td md-cell></td>
 						<td md-cell>
 							<md-select placeholder="Date reported"
 							           md-selected-html="dbm.getSelectedDateText()"
@@ -307,12 +358,12 @@
 					    ng-if="!dbm.isLoading"
 					    class="match-row"
 					    matchstatus="{{match.status}}">
-						<td md-cell>
-							<a ng-click="dbm.gotoPatientDetails($event, match.CLINICAL_ID._id)"
+						<td md-cell class="mrn-column ">
+							<a ng-click="dbm.gotoPatientDetails($event, match)"
 					           analytics-on="click"
                                analytics-event="Navigate to patient details from filter matches"
                                analytics-category="Patient Match"
-                               analytics-label="{{match.CLINICAL_ID._id}}">
+                               analytics-label="{{match.CLINICAL_ID.TEST_NAME}}">
 							<span class="match-patient-record">
 								<md-icon aria-label="Show patient record"
 										 md-font-library="material-icons">
@@ -326,7 +377,11 @@
 							<genomic-filter-badge filter="match.FILTER_ID"
 							                      filter-link="#/filters/{{match.FILTER_ID._id}}"></genomic-filter-badge>
 						</td>
-						<td md-cell><span class="td-small">{{ match.CLINICAL_ID.ONCOTREE_PRIMARY_DIAGNOSIS_NAME || '-' }}</span>
+						<td md-cell>
+                            <span ng-if="match.CLINICAL_ID.TEST_NAME !== 'rapid heme panel'"
+                                    class="td-small">{{ match.CLINICAL_ID.ONCOTREE_PRIMARY_DIAGNOSIS_NAME || '-' }}
+                            </span>
+                            <span ng-if="match.CLINICAL_ID.TEST_NAME == 'rapid heme panel'" class="td-small">N/A</span>
 						</td>
 						<td md-cell
                             class="genomic-alteration-column"
@@ -345,14 +400,24 @@
 							</div>
 							<div layout="column" ng-if="!match.GENOMIC_ALTERATION">
 								<span class="td-lead" ng-if="match.VARIANTS[0].VARIANT_CATEGORY == 'MUTATION'">
-									<b>Gene: </b> {{ match.TRUE_HUGO_SYMBOL || '-' }} - {{ match.VARIANTS[0].TRUE_PROTEIN_CHANGE || '-' }}
-								  <span class="small"><i>({{ (match.VARIANTS[0].TRUE_VARIANT_CLASSIFICATION |
-									  formatUnderscoreString) || '-' }})</i></span>
+									<b>Gene: </b> {{ match.VARIANTS[0].TRUE_HUGO_SYMBOL || '-' }}
+                                    <span ng-if="match.VARIANTS[0].TRUE_PROTEIN_CHANGE">
+                                        - {{ match.VARIANTS[0].TRUE_PROTEIN_CHANGE || '-' }}
+                                    </span>
+								  <span class="small" ng-if="match.VARIANTS[0].TRUE_VARIANT_CLASSIFICATION">
+                                      <i>({{ (match.VARIANTS[0].TRUE_VARIANT_CLASSIFICATION | formatUnderscoreString) || '-' }})</i>
+                                  </span>
 								</span>
 								<span class="td-lead" ng-if="match.VARIANTS[0].VARIANT_CATEGORY == 'CNV'">
-									<b>Gene: </b> {{ match.TRUE_HUGO_SYMBOL || '-' }} - <span class="small"><i>{{
-									match.VARIANTS[0].CNV_CALL ||
-									'-' }}</i></span>
+									<b>Gene: </b> {{ match.VARIANTS[0].TRUE_HUGO_SYMBOL || '-' }}
+                                    <span class="small" ng-if="match.VARIANTS[0].CNV_CALL">
+                                        - {{match.VARIANTS[0].CNV_CALL ||'-' }}
+                                        <i>
+                                            <span ng-if="match.VARIANTS[0].COPY_COUNT != null && match.VARIANTS[0].CNV_CALL == 'High level amplification'">
+                                                (est. {{ match.VARIANTS[0].COPY_COUNT }} copies)
+                                            </span>
+                                        </i>
+                                    </span>
 								</span>
 								<span class="td-lead" ng-if="match.VARIANTS[0].VARIANT_CATEGORY == 'SV'">
 									<b>Gene: </b>
@@ -367,44 +432,57 @@
                                     </span>
 								</span>
 								<span class="td-lead" ng-if="match.ONCOTREE_BIOPSY_SITE_TYPE">
-									<b>Biopsy site: </b> {{ match.ONCOTREE_BIOPSY_SITE_TYPE }}
+									<b>Biopsy site type: </b> {{ match.ONCOTREE_BIOPSY_SITE_TYPE }}
 								</span>
 								<span class="td-small" layout="row" layout-align="space-between center">
 								  <b>Category:&nbsp;</b> {{ match.VARIANTS[0].VARIANT_CATEGORY }}
 								  <span flex> </span>
-								  <span class="small md-red" ng-if="match.VARIANTS[0].VARIANT_CATEGORY == 'SV' && match.CLINICAL_ID.PDF_LAYOUT_VERSION <= 2">
+								</span>
+                                <span class="small md-red"
+                                        ng-if="match.VARIANTS[0].VARIANT_CATEGORY == 'SV' && match.CLINICAL_ID.PDF_LAYOUT_VERSION <= 2">
 									<i>Manual Review Required</i>
 								  </span>
-								</span>
                                 <span class="td-lead" ng-if="match.VARIANTS[0].VARIANT_CATEGORY == 'SIGNATURE'">
 									<b>Mutational Signature: </b> {{ match.MUTATIONAL_SIGNATURE || '-' }}
 								</span>
 							</div>
 						</td>
                         <td md-cell>
-                            {{ dbm.filterMatchTier(match) }}
+                            {{ ::dbm.filterMatchTier(match) }}
+                        </td>
+                        <td md-cell>
+                            <div>
+                                {{ match.VARIANTS[0].ALLELE_FRACTION | parseAlleleFraction }}
+                            </div>
                         </td>
 						<td md-cell>
-							{{ ( match.REPORT_DATE | parsedate | date: "EEE, d MMM y") || 'Not available' }}
+							{{ ( match.REPORT_DATE | parsedate) || 'Not available' }}
 						</td>
 						<td md-cell ng-if="dbm.matchStatus == 5">
-							{{ ( match.DATE_CONTACTED | parsedate | date: "EEE, d MMM y") || 'Not available' }}
+							{{ ( match.DATE_CONTACTED | parsedate) || 'Not available' }}
 						</td>
 
 						<td md-cell>
 							<span class="match-action">
-								<md-icon md-font-library="material-icons" ng-click="dbm.emailProvider($event, match)"
-								         analytics-on="click" analytics-event="Emailed provider" analytics-category="Patient Match">
+								<md-icon md-font-library="material-icons"
+                                         ng-click="dbm.emailProvider($event, match)"
+								         analytics-on="click"
+                                         analytics-event="Emailed provider"
+                                         analytics-label="{{match.CLINICAL_ID._id}}"
+                                         analytics-category="Patient Match">
 									mail
 								</md-icon>
 								<md-tooltip md-autohide md-direction="top">
-									{{ dbm.TEMPLATES.email_provider_tooltip }}
+									{{ dbm.TEMPLATES.email_provider_tooltip }} {{ match.CLINICAL_ID.ORD_PHYSICIAN_EMAIL }}
 								</md-tooltip>
 							</span>
 							<span class="match-action" ng-if="dbm.isContactable(match)">
 								<md-icon md-font-library="material-icons"
 								         ng-click="dbm.updateStatus([match], 5)"
-								         analytics-on="click" analytics-event="Marked as contacted" analytics-category="Patient Match">
+								         analytics-on="click"
+                                         analytics-label="{{match.CLINICAL_ID._id}}"
+                                         analytics-event="Marked as contacted"
+                                         analytics-category="Patient Match">
 									forward
 								</md-icon>
 								<md-tooltip md-autohide md-direction="top">
@@ -429,9 +507,9 @@
 					</tr>
 					<tr md-row
 					    ng-cloak ng-if="dbm.isLoading">
-						<td md-cell colspan="6">
+						<td md-cell colspan="8">
 							<div layout="column" flex layout-align="center center">
-								<div ng-include="'scripts/components/partials/loader.html'"> </div>
+								<div ng-include="'scripts/components/partials/loader.html'"></div>
 
 								<h3>Loading matches...</h3>
 							</div>
@@ -440,9 +518,15 @@
 					</tbody>
 				</table>
 			</md-table-container>
-			<md-table-pagination md-limit-options="[10, 15, 25, 50, 100]" md-limit="dbm.tableOpts.max_results"
-			                     md-page="dbm.tableOpts.page" md-total="{{dbm.totalElements}}"
-			                     md-on-paginate="dbm.onPaginationChange"></md-table-pagination>
+			<md-table-pagination md-limit-options="[10, 15, 25, 50, 100]"
+                                 md-limit="dbm.tableOpts.max_results"
+			                     md-page="dbm.tableOpts.page"
+                                 md-total="{{dbm.totalElements}}"
+                                 analytics-event="Matches page clicked pagination"
+                                 analytics-category="Patient Match"
+                                 analytics-on="click"
+			                     md-on-paginate="dbm.onPaginationChange">
+            </md-table-pagination>
 		</div>
 	</div>
 

@@ -1,5 +1,5 @@
 <div class="card" ng-if="::clinical.VITAL_STATUS == 'deceased'">
-	<div layout="row" layout-align="center center" class="card-header">
+	<div layout="row" layout-align="start center" class="card-header">
 		<div class="patient-info-banner" layout="row">
 			<div layout="row">
 				<md-icon aria-label="Patient Deceased"
@@ -17,7 +17,6 @@
 			</span>
 		</div>
 
-		<span flex> </span>
 		<div ng-if="::pdc.patient.clinical.RELATED.length > 0">
 			<md-button class="md-raised md-default" ng-click="pdc.sampleSelect(pdc.patient.clinical)"
 			           analytics-on="click" analytics-event="View multi sample" analytics-category="Patients" analytics-label="Patient deceased">

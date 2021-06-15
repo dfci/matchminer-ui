@@ -91,11 +91,18 @@
 						{{ (pdc.patient.clinical.REPORT_DATE | parsedate) || 'Not available' }}
 					</td>
 				</tr>
+
+                <tr class="patient-detail-container">
+					<td class="patient-detail-label">Molecular Test</td>
+					<td class="patient-detail">
+						{{ ::pdc.TEST_NAME }}
+					</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
 
-	<div ng-if="pdc.selectedTab == 0 && pdc.numTrials">
+	<div ng-if="pdc.selectedTab == 0 && pdc.numTrials && pdc.patient.clinical.TEST_NAME === 'oncopanel'">
 		<div ui-view="clinical-trials-filters" flex="noshrink"></div>
 	</div>
 
@@ -195,6 +202,139 @@
 					list
 				</md-icon>
 				Contact and References
+			</li>
+		</ul>
+	</div>
+
+    <div ng-if="pdc.selectedTab == 1 && pdc.patient.clinical.TEST_NAME === 'immunoprofile'" class="sidebar-options">
+		<h3>Sections</h3>
+		<ul class="menu">
+			<li du-scrollspy="patientRecord"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('patientRecord')"
+			    analytics-on="click"
+                analytics-event="Navigate immunoprofile"
+                analytics-category="Patients"
+                analytics-label="Patient Record">
+				<md-icon md-font-library="material-icons">
+					assignment
+				</md-icon>
+				Patient Record
+			</li>
+            <li du-scrollspy="summaryOfResults"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('summaryOfResults')"
+			    analytics-on="click"
+                analytics-event="Navigate immunoprofile"
+                analytics-category="Patients"
+                analytics-label="Summary of Results">
+				<md-icon md-font-library="material-icons">
+					assessment
+				</md-icon>
+				Summary of Results
+			</li>
+			<li du-scrollspy="detailedAssessment"
+			    offset="150"
+                ng-if="!pdc.patient.immunoprofile.failed_sign_out"
+			    ng-click="pdc.scrollToSection('detailedAssessment')"
+			    analytics-on="click"
+                analytics-event="Navigate immunoprofile"
+                analytics-category="Patients"
+                analytics-label="Detailed Assessment">
+				<md-icon md-font-library="material-icons">
+					line_style
+				</md-icon>
+				Detailed Assessment
+			</li>
+			<li du-scrollspy="methodology"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('methodology')"
+			    analytics-on="click"
+                analytics-event="Navigate immunoprofile"
+                analytics-category="Patients"
+                analytics-label="Methodology">
+				<md-icon md-font-library="material-icons">
+					pageview
+				</md-icon>
+				Methodology
+			</li>
+            <li du-scrollspy="contactsAndReferences"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('contactsAndReferences')"
+			    analytics-on="click"
+                analytics-event="Navigate immunoprofile"
+                analytics-category="Patients"
+                analytics-label="Contact and References">
+				<md-icon md-font-library="material-icons">
+					list
+				</md-icon>
+				Contact
+			</li>
+		</ul>
+	</div>
+
+    <div ng-if="pdc.selectedTab == 1 && pdc.patient.clinical.TEST_NAME === 'rapid heme panel'" class="sidebar-options">
+		<h3>Sections</h3>
+		<ul class="menu">
+			<li du-scrollspy="rhpPatientRecord"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('rhpPatientRecord')"
+			    analytics-on="click"
+                analytics-event="Navigate immunoprofile"
+                analytics-category="Patients"
+                analytics-label="Patient Record">
+				<md-icon md-font-library="material-icons">
+					assignment
+				</md-icon>
+				Patient Record
+			</li>
+            <li du-scrollspy="rhpResults"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('rhpResults')"
+			    analytics-on="click"
+                analytics-event="Navigate rapid heme panel"
+                analytics-category="Patients"
+                analytics-label="RHP Results">
+				<md-icon md-font-library="material-icons">
+					linear_scale
+				</md-icon>
+				Actionable Results
+			</li>
+			<li du-scrollspy="rhpAdditionalFindings"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('rhpAdditionalFindings')"
+			    analytics-on="click"
+                analytics-event="Navigate rapid heme panel"
+                analytics-category="Patients"
+                analytics-label="RHP Results">
+				<md-icon md-font-library="material-icons">
+					youtube_searched_for
+				</md-icon>
+				Additional Findings
+			</li>
+            <li du-scrollspy="rhpInterpretation"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('rhpInterpretation')"
+			    analytics-on="click"
+                analytics-event="Navigate rapid heme panel"
+                analytics-category="Patients"
+                analytics-label="RHP Results">
+				<md-icon md-font-library="material-icons">
+					mode_comment
+				</md-icon>
+				Interpretation
+			</li>
+            <li du-scrollspy="rhpTestInformation"
+			    offset="150"
+			    ng-click="pdc.scrollToSection('rhpTestInformation')"
+			    analytics-on="click"
+                analytics-event="Navigate rapid heme panel"
+                analytics-category="Patients"
+                analytics-label="RHP Results">
+				<md-icon md-font-library="material-icons">
+					list
+				</md-icon>
+				Test Information
 			</li>
 		</ul>
 	</div>

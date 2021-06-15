@@ -19,7 +19,7 @@
 				<tr md-row class="trial"
 				    ng-show="!psrc.isLoading"
 				    ng-repeat="patient in psrc.patientsDisplay | limitTo: psrc.metadata.page_size: (psrc.metadata.current_page  - 1) * psrc.metadata.page_size"
-				    analytics-on="click" analytics-event="Navigate to details" analytics-category="Patients"
+				    analytics-on="click" analytics-category="Patients" analytics-event="{{patient.length > 1 ? 'View multi sample' : 'Navigate to details'}}" analytics-name="{{patient.length > 1 ? 'On search results' : patient[0].TEST_NAME}}"
 				    ng-click="psrc.navigateToDetails($event, patient[0])">
 
 						<td md-cell>Redacted for Privacy</td>

@@ -9,7 +9,8 @@ angular.module('matchminerUiApp')
 			scope: {
 				clinical: '=',
 				isEmbedded: '=',
-				tooltip: '&'
+				tooltip: '&',
+				filter: '='
 			},
 			templateUrl: 'scripts/app/dashboard/patients/patient-details/templates/oncopanel/oncopanel-mutational-signatures.html'
 		}

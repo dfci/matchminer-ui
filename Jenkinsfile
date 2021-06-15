@@ -8,8 +8,12 @@ pipeline {
     stages {
         stage('install') {
             steps {
-                sh 'npm install'
-                sh 'bower --allow-root --config.interactive=false install'
+                sh 'yarn install'
+                sh """
+                    rm -rf node_modules && \
+                    rm -rf bower_components && \
+                    yarn install
+                    """
             }
         }
         stage('build') {

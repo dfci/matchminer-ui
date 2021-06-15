@@ -8,8 +8,8 @@
  * Controller of the matches overview page
  */
 angular.module('matchminerUiApp')
-	.controller('MatchesCtrl', ['$scope', '$rootScope', '$state', '$log', '$q', 'MatchesService', 'UtilitiesService', 'ToastService', 'UserAccount', 'FiltersREST', 'TokenHandler', 'MatchminerApiSanitizer', 'Mailto', 'TEMPLATES', '_', '$window', 'TrialMatchService', '$mdSelect', '$mdMenu',
-		function ($scope, $rootScope, $state, $log, $q, MatchesService, UtilitiesService, ToastService, UserAccount, FiltersREST, tokenHandler, MatchminerApiSanitizer, Mailto, TEMPLATES, _, $window, TrialMatchService, $mdSelect, $mdMenu) {
+	.controller('MatchesCtrl', ['$scope', '$rootScope', '$state', '$log', '$q', 'MatchesService', 'UtilitiesService', 'ToastService', 'UserAccount', 'FiltersREST', 'TokenHandler', 'MatchminerApiSanitizer', 'Mailto', 'TEMPLATES', '_', '$window', 'TrialMatchService', '$mdSelect', '$mdMenu', '$stateParams',
+		function ($scope, $rootScope, $state, $log, $q, MatchesService, UtilitiesService, ToastService, UserAccount, FiltersREST, tokenHandler, MatchminerApiSanitizer, Mailto, TEMPLATES, _, $window, TrialMatchService, $mdSelect, $mdMenu, $stateParams) {
 			var dbm = this;
 
 			$log.debug("Loading matchesservice");
@@ -96,10 +96,10 @@ angular.module('matchminerUiApp')
 			 * Stop row click event propagation for table row select and
 			 * load patient details.
 			 */
-			dbm.gotoPatientDetails = function(event, patient_id) {
+			dbm.gotoPatientDetails = function(event, match) {
 				event.stopPropagation();
 				TrialMatchService.setNumberOfTrialMatches(null);
-				$state.go('patient', {patient_id: patient_id});
+				$state.go('patient', {patient_id: match.CLINICAL_ID._id});
 			};
 
 			dbm._handleSuccess = function (result) {
@@ -302,8 +302,15 @@ angular.module('matchminerUiApp')
 			/*
 			 * Perform page initialization
 			 */
-			dbm._loadMatches(MatchesService.getMatchStatus(), true);
-			dbm._loadFilters();
+			//If there are preset filters passed from another page, set filter
+			if (!!$stateParams.filter_id) {
+				MatchesService.setTableFilters([$stateParams.filter_id]);
+				dbm._loadMatches(1, true);
+			} else {
+				dbm._loadMatches(MatchesService.getMatchStatus(), true);
+			}
+            dbm._loadFilters();
+
 
             /**
 			 * Display TIER value for Oncoanel patients.
@@ -313,7 +320,18 @@ angular.module('matchminerUiApp')
              * @returns {*}
              */
 			dbm.filterMatchTier = function (match) {
-				return (Number.isInteger(match.TIER) && !match.MULTIPLE_GENOMIC_ALTERATIONS) ? match.TIER : 'N/A'
+				var to_ret = 'N/A';
+				if (match.CLINICAL_ID.TEST_NAME.toLowerCase() === 'oncopanel') {
+                   return (Number.isInteger(match.TIER) && !match.MULTIPLE_GENOMIC_ALTERATIONS) ? 'Tier ' + match.TIER : to_ret
+				} else if (match.CLINICAL_ID.TEST_NAME.toLowerCase() === 'rapid heme panel') {
+					if ('PATHOGENICITY_PATHOLOGIST' in match.VARIANTS[0]) {
+						to_ret = match.VARIANTS[0].PATHOGENICITY_PATHOLOGIST;
+						if (to_ret === 'PATHOGENIC') {
+							to_ret = 'Pathogenic'
+						}
+					}
+				}
+				return to_ret
 			}
 		}]);
 

@@ -126,6 +126,10 @@ angular.module('matchminerUiApp')
 				}
 			};
 
+			dbf.gotoPatientMatches = function (id) {
+				$state.go('matches', {"filter_id": id});
+			};
+
 			/**
 			 * Create a new filter in the filter editor
 			 */
@@ -179,4 +183,18 @@ angular.module('matchminerUiApp')
 			};
 
 			dbf.loadAvailableFilters();
+
+			dbf.toTitleCase = function (str) {
+				if (str.toLowerCase() === 'oncopanel') {
+					return 'OncoPanel'
+				} else if (str == null) {
+					return ''
+				} else {
+					str = str.toLowerCase().split(' ');
+					for (var i = 0; i < str.length; i++) {
+						str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+					}
+					return str.join(' ');
+				}
+			};
 		}]);

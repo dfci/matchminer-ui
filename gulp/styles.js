@@ -3,6 +3,7 @@
 var path = require('path');
 var gulp = require('gulp');
 var conf = require('./conf');
+var less = require('gulp-less');
 
 var browserSync = require('browser-sync');
 
@@ -44,15 +45,10 @@ var buildStyles = function () {
 		addRootSlash: false
 	};
 
-
-	return gulp.src([
-			path.join(conf.paths.src, '/matchminer.less')
-		])
-		.pipe($.inject(injectFiles, injectOptions))
-		.pipe(wiredep(_.extend({}, conf.wiredep)))
+	return gulp.src('./app/styles/*.less')
 		.pipe($.sourcemaps.init())
-		.pipe($.less(lessOptions)).on('error', conf.errorHandler('Less'))
+    	.pipe(less({paths: [ path.join(__dirname, 'less', 'includes') ]}))
+		.pipe(gulp.dest(path.join(conf.paths.tmp, '/serve/app/')))
 		.pipe($.autoprefixer()).on('error', conf.errorHandler('Autoprefixer'))
-		.pipe($.sourcemaps.write())
-		.pipe(gulp.dest(path.join(conf.paths.tmp, '/serve/app/')));
+		.pipe($.sourcemaps.write());
 };

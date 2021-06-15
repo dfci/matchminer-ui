@@ -93,6 +93,19 @@ angular.module('matchminerUiApp')
 							true_codon: 17,
 							show_codon: true,
 							true_hugo_symbol: "AKT1",
+							camd_symbol: "AKT1",
+							true_transcript_exon: null
+						},
+						{
+							_updated: "Thu, 01 Jan 1970 00:00:00 GMT",
+							clinical_id: "1234567890",
+							coverage: 10000,
+							coverage_type: "PN",
+							entire_gene: false,
+							sample_id: "TCGA-1111",
+							true_codon: 17,
+							show_codon: true,
+							camd_symbol: "BRCA1-2", //not a real gene
 							true_transcript_exon: null
 						}
 					]

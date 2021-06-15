@@ -9,8 +9,8 @@
  */
 angular.module('matchminerUiApp')
 	.controller('NavbarCtrl',
-		['$state', '$scope', '$log', '$document', '$window', 'Principal', 'Auth', 'ENV', 'UserAccount', 'Mailto',
-			function ($state, $scope, $log, $document, $window, Principal, Auth, ENV, UserAccount, Mailto) {
+		['$state', '$scope', '$log', '$document', '$window', 'Principal', 'Auth', 'ENV', 'UserAccount', 'Mailto', 'CookieService',
+			function ($state, $scope, $log, $document, $window, Principal, Auth, ENV, UserAccount, Mailto, CookieService) {
 				var vm = this;
 				vm.isAuthenticated = Principal.isAuthenticated();
 				vm.scroll = 0;
@@ -20,7 +20,6 @@ angular.module('matchminerUiApp')
 				vm.hasAuthority = Principal.hasAuthority;
 				vm.state = $state.current.name;
 				vm.userAccount = UserAccount;
-                vm.showBanner = true;
                 vm.loginText = ENV.demo ? 'Login' : 'Partners Login';
 
 				$scope.$watch(function() {
@@ -100,7 +99,17 @@ angular.module('matchminerUiApp')
 				}
 
 				vm.toggleBanner = function () {
-					sessionStorage.setItem('hideBanner', true);
+					CookieService.setHideBanner();
 					return vm.showBanner = !vm.showBanner;
 				}
+
+				vm.toShowBanner = function() {
+					/**
+					 * Allow a user to hide banner but reset after N days.
+					 * @type {string}
+					 */
+				    var hide = CookieService.getHideBanner();
+                    return !hide;
+                }
+
 			}]);

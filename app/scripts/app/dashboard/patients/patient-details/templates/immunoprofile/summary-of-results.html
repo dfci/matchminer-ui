@@ -26,46 +26,58 @@
         </div>
     </div>
 
-    <div layout="row" layout-align="start center">
-        <div flex="30" flex-sm="30" flex-xs="50" ng-hide="immunoprofile.pdl1.summary.pdl1_undef === undefined">
+    <div layout="row" layout-align="start center space-between" class="pdl1-cards-row">
+        <div class="pdl1-card" flex="30" flex-sm="30" flex-xs="50" ng-hide="immunoprofile.pdl1.summary.pdl1_undef === undefined">
             <div class="mini-charts-item ip-summary-card">
                 <div class="clearfix">
                     <div class="count">
-                        <small>PD-L1 Score</small>
-                        <h4 class="md-lightblue">{{ immunoprofile.pdl1.summary.pdl1_undef }}</h4>
+                        <h4 class="count-header">PD-L1 Score</h4>
+                        <div class="ip-summary-call md-lightblue">{{ immunoprofile.pdl1.summary.pdl1_undef }}</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div flex="30" flex-sm="30" flex-xs="50" ng-hide="immunoprofile.pdl1.summary.pdl1_mal === undefined">
+        <div class="pdl1-card" flex="30" flex-sm="30" flex-xs="50" ng-hide="immunoprofile.pdl1.summary.pdl1_tps === undefined">
             <div class="mini-charts-item ip-summary-card">
                 <div class="clearfix">
                     <div class="count">
-                        <small>PD-L1 Malignant Cells</small>
-                        <h4 class="md-lightblue">{{ immunoprofile.pdl1.summary.pdl1_mal }}</h4>
+                        <h4 class="count-header">PD-L1: Tumor Proportion Score (TPS)</h4>
+                        <div class="ip-summary-call md-lightblue">{{ immunoprofile.pdl1.summary.pdl1_tps }}</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div flex="33" flex-sm="33" flex-xs="50" ng-hide="immunoprofile.pdl1.summary.pdl1_inf === undefined">
+        <div flex="33" flex-sm="33" flex-xs="50" ng-hide="immunoprofile.pdl1.summary.pdl1_ips === undefined">
             <div class="mini-charts-item ip-summary-card">
                 <div class="clearfix">
                     <div class="count">
-                        <small>PD-L1 Inflammatory Cells</small>
-                        <h4 class="md-lightblue">{{ immunoprofile.pdl1.summary.pdl1_inf }}</h4>
+                        <h4 class="count-header">PD-L1: Inflammatory Proportion Score (non-tumor cells)<sup ng-if="ctrl.ip_note_ips">*</sup></h4>
+                        <div class="ip-summary-call md-lightblue">{{ immunoprofile.pdl1.summary.pdl1_ips }}</div>
+                        <small ng-if="ctrl.ip_note_ips"><sup>*</sup> Note this score is NOT the equivalent of a PD-L1 IC score.</small>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div flex="30" flex-sm="30" flex-xs="100" ng-hide="immunoprofile.pdl1.summary.pdl1_mal_inf === undefined">
+        <div class="pdl1-card" flex="30" flex-sm="30" flex-xs="100" ng-hide="immunoprofile.pdl1.summary.pdl1_cps === undefined">
             <div class="mini-charts-item ip-summary-card">
                 <div class="clearfix">
                     <div class="count">
-                        <small>PD-L1 Malignant & Inflammatory Cells</small>
-                        <h4 class="md-lightblue">{{ immunoprofile.pdl1.summary.pdl1_mal_inf }}</h4>
+                        <h4 class="count-header">PD-L1: Combined Positive Score (CPS)</h4>
+                        <div class="ip-summary-call md-lightblue">{{ immunoprofile.pdl1.summary.pdl1_cps }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pdl1-card" flex="30" flex-sm="30" flex-xs="100" ng-hide="immunoprofile.pdl1.summary.pdl1_ica === undefined">
+            <div class="mini-charts-item ip-summary-card">
+                <div class="clearfix">
+                    <div class="count">
+                        <h4 class="count-header">PD-L1: Inflammatory Cell Area Score (IC)</h4>
+                        <div class="ip-summary-call md-lightblue">{{ immunoprofile.pdl1.summary.pdl1_ica }}</div>
                     </div>
                 </div>
             </div>

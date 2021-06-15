@@ -4,7 +4,17 @@
         'dashboard-nav': (nbc.state != 'home' && nbc.state != 'clinicaltrials.overview')
 	}"
 >
-    <div layout="row" layout-padding layout-align="space-between center" class="nav-wrapper">
+<!--    <md-toolbar id="announcement-banner" class="md-info" ng-if="nbc.toShowBanner() && !ENV.EPIC" layout-padding layout="row" layout-align="space-between none">-->
+<!--        <span style="min-width: 97%">-->
+<!--            MatchMiner is now <a ui-sref="faq">available in Epic Hyperspace</a>. MatchMiner now also matches based on structural variants, tumor mutational burden and the full set of mutational signatures called by OncoPanel. <br/>Questions? Please email us at-->
+<!--            <a href="mailto:matchminer@dfci.harvard.edu.">matchminer@dfci.harvard.edu</a>-->
+<!--        </span>-->
+<!--        <md-icon aria-label="Close" md-font-library="material-icons" style="cursor: default; margin-top: 0px; margin-left: 10px" ng-click="nbc.toggleBanner()">-->
+<!--            close-->
+<!--        </md-icon>-->
+<!--    </md-toolbar>-->
+
+    <div layout="row"  layout-align="space-between center" class="nav-wrapper">
         <div hide show-gt-md>
             <a ui-sref="home"
                analytics-on="click" analytics-event="Navigate to home with logo" analytics-category="Navbar"
@@ -48,12 +58,13 @@
             </div>
 
             <div layout="column">
-                <span class="apply-for-access-header">Clinical Trial Investigator</span>
-                <md-button
-                        ng-click="nbc.applyForAccess()"
-                        analytics-on="click" analytics-event="Navigate to Apply for access" analytics-category="Navbar"
-                        analytics-label="Unauthenticated"
-                        class="md-default md-raised hero-btn-lg">
+                <md-button ui-sref-active="active"
+                           class="md-default md-raised hero-btn-lg"
+                           analytics-on="click"
+                           analytics-event="Navigate to Apply for Access"
+                           analytics-category="Navbar"
+                           analytics-label="Unauthenticated"
+                           ui-sref="apply-for-access">
                     <md-icon aria-label="Apply for access" md-font-library="material-icons">
                         question_answer
                     </md-icon>

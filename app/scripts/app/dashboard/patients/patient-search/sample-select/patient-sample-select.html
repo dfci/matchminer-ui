@@ -30,12 +30,10 @@
 					<div layout="column" layout-align="start start" class="patient-samples">
 						<div layout="row" ng-repeat="opt in ctrl.parent.sampleOptions | orderBy: 'SAMPLE_ID' track by $index" flex="100" class="sample-option-container">
 							<md-button class="md-raised md-default sample-option-button"
+							           analytics-on="click" analytics-event="Navigate to details" analytics-category="Patients" analytics-name="{{opt.TEST_NAME}}"
 							           ng-click="ctrl.parent.goToRecord(opt._id)">
-								<md-icon aria-label="Sample {{ $index + 1 }}"
-								         md-font-library="material-icons">
-									{{ ctrl.parent.sampleIcons[$index+1] }}
-								</md-icon>
 								{{ opt.SAMPLE_ID }}
+                                {{ opt.TEST_NAME }}
 								<span class="sample-date" flex>({{ (opt.REPORT_DATE | parsedate) || 'Not available'  }})</span>
 							</md-button>
 						</div>

@@ -40,10 +40,12 @@ angular.module('matchminerUiApp')
 				service.postTrialMatches = function() {
 					var matches = this.protocol_nos;
 					var mrn = this.mrn;
+					var sample_id = this.sample_id;
 					matches.forEach(function(match){
 						var q = {
 							'protocol_no': match,
 							'mrn': mrn,
+							'sample_id': sample_id,
 							'from_details': false
 						};
 						TrackingREST.queryTrialMatchesTracking(q).$promise
@@ -65,9 +67,11 @@ angular.module('matchminerUiApp')
 				service.postSelectedTrialMatch = function () {
 					var match = this.selected_protocol_no;
 					var mrn = this.mrn;
+					var sample_id = this.sample_id;
 					var q = {
 						'protocol_no': match,
 						'mrn': mrn,
+						'sample_id': sample_id,
 						'from_details': true
 					};
 					
