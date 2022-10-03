@@ -83,6 +83,7 @@
   "scripts": {
     "start": "gulp serve",
     "build": "gulp build",
+    "build-docker": "gulp build-docker",
     "test": "gulp test",
     "postinstall": "node -e \"try { require('fs').symlinkSync(require('path').resolve('node_modules/@bower_components'), 'bower_components', 'junction') } catch (e) { }\""
   },
