@@ -19,7 +19,7 @@ gulp.task('inject', ['scripts', 'styles'], function () {
 	var injectStyles = gulp.src([
 		path.join(conf.paths.tmp, '/serve/app/**/*.css'),
 		path.join('!' + conf.paths.tmp, '/serve/app/vendor.css')
-	], {read: false});
+	], {read: false}).pipe($.sort());
 
 	var injectScripts = gulp.src([
 			path.join(conf.paths.src, '/scripts/**/*.module.js'),
@@ -27,6 +27,7 @@ gulp.task('inject', ['scripts', 'styles'], function () {
 			path.join('!' + conf.paths.src, '/**/*.spec.js'),
 			path.join('!' + conf.paths.src, '/**/*.mock.js')
 		])
+		.pipe($.sort())
 		.pipe($.angularFilesort()).on('error', conf.errorHandler('AngularFilesort'));
 
 	var injectOptions = {
