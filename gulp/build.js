@@ -12,6 +12,7 @@ var $ = require('gulp-load-plugins')({
 
 gulp.task('partials', function () {
 	return gulp.src(path.join(conf.paths.src, '/scripts/**/*.html'))
+		.pipe($.sort())
 		.pipe($.htmlmin({
 			removeEmptyAttributes: false,
 			removeAttributeQuotes: false,
