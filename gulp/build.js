@@ -91,3 +91,5 @@ gulp.task('clean', function () {
 });
 
 gulp.task('build', ['config', 'load-templates', 'html', 'other']);
+
+gulp.task('build-docker', [ 'load-templates', 'html', 'other']);

@@ -1,0 +1,28 @@
+# Stage 1: build the app's static assets in a Node container.
+FROM node:11-slim AS builder
+
+RUN apt-get update && apt-get -y install bzip2
+
+WORKDIR /ui
+
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn install --frozen-lockfile
+
+# add files to context
+COPY app ./app
+COPY gulp ./gulp
+COPY gulpfile.js .
+COPY bower.json .
+COPY properties/templates.json ./properties/templates.json
+
+# build it
+RUN yarn run build-docker
+
+# Stage 2: serve the app itself using nginx.
+FROM nginx:stable-alpine
+
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx/40-adjust-index-html.sh /docker-entrypoint.d
+COPY --from=builder /ui/dist /usr/share/nginx/html
