@@ -18,10 +18,11 @@
 			</span>
 		</div>
 		<span flex> </span>
-		<div>
+		<div ng-if="ctrl.ENV.oncopanelPDFLink">
 			<md-button class="md-raised md-primary"
-			           ng-href="https://pcmp.partners.org/oncomap/"
-			           analytics-on="click" analytics-event="View OncoPanel PDF Report" analytics-category="Patients">
+								 ng-href="{{ctrl.ENV.oncopanelPDFLink}}"
+								 target="_blank"
+								 analytics-on="click" analytics-event="View OncoPanel PDF Report" analytics-category="Patients">
 				<md-icon aria-label="Patient Legend"
 				         md-font-library="material-icons">
 					assignment

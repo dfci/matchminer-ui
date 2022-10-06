@@ -38,7 +38,11 @@
       },
       "EPIC": false,
       "cBio": false,
+      "linkToHomePage": "https://matchminer.dfci.harvard.edu",
+      "allowsEpic": true,
+      "oncopanelPDFLink": "https://pcmp.partners.org/oncomap/",
       "accessRequestFormLink":  "https://forms.gle/AueFoDg2xLC72fup8",
+      "oncologistAccessLink": "https://wiki.dfci.harvard.edu:8443/rv/access-request-process",
       "demo": false,
       "bannerExpirationDays": 14
     }
@@ -78,7 +82,11 @@
       },
       "EPIC": false,
       "cBio": false,
+      "linkToHomePage": "https://matchminer.dfci.harvard.edu",
+      "allowsEpic": true,
+      "oncopanelPDFLink": "https://pcmp.partners.org/oncomap/",
       "accessRequestFormLink":  "https://forms.gle/AueFoDg2xLC72fup8",
+      "oncologistAccessLink": "https://wiki.dfci.harvard.edu:8443/rv/access-request-process",
       "demo": false,
       "bannerExpirationDays": 14
     }
@@ -118,7 +126,11 @@
       },
       "EPIC": false,
       "cBio": false,
+      "linkToHomePage": "https://matchminer.dfci.harvard.edu",
+      "allowsEpic": true,
+      "oncopanelPDFLink": "https://pcmp.partners.org/oncomap/",
       "accessRequestFormLink":  "https://forms.gle/AueFoDg2xLC72fup8",
+      "oncologistAccessLink": "https://wiki.dfci.harvard.edu:8443/rv/access-request-process",
       "demo": false,
       "bannerExpirationDays": 14
     }
