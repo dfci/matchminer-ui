@@ -25,7 +25,9 @@
                 IT through ServiceNow.
             </p>
 
-            <md-button href="https://wiki.dfci.harvard.edu:8443/rv/access-request-process"
+            <md-button ng-disabled="!ENV.oncologistAccessLink"
+                       ng-href="{{ENV.oncologistAccessLink}}"
+                       target="_blank"
                        class="md-primary md-raised">
                 <md-icon md-font-library="material-icons">
                     exit_to_app
@@ -45,7 +47,9 @@
             <p>
                 To apply for access, please fill out the form below.
             </p>
-            <md-button ng-click="ac.applyForAccess()"
+            <md-button ng-disabled="!ENV.accessRequestFormLink"
+                       ng-href="{{ENV.accessRequestFormLink}}"
+                       target="_blank"
                        class="md-primary md-raised">
                 <md-icon md-font-library="material-icons">
                     exit_to_app

@@ -53,10 +53,12 @@
                                     investigators can identify patients with a specific genomic alteration and get
                                     automatic email notifications of new patients who have received sequencing. Patient
                                     identification
-                                    and notification is only available to approved clinical trial investigators. To
-                                    apply for access, complete the <a class="faq-link"
+                                    and notification is only available to approved clinical trial investigators.
+                                    <span ng-if="fc.ENV.accessRequestFormLink">
+                                    To apply for access, complete the <a class="faq-link"
                                                                       href="{{ fc.ENV.accessRequestFormLink }}"
                                                                       target="_blank"> online registration form.</a>.
+                                    </span>
                                 </p>
                             </li>
                             <li>
@@ -79,9 +81,9 @@
                         <h3>
                             How can I access MatchMiner?
                         </h3>
-                        <p>
-                            MatchMiner may be accessed by navigating to <a class="faq-link"
-                                                                           href="https://matchminer.dfci.harvard.edu">https://matchminer.dfci.harvard.edu</a>,
+                        <p ng-if="fc.ENV.allowsEpic">
+                            MatchMiner may be accessed by navigating to
+                            <a class="faq-link" ng-href="{{ fc.ENV.linkToHomePage }}">{{ fc.ENV.linkToHomePage }}</a>,
                             or, through Epic Hyperspace. <br/><br/> To access MatchMiner in Epic when viewing a
                             patients chart, go to the "More" menu at the bottom left of the screen (<b>More > Rarely
                             Used > PHS Applications > MatchMiner</b>). <br/><br/>To access the MatchMiner Trial Search
@@ -89,6 +91,10 @@
                             Applications > DFCI Applications > MatchMiner Trial Search</b>). <br/><br/> We encourage you
                             to star access to MatchMiner, because this will give you easy access to MatchMiner from the
                             Activity Menu in the left sidebar.
+                        </p>
+                        <p ng-if="!fc.ENV.allowsEpic">
+                            MatchMiner may be accessed by navigating to
+                            <a class="faq-link" ng-href="{{ fc.ENV.linkToHomePage }}">{{ fc.ENV.linkToHomePage }}</a>.
                         </p>
                     </div>
                 </section>
