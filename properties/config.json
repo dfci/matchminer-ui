@@ -39,7 +39,8 @@
       "oncologistAccessLink": null,
       "hideSavePrintWarning": true,
       "bannerExpirationDays": 14,
-      "oncotreeLink": null
+      "oncotreeLink": null,
+      "immunoprofileEmail": null
     }
   }
 }

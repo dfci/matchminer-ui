@@ -13,11 +13,11 @@
         <div class="card-body card-padding">
             <h3 class="md-title">Contact</h3>
             For questions about the ImmunoProfile assay, please email
-            <a ng-if="!ctrl.ENV.EPIC" style="color: blue; text-decoration: underline" href="mailto:immunoprofile@ds.dfci.harvard.edu">
-                immunoprofile@ds.dfci.harvard.edu
+            <a ng-if="!ctrl.ENV.EPIC" style="color: blue; text-decoration: underline" href="mailto:{{::ctrl.ENV.immunoprofileEmail}}">
+                {{::ctrl.ENV.immunoprofileEmail}}
             </a>
             <span ng-if="ctrl.ENV.EPIC" style="color: blue; text-decoration: underline">
-                immunoprofile@ds.dfci.harvard.edu
+                {{::ctrl.ENV.immunoprofileEmail}}
             </span>
             </p>
         </div>
