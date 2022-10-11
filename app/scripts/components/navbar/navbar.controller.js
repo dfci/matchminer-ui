@@ -20,7 +20,7 @@ angular.module('matchminerUiApp')
 				vm.hasAuthority = Principal.hasAuthority;
 				vm.state = $state.current.name;
 				vm.userAccount = UserAccount;
-                vm.loginText = ENV.demo ? 'Login' : 'Partners Login';
+				vm.loginText = ENV.loginButtonText;
 
 				$scope.$watch(function() {
 					return $state.current.name;

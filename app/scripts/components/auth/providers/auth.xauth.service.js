@@ -14,8 +14,10 @@ angular.module('matchminerUiApp')
 			//when the demo flag is enabled, it expects a demo user to
 			//be present in the user collection. See README
 			service.login = function () {
-				if (ENV.demo) {
-					window.location.reload()
+				if (ENV.devUser) {
+					var deferred = $q.defer();
+					window.location.reload();
+					return deferred.promise;
 				} else {
 					$log.info("Logging in via Partners SAML");
 
@@ -29,7 +31,7 @@ angular.module('matchminerUiApp')
 
 			service.logout = function () {
 				$log.info("Logging out of MatchMiner. Clearing local storage.");
-				if (ENV.demo) {
+				if (ENV.devUser) {
 					$state.go('home')
 				} else {
 					var deferred = $q.defer();

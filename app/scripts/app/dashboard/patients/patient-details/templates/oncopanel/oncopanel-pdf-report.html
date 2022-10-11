@@ -7,13 +7,13 @@
 			         md-font-library="material-icons">
 				remove_red_eye
 			</md-icon>
-			<span ng-if="::clinical.TEST_TYPE != 'CLINICAL' && !ctrl.ENV.demo">
+			<span ng-if="::clinical.TEST_TYPE != 'CLINICAL' && !ctrl.ENV.hideSavePrintWarning">
 				Profile Research Cohort Report - For viewing only. Do not <i>save</i> or <i>print</i>.
 			</span>
-			<span ng-if="::clinical.TEST_TYPE == 'CLINICAL' && !ctrl.ENV.demo">
+			<span ng-if="::clinical.TEST_TYPE == 'CLINICAL' && !ctrl.ENV.hideSavePrintWarning">
 				Profile Clinical Report
 			</span>
-			<span ng-if="::ctrl.ENV.demo">
+			<span ng-if="::ctrl.ENV.hideSavePrintWarning">
 				Patient Clinical Report
 			</span>
 		</div>

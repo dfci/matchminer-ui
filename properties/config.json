@@ -11,6 +11,7 @@
         "host": "http://localhost:8001",
         "endpoint": "/api"
       },
+      "loginButtonText": "Login",
       "samlAuthentication": false,
       "devUser": {
         "token" : "fb4d6830-d3aa-481b-bcd6-270d69790e11",
@@ -40,7 +41,7 @@
       "oncopanelPDFLink": null,
       "accessRequestFormLink": null,
       "oncologistAccessLink": null,
-      "demo": false,
+      "hideSavePrintWarning": true,
       "bannerExpirationDays": 14
     }
   }
