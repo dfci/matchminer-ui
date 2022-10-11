@@ -30,24 +30,9 @@ function browserSyncInit(baseDir, browser) {
     var agent = environment === 'dev' ? null : https.globalAgent;
 
 	var matchMinerProxy = proxy('/api', {
-		target: config[environment].ENV.api.host,
-		changeOrigin: false,
+		target: config[environment].ENV.proxyHost,
 		logLevel: 'debug',
-		agent: agent,
-		secure: true,
-		https: true,
-		ssl: {
-			key: fs.readFileSync(config[environment].ENV.certificate.key, 'utf8'),
-			cert: fs.readFileSync(config[environment].ENV.certificate.cert, 'utf8')
-		}
-	});
-
-	var elasticSearchProxy = proxy('/elasticsearch', {
-		target: config[environment].ENV.elasticsearch.proxy,
-		logLevel: 'debug',
-		pathRewrite: {
-			'^/elasticsearch' : ''       // remove path
-		}
+		agent: agent
 	});
 
 	var server = {
@@ -57,7 +42,6 @@ function browserSyncInit(baseDir, browser) {
 			modRewrite([
 				'!\\.\\w+$ /index.html [L]'
 			]),
-			elasticSearchProxy,
 			matchMinerProxy
 		]
 	};
