@@ -41,7 +41,8 @@
       "accessRequestFormLink": null,
       "oncologistAccessLink": null,
       "hideSavePrintWarning": true,
-      "bannerExpirationDays": 14
+      "bannerExpirationDays": 14,
+      "oncotreeLink": null
     }
   }
 }

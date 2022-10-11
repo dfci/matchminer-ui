@@ -8,7 +8,8 @@ angular.module('matchminerUiApp')
 			replace: true,
 			scope: {
 				clinical: '=',
-				isEmbedded: '='
+				isEmbedded: '=',
+				oncotreeLink: '='
 			},
 			templateUrl: 'scripts/app/dashboard/patients/patient-details/templates/oncopanel/oncopanel-patient-record.html'
 		}

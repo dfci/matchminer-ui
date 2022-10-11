@@ -63,13 +63,13 @@
 						<div class="ps-body">
 							<dl>
 								<dt>
-                                    Primary Cancer Type
-                                    <small>
-                                        <a href="http://profile-app.dipr.partners.org/oncotree/"
-                                           style="color: blue"
-                                           target="_blank">(OncoTree Legacy v1.1)</a>
-                                    </small>
-                                </dt>
+									Primary Cancer Type
+									<small ng-if="::oncotreeLink">
+										<a ng-href="{{::oncotreeLink}}"
+											 style="color: blue"
+											 target="_blank">(OncoTree Legacy v1.1)</a>
+									</small>
+								</dt>
 								<dd>{{ ::clinical.ONCOTREE_PRIMARY_DIAGNOSIS_NAME || 'Not available' }}
 								</dd>
 								<dt>Biopsy Site</dt>
