@@ -78,45 +78,37 @@ angular.module('matchminerUiApp')
 				 * Environment requires SAML authentication
 				 */
 
-				if (ENV.samlAuthentication || ENV.devUser) {
-					$log.debug('SAML Auth required');
+				$log.debug('SAML Auth required');
 
-					// Does user have token?
-					if (CookieService.hasRequestToken()) {
-						$log.debug('CS has token. Setting localstorage.');
+				// Does user have token?
+				if (CookieService.hasRequestToken()) {
+					$log.debug('CS has token. Setting localstorage.');
 
-						// Retrieve the identity data from the server, set the identity.
-						Account.get({'id': CookieService.getUserId()}).$promise
-							.then(function (acc) {
-								if (!_identity) {
-									var username = acc.first_name + " " + acc.last_name;
-									$analytics.setUsername(username);
-								}
+					// Retrieve the identity data from the server, set the identity.
+					Account.get({'id': CookieService.getUserId()}).$promise
+						.then(function (acc) {
+							if (!_identity) {
+								var username = acc.first_name + " " + acc.last_name;
+								$analytics.setUsername(username);
+							}
 
-								_identity = acc;
-								_authenticated = true;
+							_identity = acc;
+							_authenticated = true;
 
-								deferred.resolve(_identity);
-							})
-							.catch(function () {
-								_identity = null;
-								_authenticated = false;
-								deferred.resolve(_identity);
-							});
-					} else {
-						$log.debug('SAML Required. No token found.');
-						// Clear possible existing user details
-						service.clearAuthentication();
-						_identity = null;
-						_authenticated = false;
-						deferred.resolve(_identity);
-					}
+							deferred.resolve(_identity);
+						})
+						.catch(function () {
+							_identity = null;
+							_authenticated = false;
+							deferred.resolve(_identity);
+						});
 				} else {
-					$log.warn('No SAML Auth set. Rejecting auth.');
-
-					_authenticated = false;
+					$log.debug('SAML Required. No token found.');
+					// Clear possible existing user details
+					service.clearAuthentication();
 					_identity = null;
-					deferred.reject(_identity);
+					_authenticated = false;
+					deferred.resolve(_identity);
 				}
 
 				return deferred.promise;

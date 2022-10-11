@@ -14,7 +14,6 @@ angular.module('matchminerUiApp')
 				var vm = this;
 				vm.isAuthenticated = Principal.isAuthenticated();
 				vm.scroll = 0;
-				vm.samlAuthenticated === ENV.samlAuthentication && vm.isAuthenticated;
 				vm.login = Auth.login;
 				vm.logout = Auth.logout;
 				vm.hasAuthority = Principal.hasAuthority;

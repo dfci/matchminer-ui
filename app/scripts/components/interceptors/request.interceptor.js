@@ -20,29 +20,27 @@ angular.module('matchminerUiApp')
 					}
 
 					// Environment requires authorization
-					if (ENV.samlAuthentication || ENV.devUser) {
-						// Check for dev env user
-						if (!!ENV.devUser) {
-							CookieService.setRequestToken(ENV.devUser.token);
-							CookieService.setUserId(ENV.devUser.user_id);
-						}
-
-						// Is cookie token set
-						if (CookieService.hasRequestToken()) {
-							config.headers['Authorization'] = 'Basic ' + btoa(CookieService.getRequestToken() + ':');
-						}
-
-                        // If url contains EPIC parameter, use restricted view
-                        if ($location.$$search.epic) {
-                            ENV.EPIC = true;
-                        }
-
-                        // If url contains cBioPortal parameter, use restricted view
-                        if ($location.$$search.cBio) {
-                            ENV.cBio = true;
-                        }
+					// Check for dev env user
+					if (!!ENV.devUser) {
+						CookieService.setRequestToken(ENV.devUser.token);
+						CookieService.setUserId(ENV.devUser.user_id);
 					}
 
+					// Is cookie token set
+					if (CookieService.hasRequestToken()) {
+						config.headers['Authorization'] = 'Basic ' + btoa(CookieService.getRequestToken() + ':');
+					}
+
+					// If url contains EPIC parameter, use restricted view
+					if ($location.$$search.epic) {
+						ENV.EPIC = true;
+					}
+
+					// If url contains cBioPortal parameter, use restricted view
+					if ($location.$$search.cBio) {
+						ENV.cBio = true;
+					}
+					
 					return config;
 				};
 
