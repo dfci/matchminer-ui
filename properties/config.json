@@ -25,7 +25,7 @@
       },
       "slsUrl": "https://partnershealthcare.oktapreview.com/home/partnershealthcarepreview_matchminerdev_1/0oae8lrmiwRFGqNDl0h7/alne8mj3ceJ5AtFGe0h7",
       "resources": {
-        "oncpro_base": "https://ctportal.partners.org/protocollookup_landing.asp?protid=",
+        "oncpro_base": null,
         "ctgov_base": "https://clinicaltrials.gov/ct2/show/",
         "logo": "dfci.jpg",
         "institution": "DFCI",
@@ -35,11 +35,11 @@
       },
       "EPIC": false,
       "cBio": false,
-      "linkToHomePage": "https://matchminer.dfci.harvard.edu",
+      "linkToHomePage": "https://localhost:8001",
       "allowsEpic": true,
-      "oncopanelPDFLink": "https://pcmp.partners.org/oncomap/",
-      "accessRequestFormLink":  "https://forms.gle/AueFoDg2xLC72fup8",
-      "oncologistAccessLink": "https://wiki.dfci.harvard.edu:8443/rv/access-request-process",
+      "oncopanelPDFLink": null,
+      "accessRequestFormLink": null,
+      "oncologistAccessLink": null,
       "demo": false,
       "bannerExpirationDays": 14
     }
