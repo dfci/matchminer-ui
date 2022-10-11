@@ -33,6 +33,10 @@ gulp.task('watch', ['inject'], function () {
 		}
 	});
 
+	gulp.watch(path.join(conf.paths.properties, '/config.json'), function (event) {
+		gulp.start('config');
+	});
+
 	gulp.watch(path.join(conf.paths.src, '/scripts/**/*.html'), function (event) {
 		browserSync.reload(event.path);
 	});
