@@ -542,7 +542,7 @@
 					</div>
 
 					<h4 class="detail-header">Prior Treatment Requirements</h4>
-					<span class="treatment-requirements-disclaimer md-red">
+					<span class="treatment-requirements-disclaimer md-red" ng-if="ctd.hasOncoPro">
 						Please refer to the most recent <a ng-hide="ENV.EPIC" class="treatment-requirements-disclaimer-link md-red" ng-click="ctd.visitOncoPro(ctd.trial.protocol_no)">protocol</a> <span ng-if="ENV.EPIC">protocol</span> document for a complete list of eligibility criteria.
 					</span>
 					<md-list>
@@ -613,6 +613,7 @@
 						     ng-if="ctd.trial">
 							<md-button class="md-raised trial-link"
 							           ng-click="ctd.visitOncoPro(ctd.trial.protocol_no)"
+												 ng-disabled="!ctd.hasOncoPro"
 							           analytics-on="click" analytics-event="Visit OncPro" analytics-category="Clinical Trials" analytics-label="{{ ctd.trial.protocol_no }}"
 							           ng-class="{
 							                'trial-watchlist-actions': ctd.isLargeMediaQuery,

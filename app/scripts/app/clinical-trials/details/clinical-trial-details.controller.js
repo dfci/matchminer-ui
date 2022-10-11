@@ -164,6 +164,8 @@ angular.module('matchminerUiApp')
 				$log.error("An error occurred while ", err)
 			};
 
+			ctd.hasOncoPro = !!(ENV.resources.oncpro_base);
+
 			ctd.visitOncoPro = function(protocol_id) {
 				var path = ENV.resources.oncpro_base + protocol_id;
 				window.open(path, '_blank');
