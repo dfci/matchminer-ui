@@ -150,9 +150,9 @@ angular
 			$mdThemingProvider.theme('success-toast');
 			$mdThemingProvider.theme('warn-toast');
 
-			// Set piwik tracking site id globally.
-			window._paq_vars = {};
-			window._paq_vars.piwik_site_id = ENV.tracking.piwik_site_id;
+			// Set matomo tracking site id globally.
+			// Note: matomo can mutate these; as a hack we stringify and parse the object to deep-copy it.
+			window._paq_vars = JSON.parse(JSON.stringify(ENV.matomo));
 
 			// Cache everything except rest api requests
 			httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*api.*/], true);

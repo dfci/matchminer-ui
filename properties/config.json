@@ -19,10 +19,7 @@
         "idleAllowed": 2700,
         "idleCountdown": 30
       },
-      "tracking": {
-        "enabled": false,
-        "piwik_site_id": null
-      },
+      "matomo": null,
       "slsUrl": null,
       "resources": {
         "oncpro_base": null,

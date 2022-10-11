@@ -5,16 +5,16 @@ updated 11/26/18
 	var _paq = window._paq || [];
 
 	_paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
-	_paq.push(["setCookieDomain", "*.matchminer.dfci.harvard.edu"]);
-	_paq.push(["setDomains", ["*.matchminer.dfci.harvard.edu"]]);
+	_paq.push(["setCookieDomain", _paq_vars.cookie_domain]);
+	_paq.push(["setDomains", _paq_vars.domains]);
 	_paq.push(['trackPageView']);
 	_paq.push(['enableLinkTracking']);
 	(function() {
-		var u="https://matchminer.dfci.harvard.edu/piwik/";
-		_paq.push(['setTrackerUrl', u+'piwik.php']);
-		_paq.push(['setSiteId', window._paq_vars.piwik_site_id ]);
+		_paq.push(['setTrackerUrl', _paq_vars.tracker_url + 'piwik.php']);
+		_paq.push(['setSiteId', window._paq_vars.site_id ]);
+          console.log('HERE', JSON.parse(JSON.stringify(_paq)));
 		var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-		g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+		g.type='text/javascript'; g.async=true; g.defer=true; g.src=_paq_vars.tracker_url+'piwik.js'; s.parentNode.insertBefore(g,s);
 	})();
     var ee = '';
     var f = ee;
