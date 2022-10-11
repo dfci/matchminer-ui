@@ -9,9 +9,10 @@
  */
 angular.module('matchminerUiApp')
 	.controller('EpicCtrl',
-		['$log', 'ENV',
-			function ($log, ENV) {
+		['$scope', '$log', 'ENV',
+			function ($scope, $log, ENV) {
 				var ec = this;
+				$scope.ENV = ENV;
 
 				return ec;
 			}]);
