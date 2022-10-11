@@ -40,7 +40,7 @@ angular.module('matchminerUiApp')
 					if ($location.$$search.cBio) {
 						ENV.cBio = true;
 					}
-					
+
 					return config;
 				};
 

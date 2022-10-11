@@ -20,21 +20,22 @@
         "idleCountdown": 30
       },
       "tracking": {
-        "enabled": false
+        "enabled": false,
+        "piwik_site_id": null
       },
-      "slsUrl": "https://partnershealthcare.oktapreview.com/home/partnershealthcarepreview_matchminerdev_1/0oae8lrmiwRFGqNDl0h7/alne8mj3ceJ5AtFGe0h7",
+      "slsUrl": null,
       "resources": {
         "oncpro_base": null,
         "ctgov_base": "https://clinicaltrials.gov/ct2/show/",
         "logo": "dfci.jpg",
         "institution": "DFCI",
-        "institutionFull": "Dana-Farber Cancer Institute",
-        "email": "matchminer@dfci.harvard.edu",
-        "emailSecondary": "deceased_patients@dfci.harvard.edu"
+        "institutionFull": null,
+        "email": "matchminer@example.com",
+        "emailSecondary": "deceased_patients@example.com"
       },
       "EPIC": false,
       "cBio": false,
-      "linkToHomePage": "https://localhost:8001",
+      "linkToHomePage": "http://localhost:8001",
       "allowsEpic": true,
       "oncopanelPDFLink": null,
       "accessRequestFormLink": null,
