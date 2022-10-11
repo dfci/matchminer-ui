@@ -1,7 +1,6 @@
 {
   "dev": {
     "ENV": {
-      "name": "development",
       "elasticsearch": {
         "proxy": "http://localhost:8001/api/es",
         "index": "matchminer"
@@ -22,7 +21,7 @@
         "idleCountdown": 30
       },
       "tracking": {
-        "piwik_site_id": 3
+        "enabled": false
       },
       "slsUrl": "https://partnershealthcare.oktapreview.com/home/partnershealthcarepreview_matchminerdev_1/0oae8lrmiwRFGqNDl0h7/alne8mj3ceJ5AtFGe0h7",
       "resources": {
