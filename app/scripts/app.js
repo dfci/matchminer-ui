@@ -65,7 +65,8 @@ angular
 			});
 
 			$rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-				var titleKey = ENV.resources.institutionFull + ' - MatchMiner';
+				var ins = ENV.resources.institutionFull;
+				var titleKey = ins ? (ins + ' - MatchMiner') : 'MatchMiner';
 
 				$rootScope.previousStateName = fromState.name;
 				$rootScope.previousStateParams = fromParams;
