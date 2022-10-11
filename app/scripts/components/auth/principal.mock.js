@@ -17,7 +17,7 @@ angular.module('matchminerUiApp')
 					}
 				},
 				_updated: "Thu, 01 Jan 1970 00:00:00 GMT",
-				email: "testuser@matchminer.harvard.edu",
+				email: "test@example.com",
 				first_name: "Bernd",
 				last_auth: "Tue, 04 Oct 2016 05:12:09 GMT",
 				last_name: "van der Veen",

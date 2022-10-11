@@ -66,7 +66,7 @@ angular.module('matchminerUiApp')
 							'No history of treatment with BRAF or MEK inhibitors',
 							'No prior treatment with anti-PD-1, anti-PD-L1, anti-PD-L2, anti-CTLA-4 antibody, or any other antibody or drug specifically targeting T-cell co-stimulation or immune checkpoint pathways'
 						],
-						'oncopro_link': 'http://webctportal.partners.org/oncpro/documents/0/E/2/1/ELI04461v6.pdf',
+						'oncopro_link': 'http://example.com/oncopro',
 						'summary': 'This randomized phase I trial studies the side effects and best way to give ipilimumab with or without dabrafenib, trametinib and/or nivolumab in treating patients with melanoma that has spread to other parts of the body (metastatic) or cannot be removed by surgery. Monoclonal antibodies, such as ipilimumab and nivolumab, may interfere with the ability of cancer cells to grow and spread. Dabrafenib and trametinib may stop the growth of tumor cells by blocking some of the enzymes needed for cell growth. It is not yet known whether ipilimumab works better with or without dabrafenib, trametinib, and/or nivolumab in treating melanoma.',
 						"treatment_list": {
 							"step": [

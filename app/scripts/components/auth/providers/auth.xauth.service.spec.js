@@ -18,16 +18,21 @@ describe('Auth Provider Service', function () {
 
 	it('should be able to login', function () {
 		spyOn($window, 'open');
+		var edu = ENV.devUser;
+		ENV.devUser = null;
 
 		AuthServerProvider.login();
 		expect($window.open).toHaveBeenCalledWith(ENV.slsUrl, '_self');
+		ENV.devUser = edu;
 	});
 
 	it('should be able to logout', function () {
 		spyOn($window, 'open');
-
+		var edu = ENV.devUser;
+		ENV.devUser = null;
 		AuthServerProvider.logout();
 		expect($window.open).toHaveBeenCalledWith(ENV.api.host + '?slo', '_self');
+		ENV.devUser = edu;
 	});
 
 });

@@ -35,6 +35,11 @@ describe('Request Interceptor tests', function () {
 			}
 		};
 
+		ENV.devUser = {
+			token: 'abc',
+			user_id: 'def'
+		};
+
 		spyOn(CookieService, 'setRequestToken');
 		spyOn(CookieService, 'setUserId');
 
