@@ -443,7 +443,8 @@
                                                         </md-not-found>
                                                     </md-autocomplete>
                                                     <md-button
-                                                            href="http://profile-app.dipr.partners.org/oncotree/"
+                                                        ng-if="::ENV.oncotreeLink"
+                                                        href="{{::ENV.oncotreeLink}}"
                                                             target="_blank"
                                                             aria-label="Oncotree"
                                                             class="md-icon-button launch">
