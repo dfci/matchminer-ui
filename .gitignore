@@ -1,0 +1,13 @@
+.tmp
+.idea
+.vscode
+.DS_Store
+app/.DS_Store
+bower_components
+node_modules/
+dist/
+coverage/
+documentation/
+app/scripts/config.js
+app/scripts/templates.js
+matchminer_ui_test_results.xml

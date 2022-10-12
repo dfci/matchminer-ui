@@ -1,0 +1,89 @@
+<div>
+	<div class="card attached-card">
+		<div class="card-header">
+			<h2>
+				<span>Mutations</span>
+				<span>
+					<ng-include ng-if="category == 'actionableDNAVariants'"
+					            src="tooltip({id: 'actionable-dna-variants'})">
+					</ng-include>
+					<ng-include ng-if="category == 'additionalDNAVariants'"
+					            src="tooltip({id: 'additional-dna-variants'})">
+					</ng-include>
+				</span>
+			</h2>
+		</div>
+
+		<div ng-if="!tieredVariants" class="info-missing-container" layout="row">
+			<md-icon aria-label="Notice"
+			         md-font-library="material-icons">
+				error
+			</md-icon>
+			<div>
+				<h3 ng-if="category == 'additionalDNAVariants'">No additional mutations found.</h3>
+				<h3 ng-if="category == 'actionableDNAVariants'">No actionable mutations found.</h3>
+			</div>
+		</div>
+	</div>
+	<div layout="row" ng-repeat="(tierId, tierData) in tieredVariants">
+		<div flex>
+			<div class="card dna-variant-card" ng-class="{'stacked-card': $last, 'attached-card': !$last}">
+				<div class="card-header">
+					<h2>
+						Tier {{ ::tierId }}
+						  <span style="display:inline; font-size: 90%;">
+							  <ng-include src="pmTooltip({tier: tierId})"></ng-include>
+						  </span>
+					</h2>
+				</div>
+				<div class="card-body">
+					<table datatable="ng" dt-options="dtOpts" class="table table-inner table-vmiddle"
+					       width="100%">
+						<thead>
+						<tr>
+							<th ng-if="!isOncologist || isCti">Filter</th>
+							<th>Gene</th>
+							<th>Nucleotide</th>
+							<th>Protein</th>
+							<th>Exon</th>
+							<th>Class</th>
+							<th>
+								A/F
+								<md-icon aria-label="Allele Fraction"
+								         md-font-library="material-icons">
+									info_outline
+								</md-icon>
+								<md-tooltip md-autohide md-direction="top">
+									% Allele Fraction
+								</md-tooltip>
+							</th>
+							<th>Num reads</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr class="pmRow" ng-repeat="mut in tierData track by $index">
+							<td class="mutation-filter-cell" ng-if="!isOncologist || isCti" ng-class="{'flex-cell': mut.FILTER}">
+								<span ng-if="!mut.FILTER">
+									<strong>- </strong>
+								</span>
+								<genomic-filter-badge filter="filter"
+			                      ng-repeat="filter in mut.FILTER">
+								</genomic-filter-badge>
+							</td>
+							<td>{{ ::mut.TRUE_HUGO_SYMBOL }}</td>
+							<td title="{{ ::mut.TRUE_CDNA_CHANGE }}">{{ ::mut.TRUE_CDNA_CHANGE || '-' }}</td>
+							<td title="{{ ::mut.TRUE_PROTEIN_CHANGE }}">{{ ::mut.TRUE_PROTEIN_CHANGE || '-'}}</td>
+							<td>{{ mut.TRUE_TRANSCRIPT_EXON }}</td>
+							<td title="{{ ::mut.TRUE_VARIANT_CLASSIFICATION }}">
+								{{ ::mut.TRUE_VARIANT_CLASSIFICATION }}
+							</td>
+							<td>{{ ::((mut.ALLELE_FRACTION*100) | number: 0) || 'N/A' }}%</td>
+							<td>{{ ::mut.COVERAGE }}X</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

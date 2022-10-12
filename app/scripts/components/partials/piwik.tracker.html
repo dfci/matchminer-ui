@@ -1,0 +1,22 @@
+<!-- Piwik
+updated 11/26/18
+-->
+<script type="text/javascript">
+	var _paq = window._paq || [];
+
+	_paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+	_paq.push(["setCookieDomain", _paq_vars.cookie_domain]);
+	_paq.push(["setDomains", _paq_vars.domains]);
+	_paq.push(['trackPageView']);
+	_paq.push(['enableLinkTracking']);
+	(function() {
+		_paq.push(['setTrackerUrl', _paq_vars.tracker_url + 'piwik.php']);
+		_paq.push(['setSiteId', window._paq_vars.site_id ]);
+          console.log('HERE', JSON.parse(JSON.stringify(_paq)));
+		var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+		g.type='text/javascript'; g.async=true; g.defer=true; g.src=_paq_vars.tracker_url+'piwik.js'; s.parentNode.insertBefore(g,s);
+	})();
+    var ee = '';
+    var f = ee;
+</script>
+<!-- End Piwik Code -->

@@ -1,0 +1,54 @@
+<section layout="row" layout-align="space-around center">
+
+	<div class="patient-search-container">
+		<md-toolbar layout="row">
+			<div class="md-toolbar-tools">
+				<h2>
+					Patients
+				</h2>
+			</div>
+		</md-toolbar>
+		<form name="patientSearchForm"
+				id="searchForm"
+				autocomplete="off"
+				ng-submit="psc.querySearch(psc.data.searchText)">
+
+			<div layout="row"
+			     layout-align="center start"
+			     layout-padding>
+
+				<div flex="100" layout="row" class="patient-search-input-container">
+					<md-input-container flex>
+						<label>Find patients by MRN</label>
+						<md-icon md-font-library="material-icons">label_outline</md-icon>
+						<input name="patientSearch"
+						       autocomplete="off"
+						       type="text"
+						       id="patientSearch"
+						       name="patientSearch"
+						       ng-model="psc.data.searchText"
+						       ng-required="true" />
+						<div ng-messages="patientSearchForm.patientSearch.$error" role="alert">
+							<div ng-message="required">Please enter a search term.</div>
+							<div ng-message="minlength" class="small">Enter search term with atleast three
+								characters.
+							</div>
+							<div ng-message="maxlength" class="small">Search term cannot be longer than 75
+								characters.
+							</div>
+						</div>
+					</md-input-container>
+				</div>
+
+				<div layout="row" layout-align="center start">
+					<md-button class="md-primary md-raised dashboard-search-button"
+					           ng-disabled="patientSearchForm.patientSearch.$invalid"
+					           ng-click="psc.querySearch(psc.data.searchText)">
+						Search
+					</md-button>
+				</div>
+
+			</div>
+		</form>
+	</div>
+</section>

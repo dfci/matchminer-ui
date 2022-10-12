@@ -1,0 +1,46 @@
+<md-dialog class="patient-sample-select-container" aria-label="Patient sample select" ng-cloak>
+	<form>
+		<md-toolbar flex-order="0">
+			<div class="md-toolbar-tools">
+				<h2>Samples for patient</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="ctrl.parent.cancel()">
+					<md-icon md-font-library="material-icons" aria-label="Close dialog"></md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content flex-order="1">
+			<div class="md-dialog-content">
+				<div layout="column" layout-align="start start">
+					<div layout="column">
+						<h4>Patient details</h4>
+						<dl class="dl-horizontal">
+							<dt>Patient Name</dt>
+							<dd>Redacted for Privacy</dd>
+							<dt>Date of Birth</dt>
+							<dd>{{ (ctrl.patient.BIRTH_DATE | parsedate) || 'Not available' }}
+							</dd>
+							<dt>Gender</dt>
+							<dd>{{ (ctrl.patient.GENDER | capitalize) || 'Not available' }}</dd>
+							<dt>MRN</dt>
+							<dd>{{ ctrl.patient.MRN || 'Not available' }}</dd>
+						</dl>
+					</div>
+					<h4>Available samples</h4>
+					<div layout="column" layout-align="start start" class="patient-samples">
+						<div layout="row" ng-repeat="opt in ctrl.parent.sampleOptions | orderBy: 'SAMPLE_ID' track by $index" flex="100" class="sample-option-container">
+							<md-button class="md-raised md-default sample-option-button"
+							           analytics-on="click" analytics-event="Navigate to details" analytics-category="Patients" analytics-name="{{opt.TEST_NAME}}"
+							           ng-click="ctrl.parent.goToRecord(opt._id)">
+								{{ opt.SAMPLE_ID }}
+                                {{ opt.TEST_NAME }}
+								<span class="sample-date" flex>({{ (opt.REPORT_DATE | parsedate) || 'Not available'  }})</span>
+							</md-button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</md-dialog-content>
+
+	</form>
+</md-dialog>

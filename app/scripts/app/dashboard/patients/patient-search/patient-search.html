@@ -1,0 +1,22 @@
+<section layout="column" id="patient-search" class="patient-search-wrapper" layout-fill>
+	<!-- Navbar -->
+	<div ui-view="navbar"></div>
+	<section class="section-primary section-banner" layout="column">
+	</section>
+
+	<section ncy-breadcrumb>
+	</section>
+
+	<!-- Search -->
+	<section class="section patient-search-input-wrapper" layout-align="space-around center" layout="column" flex>
+		<div ui-view="patient-search-input" class="section"></div>
+	</section>
+
+	<section class="patient-search-results-pane"
+			layout="row">
+
+		<!-- Search results -->
+		<div ui-view="patient-search-results" flex layout-fill></div>
+
+	</section>
+</section>

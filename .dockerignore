@@ -1,0 +1,7 @@
+coverage/
+.tmp/
+.idea/
+node_modules/*
+Dockerfile
+.dockerignore
+**/.git

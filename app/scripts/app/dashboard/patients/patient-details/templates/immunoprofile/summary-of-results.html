@@ -1,0 +1,124 @@
+<div id="summaryOfResults">
+    <div class="block-header" style="margin-bottom: 10px">
+        <h2>
+            <md-icon aria-label="Summary of Results"
+                     md-font-library="material-icons">
+                assessment
+            </md-icon>
+            Summary of Results
+        </h2>
+    </div>
+
+    <div class="card">
+        <div layout="row"
+             layout-align="start center"
+             class="card-header md-red patient-oncopanel-wrapper">
+            <div class="patient-oncopanel-notification">
+                <md-icon aria-label="Patient Legend"
+                         md-font-library="material-icons">
+                    warning
+                </md-icon>
+                <span>
+                    ImmunoProfile is a research test. Results of ImmunoProfile are not a substitute for a
+                    validated PD-L1 IHC score from a CLIA-certified laboratory.
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div layout="row" layout-align="start center space-between" class="pdl1-cards-row">
+        <div class="pdl1-card" flex="30" flex-sm="30" flex-xs="50" ng-hide="immunoprofile.pdl1.summary.pdl1_undef === undefined">
+            <div class="mini-charts-item ip-summary-card">
+                <div class="clearfix">
+                    <div class="count">
+                        <h4 class="count-header">PD-L1 Score</h4>
+                        <div class="ip-summary-call md-lightblue">{{ immunoprofile.pdl1.summary.pdl1_undef }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pdl1-card" flex="30" flex-sm="30" flex-xs="50" ng-hide="immunoprofile.pdl1.summary.pdl1_tps === undefined">
+            <div class="mini-charts-item ip-summary-card">
+                <div class="clearfix">
+                    <div class="count">
+                        <h4 class="count-header">PD-L1: Tumor Proportion Score (TPS)</h4>
+                        <div class="ip-summary-call md-lightblue">{{ immunoprofile.pdl1.summary.pdl1_tps }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div flex="33" flex-sm="33" flex-xs="50" ng-hide="immunoprofile.pdl1.summary.pdl1_ips === undefined">
+            <div class="mini-charts-item ip-summary-card">
+                <div class="clearfix">
+                    <div class="count">
+                        <h4 class="count-header">PD-L1: Inflammatory Proportion Score (non-tumor cells)<sup ng-if="ctrl.ip_note_ips">*</sup></h4>
+                        <div class="ip-summary-call md-lightblue">{{ immunoprofile.pdl1.summary.pdl1_ips }}</div>
+                        <small ng-if="ctrl.ip_note_ips"><sup>*</sup> Note this score is NOT the equivalent of a PD-L1 IC score.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pdl1-card" flex="30" flex-sm="30" flex-xs="100" ng-hide="immunoprofile.pdl1.summary.pdl1_cps === undefined">
+            <div class="mini-charts-item ip-summary-card">
+                <div class="clearfix">
+                    <div class="count">
+                        <h4 class="count-header">PD-L1: Combined Positive Score (CPS)</h4>
+                        <div class="ip-summary-call md-lightblue">{{ immunoprofile.pdl1.summary.pdl1_cps }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pdl1-card" flex="30" flex-sm="30" flex-xs="100" ng-hide="immunoprofile.pdl1.summary.pdl1_ica === undefined">
+            <div class="mini-charts-item ip-summary-card">
+                <div class="clearfix">
+                    <div class="count">
+                        <h4 class="count-header">PD-L1: Inflammatory Cell Area Score (IC)</h4>
+                        <div class="ip-summary-call md-lightblue">{{ immunoprofile.pdl1.summary.pdl1_ica }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top: 10px !important;">
+        <div class="card-header">
+            <h2 class="md-title">
+                <md-icon ng-if="immunoprofile.failed_sign_out" 
+                    aria-label="Sample failed" 
+                    style="color: black" 
+                    md-font-library="material-icons">
+                    cancel
+                </md-icon>
+                {{ immunoprofile.failed_sign_out ? "Sample failed" : "Interpretation" }}
+            </h2>
+        </div>
+        <div class="card-body">
+            <ul ng-repeat="comment in immunoprofile.pdl1.summary.interpretation_comment.trim().split('\n')">
+                <li>{{ comment }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top: 10px !important;" ng-hide="immunoprofile.failed_sign_out || immunoprofile.version < 2">
+        <div class="card-header">
+            <h2 class="md-title">
+                <md-icon ng-if="immunoprofile.failed_sign_out"
+                    aria-label="Sample failed"
+                    style="color: black"
+                    md-font-library="material-icons">
+                    cancel
+                </md-icon>
+                Reference
+            </h2>
+        </div>
+        <div class="card-body" id="ip-reference-card">
+            <div ng-if="immunoprofile.pdl1.summary.interpretation_reference"
+                 ng-bind-html="ctrl.ip_reference_comment">
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,117 @@
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+*, button, input, i, md-icon, a {
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus, :active, :hover {
+  outline: 0;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+}
+
+.md-content.md-default-theme, md-content {
+  background-color: rgb(255, 255, 255);
+}
+
+body {
+  font-size: 19px;
+  padding: 0;
+}
+
+.app-container {
+  flex: 1;
+  min-width: 768px;
+  background-color: #F2F2F2;
+}
+
+.md-block {
+  display: flex;
+}
+
+.no-select {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE/Edge */
+  user-select: none;
+  /* non-prefixed version, currently
+                         not supported by any browser */
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.87);
+  line-height: inherit;
+  background-color: inherit;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/*
+ * State transition animations
+ */
+/* Direct page loads */
+[ui-view].ng-enter {
+  opacity: 0;
+  transition: opacity 500ms;
+}
+
+[ui-view].ng-enter.ng-enter-active {
+  opacity: 1;
+}
+
+/* State transitions */
+.view-container[ui-view].ng-enter {
+  opacity: 0;
+  transition: opacity 500ms;
+}
+
+.view-container[ui-view].ng-enter.ng-enter-active {
+  opacity: 1;
+}
+
+.view-container[ui-view].ng-leave {
+  opacity: 1;
+}
+
+.view-container[ui-view].ng-leave.ng-leave-active {
+  opacity: 0;
+}
+
+.md-tooltip {
+  font-size: 13px!important;
+}
+
+md-tooltip {
+  &.md-content, &.gene-badge-tooltip {
+    font-size: .7rem;
+    padding: 10px 25px 10px 25px;
+    background-color: rgba(0, 0, 0, .85) !important;
+    height: auto !important;
+    word-break: normal;
+    font-weight: 500;
+
+    &.badge-tooltip {
+      padding: 0 8px!important;
+      line-height: 25px;
+    }
+  }
+}
+
+.max-width-tooltip {
+  max-width: 285px;
+  word-break: normal;
+  white-space: normal;
+  line-height: 1.4;
+}

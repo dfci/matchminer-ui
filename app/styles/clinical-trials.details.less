@@ -1,0 +1,561 @@
+@import "site.colors.less";
+
+#clinical-trial-details:first-child h3 {
+  margin-top: 0;
+}
+
+#clinical-trial-details .detail-header {
+  font-size: 20px;
+  font-weight: 500;
+  color: #777;
+  margin: 25px 0 15px 0;
+  border-bottom: 1px #777 solid;
+  min-height: 25px;
+}
+
+#clinical-trial-details .detail {
+  font-weight: 400;
+  font-size: 18px;
+  line-height:28px;
+  margin-top:0;
+}
+
+#clinical-trial-details .detail-layout {
+  background-color: #F2F2F2;
+}
+
+#clinical-trial-details .trial-summary {
+  background-color: white;
+  padding: 25px;
+  margin: 25px 0;
+  border-radius: 5px;
+  width: 100%;
+  min-height: 25px;
+}
+
+#clinical-trial-details .trial-summary:after {
+  content: "";
+  display: inline-block;
+  height: 0;
+  clear:both;
+}
+
+#clinical-trial-details .trial-summary h3,
+  #clinical-trial-details .matching-stats h3{
+  font-size: 20px;
+  font-weight: 500;
+  color: #777;
+  margin: 0 0 15px 0;
+  border-bottom: 1px #777 solid;
+}
+
+#clinical-trial-details .trial-summary h3 + .trial-summary-row .flex-45 .trial-property {
+  min-height: 50px;
+}
+
+#clinical-trial-details .trial-summary h3 + .trial-summary-row .flex-90 .trial-property {
+  margin-right: 10px;
+}
+
+#clinical-trial-details .trial-summary-row {
+  padding-left: 25px;
+  min-height: 25px;
+}
+
+#clinical-trial-details .trial-summary-row > div {
+  display: flex;
+  min-height: 33px;
+  align-items: flex-start;
+}
+
+#clinical-trial-details .trial-property {
+  font-size: 16px;
+  font-weight: 500;
+  display: inline-block;
+  min-width: 210px;
+  padding-top: 3px;
+}
+
+#clinical-trial-details .ct-badge-spacer div:nth-child(1) {
+  margin-right: 0px;
+}
+
+#clinical-trial-details .flex-45 .trial-property-label {
+  display: inline-block;
+  max-width: 171px;
+}
+
+#clinical-trial-details .trial-property md-icon {
+  vertical-align: top;
+  margin: 0 5px 3px 0;
+}
+
+#clinical-trial-details .trial-property-value {
+  display: inline;
+  font-weight: 400;
+  line-height: 24px;
+  font-size: 16px;
+  font-style: italic;
+}
+
+#clinical-trial-details .searchbar-wrapper {
+  background-color: transparent;
+
+  .md-errors-spacer {
+    display: none;
+  }
+}
+
+#clinical-trial-details .stuck {
+  position: fixed!important;
+  padding-top: 0!important;
+  top: 15px;
+}
+
+#clinical-trial-details .collapsed {
+  margin-right:35px;
+}
+
+#clinical-trial-details .stuck.collapsed {
+  right: 35px;
+  top: 37px;
+  margin-right: 0!important;
+}
+
+#clinical-trial-details .sidebar-container:first-child h3 {
+  margin-top: 0;
+}
+
+#clinical-trial-details .sidebar-container h3 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #777;
+  margin: 25px 0 15px 0;
+  border-bottom: 1px #777 solid;
+}
+
+#clinical-trial-details .sidebar-container .md-button {
+  -webkit-transition: all 500ms!important; /* Safari */
+  transition: all 500ms!important;
+}
+
+#clinical-trial-details .matching-stats {
+  margin-top: 30px;
+}
+
+#clinical-trial-details .trial-coordinator-details p {
+  margin: 0 0 3px 15px;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.trial-coordinator-details .coordinator-role,
+  .trial-coordinator-details .coordinator-institution .coordinator-email {
+    font-weight: 400!important;
+}
+
+#clinical-trial-details .trial-coordinator-details > .contact-button {
+  margin-top: 25px;
+}
+
+#clinical-trial-details .trial-coordinator-details > .contact-button.md-mini {
+  margin-top: 5px!important;
+}
+
+#clinical-trial-details .trial-coordinator-details .no-coordinator-found > * {
+  font-size: 15px;
+  color: #990000;
+}
+
+#clinical-trial-details .trial-coordinator-details .no-coordinator-found > md-icon {
+  font-size: 22px;
+}
+
+#clinical-trial-details .treatment-requirements-disclaimer {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+#clinical-trial-details .treatment-requirements-disclaimer-link {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+#clinical-trial-details .trial-coordinator-email-label {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+#clinical-trial-details .trial-coordinator-email {
+  font-weight: 400;
+  font-size: 15px;
+}
+
+#clinical-trial-details .epic-contact-details {
+  min-width: 350px;
+  padding-left: 15px;
+}
+
+#clinical-trial-details .clinical-trial-details-pane {
+  padding-top: 25px;
+  height: 100%;
+}
+
+#clinical-trial-details .left-column {
+  padding: 0 35px 75px 75px;
+  min-width: 35em;
+}
+
+#clinical-trial-details .right-column {
+  padding: 0 75px 75px 35px;
+  -webkit-transition: all 750ms!important;
+  transition: all 750ms!important;
+  position: absolute;
+  right: 0;
+}
+
+#clinical-trial-details .right-column.top-padding {
+  padding-top: 70px;
+}
+
+#clinical-trial-details .trial-criteria {
+  margin-top: 15px;
+  background-color: white;
+}
+
+#clinical-trial-details .trial-variants {
+  min-height:50px;
+}
+
+#clinical-trial-details .badge-container {
+  margin: 0 0 20px 0;
+}
+
+#clinical-trial-details .tree-light {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.010em;
+  line-height: 24px;
+  margin: 25px;
+}
+
+#clinical-trial-details .navbar-separator {
+  background-image: linear-gradient(45deg, @primary-blue, #fff7f1);
+  height: 12px;
+}
+
+#clinical-trial-details md-list-item md-icon {
+  font-size: 10px;
+  height: 10px;
+  padding: 6px 0 0 5px;
+}
+
+#clinical-trial-details .sm-sidebar-headers {
+  font-size: 16px!important;
+  font-weight: 400!important;
+  margin-bottom: 5px!important;
+  border-bottom: none!important;
+}
+
+#clinical-trial-details .sidebar-actions > md-icon {
+  margin-right: 5px;
+  margin-bottom: 2px;
+}
+
+#clinical-trial-details .trial-add-to-watchlist > * {
+  color: #0277bd;
+}
+
+
+#clinical-trial-details .trial-in-watchlist > * {
+  color: #5b932e;
+}
+
+#clinical-trial-details .gov-link {
+  padding-left: 20px;
+}
+
+#clinical-trial-details .hidden {
+  display: none !important;
+  visibility: collapse !important;
+}
+
+.trial-link:hover * {
+  color: rgb(33, 150, 243)!important;
+  cursor: pointer;
+  transition: color 200ms cubic-bezier(.5, -0.25, .5, 1.25);
+}
+
+#clinical-trial-details .detail-header-text {
+  margin: 25px 0 5px 0;
+  display: inline-block;
+  min-height: 25px;
+}
+
+#clinical-trial-details .trial-inline-header {
+  float: right;
+}
+
+#clinical-trial-details .step-container {
+  margin-top: 15px;
+}
+
+#clinical-trial-details .step-container.step-collapsed .arm-container {
+  display: none;
+}
+
+#clinical-trial-details .step-details, #clinical-trial-details .step-criteria  {
+  border-radius: 5px;
+  background-color: rgb(250, 250, 250);
+}
+
+#clinical-trial-details .step-criteria  {
+  width: 100%!important;
+  padding: 15px 15px 15px 0;
+  margin-top: 5px;
+}
+
+
+#clinical-trial-details .step-container .step-details .expand-button-container > .md-button {
+  margin-right: 8px;
+}
+
+#clinical-trial-details .step-container .arm-container {
+  padding-top: 10px;
+  border-radius: 5px;
+  margin-left: 35px;
+  overflow: auto;
+}
+
+#clinical-trial-details .arm-container.arm-collapsed .dose-level-container {
+  display: none;
+}
+
+#clinical-trial-details .step-code {
+  width: 50px;
+  height: 50px;
+  padding: 13px;
+  justify-content: center;
+  display: flex;
+  font-weight: 600;
+  font-size: 23px;
+  color: white;
+  background-color: @primary-blue;
+}
+
+#clinical-trial-details .step-type {
+  margin: 15px 0 0 15px;
+}
+
+#clinical-trial-details .arm-details, #clinical-trial-details .arm-criteria {
+  border-radius: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  background-color: rgb(250, 250, 250);
+}
+
+#clinical-trial-details .arm-status-container {
+  margin-right: 10px;
+}
+
+#clinical-trial-details .arm-status-container md-icon {
+  margin: -10px 15px 0 7px;
+  font-size: 35px;
+}
+
+#clinical-trial-details .arm-details .expand-arm:hover {
+  cursor: pointer;
+}
+
+#clinical-trial-details .dose-level-code {
+  margin-top: 0!important;
+}
+
+#clinical-trial-details .dose-status-container md-icon {
+  margin: 0 15px 0 0;
+  font-size: 25px;
+}
+
+
+#clinical-trial-details .arm-status-container md-icon.arm-open-icon,
+  #clinical-trial-details .dose-status-container md-icon.dose-open-icon {
+    color: rgba(17, 147, 56, 0.75)!important;
+}
+
+#clinical-trial-details .status-container {
+  width: 100%;
+  padding-right: 10px;
+}
+
+#clinical-trial-details .status-active {
+  font-weight: 600;
+  font-size: 15px;
+  color: #5b932e!important;
+  float: right;
+}
+
+#clinical-trial-details .arm-status-container md-icon.arm-suspended-icon,
+  #clinical-trial-details .dose-status-container md-icon.dose-suspended-icon {
+    color: #a61500!important;
+}
+
+#clinical-trial-details .status-suspended {
+  font-weight: 600;
+  font-size: 15px;
+  color: #F44336!important;
+  float: right;
+}
+
+#clinical-trial-details .expand-button-container > .md-button {
+  margin-right: 0;
+}
+
+#clinical-trial-details .match-criteria-expand:hover {
+  cursor: pointer;
+}
+
+#clinical-trial-details .arm-description,
+  #clinical-trial-details .dose-level-code {
+      font-size: 16px;
+      margin-top: 2px;
+}
+
+#clinical-trial-details .dose-level-count {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 10px 0 0;
+}
+
+#clinical-trial-details .no-dose-levels {
+  margin-right: 25px;
+}
+
+#clinical-trial-details .arm-code,
+  #clinical-trial-details .dose-level-description {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+#clinical-trial-details .dose-level-container:first-child {
+  margin-top: 15px;
+}
+
+#clinical-trial-details .dose-level-container {
+  padding: 15px;
+  background-color: rgb(250, 250, 250);
+  margin: 0 0 6px 45px;
+  border-radius: 5px;
+}
+
+#clinical-trial-details .dose-level-container .dose-details {
+  margin-left: 0;
+}
+
+#clinical-trial-details .match-container:not(:first-child) {
+  border-top: 1px solid #777;
+}
+
+#clinical-trial-details .criterium-container {
+  padding: 15px 15px 15px 0;
+}
+
+#clinical-trial-details .match-container {
+  height: 100%;
+}
+
+#clinical-trial-details .match-criterium {
+  border: 0 solid #535953;
+}
+
+#clinical-trial-details .match-criterium .ct-badge {
+  font-size: 12px;
+  margin: 3px 0 0 2px;
+  line-height: 12px;
+  height: 25px;
+}
+
+#clinical-trial-details .criterium-text {
+  text-align: center;
+}
+#clinical-trial-details .ptr-list-item:not(:first-child) {
+  margin-top: 15px;
+}
+
+#clinical-trial-details .criteria-loading-button {
+  min-width: 200px;
+}
+
+#clinical-trial-details .criteria-toggle-spacing {
+  margin-right: 32px;
+}
+
+.tree,
+.tree ul {
+  margin:0 0 0 .5em; /* indentation */
+  padding:0;
+  list-style:none;
+  color:#369;
+  position:relative;
+}
+
+.tree ul {
+  margin-left:0;
+}
+
+.tree:before,
+.tree ul:before {
+  content:"";
+  display:block;
+  width:0;
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  border-left:1px solid;
+}
+
+.tree li {
+  margin:0;
+  padding:0 1.5em; /* indentation + .5em */
+  line-height:2em; /* default list item's `line-height` */
+  font-weight:bold;
+  font-size: 14px;
+  position:relative;
+}
+
+.tree h4.criterium {
+  margin: 2px;
+}
+
+.tree li:before {
+  content:"";
+  display:block;
+  width:10px; /* same with indentation */
+  height:0;
+  border-top:1px solid;
+  margin-top:-1px; /* border top width */
+  position:absolute;
+  top:1em; /* (line-height/2) */
+  left:0;
+}
+
+.badge-item-wrap:before {
+  opacity: 0;
+  height:auto;
+  top:1em; /* (line-height/2) */
+  bottom:0;
+}
+
+.badge-item-wrap {
+  margin-left: -20px!important;
+  background-color: rgb(250, 250, 250);
+}
+
+.trial-badge-wrap {
+  overflow: auto !important;
+}
+
+.info-header {
+  margin-left: 15px;
+  font-size: 16px;
+}

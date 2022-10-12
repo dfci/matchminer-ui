@@ -1,0 +1,25 @@
+<div class="card stacked-card" xmlns="http://www.w3.org/1999/html"
+     xmlns="http://www.w3.org/1999/html">
+	<div class="card-header">
+		<h2>
+			<span>Mutational Signatures </span>
+			<span>
+				<ng-include src="tooltip({id: 'mutational-signatures'})"></ng-include>
+			</span>
+		</h2>
+		<div class="ms-label">
+        <strong> MMR-Status: {{::(clinical.MMR_STATUS) || 'N/A'}}</strong>
+        </div>
+        <div class="card-body card-padding" >
+            <div layout="row" layout-align="start center" ng-repeat="sig in clinical" ng-show="sig">
+                <div ng-if="sig.filter" class = "gene-badge-container" layout="row"  >
+                    <div ng-repeat="filter in sig track by $index" ng-if="filter.genomic_filter.MMR_STATUS">
+                        <i ng-if="$index === 0">Filter Matches: </i>
+                        <i ng-if="$index >= 1">&nbsp;</i>
+                        <genomic-filter-badge filter="filter" ></genomic-filter-badge>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

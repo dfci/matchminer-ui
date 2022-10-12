@@ -1,0 +1,81 @@
+<div id="rhpResults">
+    <div class="block-header">
+        <h2>
+            <md-icon
+                    aria-label="Actionable Findings"
+                    md-font-library="material-icons">
+                linear_scale
+            </md-icon>
+            Actionable Results
+        </h2>
+    </div>
+
+    <div class="card attached-card">
+        <div class="card-header">
+            <h2>
+                <span>Pathogenic Single Nucleotide Variants and Small Insertions/Deletions*</span>
+            </h2>
+        </div>
+
+        <br/>
+
+        <div ng-if="ctrl.patient.rapidhemepanel.snvSid.length === 0" class="info-missing-container" layout="row">
+            <md-icon aria-label="Notice"
+                     md-font-library="material-icons">
+                error
+            </md-icon>
+            <div>
+                <h3 class="md-red">None detected.</h3>
+            </div>
+        </div>
+
+        <div layout="row" ng-if="ctrl.patient.rapidhemepanel.snvSid.length > 0">
+            <div flex>
+                <div class="attached-card">
+                    <div class="card-body">
+                        <table datatable="ng" dt-options="dtOpts" class="table dna-variant-card table-inner table-vmiddle rhp-table" width="100%">
+                            <thead>
+                            <tr>
+                                <th ng-if="!isOncologist || isCti">Filter</th>
+                                <th>Gene</th>
+                                <th>Nucleotide</th>
+                                <th>Protein</th>
+                                <th>Exon</th>
+                                <th>Allele Frequency</th>
+                                <th>Coverage</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="pmRow" ng-repeat="mut in snvs track by $index">
+                                <td class="mutation-filter-cell" ng-if="!isOncologist || isCti"
+                                    ng-class="{'flex-cell': mut.FILTER}">
+                                    <span ng-if="!mut.FILTER">
+                                        <strong>- </strong>
+                                    </span>
+                                    <genomic-filter-badge filter="filter"
+                                                          ng-repeat="filter in mut.FILTER">
+                                    </genomic-filter-badge>
+                                </td>
+                                <td title="{{ ::mut.TRUE_HUGO_SYMBOL }}">{{ ::mut.TRUE_HUGO_SYMBOL || '-' }}</td>
+                                <td title="{{ ::mut.TRUE_CDNA_CHANGE }}">{{ ::mut.TRUE_CDNA_CHANGE || '-' }}</td>
+                                <td title="{{ ::mut.TRUE_PROTEIN_CHANGE }}">{{ ::mut.TRUE_PROTEIN_CHANGE || '-' }}</td>
+                                <td title="{{ ::mut.TRUE_TRANSCRIPT_EXON }}">{{ ::mut.TRUE_TRANSCRIPT_EXON || '-' }}</td>
+                                <td title="{{ (mut.ALLELE_FRACTION * 100).toFixed(2) }}">{{ (mut.ALLELE_FRACTION * 100).toFixed(2) || '-' }}%</td>
+                                <td title="{{ ::mut.COVERAGE }}">{{ ::mut.COVERAGE || '-' }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-header" ng-if="ctrl.patient.rapidhemepanel.snvSid.length > 0">
+            <small>
+                *This test is designed for somatic analysis of variants and may provide information about the germline.
+                It cannot distinguish between somatic and germline variants. Germline testing should be ordered separately,
+                as indicated.
+            </small>
+        </div>
+    </div>
+</div>

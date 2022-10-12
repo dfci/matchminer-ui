@@ -1,0 +1,17 @@
+<div class="card" ng-if="clinical.TEST_NAME !== 'oncopanel'">
+	<div layout="row" layout-align="start center" class="card-header">
+		<div class="patient-info-banner" layout="row">
+			<div layout="row">
+				<md-icon aria-label="Patient Not Matched"
+				         md-font-library="material-icons">
+					warning
+				</md-icon>
+			</div>
+
+			<span>
+			  MatchMiner does not currently support trial matching for {{ ctrl.TEST_NAME }} data.
+			</span>
+		</div>
+	</div>
+</div>
+

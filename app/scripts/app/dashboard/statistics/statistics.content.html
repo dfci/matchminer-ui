@@ -1,0 +1,34 @@
+<section layout="row" layout-fill layout-align="center start" ng-if="!sc.error && sc.isLoading">
+	<div layout="column" flex layout-align="center center">
+		<div layout="column" flex layout-align="center center">
+			<div ng-include="'scripts/components/partials/loader.html'"></div>
+
+			<h3>Loading statistics...</h3>
+		</div>
+	</div>
+</section>
+
+<div class="dashboard-content statistics-dashboard" ng-show="!sc.error && !sc.isLoading">
+	<h2>
+		MatchMiner Statistics
+	</h2>
+
+	<div>
+		<table id="mmStats" class="display" cellspacing="0" width="100%"></table>
+	</div>
+	<div>
+		<h2><b>Active Filter Stats</b></h2>
+		<table id="activeFilterStats" class="display" cellspacing="0" width="100%"></table>
+	</div>
+	<div layout="row">
+		<div flex="45">
+			<h2><b>Active User Stats</b></h2>
+			<table id="activeUserStats" class="display" cellspacing="0" width="100%"></table>
+		</div>
+		<span flex></span>
+		<div flex="45">
+			<h2><b>Inactive User Stats</b></h2>
+			<table id="inactiveUserStats" class="display" cellspacing="0" width="100%"></table>
+		</div>
+	</div>
+</div>

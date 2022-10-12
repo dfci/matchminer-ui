@@ -1,0 +1,217 @@
+.filter-editor .filter-editor-wrapper {
+  background-color: rgb(255, 255, 255);
+  flex-basis: 50%;
+}
+
+.filter-editor .plot-container {
+  background-color: rgb(255, 255, 255);
+  flex-basis: 50%;
+}
+
+.filter-editor .filter-editor-tabs {
+  background-color: rgb(255, 255, 255);
+}
+
+.filter-editor .filter-editor-dialog {
+  min-height: 500px;
+}
+
+.filter-editor .md-title {
+  margin-bottom: 20px;
+}
+
+.filter-editor md-input-container p {
+  margin: 5px 0px 10px 35px;
+}
+
+.filter-editor md-input-container p.filter-editor-input {
+  margin: 5px 0px 10px 0px!important;
+}
+
+.filter-editor md-input-container .label-icon {
+  margin-top: -4px;
+}
+
+.filter-editor md-input-container.sibling-container {
+  margin-top: 50px;
+}
+
+.filter-editor .color-picker-container {
+  margin-left: 25px;
+}
+
+.filter-editor .filter-mutation-options-visible-wildtype {
+  opacity: 1;
+  height: 10px;
+  visibility: visible;
+  transition: all .2s linear;
+}
+
+.filter-editor .filter-mutation-options-visible-ga {
+  opacity: 1;
+  height: 25px;
+  visibility: visible;
+  transition: all .2s linear;
+}
+
+.filter-editor .filter-mutation-options-hidden {
+  opacity: 0;
+  visibility: hidden;
+  height: 0px;
+  transition:  all .2s linear;
+}
+
+.filter-editor .filter-option-disabled,
+.filter-editor .filter-option-disabled md-checkbox .md-icon {
+  color: rgba(130, 130, 130, 0.6);
+}
+
+.filter-editor .filter-option-disabled:hover,
+.filter-editor .filter-option-disabled .md-button:hover,
+.filter-editor .filter-option-disabled .md-container:hover {
+  cursor: default!important;
+  background-color: rgba(158,158,158,0)
+}
+
+.filter-editor .filter-option-disabled .md-icon {
+  border-color: rgba(130, 130, 130, 0.6)
+}
+
+.filter-editor img {
+  width: 400px;
+  max-width: 400px;
+}
+
+.filter-editor .badge-preview-container genomic-filter-badge {
+  margin-left: 40px;
+  display: -ms-inline-flexbox;
+}
+
+.filter-editor .badge-preview-container md-icon {
+  margin: 0px 15px 0px 5px;
+}
+
+.filter-editor .badge-text-color-group {
+  margin-left: 30px;
+  margin-top: 20px;
+}
+/**
+ * Tab validation and navigation
+ */
+
+.filter-editor .tab-navigation-container {
+  //background-color: rgb(250, 250, 250);
+  background-color: rgb(255, 255, 255);
+  margin-bottom: 10px;
+}
+
+.filter-editor .tab-validation {
+  font-size: 1rem;
+  padding: 5px;
+}
+
+.filter-editor .tab-navigation {
+  padding-bottom: 10px;
+}
+
+.filter-editor .tab-validation .message {
+  text-align: center;
+  margin-top: 1px;
+}
+
+.filter-editor .tab-validation .message.error {
+  color: rgb(244, 67, 54);
+}
+
+.filter-editor .tab-validation .message.info {
+  color: rgb(33, 150, 243);
+}
+
+/*
+ * Preview plots styling
+ */
+
+
+.filter-editor .plot-container-toolbar {
+  min-height: 48px!important;
+  height: 48px!important;
+
+}
+
+#plotResults {
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  width: 100%;
+}
+
+#plotResults .lead {
+  text-align: center;
+  color: #333;
+  font-size: 130%;
+  font-weight: 400;
+}
+
+#plotResults > p {
+  text-align: center;
+}
+
+#emptyPlot {
+  display: block;
+  text-align: center;
+}
+
+#loadingPlot, #noPlotData {
+  display: none;
+}
+
+/*
+ * Gene filter badge styling
+ */
+.gene-badge-tooltip {
+  width: 350px!important;
+}
+
+.gene-badge-tooltip ._md-content {
+  height: auto;
+  width: 350px!important;
+  padding: 15px;
+  word-wrap: break-word;
+  white-space: normal;
+  background-color: rgba(0, 0, 0, 0.95);
+}
+
+.gene-badge-tooltip b {
+  font-size: 1.2rem;
+}
+
+.gene-badge-tooltip p {
+  font-size: 1.1rem;
+}
+
+.custom-background-notice {
+  background: rgb(224,224,224);
+  padding: 20px;
+  max-width: 100%;
+  border-radius: 3px
+}
+
+.gray-overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.55);
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  position: fixed;
+  padding-top: 10%;
+  z-index: 99;
+}
+
+.save-text {
+  text-align: center;
+  color: white;
+  font-weight: 600;
+  font-size: 26px;
+}

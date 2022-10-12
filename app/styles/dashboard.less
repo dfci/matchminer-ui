@@ -1,0 +1,118 @@
+@import "site.colors.less";
+
+.section-primary.section-banner {
+  background-image: linear-gradient(45deg, @primary-blue, #fff7f1);
+  height: 12px !important;
+  transition: height .75s ease;
+}
+
+/*
+ * Cards styling
+ */
+.dashboard-wrapper {
+  background-color: #F2F2F2;
+}
+
+/**
+ * Gene filter badge
+ */
+.gene-badge-container .md-chips,
+.gene-badge-container md-chips-wrap {
+  box-shadow: none !important;
+}
+
+genomic-filter-badge[is-embedded] > md-chips > md-chips-wrap > md-chip:hover {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.gene-badge {
+  border-radius: 3px !important;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0, .30);
+  min-width: 75px;
+  text-transform: uppercase;
+  /* No select for badges */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.gene-badge > a {
+  color: inherit;
+}
+
+.gene-badge > a:hover {
+  text-decoration: none;
+}
+
+.gene-badge-tooltip {
+  width: 350px !important;
+}
+
+.gene-badge-tooltip .md-content {
+  height: auto;
+  width: 350px !important;
+  padding: 15px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.gene-badge-tooltip b {
+  font-size: 115%;
+  margin-bottom: 8px;
+}
+
+.gene-badge-tooltip p {
+  font-size: 105%;
+  margin-top: 0;
+  font-weight: 400;
+}
+
+genomic-filter-badge[is-embedded] > md-chips > md-chips-wrap > md-chip:hover {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.80);
+}
+
+/**
+ * Table styling
+ */
+.mm-table .td-lead {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+
+.table-alert.md-default a {
+  color: white;
+}
+
+.card .card-padding, .card-header {
+  .md-title:first-child {
+    margin-top: 0!important;
+  }
+}
+
+/*
+ * Card media queries
+ */
+@media screen and (min-width: 768px) {
+  .card .card-padding, .card-header {
+    padding: 23px 25px!important;
+  }
+}
+
+@media screen and (min-width: 460px) {
+  .card .card-padding, .card-header {
+    padding: 15px 17px;
+  }
+}
+
+.custom-icon-size-sm {
+  font-size: 21px !important;
+}

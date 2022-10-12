@@ -1,0 +1,78 @@
+<!-- Tab navigation and options -->
+<section layout="row"
+		 layout-align="center center"
+		 layout-wrap
+         class="tab-validation">
+	<div>
+		<p  ng-if="(!fe.filter.genomic_filter.TRUE_HUGO_SYMBOL || fe.filter.genomic_filter.TRUE_HUGO_SYMBOL.length == 0 && !fe.isMutationalSignatureSelected)"
+			class="message error">
+			You must at least select a gene or mutational signature.
+		</p>
+		<p  ng-if="fe.selectedCancerTypeCategory == '_SPECIFIC_' && (!fe.selectedCancerType || fe.selectedCancerType == '')"
+			class="message error
+			">
+			Please select a specific cancer type in the 'Clinical' tab.
+		</p>
+		<p ng-if="!fe.filter.label
+			   || fe.filter.label.length == 0
+			   || !fe.filter.protocol_id
+			   || fe.filter.protocol_id.length == 0"
+		   class="message error">
+			Filter label and / or {{ ENV.resources.institution }} protocol ID(s) are missing.
+		</p>
+		<p ng-if="(fe.data.ageRange.prefix == '^lt' || fe.data.ageRange.prefix == '^gt')
+					&& (!fe.data.ageRange.age || fe.data.ageRange.age == '')"
+		   class="message info">
+			Please select a cut off age in the 'Clinical' tab.
+		</p>
+		<p  ng-if="(!fe.filter.genomic_filter.VARIANT_CATEGORY || fe.filter.genomic_filter.VARIANT_CATEGORY.length == 0)"
+			class="message info">
+			You must select at least one Genomic Alteration Type.
+		</p>
+		<p  ng-if="fe.filter.genomic_filter.TRUE_HUGO_SYMBOL.length > 1"
+			class="message info">
+			Multiple genes selected. Protein change, transcript exon, and variant allele frequency criteria disabled.
+		</p>
+		<p  ng-if="((fe.allele_operator ==='^gt' || fe.allele_operator === '^lt') && fe.allele_percentage == null) ||
+                   (fe.allele_operator === '' && fe.allele_percentage != null)"
+			class="message error">
+			Please select an allele fraction percentage and operator.
+		</p>
+        <p ng-if="fe._loadedGenomicFilter" class="message error">
+            Warning: Updating a filter's genomic, clinical, or protocol criteria may reset existing <br/>patient matches into the "Pending" bin on the patient matches page.
+        </p>
+	</div>
+</section>
+<section layout="row" layout-sm="column" layout-wrap layout-align="center end" layout-wrap>
+	<div>
+		<md-button
+				class="md-raised"
+				ng-click="fe.previousTab()"
+				ng-disabled="fe.selectedTab == 0">
+			<md-icon md-font-library="material-icons">navigate_before</md-icon>
+			Previous
+		</md-button>
+	</div>
+	<div ng-cloak
+		 ng-show="!fe.filter._id">
+		<md-button
+			class="md-raised md-primary"
+			ng-click="fe.saveFilter(fe.filter)"
+			ng-disabled="!fe.isValidFilter(fe.filter) || fe.isProcessingBusy">Save</md-button>
+	</div>
+	<div ng-cloak
+		 ng-show="fe.filter._id">
+		<md-button
+			class="md-raised md-primary"
+			ng-click="fe.updateGenomicFilter(fe.filter)"
+			ng-disabled="fe.filterForm.$invalid || !fe.isValidFilter(fe.filter) || fe.isProcessingBusy">Update</md-button>
+	</div>
+	<div>
+		<md-button class="md-raised"
+			   ng-click="fe.nextTab()"
+			   ng-disabled="fe.selectedTab == 2">
+			Next
+			<md-icon md-font-library="material-icons">navigate_next</md-icon>
+		</md-button>
+	</div>
+</section>

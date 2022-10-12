@@ -1,0 +1,208 @@
+<div layout="row" layout-align="center start">
+  <section class="patient-detail-container" flex-md="100" flex="100" flex-lg="100" layout-align="space-between stretch"
+           layout="column">
+
+    <!-- Vital status banner -->
+    <patient-vital-status clinical="::pdc.patient.clinical"
+                          ctrl="::pdc">
+    </patient-vital-status>
+
+    <patient-multi-sample-select clinical="::pdc.patient.clinical"
+                                 ctrl="::pdc">
+    </patient-multi-sample-select>
+
+    <!-- Oncopanel PDF Report -->
+    <patient-oncopanel-report ng-hide="ENV.EPIC" ctrl="::pdc" clinical="::pdc.patient.clinical">
+    </patient-oncopanel-report>
+
+    <!-- Quality control -->
+    <patient-quality-control is-embedded="false"
+                             clinical="::pdc.patient.clinical"
+                             tooltip="pdc.getLayoutTooltipByVersion(id)">
+    </patient-quality-control>
+
+    <!-- Patient record -->
+    <patient-record is-embedded="false"
+                    clinical="::pdc.patient.clinical"
+                    oncotree-link="ENV.oncotreeLink">
+    </patient-record>
+
+    <!-- Pathologist comments -->
+    <patient-pathologist-comments is-embedded="false"
+                                  clinical="::pdc.patient.clinical"
+                                  tooltip="pdc.getLayoutTooltipByVersion(id)">
+    </patient-pathologist-comments>
+
+    <!-- Mutational Burden -->
+    <patient-mutational-burden is-embedded="false"
+                               clinical="::pdc.patient.clinical"
+                               tooltip="pdc.getLayoutTooltipByVersion(id)"
+                               ng-if="pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)">
+    </patient-mutational-burden>
+
+    <!-- Actionable Findings section -->
+    <div id="actionableFindings">
+      <div class="block-header">
+        <h2>
+          <md-icon
+            aria-label="Actionable Findings"
+            md-font-library="material-icons">
+            linear_scale
+          </md-icon>
+          Actionable Findings
+        </h2>
+
+        <ul class="actions">
+          <li>
+            <ng-include src="pdc.getLayoutTooltipByVersion('actionable-findings-header')"></ng-include>
+          </li>
+        </ul>
+      </div>
+
+      <div layout="column">
+        <patient-mutational-signatures is-embedded="false"
+                                       clinical="::pdc.patient.additionalSignatures[0]"
+                                       filter="pdc.additionalMutationalSignatures"
+                                       tooltip="pdc.getLayoutTooltipByVersion(id)"
+                                       ng-if="pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)">
+        </patient-mutational-signatures>
+
+        <!-- Each tier is a row consisting of a mutation table on the left side and a visualisation on the right side -->
+        <patient-dna-tiered-variants category="'actionableDNAVariants'"
+                                     tiered-variants="pdc.patient.actionableDNAVariants"
+                                     dt-opts="pdc.dtPmOpts"
+                                     tooltip="pdc.getLayoutTooltipByVersion(id)"
+                                     pm-tooltip="pdc.getPointMutationTooltip(tier)"
+                                     is-oncologist="pdc.isOncologist && !pdc.isCti">
+        </patient-dna-tiered-variants>
+
+        <patient-structured-s-v category="'structuredSVactionable'"
+                                tiered-variants="pdc.patient.actionableStructuredSV"
+                                dt-opts="pdc.dtPmOpts"
+                                tooltip="pdc.getLayoutTooltipByVersion(id)"
+                                pm-tooltip="pdc.getPointMutationTooltip(tier)"
+                                ng-if="pdc.includeForOncopanelVersion(3)">
+        </patient-structured-s-v>
+
+        <patient-cnv-grouped-by category="'actionableCnvMuts'"
+                                cnv-mut="pdc.patient.actionableCnvMut"
+                                dt-opts="pdc.dtCNVOpts"
+                                show-filters-fnc="pdc.showAnyFilters(collection)"
+                                is-oncologist="pdc.isOncologist && !pdc.isCti"
+                                tooltip="pdc.getLayoutTooltipByVersion(id)"
+                                ng-if="pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)">
+        </patient-cnv-grouped-by>
+
+        <!-- Structural Variants -->
+        <patient-structural-variants sv-mut="::pdc.patient.actionableSvMuts"
+                                     is-embedded="true"
+                                     ng-if="(pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)) && pdc.patient.actionableSvMuts.length"
+                                     tooltip="pdc.getLayoutTooltipByVersion(id)">
+        </patient-structural-variants>
+
+        <patient-dna-variants-by-region category="'PN'"
+                                        variants="pdc.patient.transformedNegativeGenomics['PN']"
+                                        dt-opts="pdc.dtNGOpts"
+                                        ng-tooltip="pdc.getNegativeGenomicsTooltip(category)"
+                                        ng-if="::pdc.patient.clinical.TEST_TYPE == 'CLINICAL'">
+        </patient-dna-variants-by-region>
+        <patient-dna-variants-by-region category="'PLC'"
+                                        variants="pdc.patient.transformedNegativeGenomics['PLC']"
+                                        dt-opts="pdc.dtNGOpts"
+                                        ng-tooltip="pdc.getNegativeGenomicsTooltip(category)"
+                                        ng-if="::pdc.patient.clinical.TEST_TYPE == 'CLINICAL'">
+        </patient-dna-variants-by-region>
+      </div>
+    </div>
+
+    <!-- Additional Findings section -->
+    <div id="additionalFindings">
+      <div class="block-header">
+        <h2>
+          <md-icon aria-label="Additional Findings"
+                   md-font-library="material-icons">
+            youtube_searched_for
+          </md-icon>
+          Additional Findings
+        </h2>
+
+        <ul class="actions">
+          <li>
+            <ng-include src="pdc.getLayoutTooltipByVersion('additional-findings-header')"></ng-include>
+          </li>
+        </ul>
+      </div>
+
+      <div layout="column">
+        <patient-additional-mutational-signatures
+          variants="pdc.patient.additionalSignatures[0]"
+          filter="pdc.additionalMutationalSignatures"
+          tooltip="pdc.getLayoutTooltipByVersion(id)"
+          ng-if="(pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)) && pdc.hasAdditionalSignatures">
+        </patient-additional-mutational-signatures>
+
+        <!-- Each tier is a row consisting of a mutation table -->
+        <patient-dna-tiered-variants category="'additionalDNAVariants'"
+                                     tiered-variants="pdc.patient.additionalDNAVariants"
+                                     dt-opts="pdc.dtPmOpts"
+                                     tooltip="pdc.getLayoutTooltipByVersion(id)"
+                                     pm-tooltip="pdc.getPointMutationTooltip(tier)"
+                                     is-oncologist="pdc.isOncologist && !pdc.isCti">
+        </patient-dna-tiered-variants>
+
+        <patient-structured-s-v category="'structuredSVadditional'"
+                                tiered-variants="pdc.patient.additionalStructuredSV"
+                                dt-opts="pdc.dtPmOpts"
+                                tooltip="pdc.getLayoutTooltipByVersion(id)"
+                                pm-tooltip="pdc.getPointMutationTooltip(tier)"
+                                ng-if="pdc.includeForOncopanelVersion(3)">
+        </patient-structured-s-v>
+
+        <patient-cnv-grouped-by category="'additionalCnvMuts'"
+                                cnv-mut="pdc.patient.additionalCnvMut"
+                                dt-opts="pdc.dtCNVOpts"
+                                show-filters-fnc="pdc.showAnyFilters(collection)"
+                                is-oncologist="pdc.isOncologist && !pdc.isCti"
+                                tooltip="pdc.getLayoutTooltipByVersion(id)"
+                                ng-if="pdc.includeForOncopanelVersion(2) || pdc.includeForOncopanelVersion(3)">
+        </patient-cnv-grouped-by>
+
+        <!-- Structural Variants -->
+        <patient-structural-variants sv-mut="::pdc.patient.additionalSvMuts"
+                                     is-embedded="true"
+                                     ng-if="(pdc.includeForOncopanelVersion(2)) && pdc.patient.additionalSvMuts.length"
+                                     tooltip="pdc.getLayoutTooltipByVersion(id)">
+        </patient-structural-variants>
+
+        <patient-dna-variants-by-region category="'NPLC'"
+                                        variants="pdc.patient.transformedNegativeGenomics['NPLC']"
+                                        dt-opts="pdc.dtNGOpts"
+                                        ng-tooltip="pdc.getNegativeGenomicsTooltip(category)"
+                                        ng-if="pdc.patient.clinical.TEST_TYPE == 'CLINICAL'">
+        </patient-dna-variants-by-region>
+      </div>
+    </div>
+
+    <patient-cnv cnv-mut="pdc.patient.cnvMut"
+                 dt-opts="pdc.dtAltCNVOpts"
+                 is-oncologist="pdc.isOncologist && !pdc.isCti"
+                 ng-if="pdc.includeForOncopanelVersion(1)"
+                 tooltip="pdc.getLayoutTooltipByVersion(id)">
+    </patient-cnv>
+
+
+    <!-- Structural Variants -->
+    <patient-structural-variants sv-mut="::pdc.patient.svMut"
+                                 is-embedded="false"
+                                 ng-if="pdc.includeForOncopanelVersion(1)"
+                                 tooltip="pdc.getLayoutTooltipByVersion(id)">
+    </patient-structural-variants>
+
+    <!-- Methodology -->
+    <oncopanel-methodology clinical="::pdc.patient.clinical" ctrl="pdc"></oncopanel-methodology>
+
+    <!-- References -->
+    <oncopanel-references ctrl="pdc"></oncopanel-references>
+  </section>
+</div>
+

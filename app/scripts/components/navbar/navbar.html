@@ -1,0 +1,171 @@
+<nav id="site-nav"
+     ng-class="{
+        stuck: nbc.scroll > 5,
+        'dashboard-nav': (nbc.state != 'home' && nbc.state != 'clinicaltrials.overview')
+	}"
+>
+<!--    <md-toolbar id="announcement-banner" class="md-info" ng-if="nbc.toShowBanner() && !ENV.EPIC" layout-padding layout="row" layout-align="space-between none">-->
+<!--        <span style="min-width: 97%">-->
+<!--            MatchMiner is now <a ui-sref="faq">available in Epic Hyperspace</a>. MatchMiner now also matches based on structural variants, tumor mutational burden and the full set of mutational signatures called by OncoPanel. <br/>Questions? Please email us at-->
+<!--        </span>-->
+<!--        <md-icon aria-label="Close" md-font-library="material-icons" style="cursor: default; margin-top: 0px; margin-left: 10px" ng-click="nbc.toggleBanner()">-->
+<!--            close-->
+<!--        </md-icon>-->
+<!--    </md-toolbar>-->
+
+    <div layout="row"  layout-align="space-between center" class="nav-wrapper">
+        <div hide show-gt-md>
+            <a ui-sref="home"
+               analytics-on="click" analytics-event="Navigate to home with logo" analytics-category="Navbar"
+               class="mm-logo"></a>
+        </div>
+
+        <span flex></span>
+        <ul class="mm-nav" ng-if="!nbc.isAuthenticated">
+            <li>
+                <a href="#matchminer" du-smooth-scroll du-scrollspy
+                   analytics-on="click" analytics-event="Navigate to home" analytics-category="Navbar"
+                   analytics-label="Unauthorized">
+                    MatchMiner
+                </a>
+            </li>
+            <li>
+                <a ui-sref-active="active"
+                   ui-sref="clinicaltrials.overview"
+                   analytics-on="click" analytics-event="Navigate to clinical trials" analytics-category="Navbar"
+                   analytics-label="Unauthenticated"
+                   ng-class="{ 'active' :nbc.isClinicalTrialPage}">Clinical Trials</a>
+            </li>
+            <li>
+                <a ui-sref-active="active"
+                   analytics-on="click" analytics-event="Navigate to FAQ" analytics-category="Navbar"
+                   analytics-label="Unauthenticated"
+                   ui-sref="faq">FAQ</a>
+            </li>
+        </ul>
+
+        <div ng-if="!nbc.isAuthenticated" class="user-action-button" layout="row">
+            <div layout="column">
+                <md-button class="md-primary md-raised" ng-click="nbc.login()"
+                           analytics-on="click" analytics-event="Login from navbar" analytics-category="Navbar"
+                           analytics-label="Unauthenticated">
+                    <md-icon aria-label="SAML Login" md-font-library="material-icons">
+                        fingerprint
+                    </md-icon>
+                    {{ nbc.loginText }}
+                </md-button>
+            </div>
+
+            <div layout="column">
+                <md-button ui-sref-active="active"
+                           class="md-default md-raised hero-btn-lg"
+                           analytics-on="click"
+                           analytics-event="Navigate to Apply for Access"
+                           analytics-category="Navbar"
+                           analytics-label="Unauthenticated"
+                           ui-sref="apply-for-access">
+                    <md-icon aria-label="Apply for access" md-font-library="material-icons">
+                        question_answer
+                    </md-icon>
+                    Apply for access
+                </md-button>
+            </div>
+        </div>
+
+        <ul class="mm-nav" layout-fill ng-if="nbc.isAuthenticated">
+            <li>
+                <a ng-class="{ 'active': nbc.isHomeRoute }"
+                   analytics-on="click" analytics-event="Navigate to home" analytics-category="Navbar"
+                   analytics-label="Authenticated"
+                   ui-sref="home">Home</a>
+            </li>
+            <li>
+                <a ui-sref-active="active"
+                   ui-sref="clinicaltrials.overview"
+                   analytics-on="click" analytics-event="Navigate to clinical trials" analytics-category="Navbar"
+                   analytics-label="Authenticated"
+                   ng-class="{ 'active' :nbc.isClinicalTrialPage}">Trials</a>
+            </li>
+            <li ui-sref-active="active" has-any-authority="cti">
+                <a ui-sref="filters-overview"
+                   ng-class="{ 'active' :nbc.isFilterPage}"
+                   analytics-on="click" analytics-event="Navigate to genomic filters"
+                   analytics-category="Navbar" analytics-label="Authenticated - CTI">
+                    Filters
+                </a>
+            </li>
+            <li ui-sref-active="active" has-any-authority="cti">
+                <a ui-sref="matches"
+                   ng-class="{ 'active' :nbc.isMatchesPage}"
+                   analytics-on="click" analytics-event="Navigate to patient matches"
+                   analytics-category="Navbar" analytics-label="Authenticated - CTI">
+                    <span>Matches</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="patient-search"
+                   ng-class="{ 'active' :nbc.isPatientSearchPage}"
+                   analytics-on="click" analytics-event="Navigate to patient search" analytics-category="Navbar"
+                   analytics-label="Authenticated - CTI">
+                    Patient Search
+                </a>
+            </li>
+            <li>
+                <a ui-sref-active="active"
+                   analytics-on="click" analytics-event="Navigate to FAQ" analytics-category="Navbar"
+                   analytics-label="Authenticated"
+                   ui-sref="faq">FAQ</a>
+            </li>
+            <li has-authority="admin">
+                <a ui-sref-active-eq="active"
+                   ng-class="{ 'active' :nbc.isStatisticsPage}"
+                   analytics-on="click"
+                   analytics-event="Navigate to statistics"
+                   analytics-category="Navbar"
+                   analytics-label="Authenticated"
+                   ui-sref="statistics">Statistics</a>
+            </li>
+        </ul>
+
+        <div layout="row" ng-if="nbc.isAuthenticated">
+            <div class="user-account-details" layout="row" hide show-gt-sm layout-align="start center">
+                <div class="account-icon-container" layout="column" layout-align="center center">
+                    <md-icon md-font-library="material-icons" class="user-account-icon">
+                        account_circle
+                    </md-icon>
+                </div>
+                <div class="account-name" layout="column">
+                    <span class="user-firstname">{{ nbc.userAccount.first_name }}</span>
+                    <span class="user-lastname">{{ nbc.userAccount.last_name }}</span>
+                    <span class="user-role" has-authority="cti">Clinical Trial Investigator</span>
+                    <span class="user-role" has-authority="oncologist">Oncologist</span>
+                    <span class="user-role" has-authority="admin">Admin</span>
+                </div>
+            </div>
+            <div>
+                <div class="user-action-button" layout="row">
+                    <span flex></span>
+                    <div layout="column">
+                        <md-button class="md-warn md-raised" ng-click="nbc.logout()"
+                                   analytics-on="click" analytics-event="Logout from navbar" analytics-category="Navbar"
+                                   analytics-label="Authenticated">
+                            <md-icon aria-label="SAML logout" md-font-library="material-icons">
+                                exit_to_app
+                            </md-icon>
+                            Sign out
+                        </md-button>
+
+                        <md-button class="md-default md-raised" ng-click="nbc.reportBug($event)"
+                                   analytics-on="click" analytics-event="Report bug from navbar"
+                                   analytics-category="Navbar" analytics-label="Authenticated">
+                            <md-icon aria-label="Report bug" md-font-library="material-icons">
+                                bug_report
+                            </md-icon>
+                            Report bug
+                        </md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

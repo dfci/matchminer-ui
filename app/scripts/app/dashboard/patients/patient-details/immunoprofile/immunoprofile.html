@@ -1,0 +1,56 @@
+<div layout="row" layout-align="center start">
+    <section class="patient-detail-container" flex-md="100" flex="100" flex-lg="100"
+             layout-align="space-between stretch"
+             layout="column">
+
+        <patient-vital-status clinical="::pdc.patient.clinical"
+                              ctrl="::pdc">
+        </patient-vital-status>
+
+        <patient-multi-sample-select clinical="::pdc.patient.clinical"
+                                     ctrl="::pdc">
+        </patient-multi-sample-select>
+
+        <div class="card">
+            <div layout="row"
+                 layout-align="start center"
+                 style="padding: 21px 23px 21px 23px !important;"
+                 class="card-header md-red patient-oncopanel-wrapper">
+                <div class="patient-oncopanel-notification">
+                    <md-icon aria-label="Patient Legend"
+                             md-font-library="material-icons">
+                        remove_red_eye
+                    </md-icon>
+                </div>
+                <div class="patient-oncopanel-notification">
+                    <span>
+                        ImmunoProfile Research Cohort Report  - For viewing only. Do not <i>save</i> or <i>print</i>. 
+                        <br> This report is not part of the medical record.
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <patient-record-ip clinical="::pdc.patient.clinical"
+                           ctrl="::pdc"
+                           immunoprofile="::pdc.patient.immunoprofile">
+        </patient-record-ip>
+
+        <summary-of-results clinical="::pdc.patient.clinical"
+                            ctrl="::pdc"
+                            immunoprofile="::pdc.patient.immunoprofile">
+        </summary-of-results>
+
+        <detailed-assessment clinical="::pdc.patient.clinical"
+                             dt-opts="pdc.dtIPOptions"
+                             ctrl="::pdc"
+                             ng-if="!pdc.patient.immunoprofile.failed_sign_out"
+                             immunoprofile="::pdc.patient.immunoprofile">
+        </detailed-assessment>
+
+        <immunoprofile-methodology></immunoprofile-methodology>
+
+        <immunoprofile-contact ctrl="::pdc" ng-if="::pdc.ENV.immunoprofileEmail"></immunoprofile-contact>
+    </section>
+</div>
+

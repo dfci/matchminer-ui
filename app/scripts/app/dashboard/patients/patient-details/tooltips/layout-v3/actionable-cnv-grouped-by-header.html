@@ -1,0 +1,31 @@
+<md-icon aria-label="Copy Number Variants" md-font-library="material-icons">
+	info_outline
+</md-icon>
+<md-tooltip md-autohide class="md-content" md-direction="top">
+	<h3>Copy Number Variants</h3>
+	<p>
+		<span>Copy Number Variants by alteration type, e.g. Amplification, Gain, Two Copy Deletion, and Loss.</span><br/>
+		<span class="md-lightblue">Copy Number Variants in this section have been reported as <strong>actionable</strong> by the molecular pathologist.</span>
+	</p>
+	<p>
+		<span>When the estimated number of copies for a CNV call is calculated as >= 6 copies, the report will</span><br/>
+		<span>include the number of copies instead of reporting high or low amplification.</span>
+	</p>
+	<p>
+		<span>The copy estimate is the average number of copies in the sample and is not adjusted for subclonal</span><br/>
+		<span>events, rounded to the nearest whole number.</span>
+	</p>
+	<p>
+		<span>IMPORTANTLY, the estimated copy number is a function of the subjective visual assessment of tumor</span><br/>
+		<span>purity (heterogeneity) made by a pathologist. As such, this copy number is an estimate, with an element</span><br/>
+ 	 	<span>of error. Copy number alterations are called at the gene level; genes that are not on our assay but</span><br/>
+		<span>are present in the cytoband should not have the same copy alteration inferred.</span>
+	</p>
+	<p>
+		The following formula is used for the calculation:
+		<pre>
+Noc = Number of Copies, AGCR = Average Gene Copy Ratio, and P = Tumor Purity:
+NoC = (2 * (AGCR -1)/P ) + 2)
+		</pre>
+	</p>
+</md-tooltip>

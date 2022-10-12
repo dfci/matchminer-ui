@@ -1,0 +1,341 @@
+<div id="detailedAssessment">
+    <div class="block-header">
+        <h2>
+            <md-icon aria-label="Summary of Results"
+                     md-font-library="material-icons">
+                line_style
+            </md-icon>
+            Detailed Assessment
+        </h2>
+    </div>
+
+    <div layout="row">
+        <div flex>
+            <div class="card ip-variant-card" style="margin-top: 10px !important;">
+                <div class="card-header pr-header">
+                    <h2>
+                        PD-L1
+                    </h2>
+                </div>
+
+                <div class="card-body ip-card-overflow">
+                    <table datatable dt-options="dtOpts" class="table table-inner table-vmiddle ip-table" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Biomarker</th>
+                            <th colspan="3"> Tumor Proportion Score (TPS)
+                                <md-icon aria-label="Intra-Tumor" md-font-library="material-icons" class="custom-icon-size-sm">
+                                    info_outline
+                                </md-icon>
+                                <md-tooltip md-autohide class="md-content" md-direction="top">
+                                    <h3>Tumor Proportion Score (%)</h3>
+                                    <p class="max-width-tooltip">
+                                        Tumor Proportion Score is the percentage of viable tumor cells showing PD-L1 staining relative to all viable tumor cells.
+                                    </p>
+                                </md-tooltip>
+                            </th>
+                            <th colspan="3"> Combined Positive Score (CPS)
+                                <md-icon aria-label="Intra-Tumor" md-font-library="material-icons" class="custom-icon-size-sm">
+                                    info_outline
+                                </md-icon>
+                                <md-tooltip md-autohide class="md-content" md-direction="top">
+                                    <h3>Combined Positive Score (%)</h3>
+                                    <p class="max-width-tooltip">
+                                        Combined positive score is the percentage of PD-L1 staining cells (tumor cells and cells that are non-tumor) relative to all viable tumor cells.
+                                    </p>
+                                </md-tooltip>
+                            </th>
+                            <th colspan="3" ng-hide="ctrl.ip_hide_pdl1_ica"> Inflammatory Cell Area Score (IC)
+                                <md-icon aria-label="Intra-Tumor" md-font-library="material-icons" class="custom-icon-size-sm">
+                                    info_outline
+                                </md-icon>
+                                <md-tooltip md-autohide class="md-content" md-direction="top">
+                                    <h3>Inflammatory Cell Area Score (IC)</h3>
+                                    <p class="max-width-tooltip">
+                                        Area of PD-L1+ inflammatory cells over the area of TSI + IT as a percentage.
+                                    </p>
+                                </md-tooltip>
+                            </th>
+                            <th colspan="3"> Inflammatory Proportion Score (non-tumor cells)
+                                <md-icon aria-label="Intra-Tumor" md-font-library="material-icons" class="custom-icon-size-sm">
+                                    info_outline
+                                </md-icon>
+                                <md-tooltip md-autohide class="md-content" md-direction="top">
+                                    <h3>Inflammatory Proportion Score (non-tumor cells)</h3>
+                                    <p class="max-width-tooltip">
+                                        Percentage of inflammatory cells (non-tumor cells) showing PD-L1 staining relative to all inflammatory cells.
+                                    </p>
+                                </md-tooltip>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody style="text-align: center">
+                        <tr style="font-weight: 600">
+                            <td class="br-g"></td>
+                            <td>Score</td>
+                            <td>Tumor Percentile</td>
+                            <td class="br-g">Pan-Cancer Percentile</td>
+                            <td>Score</td>
+                            <td>Tumor Percentile</td>
+                            <td class="br-g">Pan-Cancer Percentile</td>
+
+                            <td ng-hide="ctrl.ip_hide_pdl1_ica">Score</td>
+                            <td ng-hide="ctrl.ip_hide_pdl1_ica">Tumor Percentile</td>
+                            <td ng-hide="ctrl.ip_hide_pdl1_ica" class="br-g">Pan-Cancer Percentile</td>
+                            <td>Score</td>
+                            <td>Tumor Percentile</td>
+                            <td class="br-g">Pan-Cancer Percentile</td>
+                        </tr>
+                        <tr> <!-- 4 scores -->
+                            <!-- tps -->
+                            <td class="br-g" style="padding-left: 20px">PD-L1 (E1L3N)</td>
+                            <td ng-bind-html="ctrl.pd_l1_tps_score"></td>
+                            <td ng-bind-html="ctrl.pd_l1_tps_percentile_tumor"></td>
+                            <td ng-bind-html="ctrl.pd_l1_tps_percentile_total" class="br-g"></td>
+
+                            <!-- cps -->
+                            <td ng-bind-html="ctrl.pd_l1_cps_score"></td>
+                            <td ng-bind-html="ctrl.pd_l1_cps_percentile_tumor"></td>
+                            <td ng-bind-html="ctrl.pd_l1_cps_percentile_total" class="br-g"></td>
+
+                             <!-- ica -->
+                            <td ng-hide="ctrl.ip_hide_pdl1_ica" ng-bind-html="ctrl.pd_l1_ica_score"></td>
+                            <td ng-hide="ctrl.ip_hide_pdl1_ica" ng-bind-html="ctrl.pd_l1_ica_percentile_tumor"></td>
+                            <td ng-hide="ctrl.ip_hide_pdl1_ica" ng-bind-html="ctrl.pd_l1_ica_percentile_total" class="br-g"></td>
+
+                            <!-- ips -->
+                            <td ng-bind-html="ctrl.pd_l1_ips_score"></td>
+                            <td ng-bind-html="ctrl.pd_l1_ips_percentile_tumor"></td>
+                            <td ng-bind-html="ctrl.pd_l1_ips_percentile_total" class="br-g"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="ip-table-note">
+                        <div style="padding-left: 20px">
+                            <small>
+                                Table shows counts percent ± standard error, percentile relative
+                                to {{ immunoprofile.sample_size.tumor }} {{ clinical.IP_DIAGNOSIS }} 
+                                cases<span ng-hide="ctrl.ip_hide_pdl1_ica || immunoprofile.pdl1.scores.ica.percentile_tumor === undefined"> ({{ immunoprofile.sample_size.ica_tumor }} for IC)</span>,
+
+                                and percentile relative to {{ immunoprofile.sample_size.total }} pan-cancer 
+                                cases<span ng-hide="ctrl.ip_hide_pdl1_ica || immunoprofile.pdl1.scores.ica.percentile_total === undefined"> ({{ immunoprofile.sample_size.ica_total }} for IC)</span>.
+                                
+                                <br/>Percentiles are not calculated when fewer than 20 cases exist.
+                                
+                                <span ng-if="immunoprofile.version === 1">
+                                    <br/>Percentiles were added after this case was signed out and are calculated relative to all cases signed out prior to October 5, 2020.
+                                </span>
+                                <span ng-if="immunoprofile.version > 1">
+                                    <br/>Percentiles were calculated during signout relative to all previously signed out cases.
+                                </span>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+            </div>
+
+            <div class="card ip-variant-card">
+                <div class="card attached-card" >
+                    <div class="card-header pr-header">
+                        <h2>
+                            Biomarkers
+                        </h2>
+                    </div>
+                </div>
+                <div class="card-body ip-card-overflow">
+                    <table datatable dt-options="dtOpts" class="table table-inner table-vmiddle"
+                           width="100%">
+                        <thead>
+                        <tr>
+                            <th style="min-width: 150px;">Biomarker</th>
+                            <th colspan="3">
+                                Intra-Tumor
+                                <md-icon aria-label="Intra-Tumor" md-font-library="material-icons" class="custom-icon-size-sm">
+                                    info_outline
+                                </md-icon>
+                                <md-tooltip md-autohide class="md-content" md-direction="top">
+                                    <h3>Intra-Tumor</h3>
+                                    <p class="max-width-tooltip">
+                                        Intra-tumor is the region of tumor cells beyond the tumor-stroma interface.
+                                    </p>
+                                </md-tooltip>
+                            </th>
+                            <th colspan="3">
+                                Tumor-Stroma Interface
+                                <md-icon aria-label="Intra-Tumor" md-font-library="material-icons" class="custom-icon-size-sm">
+                                    info_outline
+                                </md-icon>
+                                <md-tooltip md-autohide class="md-content" md-direction="top">
+                                    <h3>Tumor-Stroma Interface</h3>
+                                    <p class="max-width-tooltip">
+                                        Tumor-stroma interface is the region within
+                                        40 microns on either side of the defined border between tumor and stroma.
+                                    </p>
+                                </md-tooltip>
+                            </th>
+                            <th colspan="3">
+                                Tumor-Stroma Interface and Intra-Tumor
+                                <md-icon aria-label="Intra-Tumor" md-font-library="material-icons" class="custom-icon-size-sm">
+                                    info_outline
+                                </md-icon>
+                                <md-tooltip md-autohide class="md-content" md-direction="top">
+                                    <h3>Tumor-Stroma Interface and Intra-Tumor</h3>
+                                    <p class="max-width-tooltip">
+                                        The intra-tumor region combined with the tumor-stroma interface contains the
+                                        tumor region plus an additional 40 microns of stroma beyond the defined border
+                                        between tumor and stroma.
+                                    </p>
+                                </md-tooltip>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody style="text-align: center">
+                        <tr style="font-weight: 600">
+                            <td class="br-g"></td>
+                            <td>Score</td>
+                            <td>Tumor Percentile</td>
+                            <td class="br-g">Pan-Cancer Percentile</td>
+                            <td>Score</td>
+                            <td>Tumor Percentile</td>
+                            <td class="br-g">Pan-Cancer Percentile</td>
+                            <td>Score</td>
+                            <td>Tumor Percentile</td>
+                            <td class="br-g">Pan-Cancer Percentile</td>
+                        </tr>
+                        <tr>
+                            <td class="br-g">
+                                Total CD8<sup>+</sup>
+                                <md-icon aria-label="Intra-Tumor" md-font-library="material-icons" class="custom-icon-size-sm">
+                                    info_outline
+                                </md-icon>
+                                <md-tooltip md-autohide class="md-content" md-direction="top">
+                                    <p class="max-width-tooltip">
+                                        Cell expressing CD8, a marker of cytotoxic T cells
+                                    </p>
+                                </md-tooltip>
+                            </td>
+
+                            <!-- cd8 -->
+                            <td ng-bind-html="ctrl.bio_cd8_it_score"></td>
+                            <td ng-bind-html="ctrl.bio_cd8_it_percentile_tumor"></td>
+                            <td ng-bind-html="ctrl.bio_cd8_it_percentile_total" class="br-g"></td>
+
+                            <td ng-bind-html="ctrl.bio_cd8_tsi_score"></td>
+                            <td ng-bind-html="ctrl.bio_cd8_tsi_percentile_tumor"></td>
+                            <td ng-bind-html="ctrl.bio_cd8_tsi_percentile_total" class="br-g"></td>
+
+                            <td ng-bind-html="ctrl.bio_cd8_it_tsi_score"></td>
+                            <td ng-bind-html="ctrl.bio_cd8_it_tsi_percentile_tumor"></td>
+                            <td ng-bind-html="ctrl.bio_cd8_it_tsi_percentile_total" class="br-g"></td>
+                        </tr>
+                        <tr>
+                            <td class="br-g">
+                                Total PD-1<sup>+</sup>
+                                <md-icon aria-label="Intra-Tumor" md-font-library="material-icons" class="custom-icon-size-sm">
+                                    info_outline
+                                </md-icon>
+                                <md-tooltip md-autohide class="md-content" md-direction="top">
+                                    <p class="max-width-tooltip">
+                                        Cells expressing PD-1
+                                    </p>
+                                </md-tooltip>
+                            </td>
+
+                            <!-- pd1 -->
+                            <td ng-bind-html="ctrl.bio_pd1_it_score"></td>
+                            <td ng-bind-html="ctrl.bio_pd1_it_percentile_tumor"></td>
+                            <td ng-bind-html="ctrl.bio_pd1_it_percentile_total" class="br-g"></td>
+
+                            <td ng-bind-html="ctrl.bio_pd1_tsi_score"></td>
+                            <td ng-bind-html="ctrl.bio_pd1_tsi_percentile_tumor"></td>
+                            <td ng-bind-html="ctrl.bio_pd1_tsi_percentile_total" class="br-g"></td>
+
+                            <td ng-bind-html="ctrl.bio_pd1_it_tsi_score"></td>
+                            <td ng-bind-html="ctrl.bio_pd1_it_tsi_percentile_tumor"></td>
+                            <td ng-bind-html="ctrl.bio_pd1_it_tsi_percentile_total" class="br-g"></td>
+                        </tr>
+                        <tr>
+                            <td class="br-g">
+                                Total CD8<sup>+</sup> & PD-1<sup>+</sup>
+                                <md-icon aria-label="Intra-Tumor" md-font-library="material-icons" class="custom-icon-size-sm">
+                                    info_outline
+                                </md-icon>
+                                <md-tooltip md-autohide class="md-content" md-direction="top">
+                                    <p class="max-width-tooltip">
+                                        Cells expressing both CD8 and PD-1
+                                    </p>
+                                </md-tooltip>
+                            </td>
+                            <!-- pd1 -->
+                            <td ng-bind-html="ctrl.bio_cd8_pd1_it_score"></td>
+                            <td ng-bind-html="ctrl.bio_cd8_pd1_it_percentile_tumor"></td>
+                            <td ng-bind-html="ctrl.bio_cd8_pd1_it_percentile_total" class="br-g"></td>
+
+                            <td ng-bind-html="ctrl.bio_cd8_pd1_tsi_score"></td>
+                            <td ng-bind-html="ctrl.bio_cd8_pd1_tsi_percentile_tumor"></td>
+                            <td ng-bind-html="ctrl.bio_cd8_pd1_tsi_percentile_total" class="br-g"></td>
+
+                            <td ng-bind-html="ctrl.bio_cd8_pd1_it_tsi_score"></td>
+                            <td ng-bind-html="ctrl.bio_cd8_pd1_it_tsi_percentile_tumor"></td>
+                            <td ng-bind-html="ctrl.bio_cd8_pd1_it_tsi_percentile_total" class="br-g"></td>
+                        </tr>
+                        <tr>
+                            <td class="br-g">
+                                Total FOXP3<sup>+</sup>
+                                <md-icon aria-label="Intra-Tumor" md-font-library="material-icons" class="custom-icon-size-sm">
+                                    info_outline
+                                </md-icon>
+                                <md-tooltip md-autohide class="md-content" md-direction="top">
+                                    <p class="max-width-tooltip">
+                                        Cells expressing FOXP3, a marker of regulatory T cells
+                                    </p>
+                                </md-tooltip>
+                            </td>
+
+                            <!-- pd1 -->
+                            <td ng-bind-html="ctrl.bio_foxp3_it_score"></td>
+                            <td ng-bind-html="ctrl.bio_foxp3_it_percentile_tumor"></td>
+                            <td ng-bind-html="ctrl.bio_foxp3_it_percentile_total" class="br-g"></td>
+
+                            <td ng-bind-html="ctrl.bio_foxp3_tsi_score"></td>
+                            <td ng-bind-html="ctrl.bio_foxp3_tsi_percentile_tumor"></td>
+                            <td ng-bind-html="ctrl.bio_foxp3_tsi_percentile_total" class="br-g"></td>
+
+                            <td ng-bind-html="ctrl.bio_foxp3_it_tsi_score"></td>
+                            <td ng-bind-html="ctrl.bio_foxp3_it_tsi_percentile_tumor"></td>
+                            <td ng-bind-html="ctrl.bio_foxp3_it_tsi_percentile_total" class="br-g"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="ip-table-note" style="padding-bottom: 20px">
+                        <div style="padding-left: 20px">
+                            <small>
+                                Table shows counts per mm<sup>2</sup> ± standard error, percentile relative
+                                to {{ immunoprofile.sample_size.tumor }} {{ clinical.IP_DIAGNOSIS }}
+                                cases ({{ immunoprofile.sample_size.tsi_tumor }} cases for tumor-stroma interface), and
+                                percentile relative to {{ immunoprofile.sample_size.total }} pan-cancer cases
+                                ({{ immunoprofile.sample_size.tsi_total }} cases for tumor-stroma interface).
+                                <br/>Percentiles are not calculated when fewer than 20 cases exist.
+                                <span ng-if="immunoprofile.version === 1">
+                                    <br/>Percentiles were added after this case was signed out and are calculated relative to all cases signed out prior to October 5, 2020.
+                                </span>
+                                <span ng-if="immunoprofile.version > 1">
+                                    <br/>Percentiles were calculated during signout relative to all previously signed out cases.
+                                </span>
+                                <span ng-if="!immunoprofile.biomarkers.cd8.tsi.value &&
+                                !immunoprofile.biomarkers.pd1.tsi.value &&
+                                !immunoprofile.biomarkers.cd8_pd1.tsi.value &&
+                                !immunoprofile.biomarkers.foxp3.tsi.value">
+                                    <br/>*Tumor-stroma interface was not analyzed for this sample.
+                                </span>
+                            </small>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

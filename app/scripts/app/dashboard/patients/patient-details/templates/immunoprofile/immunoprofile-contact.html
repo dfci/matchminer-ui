@@ -1,0 +1,26 @@
+<div id="contactsAndReferences">
+    <div class="block-header">
+        <h2>
+            <md-icon aria-label="Summary of Results"
+                     md-font-library="material-icons">
+                list
+            </md-icon>
+            Contact
+        </h2>
+    </div>
+
+    <div class="card">
+        <div class="card-body card-padding">
+            <h3 class="md-title">Contact</h3>
+            For questions about the ImmunoProfile assay, please email
+            <a ng-if="!ctrl.ENV.EPIC" style="color: blue; text-decoration: underline" href="mailto:{{::ctrl.ENV.immunoprofileEmail}}">
+                {{::ctrl.ENV.immunoprofileEmail}}
+            </a>
+            <span ng-if="ctrl.ENV.EPIC" style="color: blue; text-decoration: underline">
+                {{::ctrl.ENV.immunoprofileEmail}}
+            </span>
+            </p>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,30 @@
+#patient-search-results {
+  display: flex;
+  overflow: auto;
+  transition: margin 200ms;
+  transition-timing-function: cubic-bezier(.5, -0.25, .5, 1.25);
+  height: 100%;
+  width: 100%;
+  padding: 35px 15px;
+}
+
+#patient-search-results h3:first-child {
+  font-size: 16px;
+  margin-top: 0;
+  border-bottom: 2px solid #777;
+}
+
+#patient-search-results .trial:hover {
+  background-color: #E8E8E8;
+  cursor: pointer;
+}
+
+#patient-search-results .search-loading {
+  padding: 25px;
+}
+
+.patient-search-results-info {
+  font-size: 16px;
+  font-style: italic;
+  margin: 15px 0px 0px 15px;
+}

@@ -1,0 +1,76 @@
+/**
+ * Clinical trial filters
+ */
+#clinical-trials-filters {
+  padding: 35px;
+  width: 300px;
+}
+
+#clinical-trials-filters > h3 {
+  margin-top: 0;
+  border-bottom: 2px solid #777;
+}
+
+#clinical-trials-filters h3 {
+  font-size: 16px;
+  margin-bottom: 0px;
+}
+
+#clinical-trials-filters md-icon.expando {
+  margin-bottom: 4px;
+}
+
+#clinical-trials-filters h3:hover {
+  cursor: pointer;
+}
+
+#clinical-trials-filters ul {
+  list-style: none;
+  padding-left: 20px;
+  margin-top: 0px;
+  padding-top: 10px;
+}
+
+#clinical-trials-filters ul.filter-options li {
+  font-size: 14px;
+}
+
+#clinical-trials-filters ul.filter-options li:hover {
+  font-weight: 500;
+  transition: font .25s ease-out;
+}
+
+#clinical-trials-filters ul.filter-options li .count {
+  font-weight: 600;
+}
+
+#clinical-trials-filters ul.filter-options li.no-options {
+  font-weight: 500;
+}
+
+#clinical-trials-filters ul.filter-options {
+  transition: all linear 220ms;
+  height: 100%;
+}
+
+#clinical-trials-filters ul.filter-options.collapsed {
+  height: 0;
+  transition: all linear 300ms;
+}
+
+#clinical-trials-filters ul.filter-options.ng-hide {
+  opacity: 0;
+}
+
+#clinical-trials-filters ul.filter-options.ng-hide-remove,
+#clinical-trials-filters ul.filter-options.ng-hide-add {
+  display: block !important;
+}
+
+#clinical-trials-filters ul.filter-options.ng-hide-remove {
+  transition: all linear 180ms;
+}
+
+#clinical-trials-filters ul.filter-options.ng-hide-add {
+  transition: all linear 220ms;
+}

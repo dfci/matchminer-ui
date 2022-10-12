@@ -1,0 +1,722 @@
+<section class="clinical-trials-wrapper" layout-fill>
+	<section layout="column" id="clinical-trial-details" class="section-primary" layout-fill>
+		<div ng-if="!ENV.EPIC" ng-hide="ENV.cBio">
+            <div ui-view="navbar"></div>
+            <div class="navbar-separator"></div>
+            <div ncy-breadcrumb ng-if="ctd.trial || ctd.trialNotFound"></div>
+        </div>
+
+
+		<section class="clinical-trial-details-pane" layout="row" layout-align="center start" ng-if="ctd.trialNotFound">
+			<section layout="row" flex="70">
+				<md-toolbar class="nav-alert md-warn" flex layout="column" layout-align="center center">
+					<div layout="row" flex layout-align="center center">
+						<md-icon aria-label="Error"
+						         md-font-library="material-icons">
+							warning
+						</md-icon>
+						We're sorry! The clinical trial with protocol number {{ ctd.trialNotFound }} could not be found.
+					</div>
+				</md-toolbar>
+			</section>
+		</section>
+
+		<section class="clinical-trial-details-pane" layout="row" layout-align="center start" ng-if="ctd.trial" ng-show="!ctd.isLoading">
+			<section layout="row" layout-md="row" class="detail-layout" flex>
+				<div layout="column" layout-md="column" class="left-column" flex="65">
+
+					<div ng-if="ctd.fromPatientDetails">
+						<md-button class="md-raised md-primary" ng-click="ctd.gotoPreviousPage()">
+							<md-icon aria-label="Add to watch list"
+							         md-font-library="material-icons">
+								arrow_back
+							</md-icon>
+							<span>Back to patient details</span>
+						</md-button>
+						<br />
+						<br />
+					</div>
+
+                    <div ng-if="ENV.EPIC && !ctd.fromPatientDetails">
+                        <md-button class="md-raised md-primary" ng-click="ctd.gotoClinicalTrials()">
+                            <md-icon aria-label="Add to watch list"
+                                     md-font-library="material-icons">
+                                arrow_back
+                            </md-icon>
+                            <span>Back to Clinical Trials</span>
+                        </md-button>
+                        <br />
+                        <br />
+                    </div>
+
+					<h3 class="detail-header">
+						{{ ctd.trial.short_title }}
+					</h3>
+					<p class="detail detail-long-title">
+						{{ ctd.trial.long_title }}
+					</p>
+
+					<div class="trial-summary md-whiteframe-2dp" layout="column" layout-md="column" flex-sm="nogrow" flex-md="nogrow" flex="nogrow">
+
+						<h3>Trial summary</h3>
+
+						<div ng-if="ctd.studyCoordinator.is_overall_pi" class="trial-summary-row" layout="column" layout-gt-md="row">
+							<div flex="90">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">person</md-icon>
+									<span class="trial-property-label">
+										{{ ENV.resources.institution }} & Overall Principal Investigator
+									</span>
+								</span>
+								<span class="trial-property-value">
+									{{ ctd.trial.principal_investigator | principalInvestigatorFilter }}
+								</span>
+							</div>
+						</div>
+
+						<div ng-if="!ctd.studyCoordinator.is_overall_pi" class="trial-summary-row" layout="column" layout-md="column" layout-gt-md="row">
+							<div flex="45">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">person</md-icon>
+									<span class="trial-property-label">
+										Overall Principal Investigator
+									</span>
+								</span>
+								<span class="trial-property-value">
+									{{ ctd.trial.principal_investigator | principalInvestigatorFilter }}
+								</span>
+							</div>
+							<div flex="45" ng-if="ctd.studyCoordinator.first_name  && !ctd.studyCoordinator.is_overall_pi">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">perm_identity</md-icon>
+									<span class="trial-property-label">{{ ENV.resources.institution }} Principal Investigator</span>
+								</span>
+								<span class="trial-property-value">
+									{{ ctd.studyCoordinator.last_name }}, {{ ctd.studyCoordinator.first_name }}
+								</span>
+							</div>
+						</div>
+
+						<div class="trial-summary-row" layout="column" layout-md="column" layout-gt-md="row">
+							<div flex="45">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">watch_later</md-icon>
+									<span class="trial-property-label">Curated on</span>
+								</span>
+								<span class="trial-property-value">
+									{{ ctd.trial.curated_on | parsedate }}
+								</span>
+							</div>
+							<div flex="45">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">update</md-icon>
+									<span class="trial-property-label">Last updated</span>
+								</span>
+								<span class="trial-property-value">
+									{{ (ctd.trial.last_updated | parsedate) || 'N/A' }}
+								</span>
+							</div>
+						</div>
+
+						<div class="trial-summary-row md-block" layout="column" layout-md="column" layout-gt-md="row">
+							<div flex="45">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">assignment</md-icon>
+									<span class="trial-property-label">Protocol number</span>
+								</span>
+								<span class="trial-property-value">
+									{{ ctd.trial.protocol_no || '-' }}
+								</span>
+							</div>
+							<div flex="45">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">confirmation_number</md-icon>
+									<span class="trial-property-label">NCT number</span>
+								</span>
+								<span class="trial-property-value">
+									{{ ctd.trial.nct_id }}
+								</span>
+							</div>
+						</div>
+
+						<div class="trial-summary-row md-block" layout-sm="column" layout="column" layout-gt-md="row">
+							<div flex="45">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">business</md-icon>
+									<span class="trial-property-label">Coordinating center</span>
+								</span>
+								<span class="trial-property-value">
+									{{ ctd.trial._summary.coordinating_center }}
+								</span>
+							</div>
+							<div flex="45">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">local_hospital</md-icon>
+									<span class="trial-property-label">Disease center</span>
+								</span>
+								<span class="trial-property-value">
+									{{ ctd.trial._summary.disease_center }}
+								</span>
+							</div>
+						</div>
+
+						<div class="trial-summary-row md-block" layout="column" layout-gt-md="row">
+							<div flex="45">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">account_balance</md-icon>
+									<span class="trial-property-label">Sponsor</span>
+								</span>
+								<span class="trial-property-value">
+									{{ ctd.trial._summary.sponsor }}
+								</span>
+							</div>
+							<div flex="45">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">flag</md-icon>
+									<span class="trial-property-label">Accrual goal</span>
+								</span>
+								<span class="trial-property-value">
+									{{ ctd.trial.cancer_center_accrual_goal_upper }} patients
+								</span>
+							</div>
+						</div>
+
+						<div class="trial-summary-row md-block ct-badge-spacer" layout="column" layout-gt-md="row">
+							<div flex="45">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">schedule</md-icon>
+									<span class="trial-property-label">Phase</span>
+								</span>
+								<span class="trial-property-value">
+									<span ng-if="ctd.trial" class="ct-badge-properties-container ct-badge-inline-spacer">
+										<clinical-trial-badge category="phase" value="ctd.trial.phase" view="ctd.trial.phase" prefix="Phase"></clinical-trial-badge>
+									</span>
+								</span>
+							</div>
+							<div flex="45">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">date_range</md-icon>
+									<span class="trial-property-label">Age</span>
+								</span>
+								<span class="trial-property-value">
+									<span class="ct-badge-properties-container ct-badge-inline-spacer" ng-if="ctd.trial">
+										<clinical-trial-badge category="age" value="ctd.trial.age" view="ctd.trial.age"></clinical-trial-badge>
+									</span>
+								</span>
+							</div>
+						</div>
+
+						<div class="trial-summary-row md-block ct-badge-spacer" layout="column" layout-gt-md="row">
+							<div flex="nogrow">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">settings_ethernet</md-icon>
+									<span class="trial-property-label">Gene(s)</span>
+								</span>
+							</div>
+							<div flex>
+								<span class="trial-property-value">
+									<span class="ct-badge-properties-container ct-badge-inline-spacer" ng-if="ctd.trial">
+										<clinical-trial-badge category="hugo_symbol" value="hgs" view="hgs"
+							                      ng-repeat="hgs in (ctd.filterGeneChips(ctd.trial._summary.nonsynonymous_genes)) track by $index"></clinical-trial-badge>
+										<clinical-trial-badge category="hugo_symbol" value="hgs" view="hgs"
+							                      ng-repeat="hgs in (ctd.trial._summary.nonsynonymous_wt_genes) track by $index"></clinical-trial-badge>
+									</span>
+									<span class="ct-badge-properties-container ct-badge-inline-spacer" ng-if="ctd.trial._summary.genes == undefined || ctd.trial._summary.genes.length === 0">
+										<clinical-trial-badge category="hugo_symbol" value="'None'" view="'None'"></clinical-trial-badge>
+									</span>
+								</span>
+							</div>
+						</div>
+
+						<div class="trial-summary-row md-block ct-badge-spacer" layout="column" layout-gt-md="row">
+							<div flex="nogrow">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">mode_edit</md-icon>
+									<span class="trial-property-label">Mutational Signature(s)</span>
+								</span>
+							</div>
+							<div flex>
+								<span class="trial-property-value">
+									<span class="ct-badge-properties-container ct-badge-inline-spacer" ng-if="ctd.trial">
+										 <clinical-trial-badge ng-if="ctd.getAllSignatures().length === 0"
+															  category="mmr_status" value="'None'" view="'None'"></clinical-trial-badge>
+										<clinical-trial-badge category="mmr_status" value="sig" view="sig"
+															  ng-repeat="sig in ctd.getAllSignatures()"></clinical-trial-badge>
+									</span>
+								</span>
+							</div>
+						</div>
+
+						<div class="trial-summary-row md-block ct-badge-spacer" layout="column" layout-gt-md="row">
+							<div flex="nogrow">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">assessment</md-icon>
+									<span class="trial-property-label">Disease status</span>
+								</span>
+							</div>
+							<div flex>
+								<span class="trial-property-value">
+									<span class="ct-badge-properties-container ct-badge-inline-spacer" ng-if="ctd.trial">
+										<clinical-trial-badge category="disease_status" value="ds" view="ds"
+											  ng-repeat="ds in (ctd.trial._summary.disease_status) track by $index"></clinical-trial-badge>
+										<clinical-trial-badge ng-if="!ctd.trial._summary.disease_status"
+										                      category="disease_status"></clinical-trial-badge>
+									</span>
+								</span>
+							</div>
+						</div>
+
+						<div class="trial-summary-row md-block ct-badge-spacer" layout="column" layout-gt-md="row">
+							<div flex="nogrow">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">blur_on</md-icon>
+									<span class="trial-property-label">Tumor type(s)</span>
+								</span>
+							</div>
+							<div flex>
+								<span class="trial-property-value">
+									<span class="ct-badge-properties-container ct-badge-inline-spacer" ng-if="ctd.trial">
+										<clinical-trial-badge
+											category="tumor_type"
+											value="diagnosis"
+											view="diagnosis"
+											ng-repeat="diagnosis in ctd.trial._summary.tumor_types | unique | trialBadgeFilter">
+										</clinical-trial-badge>
+									</span>
+								</span>
+							</div>
+						</div>
+
+						<div class="trial-summary-row md-block ct-badge-spacer" layout="column" layout-gt-md="row">
+							<div flex="nogrow">
+								<span class="trial-property">
+									<md-icon md-font-set="material-icons">healing</md-icon>
+									<span class="trial-property-label">Drugs</span>
+								</span>
+							</div>
+							<div flex>
+								<span class="trial-property-value">
+									<span class="ct-badge-properties-container ct-badge-inline-spacer" ng-if="ctd.trial">
+										<clinical-trial-badge
+												category="drug"
+												value="drug.drug_name"
+												view="drug.drug_name"
+												ng-repeat="drug in ctd.trial.drug_list.drug track by $index">
+										</clinical-trial-badge>
+									</span>
+								</span>
+							</div>
+						</div>
+					</div>
+
+					<h4 class="detail-header">Purpose</h4>
+					<p class="detail detail-purpose">
+						{{ ctd.trial.nct_purpose || 'No NCT purpose has been defined.'}}
+					</p>
+
+					<section class="trial-variants" ng-if="ctd.variantsLength(ctd.variants)">
+
+						<h4 class="detail-header">
+							<div class="detail-header-text">
+								Genomic Alterations
+							</div>
+						</h4>
+
+						<!-- Show variants in table -->
+						<div>
+							<md-toolbar class="md-table-toolbar md-default searchbar-wrapper">
+								<div class="md-toolbar-tools">
+									<md-icon class="material-icons">search</md-icon>
+									<md-input-container flex name="ctd.variantFilter.form">
+										<input type="text" ng-model="ctd.variantFilter.query" ng-model-options="ctd.variantFilter.options" placeholder="Search variants">
+									</md-input-container>
+									<button class="md-icon-button md-button" type="button" ng-click="ctd.removeVariantFilter()" aria-label="close">
+										<md-icon class="material-icons">close</md-icon>
+									</button>
+								</div>
+							</md-toolbar>
+							<md-table-container>
+								<table md-table>
+									<thead md-head md-order="ctd.variant_table_options.sort">
+									<tr md-row>
+										<th md-column md-order-by="hugo_symbol">Gene</th>
+										<th md-column md-order-by="variant_category">Alteration Type</th>
+										<th md-column md-order-by="specific_alteration">Specific Alteration</th>
+									</tr>
+									</thead>
+									<tbody md-body>
+										<tr md-row
+										    ng-repeat="variant in ctd.variants
+										        | filterBy: ['hugo_symbol', 'variant_category', 'specific_alteration']: ctd.variantFilter.query
+										        | filter: {hugo_symbol: '!None'}
+										        | orderBy: ctd.variant_table_options.sort
+										        | limitTo: ctd.variant_table_options.limit: (ctd.variant_table_options.page - 1) * ctd.variant_table_options.limit">
+											<td md-cell>{{ variant.hugo_symbol }}</td>
+											<td md-cell>{{ variant.variant_category }}</td>
+											<td md-cell>{{ variant.specific_alteration }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</md-table-container>
+							<md-table-pagination md-limit="ctd.variant_table_options.limit"
+							                     md-limit-options="[5, 10, 25, 50, 100, 200]"
+							                     md-page="ctd.variant_table_options.page "
+							                     md-total="{{ctd.variantsLength(ctd.variants)}}">
+							</md-table-pagination>
+						</div>
+
+						<div ng-if="!ctd.variants.length">
+							<p class="info-header md-lightblue">No genomic variants found in this clinical trial</p>
+						</div>
+					</section>
+
+					<h4 class="detail-header">
+						<div class="detail-header-text">
+							Treatment List
+						</div>
+
+						<span flex></span>
+					</h4>
+
+					<!-- Step divs -->
+					<div ng-if="ctd.trial"
+					     ng-repeat="step in ctd.treatment_steps track by $index"
+					     layout="column"
+						 class="step-container">
+
+						<div class="step-details md-whiteframe-2dp" layout="row">
+							<span class="step-code">{{ step.step_code || '-'}}</span>
+							<span class="step-type">{{ step.step_type || 'Step'}}</span>
+							<span flex> </span>
+							<md-button class="md-primary md-raised criteria-loading-button criteria-toggle-spacing"
+							           md-no-ink aria-label="Toggle step genomic details"
+							           ng-click="ctd.toggleCriteriaTree('STEP', step.step_internal_id);" ng-if="::step.match"
+							           analytics-on="click" analytics-event="View genomic criteria" analytics-category="Clinical Trials" analytics-label="{{ ctd.trial.protocol_no }}">
+								<span ng-if="!ctd.isLoadingMatchCriteria['STEP'][step.step_internal_id]">{{ ctd.showMatchCriteria['STEP'][step.step_internal_id] ? 'Hide' : 'Show' }} Details</span>
+								<span ng-if="ctd.isLoadingMatchCriteria['STEP'][step.step_internal_id]">Loading Details...</span>
+							</md-button>
+						</div>
+
+						<!-- Step criteria -->
+						<div class="step-criteria md-whiteframe-2dp"
+						     ng-if="step.match && ctd.showMatchCriteria['STEP'][step.step_internal_id]"
+						     ng-show="!ctd.isLoadingMatchCriteria['STEP'][step.step_internal_id] && ctd.showMatchCriteria['STEP'][step.step_internal_id]">
+							<!-- Match Criteria -->
+							<div class="match-container" ng-repeat="matchCriterium in step.match track by $index">
+								<div class="match-criterium tree ng-scope ng-isolate-scope">
+									<li ng-if="matchCriterium.clinical">
+										<h4 class="criterium">Required</h4>
+										<clinical-trial-tree class="match-criterium"
+                                                             match-criteria="criterium"
+                                                             tree-idx="idx"
+                                                             ng-repeat="(idx, criterium) in ::matchCriterium track by $index">
+
+                                        </clinical-trial-tree>
+									</li>
+								</div>
+								<clinical-trial-tree ng-if="!matchCriterium.clinical"
+                                                     class="match-criterium"
+                                                     match-criteria="criterium"
+                                                     tree-idx="idx"
+                                                     ng-repeat="(idx, criterium) in ::matchCriterium track by $index">
+                                </clinical-trial-tree>
+							</div>
+						</div>
+
+						<!-- Arm divs -->
+						<div ng-repeat="arm in step.arm track by $index"
+							 class="arm-container"
+							 ng-init="arm.showAll = true;"
+							 ng-class="{'arm-collapsed': !arm.showAll}">
+
+							<div class="arm-details md-whiteframe-2dp" layout="row" flex layout-align="start center">
+								<div class="arm-status-container" layout="column" layout-align="center center">
+									<span>
+										<md-icon md-font-set="material-icons" ng-if="arm.arm_suspended == 'Y'" class="arm-suspended-icon">remove_circle</md-icon>
+										<md-tooltip md-autohide md-direction="top">
+											Arm Suspended
+										</md-tooltip>
+									</span>
+
+									<span>
+										<md-icon md-font-set="material-icons" ng-if="arm.arm_suspended == 'N'" class="arm-open-icon">check_circle</md-icon>
+										<md-tooltip md-autohide md-direction="top">
+											Arm Active
+										</md-tooltip>
+									</span>
+
+								</div>
+								<div layout="row" layout-fill flex layout-align="end center">
+									<div layout="column" flex="80">
+										<span class="arm-description">{{ arm.arm_description }}</span>
+										<span class="arm-code">{{ arm.arm_code }}</span>
+									</div>
+									<span flex></span>
+
+									<md-button class="md-primary md-raised criteria-loading-button"
+									           md-no-ink aria-label="Toggle arm genomic details"
+									           ng-click="ctd.toggleCriteriaTree('ARM', arm.arm_internal_id);"
+									           ng-if="::arm.match"
+									           ng-class="{'criteria-toggle-spacing': !arm.dose_level.length }"
+									           analytics-on="click" analytics-event="View genomic criteria"
+											   analytics-category="Clinical Trials"
+											   analytics-label="{{ ctd.trial.protocol_no }} - ARM - {{ arm.arm_code }}">
+
+										<span ng-if="!ctd.isLoadingMatchCriteria['ARM'][arm.arm_internal_id]">{{ ctd.showMatchCriteria['ARM'][arm.arm_internal_id] ? 'Hide' : 'Show' }} Details</span>
+										<span ng-if="ctd.isLoadingMatchCriteria['ARM'][arm.arm_internal_id]">Loading Details...</span>
+									</md-button>
+
+									<div layout="column" class="expand-button-container" layout-align="center center">
+										<md-icon aria-label="Expand less"
+										         ng-if="arm.showAll && arm.dose_level.length"
+										         class="expand-arm"
+										         ng-click="arm.showAll = !arm.showAll"
+										         md-font-library="material-icons">
+											expand_more
+										</md-icon>
+										<md-icon aria-label="Expand more"
+										         class="expand-arm"
+										         ng-if="!arm.showAll && arm.dose_level.length"
+										         ng-click="arm.showAll = !arm.showAll"
+										         md-font-library="material-icons">
+											keyboard_arrow_right
+										</md-icon>
+									</div>
+								</div>
+							</div>
+
+							<div class="arm-criteria md-whiteframe-2dp" layout="column"
+							     ng-if="arm.match && ctd.showMatchCriteria['ARM'][arm.arm_internal_id]"
+							     ng-show="!ctd.isLoadingMatchCriteria['ARM'][arm.arm_internal_id] && ctd.showMatchCriteria['ARM'][arm.arm_internal_id]">
+									<!-- Match Criteria -->
+									<div class="match-container" ng-repeat="matchCriterium in arm.match track by $index">
+										<clinical-trial-tree class="match-criterium" match-criteria="criterium" tree-idx="idx" ng-repeat="(idx, criterium) in ::matchCriterium track by $index"></clinical-trial-tree>
+									</div>
+							</div>
+
+							<!-- Dose divs -->
+							<div ng-repeat="dose in arm.dose_level track by $index"
+								class="dose-level-container md-whiteframe-2dp">
+
+								<div class="dose-details" layout="row">
+									<div class="dose-status-container" layout="column" layout-align="center center">
+										<span>
+											<md-icon md-font-set="material-icons" ng-if="dose.level_suspended == 'Y'" class="dose-suspended-icon">remove_circle</md-icon>
+											<md-tooltip md-autohide md-direction="top">
+												Dose Level Suspended
+											</md-tooltip>
+										</span>
+										<span>
+											<md-icon md-font-set="material-icons" ng-if="dose.level_suspended == 'N'" class="dose-open-icon">check_circle</md-icon>
+											<md-tooltip md-autohide md-direction="top">
+												Dose Level Active
+											</md-tooltip>
+										</span>
+									</div>
+
+									<div layout="row" flex>
+										<div layout="column">
+											<span class="dose-level-code">Code: {{ dose.level_code }}</span>
+											<span class="dose-level-description">{{ dose.level_description }}</span>
+										</div>
+										<span flex> </span>
+
+										<md-button class="md-primary md-raised criteria-loading-button" md-no-ink aria-label="Toggle dose level genomic details" ng-click="ctd.toggleCriteriaTree('DOSE', dose.level_internal_id);" ng-if="::dose.match"
+										           analytics-on="click" analytics-event="View genomic criteria" analytics-category="Clinical Trials" analytics-label="{{ ctd.trial.protocol_no }} - DOSE - {{ dose.level_code }}">
+											<span ng-if="!ctd.isLoadingMatchCriteria['DOSE'][dose.level_internal_id]">{{ ctd.showMatchCriteria['DOSE'][dose.level_internal_id] ? 'Hide' : 'Show' }} Details</span>
+											<span ng-if="ctd.isLoadingMatchCriteria['DOSE'][dose.level_internal_id]">Loading Details...</span>
+										</md-button>
+									</div>
+								</div>
+
+								<!-- Match Criteria -->
+								<div class="match-container" ng-repeat="matchCriterium in dose.match track by $index" layout="column"
+								     ng-if="dose.match && ctd.showMatchCriteria['DOSE'][dose.level_internal_id]"
+								     ng-show="!ctd.isLoadingMatchCriteria['DOSE'][dose.level_internal_id] && ctd.showMatchCriteria['DOSE'][dose.level_internal_id]">
+										<clinical-trial-tree class="match-criterium" match-criteria="criterium" tree-idx="idx" ng-repeat="(idx, criterium) in ::matchCriterium track by $index"></clinical-trial-tree>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+
+					<h4 class="detail-header">Prior Treatment Requirements</h4>
+					<span class="treatment-requirements-disclaimer md-red" ng-if="ctd.hasOncoPro">
+						Please refer to the most recent <a ng-hide="ENV.EPIC" class="treatment-requirements-disclaimer-link md-red" ng-click="ctd.visitOncoPro(ctd.trial.protocol_no)">protocol</a> <span ng-if="ENV.EPIC">protocol</span> document for a complete list of eligibility criteria.
+					</span>
+					<md-list>
+						<md-list-item class="ptr-list-item detail"
+						              ng-repeat="item in ::ctd.trial.prior_treatment_requirements track by $index">
+							<div>
+								<md-icon md-font-set="material-icons">lens</md-icon>
+								{{ ::item }}
+							</div>
+						</md-list-item>
+					</md-list>
+
+					<section class="matching-stats">
+
+					</section>
+
+				</div>
+
+				<div layout="column"
+				     flex="noshrink"
+				     flex-md="35"
+				     flex-sm="35"
+				     ng-if="ctd.trial"
+				     layout-align-sm="start end"
+				     scroll-position="ctd.scroll"
+				     ng-class="{
+							'stuck': ctd.scroll > 185,
+							'collapsed': !ctd.isLargeMediaQuery,
+							'right-column' : ctd.isLargeMediaQuery,
+							'top-padding': ctd.fromPatientDetails
+						}">
+
+					<div layout="column" class="sidebar-container">
+						<h3 ng-class="{
+							'sm-sidebar-headers': !ctd.isLargeMediaQuery
+						}">
+							<span ng-if="ctd.isLargeMediaQuery">{{ ENV.resources.institution }} Trial</span>
+							Status
+						</h3>
+						<md-button class="no-action" ng-if="ctd.trial"
+						           aria-label="Clinical trial status"
+						           md-no-ink
+								   ng-class="ctd.getStatusCss(ctd.trial)">
+							<md-icon aria-label="Add to watch list"
+							         ng-if="ctd.trial"
+							         md-font-library="material-icons">
+								{{ ctd.getIconForTrialStatus(ctd.trial._summary.status[0].value) }}
+							</md-icon>
+							<span ng-if="ctd.isLargeMediaQuery">{{ ctd.trial._summary.status[0].value }}</span>
+							<md-tooltip md-autohide md-direction="left" ng-if="!ctd.isLargeMediaQuery">
+								{{ ctd.trial._summary.status[0].value }}
+							</md-tooltip>
+						</md-button>
+					</div>
+
+					<div layout="column" class="sidebar-container" ng-hide="ENV.EPIC">
+						<h3 ng-class="{
+							'sm-sidebar-headers': !ctd.isLargeMediaQuery
+						}">
+							Resources
+						</h3>
+
+						<div layout="row"
+						     layout-md="column"
+						     layout-sm="column"
+						     layout-xs="column"
+						     layout-align-sm="start end"
+						     ng-if="ctd.trial">
+							<md-button class="md-raised trial-link"
+							           ng-click="ctd.visitOncoPro(ctd.trial.protocol_no)"
+												 ng-disabled="!ctd.hasOncoPro"
+							           analytics-on="click" analytics-event="Visit OncPro" analytics-category="Clinical Trials" analytics-label="{{ ctd.trial.protocol_no }}"
+							           ng-class="{
+							                'trial-watchlist-actions': ctd.isLargeMediaQuery,
+                                            'md-fab md-mini ct-badge-fab' : !ctd.isLargeMediaQuery
+                                       }">
+								<md-icon aria-label="OncPro Details"
+								         md-font-library="material-icons">
+									assessment
+								</md-icon>
+								<span ng-if="ctd.isLargeMediaQuery">OncPro details</span>
+								<md-tooltip md-autohide md-direction="left" ng-if="!ctd.isLargeMediaQuery">
+									View OncPro details
+								</md-tooltip>
+							</md-button>
+
+							<md-button class="md-raised trial-link"
+							           ng-click="ctd.visitCTgov(ctd.trial.nct_id)"
+							           analytics-on="click" analytics-event="Visit CT Gov" analytics-category="Clinical Trials" analytics-label="{{ ctd.trial.protocol_no }} - {{ctd.trial.nct_id}}"
+						               ng-class="{
+						                 'trial-watchlist-actions': ctd.isLargeMediaQuery,
+                                        'md-fab md-mini ct-badge-fab' : !ctd.isLargeMediaQuery
+                                     }">
+								<md-icon aria-label="Clinicaltrials.gov"
+								         md-font-library="material-icons">
+									assignment
+								</md-icon>
+								<span ng-if="ctd.isLargeMediaQuery">clinicaltrials.gov</span>
+								<md-tooltip md-autohide md-direction="left" ng-if="!ctd.isLargeMediaQuery">
+									View trial on Clinicaltrials.gov
+								</md-tooltip>
+							</md-button>
+						</div>
+					</div>
+
+					<div layout="column" class="sidebar-container">
+						<h3 ng-class="{
+								'sm-sidebar-headers': !ctd.isLargeMediaQuery
+							}">
+							Contact
+						</h3>
+
+						<div class="trial-coordinator-details" ng-if="ctd.studyCoordinator" layout="column" >
+							<div ng-if="ctd.isLargeMediaQuery">
+								<p class="coordinator-name">
+									{{ ctd.studyCoordinator.first_name }} {{ ctd.studyCoordinator.last_name }}
+								</p>
+                <p class="coordinator-role">
+                  {{ ctd.studyCoordinator.staff_role }}
+                </p>
+								<p class="coordinator-institution">
+									{{ ctd.studyCoordinator.institution_name }}
+								</p>
+							</div>
+              <p class="coordinator-role">
+                {{ ctd.studyCoordinator.email_address.toLowerCase() }}
+              </p>
+							<md-button ng-if="!ENV.EPIC"
+                                       class="md-raised trial-link contact-button"
+							           ng-class="{
+							            'trial-watchlist-actions': ctd.isLargeMediaQuery,
+                                        'md-fab md-mini ct-badge-fab' : !ctd.isLargeMediaQuery
+                                   }"
+							           analytics-on="click"
+                                       analytics-event="Contact study coordinator"
+                                       analytics-category="Clinical Trials"
+                                       analytics-label="{{ctd.studyCoordinator.email_address}}"
+							           ng-click="ctd.emailInvestigator($event, ctd.trial, ctd.studyCoordinator.email_address)">
+								<md-icon aria-label="Trial investigator"
+								         md-font-library="material-icons">
+									email
+								</md-icon>
+								<span ng-if="ctd.isLargeMediaQuery">Contact</span>
+								<md-tooltip md-autohide md-direction="left" ng-if="!ctd.isLargeMediaQuery">
+									Email {{ ctd.studyCoordinator.staff_role }}
+								</md-tooltip>
+							</md-button>
+                <div class="epic-contact-details" ng-if="ENV.EPIC"><br>
+                    <span class="trial-coordinator-email-label">Contact Email: </span>
+                    <br>
+                    <span class="trial-coordinator-email">{{ ctd.studyCoordinator.email_address }}</span>
+                </div>
+						</div>
+
+						<div class="trial-coordinator-details" ng-if="!ctd.studyCoordinator">
+							<p class="no-coordinator-found">
+								<md-icon aria-label="No coordinator found"
+								         md-font-library="material-icons">
+									warning
+								</md-icon>
+								<span>Could not find trial coordinator</span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		</section>
+
+		<div ng-show="ctd.isLoading" class="loading-wrapper">
+			<div layout="column" flex layout-align="center center">
+				<div ng-include="'scripts/components/partials/loader.html'"> </div>
+				<h3>Loading clinical trial...</h3>
+			</div>
+		</div>
+	</section>
+</section>

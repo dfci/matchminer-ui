@@ -1,0 +1,61 @@
+<div>
+	<div class="card dna-variant-card" ng-class="{
+		'stacked-card': (variants | numKeys),
+		'attached-card': !(variants | numKeys)
+	}">
+		<div class="card-header">
+			<h2>
+				<span ng-if="category == 'PN'">Pertinent Negatives</span>
+				<span ng-if="category == 'PLC'">Pertinent Insufficient Coverage</span>
+				<span ng-if="category == 'NPLC'">Additional Insufficient Coverage</span>
+
+				<span class="variants-tooltip">
+					<ng-include src="ngTooltip({category: category})"></ng-include>
+				</span>
+			</h2>
+		</div>
+		<div ng-if="!(variants | numKeys)" class="info-missing-container" layout="row">
+			<md-icon aria-label="Notice"
+			         md-font-library="material-icons">
+				error
+			</md-icon>
+			<div>
+				<h3 ng-if="category == 'PN'">No clinically relevant regions found.</h3>
+				<h3 ng-if="category == 'PLC'">No clinically relevant regions with insufficient coverage found.</h3>
+				<h3 ng-if="category == 'NPLC'"> No additional regions of insufficient coverage found.</h3>
+			</div>
+		</div>
+		<div class="card-body" ng-if="variants | numKeys">
+			<table datatable="ng" dt-options="dtOpts" class="table table-inner table-vmiddle" width="100%">
+				<thead>
+					<tr>
+						<th>Gene</th>
+						<th>Region</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="(hgs, agg) in ::variants track by $index">
+						<td>{{ ::hgs }}</td>
+						<td>
+						<span ng-if="agg.exons.length">
+							Exon {{agg.exons.join(', ')}}
+						</span>
+
+							<span ng-if="agg.codons.length">
+							<span ng-if="agg.exons.length">; </span>
+							Codon {{agg.codons.join(', ')}}
+						</span>
+
+							<span ng-if="agg.entire_gene.length">
+							<span ng-if="agg.exons.length || agg.codons.length">; </span>
+							Entire Gene
+						</span>
+
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+

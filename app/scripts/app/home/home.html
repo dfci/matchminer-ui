@@ -1,0 +1,92 @@
+<section id="main">
+    <div ui-view="nav" scroll-position="nbc.scroll" ng-hide="ENV.EPIC"></div>
+
+    <section class="main-primary section-hero" ng-class="{'not-authenticated': !hc.isAuthenticated}" layout="column" id="matchminer" ng-hide="ENV.EPIC">
+    </section>
+
+    <section ncy-breadcrumb ng-hide="ENV.EPIC">
+    </section>
+
+    <div layout="row" class="mm-welcome-container" flex>
+        <div class="mm-logo-container" flex="1" flex-gt-sm="35" layout="row">
+            <span class="section-mm-logo"></span>
+        </div>
+        <div class="mm-header-container">
+            <section class="section section-primary section-hero" layout="row">
+                <section flex="70"
+                         flex-gt-sm="90"
+                         layout="column"
+                         flex-order="2">
+                    <h3 class="section-title">
+                        MatchMiner
+                    </h3>
+                    <p class="section-body">
+                        A computational platform for matching patient-specific
+                        molecular profiles to precision cancer medicine clinical
+                        trials and viewing molecular data.
+                    </p>
+
+                    <md-button
+                            ui-sref="dashboard"
+                            ng-if="hc.isAuthenticated"
+                            class="md-primary md-raised hero-btn">
+                        <md-icon aria-label="Dashboard" md-font-library="material-icons">
+                            dashboard
+                        </md-icon>
+                        dashboard
+                    </md-button>
+
+                </section>
+            </section>
+        </div>
+    </div>
+
+    <section>
+        <md-toolbar class="nav-alert md-warn" ng-if="hc.error" flex layout="column" layout-align="center center">
+            <div layout="row" flex layout-align="center center">
+                <md-icon aria-label="Error"
+                         md-font-library="material-icons">
+                    warning
+                </md-icon>
+                {{ hc.errorMessage }}
+            </div>
+
+            <span class="error-details" ng-if="hc.errorDetails" ng-bind-html="hc.errorDetails"></span>
+        </md-toolbar>
+    </section>
+
+    <section class="section section-trial-search"
+             id="clinical-trials"
+             layout="column"
+             layout-align="space-around center">
+
+        <p class="section-body">If you have questions please send an email to <i><a href="mailto:{{ ENV.resources.email }}">{{  ENV.resources.email }}</a></i>.</p>
+
+        <div class="content-container" layout="row">
+            <!-- Search -->
+            <div ui-view="clinical-trials-search" class="clinical-trials-search-wrapper"></div>
+
+            <div layout="column" layout-align="center center">
+                <div class="home-stat md-whiteframe-1dp" layout="row" layout-align="start center">
+                    {{ (hc.public_stats.num_patients|number) || 'N/A' }} <span class="small">patients with<br />molecular data</span>
+                </div>
+
+                <div class="home-stat md-whiteframe-1dp" layout="row" layout-align="start center">
+                    {{ hc.public_stats.num_clinical_trials || 'N/A'}} <span class="small">precision medicine <br /> clinical trials</span>
+                </div>
+            </div>
+        </div>
+
+        <span class="section-mm-partners"> </span>
+    </section>
+
+    <section class="section section-dark" layout="row" layout-align="start start">
+        <div layout="column">
+            <h3>MatchMiner</h3>
+            <p>Dana-Farber Cancer Institute - 2016 - {{ hc.year }}</p>
+        </div>
+    </section>
+
+</section>
+
+

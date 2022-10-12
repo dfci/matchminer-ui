@@ -1,0 +1,26 @@
+<div  layout="row"
+      layout-align="start center"
+      ng-if="::clinical.RELATED.length > 0 && clinical.VITAL_STATUS == 'alive'"
+      class="card-header bgmd-blue patient-oncopanel-wrapper">
+	<div class="patient-oncopanel-notification multi-sample" layout="row">
+		<md-icon aria-label="Multiple samples"
+		         md-font-library="material-icons">
+			info
+		</md-icon>
+
+		<span>
+		  {{ ::pdc.TEMPLATES.multiple_samples_info }}
+		</span>
+	</div>
+	<span flex> </span>
+	<div>
+		<md-button class="md-raised md-default" ng-click="pdc.sampleSelect(pdc.patient.clinical)"
+		           analytics-on="click" analytics-event="View multi sample" analytics-category="Patients" analytics-label="Patient alive">
+			<md-icon aria-label="Multiple samples select"
+			         md-font-library="material-icons">
+				list
+			</md-icon>
+			<span hide-sm>Select another sample</span>
+		</md-button>
+	</div>
+</div>
