@@ -36,12 +36,12 @@
                    analytics-label="Unauthenticated"
                    ng-class="{ 'active' :nbc.isClinicalTrialPage}">Clinical Trials</a>
             </li>
-            <li>
-                <a ui-sref-active="active"
-                   analytics-on="click" analytics-event="Navigate to FAQ" analytics-category="Navbar"
-                   analytics-label="Unauthenticated"
-                   ui-sref="faq">FAQ</a>
-            </li>
+<!--            <li>-->
+<!--                <a ui-sref-active="active"-->
+<!--                   analytics-on="click" analytics-event="Navigate to FAQ" analytics-category="Navbar"-->
+<!--                   analytics-label="Unauthenticated"-->
+<!--                   ui-sref="faq">FAQ</a>-->
+<!--            </li>-->
         </ul>
 
         <div ng-if="!nbc.isAuthenticated" class="user-action-button" layout="row">
@@ -56,20 +56,20 @@
                 </md-button>
             </div>
 
-            <div layout="column">
-                <md-button ui-sref-active="active"
-                           class="md-default md-raised hero-btn-lg"
-                           analytics-on="click"
-                           analytics-event="Navigate to Apply for Access"
-                           analytics-category="Navbar"
-                           analytics-label="Unauthenticated"
-                           ui-sref="apply-for-access">
-                    <md-icon aria-label="Apply for access" md-font-library="material-icons">
-                        question_answer
-                    </md-icon>
-                    Apply for access
-                </md-button>
-            </div>
+<!--            <div layout="column">-->
+<!--                <md-button ui-sref-active="active"-->
+<!--                           class="md-default md-raised hero-btn-lg"-->
+<!--                           analytics-on="click"-->
+<!--                           analytics-event="Navigate to Apply for Access"-->
+<!--                           analytics-category="Navbar"-->
+<!--                           analytics-label="Unauthenticated"-->
+<!--                           ui-sref="apply-for-access">-->
+<!--                    <md-icon aria-label="Apply for access" md-font-library="material-icons">-->
+<!--                        question_answer-->
+<!--                    </md-icon>-->
+<!--                    Apply for access-->
+<!--                </md-button>-->
+<!--            </div>-->
         </div>
 
         <ul class="mm-nav" layout-fill ng-if="nbc.isAuthenticated">
@@ -110,21 +110,21 @@
                     Patient Search
                 </a>
             </li>
-            <li>
-                <a ui-sref-active="active"
-                   analytics-on="click" analytics-event="Navigate to FAQ" analytics-category="Navbar"
-                   analytics-label="Authenticated"
-                   ui-sref="faq">FAQ</a>
-            </li>
-            <li has-authority="admin">
-                <a ui-sref-active-eq="active"
-                   ng-class="{ 'active' :nbc.isStatisticsPage}"
-                   analytics-on="click"
-                   analytics-event="Navigate to statistics"
-                   analytics-category="Navbar"
-                   analytics-label="Authenticated"
-                   ui-sref="statistics">Statistics</a>
-            </li>
+<!--            <li>-->
+<!--                <a ui-sref-active="active"-->
+<!--                   analytics-on="click" analytics-event="Navigate to FAQ" analytics-category="Navbar"-->
+<!--                   analytics-label="Authenticated"-->
+<!--                   ui-sref="faq">FAQ</a>-->
+<!--            </li>-->
+<!--            <li has-authority="admin">-->
+<!--                <a ui-sref-active-eq="active"-->
+<!--                   ng-class="{ 'active' :nbc.isStatisticsPage}"-->
+<!--                   analytics-on="click"-->
+<!--                   analytics-event="Navigate to statistics"-->
+<!--                   analytics-category="Navbar"-->
+<!--                   analytics-label="Authenticated"-->
+<!--                   ui-sref="statistics">Statistics</a>-->
+<!--            </li>-->
         </ul>
 
         <div layout="row" ng-if="nbc.isAuthenticated">
