@@ -24,8 +24,8 @@
       "resources": {
         "oncpro_base": null,
         "ctgov_base": "https://clinicaltrials.gov/ct2/show/",
-        "logo": "dfci.jpg",
-        "institution": "DFCI",
+        "logo": "medihill.png",
+        "institution": "Medihill",
         "institutionFull": null,
         "email": "matchminer@example.com",
         "emailSecondary": "deceased_patients@example.com"
