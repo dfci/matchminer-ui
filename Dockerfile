@@ -23,4 +23,5 @@ FROM nginx:stable-alpine
 
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 COPY nginx/40-adjust-index-html.sh /docker-entrypoint.d
+COPY nginx/50-add-upstream.sh /docker-entrypoint.d
 COPY --from=builder /ui/dist /usr/share/nginx/html
