@@ -85,7 +85,7 @@ describe('Controller: ClinicalTrialsResultsCtrl', function () {
 		trial._source = mockTrial;
 		var protocol_id = "13-304";
 		trial._source.protocol_no = protocol_id;
-		var evt = new Event();
+		var evt = new Event('fake-event');
 
 		ctrl.navigateToDetails(evt, trial);
 		expect(state.go).toHaveBeenCalledWith('clinicaltrials.detail', {protocol_no: protocol_id});
@@ -151,7 +151,7 @@ describe('Controller: ClinicalTrialsResultsCtrl', function () {
 	});
 
 	it('should be able to email the trial coordinator', function(){
-		var evt = new Event();
+		var evt = new Event('fake-event');
 		var coordinator = ctrl.getStudyCoordinator(mockTrial);
 		var coordinator_email = coordinator.email_address;
 

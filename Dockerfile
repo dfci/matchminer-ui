@@ -1,7 +1,5 @@
 # Stage 1: build the app's static assets in a Node container.
-FROM node:11-slim AS builder
-
-RUN apt-get update && apt-get -y install bzip2
+FROM node:18 AS builder
 
 WORKDIR /ui
 
