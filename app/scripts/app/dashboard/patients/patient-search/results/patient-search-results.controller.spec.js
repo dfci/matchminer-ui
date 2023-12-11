@@ -155,7 +155,7 @@ describe('Controller: PatientSearchResultsCtrl - Navigate to details', function 
 	});
 
 	it('should be able to retrieve a patient and navigate to the details for a patient with a single sample', function() {
-		var e = new Event();
+		var e = new Event('fake-event');
 		var patients = PatientsMocks.mockPatientClinical();
 		var patient = patients[1];
 		spyOn(state, 'go');
@@ -169,7 +169,7 @@ describe('Controller: PatientSearchResultsCtrl - Navigate to details', function 
 
 	it('should be able to retrieve a patient and navigate to the details for a patient with multiple samples', function() {
 		spyOn(mdDialog, 'show');
-		var e = new Event();
+		var e = new Event('fake-event');
 		var patients = PatientsMocks.mockPatientClinical();
 		var patient = patients[0];
 		//var additionalPatient = PatientsMocks.mockPatientClinical();
@@ -193,7 +193,7 @@ describe('Controller: PatientSearchResultsCtrl - Navigate to details', function 
 
 	it('should log an error when an error occurs in the queryPatient method', function() {
 		spyOn(console, 'error');
-		var e = new Event();
+		var e = new Event('fake-event');
 		var patient = PatientsMocks.mockPatientClinical();
 		ctrl.navigateToDetails(e, patient);
 

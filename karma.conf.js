@@ -38,6 +38,9 @@ function listFiles() {
 	return files;
 }
 
+// See: https://www.npmjs.com/package/karma-chrome-launcher
+process.env.CHROME_BIN = require('puppeteer').executablePath()
+
 module.exports = function (config) {
 
 	var configuration = {
@@ -49,21 +52,27 @@ module.exports = function (config) {
 
 		logLevel: 'INFO',
 
-		frameworks: ['phantomjs-shim', 'jasmine', 'angular-filesort'],
+		frameworks: ['jasmine', 'angular-filesort'],
 
 		angularFilesort: {
 			whitelist: [path.join(conf.paths.src, '/**/!(*.html|*.spec|*.mock).js')]
 		},
 
-		browsers: ['PhantomJS'],
+		browsers: ['ChromeHeadlessNoSandbox'],
+
+		// Note: we pass --no-sandbox so that this works in Docker
+		customLaunchers: {
+			ChromeHeadlessNoSandbox: {
+				base: 'ChromeHeadless',
+				flags: ['--no-sandbox']
+			}
+		},
 
 		plugins: [
-			'karma-phantomjs-launcher',
 			'karma-chrome-launcher',
 			'karma-firefox-launcher',
 			'karma-safari-launcher',
 			'karma-angular-filesort',
-			'karma-phantomjs-shim',
 			'karma-coverage',
 			'karma-jasmine',
             'karma-junit-reporter',

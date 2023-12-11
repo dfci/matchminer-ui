@@ -1,6 +1,7 @@
 'use strict';
 
 var path = require('path');
+var process = require('process');
 var gulp = require('gulp');
 var conf = require('./conf');
 var browserSync = require('browser-sync');
@@ -14,10 +15,14 @@ var $ = require('gulp-load-plugins')({
 	pattern: ['gulp-*', 'uglify-save-license', 'del']
 });
 
-var proxy = require('http-proxy-middleware');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+
+const DEFAULT_BACKEND_URL = 'http://127.0.0.1:5000';
+// Note: newer Node versions seem to break when you specify "localhost" above,
+// apparently due to IPv6 issues.
 
 function browserSyncInit(baseDir, browser) {
-	browser = browser === undefined ? 'default' : browser;
+	browser = browser === undefined ? 'google chrome' : browser;
 
 	var routes = null;
 	if (baseDir === conf.paths.src || (util.isArray(baseDir) && baseDir.indexOf(conf.paths.src) !== -1)) {
@@ -25,14 +30,11 @@ function browserSyncInit(baseDir, browser) {
 			'/bower_components': 'bower_components'
 		};
 	}
-	var config = require(path.join('..', conf.paths.properties, 'config.json'));
-	var environment = gutil.env.env ? gutil.env.env : 'dev';
-    var agent = environment === 'dev' ? null : https.globalAgent;
+	var backendUrl = process.env.BACKEND_URL || DEFAULT_BACKEND_URL;
 
-	var matchMinerProxy = proxy('/api', {
-		target: config[environment].ENV.proxyHost,
-		logLevel: 'debug',
-		agent: agent
+	var matchMinerProxy = createProxyMiddleware('/api', {
+		target: backendUrl,
+		logLevel: 'debug'
 	});
 
 	var server = {

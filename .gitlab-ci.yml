@@ -1,15 +1,23 @@
-default:
-    image: node:11
-
-before_script:
-    - yarn
-    - yarn global add gulp-cli
-
 run_test:
-  script:
-    - gulp build
-    - gulp test
+  image: ghcr.io/puppeteer/puppeteer:19.7.5
+  # Note: the above is based on Node 18, the version
+  # we use in the Dockerfile.
 
+  script:
+    # Initial bash settings
+    - set -eu -o pipefail +o hashall
+
+    # Install dependencies
+    - yarn install --frozen-lockfile --no-progress
+
+    # Run tests
+    - npx gulp build
+    - npx gulp test
+
+  # Allow the job to be interrupted by newer versions
+  interruptible: true
+
+  # Show test results in GitLab UI:
   artifacts:
     reports:
       junit: matchminer_ui_test_results.xml

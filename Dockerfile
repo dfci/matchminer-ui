@@ -1,7 +1,5 @@
 # Stage 1: build the app's static assets in a Node container.
-FROM node:11-slim AS builder
-
-RUN apt-get update && apt-get -y install bzip2
+FROM node:18 AS builder
 
 WORKDIR /ui
 
@@ -21,8 +19,9 @@ COPY properties/templates.json ./properties/templates.json
 RUN yarn run build-docker
 
 # Stage 2: serve the app itself using nginx.
-FROM nginx:stable-alpine
+FROM nginx:1.24.0-alpine
 
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 COPY nginx/40-adjust-index-html.sh /docker-entrypoint.d
+COPY nginx/50-add-upstream.sh /docker-entrypoint.d
 COPY --from=builder /ui/dist /usr/share/nginx/html
