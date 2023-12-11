@@ -19,7 +19,7 @@ COPY properties/templates.json ./properties/templates.json
 RUN yarn run build-docker
 
 # Stage 2: serve the app itself using nginx.
-FROM nginx:stable-alpine
+FROM nginx:1.24.0-alpine
 
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 COPY nginx/40-adjust-index-html.sh /docker-entrypoint.d
